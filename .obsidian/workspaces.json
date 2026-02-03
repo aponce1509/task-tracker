@@ -1,0 +1,254 @@
+{
+  "workspaces": {
+    "gym": {
+      "main": {
+        "id": "44e09dcde3285402",
+        "type": "split",
+        "children": [
+          {
+            "id": "1290b9bd3cbe3bb0",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "9378fd1ebeaab2af",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "01 - PAR/08aa Gym.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "08aa Gym"
+                }
+              },
+              {
+                "id": "4fbc84bdf3be1a57",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/08aa00 Gym Outline.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "08aa00 Gym Outline"
+                }
+              }
+            ],
+            "currentTab": 1
+          }
+        ],
+        "direction": "vertical"
+      },
+      "left": {
+        "id": "ff64e9515fb17803",
+        "type": "split",
+        "children": [
+          {
+            "id": "ebb5218388b8fbc9",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "27fb606cc30be678",
+                "type": "leaf",
+                "state": {
+                  "type": "file-explorer",
+                  "state": {
+                    "sortOrder": "alphabetical",
+                    "autoReveal": false
+                  },
+                  "icon": "lucide-folder-closed",
+                  "title": "Files"
+                }
+              },
+              {
+                "id": "b36dc10ace7bf7f5",
+                "type": "leaf",
+                "state": {
+                  "type": "search",
+                  "state": {
+                    "query": "tag:#_seed",
+                    "matchingCase": false,
+                    "explainSearch": false,
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical"
+                  },
+                  "icon": "lucide-search",
+                  "title": "Search"
+                }
+              },
+              {
+                "id": "1a3b77f5ce611ae3",
+                "type": "leaf",
+                "state": {
+                  "type": "bookmarks",
+                  "state": {},
+                  "icon": "lucide-bookmark",
+                  "title": "Bookmarks"
+                }
+              },
+              {
+                "id": "a5b1b60c27e2e3b3",
+                "type": "leaf",
+                "state": {
+                  "type": "tag",
+                  "state": {
+                    "sortOrder": "alphabetical",
+                    "useHierarchy": true,
+                    "showSearch": true,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-tags",
+                  "title": "Tags"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "horizontal",
+        "width": 295.5
+      },
+      "right": {
+        "id": "b88f3851fe9ea667",
+        "type": "split",
+        "children": [
+          {
+            "id": "d3a908bc050dfac3",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "346b9dbb1ff56c4a",
+                "type": "leaf",
+                "state": {
+                  "type": "backlink",
+                  "state": {
+                    "file": "99 - Meta/Class/category.md",
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical",
+                    "showSearch": false,
+                    "searchQuery": "",
+                    "backlinkCollapsed": false,
+                    "unlinkedCollapsed": true
+                  },
+                  "icon": "links-coming-in",
+                  "title": "Backlinks for category"
+                }
+              },
+              {
+                "id": "dc5b0bb8c0cd5ea9",
+                "type": "leaf",
+                "state": {
+                  "type": "outgoing-link",
+                  "state": {
+                    "file": "99 - Meta/Class/category.md",
+                    "linksCollapsed": false,
+                    "unlinkedCollapsed": true
+                  },
+                  "icon": "links-going-out",
+                  "title": "Outgoing links from category"
+                }
+              },
+              {
+                "id": "7863f78523e3a85b",
+                "type": "leaf",
+                "state": {
+                  "type": "outline",
+                  "state": {
+                    "file": "99 - Meta/Class/category.md",
+                    "followCursor": false,
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-list",
+                  "title": "Outline of category"
+                }
+              },
+              {
+                "id": "27df1efa0cb537d6",
+                "type": "leaf",
+                "state": {
+                  "type": "all-properties",
+                  "state": {
+                    "sortOrder": "frequency",
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-archive",
+                  "title": "All properties"
+                }
+              }
+            ],
+            "currentTab": 2
+          },
+          {
+            "id": "d007e3f40f75ed26",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "bbd24887ec2a00eb",
+                "type": "leaf",
+                "state": {
+                  "type": "calendar",
+                  "state": {},
+                  "icon": "calendar-with-checkmark",
+                  "title": "Calendar"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "horizontal",
+        "width": 282.5,
+        "collapsed": true
+      },
+      "left-ribbon": {
+        "hiddenItems": {
+          "switcher:Open quick switcher": false,
+          "graph:Open graph view": false,
+          "canvas:Create new canvas": false,
+          "templates:Insert template": false,
+          "daily-notes:Open today's daily note": false,
+          "command-palette:Open command palette": false,
+          "workspaces:Manage workspace layouts": false,
+          "templater-obsidian:Templater": false,
+          "obsidian-omnivore:Omnivore": false,
+          "vantage-obsidian:Vantage - Advanced search builder": false,
+          "media-extended:Open media": false,
+          "obsidian-book-search-plugin:Create new book note": false,
+          "obsidian-statusbar-pomo:Start pomodoro": false,
+          "obsidian-excalidraw-plugin:New drawing": false,
+          "callout-manager:Insert Callout": false,
+          "obsidian-full-calendar:Open Full Calendar": false
+        }
+      },
+      "active": "4fbc84bdf3be1a57",
+      "mtime": "2025-07-24T17:38:14+02:00",
+      "workspaces-plus:settings-v1": {
+        "explorerFoldState": [
+          "01 - PAR",
+          "02 - Categories",
+          "03 - 12 Permanent Active/05 - Data Science",
+          "03 - 12 Permanent Active/06 - Deep Learning",
+          "03 - 12 Permanent Active/08 - Health",
+          "04 - Permanent",
+          "05 - Fleeting",
+          "06 - Inputs",
+          "09 - Inbox",
+          "99 - Meta",
+          "99 - Meta/Class",
+          "99 - Meta/Obsidian",
+          "99 - Meta/Old Templates/Basics",
+          "99 - Meta/Templates",
+          "Clippings",
+          "todos/Tasks"
+        ]
+      }
+    }
+  },
+  "active": "gym"
+}

@@ -1,0 +1,28 @@
+{
+  "database": "Zotero",
+  "noteImportFolder": "Highlights/Zotero",
+  "pdfExportImageDPI": 120,
+  "pdfExportImageFormat": "jpg",
+  "pdfExportImageQuality": 90,
+  "citeFormats": [
+    {
+      "name": "Format #1",
+      "format": "formatted-citation",
+      "cslStyle": "ieee-with-url"
+    }
+  ],
+  "exportFormats": [
+    {
+      "name": "Import #1",
+      "outputPathTemplate": "06 - Inputs/Highlights/Zotero/{{citekey}}.md",
+      "imageOutputPathTemplate": "99 - Meta/Attachments/{{citekey}}/",
+      "imageBaseNameTemplate": "{{citekey}}",
+      "templatePath": "99 - Meta/Templates/Zotero - Template.md",
+      "cslStyle": "ieee-with-url"
+    }
+  ],
+  "citeSuggestTemplate": "[[{{citekey}}]]",
+  "openNoteAfterImport": true,
+  "whichNotesToOpenAfterImport": "all-imported-notes",
+  "shouldConcat": true
+}

@@ -1,0 +1,9 @@
+{
+  "accentColor": "",
+  "cssTheme": "Tokyo Night",
+  "baseFontSize": 14,
+  "interfaceFontFamily": "JetBrains Mono",
+  "enabledCssSnippets": [
+    "colored_folders"
+  ]
+}

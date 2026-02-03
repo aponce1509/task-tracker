@@ -1,0 +1,389 @@
+{
+  "main": {
+    "id": "44e09dcde3285402",
+    "type": "split",
+    "children": [
+      {
+        "id": "7712c1eb9d1d899e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "64be72065c59db58",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09 - Inbox/Inbox/Second Brain Design.md",
+                "mode": "source",
+                "source": false
+              },
+              "pinned": true,
+              "icon": "lucide-file",
+              "title": "Second Brain Design"
+            }
+          },
+          {
+            "id": "341609d777e2f7e1",
+            "type": "leaf",
+            "pinned": true,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09 - Inbox/Notes a base system.md",
+                "mode": "source",
+                "source": false
+              },
+              "pinned": true,
+              "icon": "lucide-file",
+              "title": "Notes a base system"
+            }
+          },
+          {
+            "id": "799869bb4687f67f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09 - Inbox/Templates.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Templates"
+            }
+          },
+          {
+            "id": "ba7e12623a7fdc1e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01 - PAR/Example.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Example"
+            }
+          },
+          {
+            "id": "37a9f00587a34a6f",
+            "type": "leaf",
+            "state": {
+              "type": "bases",
+              "state": {
+                "file": "09 - Inbox/PARA Base.base",
+                "viewName": "Inbox"
+              },
+              "icon": "lucide-table",
+              "title": "PARA Base"
+            }
+          },
+          {
+            "id": "cdba0e50683bc472",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09 - Inbox/Example Note.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Example Note"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ff64e9515fb17803",
+    "type": "split",
+    "children": [
+      {
+        "id": "ebb5218388b8fbc9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "27fb606cc30be678",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "b36dc10ace7bf7f5",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#decision  ",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "1a3b77f5ce611ae3",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          },
+          {
+            "id": "a5b1b60c27e2e3b3",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "alphabetical",
+                "useHierarchy": true,
+                "showSearch": true,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 295.5
+  },
+  "right": {
+    "id": "b88f3851fe9ea667",
+    "type": "split",
+    "children": [
+      {
+        "id": "d3a908bc050dfac3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bbd24887ec2a00eb",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {},
+              "icon": "calendar-with-checkmark",
+              "title": "Calendar"
+            }
+          }
+        ]
+      },
+      {
+        "id": "1d35c93b9dd8a713",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f49aa5ad19dd84e2",
+            "type": "leaf",
+            "state": {
+              "type": "localgraph",
+              "state": {
+                "file": "09 - Inbox/Notes a base system.md",
+                "options": {
+                  "collapse-filter": true,
+                  "search": "",
+                  "localJumps": 2,
+                  "localBacklinks": true,
+                  "localForelinks": true,
+                  "localInterlinks": false,
+                  "showTags": false,
+                  "showAttachments": false,
+                  "hideUnresolved": false,
+                  "collapse-color-groups": false,
+                  "colorGroups": [
+                    {
+                      "query": "tag:#inbox OR path:\"09 - Inbox\"  ",
+                      "color": {
+                        "a": 1,
+                        "rgb": 14701138
+                      }
+                    }
+                  ],
+                  "collapse-display": true,
+                  "showArrow": true,
+                  "textFadeMultiplier": -1.4,
+                  "nodeSizeMultiplier": 1.48801790730337,
+                  "lineSizeMultiplier": 1.8185700491573,
+                  "collapse-forces": false,
+                  "centerStrength": 0.70751404494382,
+                  "repelStrength": 12.9994733146067,
+                  "linkStrength": 1,
+                  "linkDistance": 111,
+                  "scale": 1.362902735984017,
+                  "close": true
+                }
+              },
+              "icon": "lucide-git-fork",
+              "title": "Graph of Notes a base system"
+            }
+          },
+          {
+            "id": "346b9dbb1ff56c4a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "09 - Inbox/Untitled 1.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Untitled 1"
+            }
+          },
+          {
+            "id": "dc5b0bb8c0cd5ea9",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "09 - Inbox/Untitled 1.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Untitled 1"
+            }
+          },
+          {
+            "id": "7863f78523e3a85b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "09 - Inbox/Notes a base system.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Notes a base system"
+            }
+          },
+          {
+            "id": "27df1efa0cb537d6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 337.5
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "bases:Create new base": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "templates:Insert template": false,
+      "daily-notes:Open today's daily note": false,
+      "command-palette:Open command palette": false,
+      "workspaces:Manage workspace layouts": false,
+      "templater-obsidian:Templater": false,
+      "obsidian-omnivore:Omnivore": false,
+      "vantage-obsidian:Vantage - Advanced search builder": false,
+      "obsidian-book-search-plugin:Create new book note": false,
+      "obsidian-statusbar-pomo:Start pomodoro": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "callout-manager:Insert Callout": false,
+      "obsidian-full-calendar:Open Full Calendar": false,
+      "media-extended:Open external media": false,
+      "zk-prefixer:Create new unique note": false
+    }
+  },
+  "active": "341609d777e2f7e1",
+  "lastOpenFiles": [
+    "01 - PAR/Example.md",
+    "09 - Inbox/PARA Base.base",
+    "09 - Inbox/Untitled.md",
+    "09 - Inbox/Templates.md",
+    "09 - Inbox/Notes a base system.md",
+    "09 - Inbox/Example 2.md",
+    "99 - Meta/Templates/PARA Note - Template.md",
+    "09 - Inbox/Example Note.md",
+    "09 - Inbox/Inbox/Second Brain Design.md",
+    "09 - Inbox/Untitled 1.md",
+    "01 - PAR/hola.md",
+    "99 - Meta/Templates/Task - Template.md",
+    "09 - Inbox/Your Second Brain - MoC.md",
+    "99 - Meta/Templates/Permanent - Template.md",
+    "09 - Inbox/The CODE Process.md",
+    "09 - Inbox/PARA Note - Template.md",
+    "99 - Meta/Templates/Base - Template.md",
+    "09 - Inbox/CheckList - Out Of Inbox.md",
+    "09 - Inbox/Organise.md",
+    "09 - Inbox/How do we organise the note that build the final project.md",
+    "09 - Inbox/TODO list for your daily work.md",
+    "99 - Meta/Templates/Zotero - Template.md",
+    "99 - Meta/Templates 1/Base - Template.md",
+    "attachments/ML42N9UDH6XC9.png",
+    "attachments",
+    "07 - Daily/2026-02-01.md",
+    "99 - Meta/Attachments/ML42N9UDH6XC9.png",
+    "99 - Meta/Templates/Log - Template.md",
+    "07 - Daily/Weeks/2026-W03.md",
+    "06 - Inputs/References/Videos",
+    "06 - Inputs/Art",
+    "07 - Daily/Weeks",
+    "03 - 12 Permanent Active/10 - Art",
+    "09 - Inbox/Canvas",
+    "09 - Inbox/Bases",
+    "01 - PAR/08aa Gym/Logs",
+    "08 - Tasks/ejem",
+    "99 - Meta/Attachments/Pasted image 20260109183646.png",
+    "99 - Meta/Attachments/mx-img-xs2c36gwmbfzdyj85o9c4uff-pt30_54s.webp",
+    "99 - Meta/Attachments/Pasted image 20250821134450.png",
+    "99 - Meta/Attachments/Pasted image 20250821134436.png",
+    "09 - Inbox/Canvas/Planning 1 Muscle Distribution.canvas",
+    "99 - Meta/Attachments/Pasted Image 20250724181340_804.png",
+    "99 - Meta/Attachments/Pasted Image 20250724181158_281.png",
+    "99 - Meta/Attachments/Pasted Image 20250724181058_423.png",
+    "99 - Meta/Attachments/Pasted Image 20250724180832_761.png",
+    "09 - Inbox/Productivity System Components.canvas",
+    "99 - Meta/Untitled.canvas",
+    "09 - Inbox/Learning - Projects.canvas",
+    "09 - Inbox/SecondBrain/Second Brain Outline.canvas",
+    "09 - Inbox/búsqueda-empleo/búsqueda-empleo outline.canvas",
+    "99 - Meta/Canvas/Computer Workflow.canvas",
+    "10 - Archive/JD - Developer Environment.canvas",
+    "09 - Inbox/nvim/Productive Work Environment.canvas",
+    "09 - Inbox/llm/llm_roadmap.canvas"
+  ]
+}

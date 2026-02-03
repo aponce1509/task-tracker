@@ -1,0 +1,289 @@
+{
+  "workspaces": {
+    "busqueda-empleo": {
+      "main": {
+        "id": "44e09dcde3285402",
+        "type": "split",
+        "children": [
+          {
+            "id": "7d6658a5addce358",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "548293d90dea2dd4",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/búsqueda-empleo/búsqueda-empleo.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "74d4436308214362",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/búsqueda-empleo/LinkedIn About Section Examples.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "b2ba69ab5abf1e94",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/búsqueda-empleo/02 mercado_laboral.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "1088ecae749358d1",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/búsqueda-empleo/My about site.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "d8294b7694e0e3d4",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "06 - Inputs/Highlights/Readwise/Articles/The Software Engineer’s Guide to Writing a Stand-Out LinkedIn Profile.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "0b35c0da095e27a9",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/My Experience - LinkedIn.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "3bffef34633dd709",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/búsqueda-empleo/My CV Summary.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              },
+              {
+                "id": "8e3b27f944b738d9",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/Applications Movement.md",
+                    "mode": "source",
+                    "source": false
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical"
+      },
+      "left": {
+        "id": "ff64e9515fb17803",
+        "type": "split",
+        "children": [
+          {
+            "id": "ebb5218388b8fbc9",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "27fb606cc30be678",
+                "type": "leaf",
+                "state": {
+                  "type": "file-explorer",
+                  "state": {
+                    "sortOrder": "alphabetical"
+                  }
+                }
+              },
+              {
+                "id": "b36dc10ace7bf7f5",
+                "type": "leaf",
+                "state": {
+                  "type": "search",
+                  "state": {
+                    "query": "tag:#bookmark",
+                    "matchingCase": false,
+                    "explainSearch": false,
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical"
+                  }
+                }
+              },
+              {
+                "id": "1a3b77f5ce611ae3",
+                "type": "leaf",
+                "state": {
+                  "type": "bookmarks",
+                  "state": {}
+                }
+              }
+            ],
+            "currentTab": 2
+          }
+        ],
+        "direction": "horizontal",
+        "width": 292.5
+      },
+      "right": {
+        "id": "b88f3851fe9ea667",
+        "type": "split",
+        "children": [
+          {
+            "id": "d3a908bc050dfac3",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "bbd24887ec2a00eb",
+                "type": "leaf",
+                "state": {
+                  "type": "calendar",
+                  "state": {}
+                }
+              },
+              {
+                "id": "346b9dbb1ff56c4a",
+                "type": "leaf",
+                "state": {
+                  "type": "backlink",
+                  "state": {
+                    "file": "09 - Inbox/búsqueda-empleo/búsqueda-empleo.md",
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical",
+                    "showSearch": false,
+                    "searchQuery": "",
+                    "backlinkCollapsed": false,
+                    "unlinkedCollapsed": true
+                  }
+                }
+              },
+              {
+                "id": "dc5b0bb8c0cd5ea9",
+                "type": "leaf",
+                "state": {
+                  "type": "outgoing-link",
+                  "state": {
+                    "file": "09 - Inbox/búsqueda-empleo/búsqueda-empleo.md",
+                    "linksCollapsed": false,
+                    "unlinkedCollapsed": true
+                  }
+                }
+              },
+              {
+                "id": "a5b1b60c27e2e3b3",
+                "type": "leaf",
+                "state": {
+                  "type": "tag",
+                  "state": {
+                    "sortOrder": "frequency",
+                    "useHierarchy": true
+                  }
+                }
+              },
+              {
+                "id": "7863f78523e3a85b",
+                "type": "leaf",
+                "state": {
+                  "type": "outline",
+                  "state": {
+                    "file": "09 - Inbox/búsqueda-empleo/búsqueda-empleo.md"
+                  }
+                }
+              },
+              {
+                "id": "27df1efa0cb537d6",
+                "type": "leaf",
+                "state": {
+                  "type": "all-properties",
+                  "state": {
+                    "sortOrder": "frequency",
+                    "showSearch": false,
+                    "searchQuery": ""
+                  }
+                }
+              }
+            ],
+            "currentTab": 1
+          }
+        ],
+        "direction": "horizontal",
+        "width": 282.5
+      },
+      "left-ribbon": {
+        "hiddenItems": {
+          "switcher:Open quick switcher": false,
+          "graph:Open graph view": false,
+          "canvas:Create new canvas": false,
+          "templates:Insert template": false,
+          "daily-notes:Open today's daily note": false,
+          "command-palette:Open command palette": false,
+          "vantage-obsidian:Vantage - Advanced search builder": false,
+          "obsidian-excalidraw-plugin:Create new drawing": false,
+          "obsidian-omnivore:Omnivore": false,
+          "obsidian-book-search-plugin:Create new book note": false,
+          "templater-obsidian:Templater": false,
+          "media-extended:Open media": false,
+          "obsidian-statusbar-pomo:Start pomodoro": false,
+          "workspaces:Manage workspace layouts": false
+        }
+      },
+      "active": "548293d90dea2dd4",
+      "mtime": "2024-07-31T23:39:36+02:00",
+      "workspaces-plus:settings-v1": {
+        "explorerFoldState": [
+          "00 - Map Of Contents",
+          "01 - Projects",
+          "01 - Projects/búsqueda-empleo",
+          "03 - Resources/_ Waiting Room/computer_science",
+          "05 - Fleeting/statistics_probability",
+          "06 - Inputs",
+          "06 - Inputs/Highlights",
+          "06 - Inputs/Highlights/Omnivore/2024-02-18",
+          "06 - Inputs/Highlights/Omnivore/2024-04-25",
+          "06 - Inputs/Highlights/Omnivore/2024-06-21",
+          "06 - Inputs/Highlights/Omnivore/2024-06-28",
+          "06 - Inputs/Highlights/Omnivore/Ominovore-Ready",
+          "06 - Inputs/Highlights/Zotero",
+          "06 - Inputs/Notes",
+          "09 - Inbox",
+          "09 - Inbox/búsqueda-empleo"
+        ]
+      }
+    }
+  },
+  "active": "busqueda-empleo"
+}

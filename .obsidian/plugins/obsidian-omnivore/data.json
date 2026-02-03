@@ -1,0 +1,32 @@
+{
+  "dateHighlightedFormat": "yyyy-MM-dd HH:mm:ss",
+  "dateSavedFormat": "yyyy-MM-dd HH:mm:ss",
+  "apiKey": "d1e6edce-3dc6-4d03-8e79-fb0ac11f5357",
+  "filter": "HIGHLIGHTS",
+  "syncAt": "2025-02-20T22:32:32",
+  "customQuery": "in:all has:highlights",
+  "template": "# {{{title}}}\n#Omnivore\n\n[Read on Omnivore]({{{omnivoreUrl}}})\n[Read Original]({{{originalUrl}}})\n\n{{ note }}\n\nLabels:\n\n{{#labels.length}}\n{{#labels}} - [[{{{name}}}]]\n{{/labels}}\n{{/labels.length}}\n\n{{#highlights.length}}\n## Highlights\n\n{{#highlights}}\n> {{{text}}} [⤴️]({{{highlightUrl}}}) {{#labels}} #{{name}} {{/labels}} ^{{{highlightID}}}\n{{#note}}\n\n{{{note}}}\n{{/note}}\n\n{{/highlights}}\n{{/highlights.length}}",
+  "highlightOrder": "LOCATION",
+  "syncing": false,
+  "folder": "06 - Inputs/Highlights/Omnivore/{{{date}}}",
+  "folderDateFormat": "yyyy-MM-dd",
+  "endpoint": "https://api-prod.omnivore.app/api/graphql",
+  "filename": "{{{title}}}",
+  "filenameDateFormat": "yyyy-MM-dd",
+  "attachmentFolder": "06 - Inputs/Highlights/Omnivore/attachments",
+  "version": "1.10.4",
+  "isSingleFile": false,
+  "frequency": 20,
+  "intervalId": 20,
+  "frontMatterVariables": [],
+  "frontMatterTemplate": "file_class:\n  - reference\nareas:\nprojects:\nresources:\nstatus: ⚙️\nsummary:",
+  "syncOnStart": true,
+  "enableHighlightColorRender": false,
+  "highlightManagerId": "omni",
+  "highlightColorMapping": {
+    "yellow": "#fff3a3",
+    "red": "#ff5582",
+    "blue": "#adccff",
+    "green": "#bbfabb"
+  }
+}

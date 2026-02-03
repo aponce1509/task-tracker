@@ -1,0 +1,13 @@
+{
+  "vimMode": true,
+  "alwaysUpdateLinks": true,
+  "promptDelete": false,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "09 - Inbox",
+  "attachmentFolderPath": "99 - Meta/Attachments",
+  "spellcheck": true,
+  "autoPairBrackets": true,
+  "defaultViewMode": "source",
+  "trashOption": "local",
+  "openBehavior": "daily"
+}

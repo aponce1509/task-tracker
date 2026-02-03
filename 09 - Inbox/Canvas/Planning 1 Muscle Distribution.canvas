@@ -1,0 +1,31 @@
+{
+	"nodes":[
+		{"id":"ed9e9027e99171d1","type":"group","x":-247,"y":-178,"width":400,"height":498,"label":"Day 1: Pull"},
+		{"id":"4ed6ec2c3c2755bf","type":"group","x":180,"y":-178,"width":400,"height":498,"label":"Day 2: Leg"},
+		{"id":"cc75886da8fd67b1","type":"group","x":620,"y":-178,"width":400,"height":498,"label":"Day 3: Climb + ??"},
+		{"id":"ebe5abdd578d787b","type":"group","x":1047,"y":-178,"width":400,"height":498,"label":"Day 4: Full-Torso"},
+		{"id":"008724623606ea70","type":"group","x":-247,"y":400,"width":400,"height":480,"label":"Day 5: Climb + ??"},
+		{"id":"7f6eaa49c091545b","type":"group","x":180,"y":400,"width":400,"height":480,"label":"Day 6"},
+		{"id":"0d836f2872ce1fea","type":"group","x":620,"y":400,"width":400,"height":480,"label":"Day 7: Push"},
+		{"id":"d301667f5565bebc","type":"text","text":"Glutes","x":200,"y":-160,"width":250,"height":60},
+		{"id":"f3f7ebb2306f6c1f","type":"text","text":"Claves","x":200,"y":-80,"width":250,"height":60},
+		{"id":"a4efdd14cfd5a22e","type":"text","text":"Quadriceps","x":200,"y":0,"width":250,"height":60},
+		{"id":"6e8d6398d490dfbf","type":"text","text":"Bouldering Session","x":-225,"y":420,"width":250,"height":60},
+		{"id":"bb5c0a61f949cbc0","type":"text","text":"Legs (C)","x":-225,"y":500,"width":250,"height":60},
+		{"id":"e196fd7739231e1d","type":"text","text":"Rest","x":200,"y":420,"width":250,"height":60},
+		{"id":"5616be36c5402ed9","type":"text","text":"Climbing","x":640,"y":-160,"width":250,"height":60},
+		{"id":"ec4d831c582390a3","type":"text","text":"Back (C)","x":640,"y":-80,"width":250,"height":60},
+		{"id":"91f03fe70e7e599a","type":"text","text":"","x":1080,"y":-160,"width":250,"height":60},
+		{"id":"16feef3985819adf","type":"text","text":"Core","x":1080,"y":-80,"width":250,"height":60},
+		{"id":"a15e7db841304765","type":"text","text":"Zone 2 Cardio","x":1080,"y":164,"width":250,"height":60},
+		{"id":"5f1acda36c64669c","type":"text","text":"Mobility","x":1080,"y":80,"width":250,"height":60},
+		{"id":"3a9ca89a89507931","type":"text","text":"Core (C)","x":640,"y":0,"width":250,"height":60},
+		{"id":"ff48d01549a39d34","type":"text","text":"Mobility","x":-225,"y":580,"width":250,"height":60},
+		{"id":"286f27e3d35ce1a4","type":"text","text":"Hamstrings","x":200,"y":80,"width":250,"height":60},
+		{"id":"db1ffeec72d7047a","type":"text","text":"Mobility","x":200,"y":160,"width":250,"height":67},
+		{"id":"5d8c90b51e63d765","type":"text","text":"HIIT","x":-225,"y":240,"width":250,"height":60},
+		{"id":"5f3a9cd21dcbf291","type":"text","text":"Biceps","x":-225,"y":160,"width":250,"height":60},
+		{"id":"873edf1313a2ca09","type":"text","text":"Full Back","x":-225,"y":-160,"width":250,"height":60}
+	],
+	"edges":[]
+}

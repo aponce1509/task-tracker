@@ -1,0 +1,107 @@
+{
+  "items": [
+    {
+      "type": "group",
+      "ctime": 1753349936781,
+      "items": [
+        {
+          "type": "file",
+          "ctime": 1753349960892,
+          "path": "09 - Inbox/Inbox/Notes Hierarchy.svg"
+        },
+        {
+          "type": "file",
+          "ctime": 1753349973471,
+          "path": "09 - Inbox/Inbox/Tags situations.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1753349990500,
+          "path": "09 - Inbox/Inbox/Note System TODO.md"
+        }
+      ],
+      "title": "Keys"
+    },
+    {
+      "type": "group",
+      "ctime": 1722461593405,
+      "items": [
+        {
+          "type": "file",
+          "ctime": 1722461578976,
+          "path": "09 - Inbox/búsqueda-empleo/búsqueda-empleo.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1722461578976,
+          "path": "09 - Inbox/búsqueda-empleo/LinkedIn About Section Examples.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1722461578976,
+          "path": "09 - Inbox/búsqueda-empleo/02 mercado_laboral.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1722461578976,
+          "path": "09 - Inbox/búsqueda-empleo/My about site.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1722461578976,
+          "path": "06 - Inputs/Highlights/Readwise/Articles/The Software Engineer’s Guide to Writing a Stand-Out LinkedIn Profile.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1722461578976,
+          "path": "09 - Inbox/búsqueda-empleo/My Experience - LinkedIn.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1722461578976,
+          "path": "09 - Inbox/búsqueda-empleo/My CV Summary.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1722461578976,
+          "path": "09 - Inbox/nvim/Applications Movement.md"
+        }
+      ],
+      "title": "busqueda-empleo"
+    },
+    {
+      "type": "group",
+      "ctime": 1753350026665,
+      "items": [
+        {
+          "type": "file",
+          "ctime": 1753349990500,
+          "path": "Clippings/BIGGEST MISTAKES Coach Louis Sees at Every Grade (V0-V9+).md"
+        }
+      ],
+      "title": "inbox"
+    },
+    {
+      "type": "group",
+      "ctime": 1753350031600,
+      "items": [
+        {
+          "type": "file",
+          "ctime": 1753349990500,
+          "path": "01 - PAR/08aa Gym.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1753349990500,
+          "path": "Clippings/Increasing Weight and Reps.md"
+        },
+        {
+          "type": "file",
+          "ctime": 1753349990500,
+          "path": "05 - Fleeting/Gym Progression.md"
+        }
+      ],
+      "title": "gym"
+    }
+  ]
+}

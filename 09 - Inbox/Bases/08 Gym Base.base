@@ -1,0 +1,165 @@
+filters:
+  and:
+    - file.hasLink("01 - PAR/08aa Gym")
+views:
+  - type: table
+    name: Table
+    order:
+      - file.name
+      - created
+      - file_class
+      - status
+    sort:
+      - property: status
+        direction: ASC
+      - property: file_class
+        direction: DESC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 503
+  - type: table
+    name: Index, MoC & PAR
+    filters:
+      or:
+        - file_class == "moc"
+        - file_class == "par"
+        - file_class == "index"
+    order:
+      - created
+      - file.name
+      - status
+      - rate
+      - category
+      - file_class
+      - system_source
+      - tags
+    sort:
+      - property: created
+        direction: ASC
+    columnSize:
+      file.name: 270
+      note.status: 99
+      note.category: 74
+      note.file_class: 56
+  - type: table
+    name: Notes
+    filters:
+      and:
+        - file_class == "note"
+    order:
+      - created
+      - file.name
+      - status
+      - rate
+      - category
+      - system_source
+      - tags
+    sort:
+      - property: status
+        direction: DESC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      note.created: 120
+      file.name: 273
+      note.rate: 70
+      note.category: 74
+      note.system_source: 70
+      note.tags: 286
+  - type: table
+    name: Permanents
+    filters:
+      and:
+        - file_class == "permanent"
+    order:
+      - created
+      - file.name
+      - status
+      - rate
+      - category
+      - system_source
+      - tags
+    sort:
+      - property: status
+        direction: DESC
+      - property: created
+        direction: ASC
+    columnSize:
+      note.created: 120
+      file.name: 273
+      note.rate: 70
+      note.category: 74
+      note.system_source: 70
+      note.tags: 286
+  - type: table
+    name: Tasks
+    filters:
+      and:
+        - file_class == "task"
+    order:
+      - created
+      - file.name
+      - status
+      - rate
+      - category
+      - system_source
+      - tags
+    sort:
+      - property: status
+        direction: DESC
+      - property: created
+        direction: ASC
+    columnSize:
+      note.created: 120
+      file.name: 273
+      note.rate: 70
+      note.category: 74
+      note.system_source: 70
+      note.tags: 286
+  - type: table
+    name: All notes by Tag
+    order:
+      - file.name
+      - created
+      - status
+      - rate
+      - category
+      - system_source
+      - tags
+    sort:
+      - property: status
+        direction: DESC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 273
+      note.created: 120
+      note.rate: 70
+      note.category: 119
+      note.system_source: 107
+      note.tags: 286
+  - type: table
+    name: Inbox
+    order:
+      - file.name
+      - created
+      - status
+      - rate
+      - category
+      - system_source
+      - tags
+    sort:
+      - property: tags
+        direction: ASC
+      - property: status
+        direction: DESC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 273
+      note.created: 120
+      note.rate: 70
+      note.category: 119
+      note.system_source: 107
+      note.tags: 286

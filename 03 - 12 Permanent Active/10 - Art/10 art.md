@@ -1,0 +1,20 @@
+
+- Art
+- Photography
+	- [[Como usar el arte en tu día a día]]
+	- Luz
+	- Composition
+	- The camara adjust
+		- [[ISO in Photography]]
+		- [[Aperture in Photography]]
+		- [[Shutter Speed in Photography]]
+	- What to capture
+		- Art
+		- Aestethics cotidian situations
+		- Nature
+		- Buildings
+- Colors
+- Architecture
+	- Interiors
+	- Buildings
+- Music
