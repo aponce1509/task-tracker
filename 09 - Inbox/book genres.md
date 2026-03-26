@@ -1,20 +1,12 @@
 ---
-categories:
-  - "[[Notes]]"
 paras:
+categories:
+types:
 rate:
-status:
 tags:
-  - inbox
-  - notes
-created: 2026-01-17 21:32
+  - _inbox
+  - _capture
+created: 2026-03-05 20:31
 ---
-# [[book genres]]
+# [[Book Genres]]
 
-- Fantasia
-- Ciencia Ficcion
-- Policiaca
-- Novela Historica
-
-- Arte
-- 

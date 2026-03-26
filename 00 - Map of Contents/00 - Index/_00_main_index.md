@@ -1,6 +1,5 @@
 ---
 tags:
-  - docu_type/index
 ---
 
 # Indexes

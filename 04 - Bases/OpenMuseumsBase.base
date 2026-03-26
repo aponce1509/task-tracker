@@ -1,0 +1,12 @@
+filters:
+  and:
+    - file.hasLink(this.file)
+    - types.contains(link("Bookmarks"))
+views:
+  - type: cards
+    name: Museums
+    order:
+      - file.name
+      - url
+    imageFit: contain
+    image: note.cover

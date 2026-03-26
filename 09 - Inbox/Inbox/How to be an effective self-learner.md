@@ -1,8 +1,5 @@
 ---
 tags:
-  - Linked
-  - docu_type/permanent
-  - output/workflow
 ---
 
 # How to be an effective self-learner

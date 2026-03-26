@@ -1,10 +1,5 @@
 ---
 tags:
-  - Linked
-  - docu_type/permanent
-  - docu_type/example
-  - output/workflow
-  - output/principles
 ---
 
 # Capture Example - Rust Crates
@@ -56,7 +51,7 @@ and development in rust and the workflow would be:
 <!-- NOTE: #output/workflow Planned learning of a defined topic  -->
 
 1. Create or use a reference (could be any PAR). I prefer put first in the
-   project and move it later to the reference using the #MoveToReference.
+   project and move it later to the reference using the `#MoveToReference`.
 2. Add to the unordered section the link to the new note.
 3. Indicate what do you want to learn.
 4. Look for notes related
@@ -97,9 +92,9 @@ Hay algunas cosas dentro de la nota que vas a considerar las más importantes y
 en caso de vistazo rápido no te puedes perder. Para esto usamos tags dentro de
 un comentario de markdown (son `NOTE:`). Las más habituales son:
 
-- #evidences/definition
-- #evidences/code
-- #key
+- `#evidences/definition`
+- `#evidences/code`
+- `#key`
 
 Imagina una nota como un árbol, estos tags debería de permitirte reconstruir el
 árbol a partir de ellas.

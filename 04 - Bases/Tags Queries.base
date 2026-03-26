@@ -1,0 +1,6 @@
+views:
+  - type: table
+    name: Project Ideas
+    filters:
+      and:
+        - file.tags.contains("project-idea")

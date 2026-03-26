@@ -1,44 +1,358 @@
 {
   "workspaces": {
-    "gym": {
+    "base": {
       "main": {
         "id": "44e09dcde3285402",
         "type": "split",
         "children": [
           {
-            "id": "1290b9bd3cbe3bb0",
+            "id": "53c71ffdcf2f6822",
             "type": "tabs",
             "children": [
               {
-                "id": "9378fd1ebeaab2af",
+                "id": "2eb6874a02ce46d6",
                 "type": "leaf",
+                "pinned": true,
                 "state": {
                   "type": "markdown",
                   "state": {
-                    "file": "01 - PAR/08aa Gym.md",
+                    "file": "01 - PAR/second-brain.md",
                     "mode": "source",
                     "source": false
                   },
+                  "pinned": true,
                   "icon": "lucide-file",
-                  "title": "08aa Gym"
+                  "title": "second-brain"
                 }
               },
               {
-                "id": "4fbc84bdf3be1a57",
+                "id": "71e4ad546e3d685d",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/Second Brain Outline.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "Second Brain Outline"
+                }
+              },
+              {
+                "id": "04317fca8f447ac2",
                 "type": "leaf",
                 "state": {
                   "type": "markdown",
                   "state": {
-                    "file": "09 - Inbox/08aa00 Gym Outline.md",
+                    "file": "09 - Inbox/Second Brain Building Blocks.md",
                     "mode": "source",
                     "source": false
                   },
                   "icon": "lucide-file",
-                  "title": "08aa00 Gym Outline"
+                  "title": "Second Brain Building Blocks"
+                }
+              },
+              {
+                "id": "af6bf89c8018acbc",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "11 - Projects/second-brain/Note Categorisation.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Note Categorisation"
+                }
+              },
+              {
+                "id": "960c38d9058bd8ea",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "11 - Projects/second-brain/Intermediate Products.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Intermediate Products"
+                }
+              },
+              {
+                "id": "4d4e9238dc20e51c",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/New Tag workflow.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "New Tag workflow"
+                }
+              },
+              {
+                "id": "3addc6d16d81ef0f",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/Second Brain Workflows.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Second Brain Workflows"
+                }
+              },
+              {
+                "id": "204ff8656d3ad674",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/Alejandro's Mise-en-Place.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Alejandro's Mise-en-Place"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical"
+      },
+      "left": {
+        "id": "ff64e9515fb17803",
+        "type": "split",
+        "children": [
+          {
+            "id": "ebb5218388b8fbc9",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "27fb606cc30be678",
+                "type": "leaf",
+                "state": {
+                  "type": "file-explorer",
+                  "state": {
+                    "sortOrder": "alphabetical",
+                    "autoReveal": false
+                  },
+                  "icon": "lucide-folder-closed",
+                  "title": "Files"
+                }
+              },
+              {
+                "id": "b36dc10ace7bf7f5",
+                "type": "leaf",
+                "state": {
+                  "type": "search",
+                  "state": {
+                    "query": "tag:#_seed",
+                    "matchingCase": false,
+                    "explainSearch": false,
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical"
+                  },
+                  "icon": "lucide-search",
+                  "title": "Search"
+                }
+              },
+              {
+                "id": "1a3b77f5ce611ae3",
+                "type": "leaf",
+                "state": {
+                  "type": "bookmarks",
+                  "state": {},
+                  "icon": "lucide-bookmark",
+                  "title": "Bookmarks"
+                }
+              },
+              {
+                "id": "a5b1b60c27e2e3b3",
+                "type": "leaf",
+                "state": {
+                  "type": "tag",
+                  "state": {
+                    "sortOrder": "alphabetical",
+                    "useHierarchy": true,
+                    "showSearch": true,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-tags",
+                  "title": "Tags"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "horizontal",
+        "width": 295.5,
+        "collapsed": true
+      },
+      "right": {
+        "id": "b88f3851fe9ea667",
+        "type": "split",
+        "children": [
+          {
+            "id": "d3a908bc050dfac3",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "bbd24887ec2a00eb",
+                "type": "leaf",
+                "state": {
+                  "type": "calendar",
+                  "state": {},
+                  "icon": "calendar-with-checkmark",
+                  "title": "Calendar"
+                }
+              }
+            ]
+          },
+          {
+            "id": "3935b185d9f4360b",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "346b9dbb1ff56c4a",
+                "type": "leaf",
+                "state": {
+                  "type": "backlink",
+                  "state": {
+                    "file": "07 - Daily/2026-02-23.md",
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical",
+                    "showSearch": false,
+                    "searchQuery": "",
+                    "backlinkCollapsed": false,
+                    "unlinkedCollapsed": true
+                  },
+                  "icon": "links-coming-in",
+                  "title": "Backlinks for Alejandro's Mise-en-Place"
+                }
+              },
+              {
+                "id": "dc5b0bb8c0cd5ea9",
+                "type": "leaf",
+                "state": {
+                  "type": "outgoing-link",
+                  "state": {
+                    "file": "09 - Inbox/Alejandro's Mise-en-Place.md",
+                    "linksCollapsed": false,
+                    "unlinkedCollapsed": true
+                  },
+                  "icon": "links-going-out",
+                  "title": "Outgoing links from Alejandro's Mise-en-Place"
+                }
+              },
+              {
+                "id": "7863f78523e3a85b",
+                "type": "leaf",
+                "state": {
+                  "type": "outline",
+                  "state": {
+                    "file": "07 - Daily/2026-02-23.md",
+                    "followCursor": false,
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-list",
+                  "title": "Outline of Alejandro's Mise-en-Place"
+                }
+              },
+              {
+                "id": "27df1efa0cb537d6",
+                "type": "leaf",
+                "state": {
+                  "type": "all-properties",
+                  "state": {
+                    "sortOrder": "frequency",
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-archive",
+                  "title": "All properties"
                 }
               }
             ],
-            "currentTab": 1
+            "currentTab": 3
+          }
+        ],
+        "direction": "horizontal",
+        "width": 368.5
+      },
+      "left-ribbon": {
+        "hiddenItems": {
+          "workspaces:Manage workspace layouts": false,
+          "bases:Create new base": false,
+          "media-extended:Open external media": false,
+          "zk-prefixer:Create new unique note": false,
+          "switcher:Open quick switcher": false,
+          "graph:Open graph view": false,
+          "canvas:Create new canvas": false,
+          "templates:Insert template": false,
+          "daily-notes:Open today's daily note": false,
+          "command-palette:Open command palette": false,
+          "templater-obsidian:Templater": false,
+          "obsidian-omnivore:Omnivore": false,
+          "vantage-obsidian:Vantage - Advanced search builder": false,
+          "obsidian-book-search-plugin:Create new book note": false,
+          "obsidian-statusbar-pomo:Start pomodoro": false,
+          "obsidian-excalidraw-plugin:New drawing": false,
+          "callout-manager:Insert Callout": false,
+          "obsidian-full-calendar:Open Full Calendar": false
+        }
+      },
+      "active": "2eb6874a02ce46d6",
+      "mtime": "2026-02-28T16:52:02+01:00",
+      "workspaces-plus:settings-v1": {
+        "explorerFoldState": [
+          "01 - PAR",
+          "02 - Categories",
+          "03 - 12 Permanent Active/05 - Data Science",
+          "03 - 12 Permanent Active/06 - Deep Learning",
+          "03 - 12 Permanent Active/08 - Health",
+          "06 - Inputs",
+          "09 - Inbox",
+          "99 - Meta",
+          "99 - Meta/Class",
+          "99 - Meta/Obsidian",
+          "99 - Meta/Templates"
+        ]
+      }
+    },
+    "Clean": {
+      "main": {
+        "id": "44e09dcde3285402",
+        "type": "split",
+        "children": [
+          {
+            "id": "9c6447a579504b00",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "edcf154834c01af9",
+                "type": "leaf",
+                "state": {
+                  "type": "empty",
+                  "state": {},
+                  "icon": "lucide-file",
+                  "title": "New tab"
+                }
+              }
+            ]
           }
         ],
         "direction": "vertical"
@@ -121,12 +435,28 @@
             "type": "tabs",
             "children": [
               {
+                "id": "bbd24887ec2a00eb",
+                "type": "leaf",
+                "state": {
+                  "type": "calendar",
+                  "state": {},
+                  "icon": "calendar-with-checkmark",
+                  "title": "Calendar"
+                }
+              }
+            ]
+          },
+          {
+            "id": "3935b185d9f4360b",
+            "type": "tabs",
+            "children": [
+              {
                 "id": "346b9dbb1ff56c4a",
                 "type": "leaf",
                 "state": {
                   "type": "backlink",
                   "state": {
-                    "file": "99 - Meta/Class/category.md",
+                    "file": "07 - Daily/2026-02-23.md",
                     "collapseAll": false,
                     "extraContext": false,
                     "sortOrder": "alphabetical",
@@ -136,7 +466,7 @@
                     "unlinkedCollapsed": true
                   },
                   "icon": "links-coming-in",
-                  "title": "Backlinks for category"
+                  "title": "Backlinks for Alejandro's Mise-en-Place"
                 }
               },
               {
@@ -145,12 +475,12 @@
                 "state": {
                   "type": "outgoing-link",
                   "state": {
-                    "file": "99 - Meta/Class/category.md",
+                    "file": "09 - Inbox/Alejandro's Mise-en-Place.md",
                     "linksCollapsed": false,
                     "unlinkedCollapsed": true
                   },
                   "icon": "links-going-out",
-                  "title": "Outgoing links from category"
+                  "title": "Outgoing links from Alejandro's Mise-en-Place"
                 }
               },
               {
@@ -159,13 +489,13 @@
                 "state": {
                   "type": "outline",
                   "state": {
-                    "file": "99 - Meta/Class/category.md",
+                    "file": "07 - Daily/2026-02-23.md",
                     "followCursor": false,
                     "showSearch": false,
                     "searchQuery": ""
                   },
                   "icon": "lucide-list",
-                  "title": "Outline of category"
+                  "title": "Outline of Alejandro's Mise-en-Place"
                 }
               },
               {
@@ -183,10 +513,317 @@
                 }
               }
             ],
-            "currentTab": 2
+            "currentTab": 3
+          }
+        ],
+        "direction": "horizontal",
+        "width": 368.5
+      },
+      "left-ribbon": {
+        "hiddenItems": {
+          "workspaces:Manage workspace layouts": false,
+          "bases:Create new base": false,
+          "media-extended:Open external media": false,
+          "zk-prefixer:Create new unique note": false,
+          "switcher:Open quick switcher": false,
+          "graph:Open graph view": false,
+          "canvas:Create new canvas": false,
+          "templates:Insert template": false,
+          "daily-notes:Open today's daily note": false,
+          "command-palette:Open command palette": false,
+          "templater-obsidian:Templater": false,
+          "obsidian-omnivore:Omnivore": false,
+          "vantage-obsidian:Vantage - Advanced search builder": false,
+          "obsidian-book-search-plugin:Create new book note": false,
+          "obsidian-statusbar-pomo:Start pomodoro": false,
+          "obsidian-excalidraw-plugin:New drawing": false,
+          "callout-manager:Insert Callout": false,
+          "obsidian-full-calendar:Open Full Calendar": false
+        }
+      },
+      "active": "edcf154834c01af9",
+      "mtime": "2026-03-05T20:14:18+01:00",
+      "workspaces-plus:settings-v1": {
+        "explorerFoldState": [
+          "01 - PAR",
+          "02 - Categories",
+          "03 - 12 Permanent Active/05 - Data Science",
+          "03 - 12 Permanent Active/06 - Deep Learning",
+          "03 - 12 Permanent Active/08 - Health",
+          "06 - Inputs",
+          "09 - Inbox",
+          "99 - Meta",
+          "99 - Meta/Class",
+          "99 - Meta/Obsidian",
+          "99 - Meta/Templates"
+        ]
+      }
+    },
+    "Working": {
+      "main": {
+        "id": "44e09dcde3285402",
+        "type": "split",
+        "children": [
+          {
+            "id": "9c6447a579504b00",
+            "type": "tabs",
+            "dimension": 60.20900321543409,
+            "children": [
+              {
+                "id": "94c9fd81cf6de2fb",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "My objetives.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "My objetives"
+                }
+              },
+              {
+                "id": "4282743cc12c54a8",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "bases",
+                  "state": {
+                    "file": "04 - Bases/Issues & Tasks.base",
+                    "viewName": "Tasks"
+                  },
+                  "pinned": true,
+                  "icon": "lucide-table",
+                  "title": "Issues & Tasks"
+                }
+              },
+              {
+                "id": "551669604f6c7813",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "07 - Daily/Weeks/2026-W09.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "2026-W09"
+                }
+              },
+              {
+                "id": "edcf154834c01af9",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "01 - PAR/second-brain.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "second-brain"
+                }
+              },
+              {
+                "id": "b9330e2339d9e9e5",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/Second Brain Outline.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Second Brain Outline"
+                }
+              },
+              {
+                "id": "9cb492b4a5477712",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/Alejandro's Mise-en-Place.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Alejandro's Mise-en-Place"
+                }
+              },
+              {
+                "id": "6f800d3e6440fc97",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/Second Brain Workflows.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Second Brain Workflows"
+                }
+              }
+            ],
+            "currentTab": 1
           },
           {
-            "id": "d007e3f40f75ed26",
+            "id": "fb58c2ed2e418b22",
+            "type": "split",
+            "dimension": 39.79099678456592,
+            "children": [
+              {
+                "id": "ff0d23cc7f6fa427",
+                "type": "tabs",
+                "children": [
+                  {
+                    "id": "7a8cebf6488121b2",
+                    "type": "leaf",
+                    "pinned": true,
+                    "state": {
+                      "type": "markdown",
+                      "state": {
+                        "file": "07 - Daily/2026-02-28.md",
+                        "mode": "source",
+                        "source": false
+                      },
+                      "pinned": true,
+                      "icon": "lucide-file",
+                      "title": "2026-02-28"
+                    }
+                  },
+                  {
+                    "id": "453f3c31cbb9cbbc",
+                    "type": "leaf",
+                    "state": {
+                      "type": "markdown",
+                      "state": {
+                        "file": "09 - Inbox/Second Brain MVP.md",
+                        "mode": "source",
+                        "source": false
+                      },
+                      "icon": "lucide-file",
+                      "title": "Second Brain MVP"
+                    }
+                  }
+                ],
+                "currentTab": 1
+              },
+              {
+                "id": "a85d2012ba4ce4ea",
+                "type": "tabs",
+                "children": [
+                  {
+                    "id": "535a4ffeeab4eb36",
+                    "type": "leaf",
+                    "pinned": true,
+                    "state": {
+                      "type": "markdown",
+                      "state": {
+                        "file": "11 - Projects/second-brain/Second Brain Issues.md",
+                        "mode": "source",
+                        "source": false
+                      },
+                      "pinned": true,
+                      "icon": "lucide-file",
+                      "title": "Second Brain Issues"
+                    }
+                  }
+                ]
+              }
+            ],
+            "direction": "horizontal"
+          }
+        ],
+        "direction": "vertical"
+      },
+      "left": {
+        "id": "ff64e9515fb17803",
+        "type": "split",
+        "children": [
+          {
+            "id": "ebb5218388b8fbc9",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "27fb606cc30be678",
+                "type": "leaf",
+                "state": {
+                  "type": "file-explorer",
+                  "state": {
+                    "sortOrder": "alphabetical",
+                    "autoReveal": false
+                  },
+                  "icon": "lucide-folder-closed",
+                  "title": "Files"
+                }
+              },
+              {
+                "id": "b36dc10ace7bf7f5",
+                "type": "leaf",
+                "state": {
+                  "type": "search",
+                  "state": {
+                    "query": "tag:_inbox",
+                    "matchingCase": false,
+                    "explainSearch": false,
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical"
+                  },
+                  "icon": "lucide-search",
+                  "title": "Search"
+                }
+              },
+              {
+                "id": "1a3b77f5ce611ae3",
+                "type": "leaf",
+                "state": {
+                  "type": "bookmarks",
+                  "state": {},
+                  "icon": "lucide-bookmark",
+                  "title": "Bookmarks"
+                }
+              },
+              {
+                "id": "a5b1b60c27e2e3b3",
+                "type": "leaf",
+                "state": {
+                  "type": "tag",
+                  "state": {
+                    "sortOrder": "alphabetical",
+                    "useHierarchy": true,
+                    "showSearch": true,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-tags",
+                  "title": "Tags"
+                }
+              }
+            ],
+            "currentTab": 1
+          }
+        ],
+        "direction": "horizontal",
+        "width": 295.5,
+        "collapsed": true
+      },
+      "right": {
+        "id": "b88f3851fe9ea667",
+        "type": "split",
+        "children": [
+          {
+            "id": "d3a908bc050dfac3",
             "type": "tabs",
             "children": [
               {
@@ -198,27 +835,98 @@
                   "icon": "calendar-with-checkmark",
                   "title": "Calendar"
                 }
+              },
+              {
+                "id": "27df1efa0cb537d6",
+                "type": "leaf",
+                "state": {
+                  "type": "all-properties",
+                  "state": {
+                    "sortOrder": "frequency",
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-archive",
+                  "title": "All properties"
+                }
               }
             ]
+          },
+          {
+            "id": "3935b185d9f4360b",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "7863f78523e3a85b",
+                "type": "leaf",
+                "state": {
+                  "type": "outline",
+                  "state": {
+                    "file": "11 - Projects/second-brain/Second Brain Issues.md",
+                    "followCursor": false,
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-list",
+                  "title": "Outline of Second Brain Issues"
+                }
+              },
+              {
+                "id": "346b9dbb1ff56c4a",
+                "type": "leaf",
+                "state": {
+                  "type": "backlink",
+                  "state": {
+                    "file": "11 - Projects/second-brain/Second Brain Issues.md",
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical",
+                    "showSearch": false,
+                    "searchQuery": "",
+                    "backlinkCollapsed": false,
+                    "unlinkedCollapsed": true
+                  },
+                  "icon": "links-coming-in",
+                  "title": "Backlinks for Second Brain Issues"
+                }
+              },
+              {
+                "id": "dc5b0bb8c0cd5ea9",
+                "type": "leaf",
+                "state": {
+                  "type": "outgoing-link",
+                  "state": {
+                    "file": "09 - Inbox/Alejandro's Mise-en-Place.md",
+                    "linksCollapsed": false,
+                    "unlinkedCollapsed": true
+                  },
+                  "icon": "links-going-out",
+                  "title": "Outgoing links from Alejandro's Mise-en-Place"
+                }
+              }
+            ],
+            "currentTab": 1
           }
         ],
         "direction": "horizontal",
-        "width": 282.5,
+        "width": 368.5,
         "collapsed": true
       },
       "left-ribbon": {
         "hiddenItems": {
+          "workspaces:Manage workspace layouts": false,
+          "bases:Create new base": false,
+          "media-extended:Open external media": false,
+          "zk-prefixer:Create new unique note": false,
           "switcher:Open quick switcher": false,
           "graph:Open graph view": false,
           "canvas:Create new canvas": false,
           "templates:Insert template": false,
           "daily-notes:Open today's daily note": false,
           "command-palette:Open command palette": false,
-          "workspaces:Manage workspace layouts": false,
           "templater-obsidian:Templater": false,
           "obsidian-omnivore:Omnivore": false,
           "vantage-obsidian:Vantage - Advanced search builder": false,
-          "media-extended:Open media": false,
           "obsidian-book-search-plugin:Create new book note": false,
           "obsidian-statusbar-pomo:Start pomodoro": false,
           "obsidian-excalidraw-plugin:New drawing": false,
@@ -226,29 +934,21 @@
           "obsidian-full-calendar:Open Full Calendar": false
         }
       },
-      "active": "4fbc84bdf3be1a57",
-      "mtime": "2025-07-24T17:38:14+02:00",
+      "active": "535a4ffeeab4eb36",
+      "mtime": "2026-03-05T20:13:57+01:00",
       "workspaces-plus:settings-v1": {
         "explorerFoldState": [
-          "01 - PAR",
-          "02 - Categories",
-          "03 - 12 Permanent Active/05 - Data Science",
-          "03 - 12 Permanent Active/06 - Deep Learning",
-          "03 - 12 Permanent Active/08 - Health",
-          "04 - Permanent",
-          "05 - Fleeting",
+          "04 - Bases",
           "06 - Inputs",
-          "09 - Inbox",
-          "99 - Meta",
-          "99 - Meta/Class",
-          "99 - Meta/Obsidian",
-          "99 - Meta/Old Templates/Basics",
-          "99 - Meta/Templates",
-          "Clippings",
-          "todos/Tasks"
+          "06 - Inputs/References",
+          "06 - Inputs/References/Books",
+          "08 - Tasks",
+          "08 - Tasks/todos",
+          "10 - Archive",
+          "11 - Projects"
         ]
       }
     }
   },
-  "active": "gym"
+  "active": "Clean"
 }

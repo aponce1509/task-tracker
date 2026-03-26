@@ -1,9 +1,9 @@
 ---
 fields:
-  - name: category
+  - name: categories
     type: MultiFile
     options:
-      dvQueryString: dv.pages().where(p => p.file_class == "category" && !p.file.name.includes("Template"))
+      dvQueryString: dv.pages().where(p => p.file_class == "category" && !p.file.name.includes("Template") && !p.file.path.includes("02 - Categories/_types"))
     display: asList
     style:
       italic: true
@@ -11,7 +11,11 @@ fields:
       code: false
     path: ""
     id: XisyWP
-  - name: par
+    command:
+      id: insert__commons__categories
+      icon: list-plus
+      label: Insert categories field
+  - name: paras
     type: MultiFile
     options:
       dvQueryString: dv.pages().where(p => p.file_class == "par" && !p.file.name.includes("Template"))
@@ -21,41 +25,21 @@ fields:
       bold: true
     path: ""
     id: q7FH7u
-  - name: status
-    type: Select
-    options:
-      sourceType: ValuesListNotePath
-      valuesList: {}
-      valuesListNotePath: 99 - Meta/Metadata Fields/Status.md
-    style:
-      italic: true
-      bold: true
-    path: ""
-    id: MugGvZ
+    command:
+      id: insert__commons__paras
+      icon: list-plus
+      label: Insert paras field
   - name: rate
     type: Number
     options:
       min: 1
-      max: 7
+      max: 5
       step: 1
     style:
       italic: true
       bold: true
     path: ""
     id: St9Dkr
-  - name: system_source
-    type: Select
-    options:
-      sourceType: ValuesListNotePath
-      valuesList: {}
-      valuesListNotePath: 99 - Meta/Metadata Fields/SystemSource.md
-    path: ""
-    id: eeMCkw
-  - name: source_url
-    type: Input
-    options: {}
-    path: ""
-    id: vXnsV7
   - name: created
     type: Date
     options:
@@ -65,23 +49,41 @@ fields:
       linkPath: ""
     path: ""
     id: F3fV5d
-version: "2.40"
+  - name: tags
+    type: Input
+    options: {}
+    command:
+      id: insert__commons__tags
+      icon: list-plus
+      label: Insert tags field
+    path: ""
+    id: 4YBXU4
+  - name: types
+    type: MultiFile
+    options:
+      dvQueryString: dv.pages().where(p => p.file_class == "category" && !p.file.name.includes("Template") && p.file.path.includes("02 - Categories/_types"))
+    command:
+      id: insert__SHTG5O
+      icon: list-plus
+      label: Insert  field
+    path: ""
+    id: dmGpsP
+version: "2.79"
 limit: 20
 mapWithTag: false
-icon: scan
-tagNames: 
-filesPaths: 
-bookmarksGroups: 
-excludes: 
-extends: 
+icon: file-spreadsheet
+tagNames:
+filesPaths:
+bookmarksGroups:
+excludes:
+extends:
 savedViews: []
-favoriteView: 
+favoriteView:
 fieldsOrder:
-  - XisyWP
   - q7FH7u
-  - F3fV5d
-  - MugGvZ
+  - XisyWP
+  - dmGpsP
+  - 4YBXU4
   - St9Dkr
-  - eeMCkw
-  - vXnsV7
+  - F3fV5d
 ---

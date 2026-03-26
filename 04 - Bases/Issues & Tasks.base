@@ -1,0 +1,26 @@
+views:
+  - type: table
+    name: Issues & Tasks Indexes
+    filters:
+      and:
+        - types.containsAll(link("Indexes"), link("Issues"))
+    groupBy:
+      property: paras
+      direction: ASC
+    sort:
+      - property: file.name
+        direction: ASC
+  - type: table
+    name: wips Notes
+    filters:
+      and:
+        - file.tags.containsAll("_wip")
+    groupBy:
+      property: paras
+      direction: ASC
+  - type: table
+    name: Tasks
+    filters:
+      and:
+        - types.containsAny(link("Issues"))
+        - file.name.startsWith("_T")

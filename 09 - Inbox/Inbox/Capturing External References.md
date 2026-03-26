@@ -1,13 +1,11 @@
 ---
 tags:
-  - Linked
-  - docu_type/permanent
 ---
 
 # Capturing External References
 
 Based on [^1]. I applied the concepts learned creating its note.
-[[Capture Criteria: How to Avoid Keeping Too Much (or Too Little)]].
+[[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]].
 
 ## The PDF Phase
 

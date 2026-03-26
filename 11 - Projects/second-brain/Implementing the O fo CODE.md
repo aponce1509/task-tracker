@@ -1,0 +1,41 @@
+---
+paras:
+  - "[[second-brain]]"
+categories:
+  - "[[Core Assets]]"
+types:
+  - "[[Core Block]]"
+rate:
+tags:
+  - _capture
+  - _wip
+created: 2026-02-15 20:54
+---
+# [[Implementing the O fo CODE]]
+
+> [!Summary] This note implements how we do organise in our project:
+>
+> - [[Implementing the O fo CODE#Rules]]
+> - [[Implementing the O fo CODE#Implementation Notes]]
+> - We use this to define the [[CheckList - Out Of Inbox]]
+
+## Outline
+
+- Folder structure based on [[PARA Methodology]]
+	- [[Second Brain Folder Structure]]
+- Searchability
+	- [[Properties & Bases]]
+	- [[Tags Reference]] & [[Note-Taking Tag System & Taxonomy]]
+	- [[PARA Note]]
+- Rules:
+	- [[Organising Workflow]]: A note with the inbox tag is not organised. Now [[CheckList - Out Of Inbox]]
+	- Don't waste time cleaning or formatting the note when organising
+	- Questions:
+		- Is this note useful? If not, remove
+		- Where it belongs? Assign [[PARA Note]]
+		- Is the note name interesting? Note names should generate emotions
+- When we do this
+	- Every Week for content and ideas that arrive to your mind/life
+	- After ending your work block
+	- After a book-unit is complete
+	- After a writing session

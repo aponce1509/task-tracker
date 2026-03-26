@@ -4,98 +4,113 @@
     "type": "split",
     "children": [
       {
-        "id": "7712c1eb9d1d899e",
+        "id": "9c6447a579504b00",
         "type": "tabs",
         "children": [
           {
-            "id": "64be72065c59db58",
+            "id": "c4e18537a7893f5f",
             "type": "leaf",
             "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "09 - Inbox/Inbox/Second Brain Design.md",
+                "file": "11 - Projects/second-brain/Second Brain Issues.md",
                 "mode": "source",
                 "source": false
               },
               "pinned": true,
               "icon": "lucide-file",
-              "title": "Second Brain Design"
+              "title": "Second Brain Issues"
             }
           },
           {
-            "id": "341609d777e2f7e1",
+            "id": "c89f01574ef6285d",
             "type": "leaf",
             "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "09 - Inbox/Notes a base system.md",
+                "file": "09 - Inbox/_current_inbox/Mid Term Second Brain Outline.md",
                 "mode": "source",
                 "source": false
               },
               "pinned": true,
               "icon": "lucide-file",
-              "title": "Notes a base system"
+              "title": "Mid Term Second Brain Outline"
             }
           },
           {
-            "id": "799869bb4687f67f",
+            "id": "64061c5e80205fe8",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "09 - Inbox/Templates.md",
-                "mode": "source",
+                "file": "11 - Projects/second-brain/How to manage Task management.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Templates"
+              "title": "How to manage Task management"
             }
           },
           {
-            "id": "ba7e12623a7fdc1e",
+            "id": "0bceedfef177a8bd",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01 - PAR/Example.md",
+                "file": "09 - Inbox/Los tags definitivos.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Example"
+              "title": "Los tags definitivos"
             }
           },
           {
-            "id": "37a9f00587a34a6f",
-            "type": "leaf",
-            "state": {
-              "type": "bases",
-              "state": {
-                "file": "09 - Inbox/PARA Base.base",
-                "viewName": "Inbox"
-              },
-              "icon": "lucide-table",
-              "title": "PARA Base"
-            }
-          },
-          {
-            "id": "cdba0e50683bc472",
+            "id": "ac74af3f4c56bd93",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "09 - Inbox/Example Note.md",
+                "file": "11 - Projects/second-brain/Keeping the Focus.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Keeping the Focus"
+            }
+          },
+          {
+            "id": "84c1939717f30f5d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "11 - Projects/second-brain/This is really a Task.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "This is really a Task"
+            }
+          },
+          {
+            "id": "9550f5fe52ce6bd0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09 - Inbox/Input sources.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Example Note"
+              "title": "Input sources"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 6
       }
     ],
     "direction": "vertical"
@@ -127,7 +142,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#decision  ",
+                "query": "rule",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -167,7 +182,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 295.5
+    "width": 329.5024719238281
   },
   "right": {
     "id": "b88f3851fe9ea667",
@@ -190,61 +205,16 @@
         ]
       },
       {
-        "id": "1d35c93b9dd8a713",
+        "id": "3935b185d9f4360b",
         "type": "tabs",
         "children": [
-          {
-            "id": "f49aa5ad19dd84e2",
-            "type": "leaf",
-            "state": {
-              "type": "localgraph",
-              "state": {
-                "file": "09 - Inbox/Notes a base system.md",
-                "options": {
-                  "collapse-filter": true,
-                  "search": "",
-                  "localJumps": 2,
-                  "localBacklinks": true,
-                  "localForelinks": true,
-                  "localInterlinks": false,
-                  "showTags": false,
-                  "showAttachments": false,
-                  "hideUnresolved": false,
-                  "collapse-color-groups": false,
-                  "colorGroups": [
-                    {
-                      "query": "tag:#inbox OR path:\"09 - Inbox\"  ",
-                      "color": {
-                        "a": 1,
-                        "rgb": 14701138
-                      }
-                    }
-                  ],
-                  "collapse-display": true,
-                  "showArrow": true,
-                  "textFadeMultiplier": -1.4,
-                  "nodeSizeMultiplier": 1.48801790730337,
-                  "lineSizeMultiplier": 1.8185700491573,
-                  "collapse-forces": false,
-                  "centerStrength": 0.70751404494382,
-                  "repelStrength": 12.9994733146067,
-                  "linkStrength": 1,
-                  "linkDistance": 111,
-                  "scale": 1.362902735984017,
-                  "close": true
-                }
-              },
-              "icon": "lucide-git-fork",
-              "title": "Graph of Notes a base system"
-            }
-          },
           {
             "id": "346b9dbb1ff56c4a",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "09 - Inbox/Untitled 1.md",
+                "file": "09 - Inbox/Input sources.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -254,7 +224,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Untitled 1"
+              "title": "Backlinks for Input sources"
             }
           },
           {
@@ -263,12 +233,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "09 - Inbox/Untitled 1.md",
+                "file": "09 - Inbox/Alejandro's Mise-en-Place.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Untitled 1"
+              "title": "Outgoing links from Alejandro's Mise-en-Place"
             }
           },
           {
@@ -277,13 +247,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "09 - Inbox/Notes a base system.md",
+                "file": "07 - Daily/2026-02-23.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Notes a base system"
+              "title": "Outline of Alejandro's Mise-en-Place"
             }
           },
           {
@@ -299,23 +269,63 @@
               "icon": "lucide-archive",
               "title": "All properties"
             }
+          },
+          {
+            "id": "5953fd517ea36192",
+            "type": "leaf",
+            "state": {
+              "type": "localgraph",
+              "state": {
+                "file": "09 - Inbox/Input sources.md",
+                "options": {
+                  "collapse-filter": true,
+                  "search": "",
+                  "localJumps": 1,
+                  "localBacklinks": true,
+                  "localForelinks": true,
+                  "localInterlinks": false,
+                  "showTags": false,
+                  "showAttachments": false,
+                  "hideUnresolved": false,
+                  "collapse-color-groups": true,
+                  "colorGroups": [],
+                  "collapse-display": true,
+                  "showArrow": false,
+                  "textFadeMultiplier": 0,
+                  "nodeSizeMultiplier": 1,
+                  "lineSizeMultiplier": 1,
+                  "collapse-forces": true,
+                  "centerStrength": 0.518713248970312,
+                  "repelStrength": 10,
+                  "linkStrength": 1,
+                  "linkDistance": 250,
+                  "scale": 1,
+                  "close": true
+                }
+              },
+              "icon": "lucide-git-fork",
+              "title": "Graph of Input sources"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 337.5
+    "width": 368.5
   },
   "left-ribbon": {
     "hiddenItems": {
+      "workspaces:Manage workspace layouts": false,
       "bases:Create new base": false,
+      "media-extended:Open external media": false,
+      "zk-prefixer:Create new unique note": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "templates:Insert template": false,
       "daily-notes:Open today's daily note": false,
       "command-palette:Open command palette": false,
-      "workspaces:Manage workspace layouts": false,
       "templater-obsidian:Templater": false,
       "obsidian-omnivore:Omnivore": false,
       "vantage-obsidian:Vantage - Advanced search builder": false,
@@ -323,59 +333,58 @@
       "obsidian-statusbar-pomo:Start pomodoro": false,
       "obsidian-excalidraw-plugin:New drawing": false,
       "callout-manager:Insert Callout": false,
-      "obsidian-full-calendar:Open Full Calendar": false,
-      "media-extended:Open external media": false,
-      "zk-prefixer:Create new unique note": false
+      "obsidian-full-calendar:Open Full Calendar": false
     }
   },
-  "active": "341609d777e2f7e1",
+  "active": "9550f5fe52ce6bd0",
   "lastOpenFiles": [
+    "11 - Projects/second-brain/Second Brain Issues.md",
+    "09 - Inbox/Input sources.md",
+    "09 - Inbox/Los tags definitivos.md",
+    "09 - Inbox/_current_inbox/TODO - How to track actual implementation.md",
+    "09 - Inbox/_current_inbox/TODO - Final Task management Solution.md",
+    "11 - Projects/second-brain/How to manage Task management.md",
+    "09 - Inbox/Reglas propias en desarrollo de codigo.md",
+    "09 - Inbox/User Stories VS Requirements.md",
+    "01 - PAR/product_management.md",
+    "11 - Projects/second-brain/Keeping the Focus.md",
+    "09 - Inbox/_current_inbox/Mid Term Second Brain Outline.md",
+    "11 - Projects/second-brain/This is really a Task.md",
+    "11 - Projects/second-brain/Second Brain Outline.md",
+    "09 - Inbox/git worktrees.md",
+    "09 - Inbox/stacked diff.md",
+    "09 - Inbox/Inbox/How to be an effective self-learner.md",
+    "09 - Inbox/Inbox/kalman filters.md",
+    "11 - Projects/second-brain/Notes a base system.md",
+    "09 - Inbox/Inbox/My Productivity System.md",
+    "01 - PAR/second-brain.md",
+    "04 - Bases/All Paras.base",
     "01 - PAR/Example.md",
-    "09 - Inbox/PARA Base.base",
-    "09 - Inbox/Untitled.md",
-    "09 - Inbox/Templates.md",
-    "09 - Inbox/Notes a base system.md",
-    "09 - Inbox/Example 2.md",
-    "99 - Meta/Templates/PARA Note - Template.md",
-    "09 - Inbox/Example Note.md",
-    "09 - Inbox/Inbox/Second Brain Design.md",
-    "09 - Inbox/Untitled 1.md",
-    "01 - PAR/hola.md",
-    "99 - Meta/Templates/Task - Template.md",
-    "09 - Inbox/Your Second Brain - MoC.md",
-    "99 - Meta/Templates/Permanent - Template.md",
-    "09 - Inbox/The CODE Process.md",
-    "09 - Inbox/PARA Note - Template.md",
-    "99 - Meta/Templates/Base - Template.md",
-    "09 - Inbox/CheckList - Out Of Inbox.md",
-    "09 - Inbox/Organise.md",
-    "09 - Inbox/How do we organise the note that build the final project.md",
-    "09 - Inbox/TODO list for your daily work.md",
-    "99 - Meta/Templates/Zotero - Template.md",
-    "99 - Meta/Templates 1/Base - Template.md",
+    "99 - Meta/Attachments/second-brain-icon.png",
+    "09 - Inbox/Salir a cazar colores.md",
+    "09 - Inbox/_current_inbox/Como podemos convivir con second brain - Repo - one IDE - AI.md",
+    "09 - Inbox/Starting to work Workflow.md",
+    "11 - Projects/second-brain/TODO list for your daily work.md",
+    "09 - Inbox/GymInbox/Sets Distribution in the workout - Fatigue and muscle Groups.md",
+    "09 - Inbox/_current_inbox",
+    "09 - Inbox/Canvas/Planning 1 Muscle Distribution.canvas",
+    "09 - Inbox/Bases/08 Gym Base.base",
+    "09 - Inbox/Bases/Movies Base.base",
+    "12 - Areas/PersonalDevelopment",
+    "04 - Bases/Tags Queries.base",
+    "04 - Bases/Books.base",
+    "13 - Resources/random_architecture",
+    "13 - Resources/photography_r",
+    "09 - Inbox/Medias.base",
+    "99 - Meta/Attachments/Domenico Ghirlandaio (Domenico Bigordi).jpg",
+    "99 - Meta/Attachments/Pasted image 20260215190445.png",
     "attachments/ML42N9UDH6XC9.png",
-    "attachments",
-    "07 - Daily/2026-02-01.md",
     "99 - Meta/Attachments/ML42N9UDH6XC9.png",
-    "99 - Meta/Templates/Log - Template.md",
-    "07 - Daily/Weeks/2026-W03.md",
-    "06 - Inputs/References/Videos",
-    "06 - Inputs/Art",
-    "07 - Daily/Weeks",
-    "03 - 12 Permanent Active/10 - Art",
-    "09 - Inbox/Canvas",
-    "09 - Inbox/Bases",
-    "01 - PAR/08aa Gym/Logs",
-    "08 - Tasks/ejem",
     "99 - Meta/Attachments/Pasted image 20260109183646.png",
     "99 - Meta/Attachments/mx-img-xs2c36gwmbfzdyj85o9c4uff-pt30_54s.webp",
     "99 - Meta/Attachments/Pasted image 20250821134450.png",
     "99 - Meta/Attachments/Pasted image 20250821134436.png",
-    "09 - Inbox/Canvas/Planning 1 Muscle Distribution.canvas",
     "99 - Meta/Attachments/Pasted Image 20250724181340_804.png",
-    "99 - Meta/Attachments/Pasted Image 20250724181158_281.png",
-    "99 - Meta/Attachments/Pasted Image 20250724181058_423.png",
-    "99 - Meta/Attachments/Pasted Image 20250724180832_761.png",
     "09 - Inbox/Productivity System Components.canvas",
     "99 - Meta/Untitled.canvas",
     "09 - Inbox/Learning - Projects.canvas",

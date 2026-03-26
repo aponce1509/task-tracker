@@ -1,16 +1,17 @@
 ---
-category:
-  - "[[Meeting - Template]]"
-due_date:
-par:
+paras:
+categories:
+  - "[[Logs]]"
+types:
+  - "[[Meetings]]"
+rate:
 tags:
-  - logs
-  - meetings
-  - inbox
+  - _inbox
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
 <%*
-const baseFolder = "01 - PAR";
+const baseFolderOptions = ["11 - Projects", "12 - Areas", "13 - Resources"];
+const baseFolder = await tp.system.suggester(baseFolderOptions, baseFolderOptions, false, "Select Base Folder");
 const prefix = "_M";
 const timestamp = tp.date.now("YYYYMMDDHHmm");
 const padding = 5;
@@ -29,7 +30,7 @@ const projectName = await tp.system.suggester(projectFolders, projectFolders, fa
 
 if (!projectName) return; // Exit if cancelled
 
-const folder = `${baseFolder}/${projectName}/Logs`;
+const folder = `${baseFolder}/${projectName}/Logs/${prefix}`;
 
 // Get all files in the target folder to calculate the next ID
 const files = app.vault.getFiles().filter(f => f.path.startsWith(folder + "/"));

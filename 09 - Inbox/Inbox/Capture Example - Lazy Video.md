@@ -1,10 +1,5 @@
 ---
 tags:
-  - Linked
-  - docu_type/permanent
-  - docu_type/example
-  - output/workflow
-  - output/principles
 ---
 
 # Capture Example - Lazy Video

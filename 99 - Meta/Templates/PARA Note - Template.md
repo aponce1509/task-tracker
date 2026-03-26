@@ -1,9 +1,11 @@
 ---
-paras:
+file_class:
+  - par
 paraType:
+paras:
+priority:
+dueDate:
 rate:
-tags:
-  - _note/para
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
 # [[<% tp.file.title %>]]
@@ -15,6 +17,16 @@ await tp.file.move("01 - PAR/" + tp.file.title)
 
 ## Index
 
-## Base
+## Bases
+
+### Issues
+
+![[PARA Base.base#Issues]]
+
+### Bookmarks
+
+![[PARA Base.base#Bookmarks]]
+
+### Generic
 
 ![[PARA Base.base]]

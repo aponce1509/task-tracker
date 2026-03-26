@@ -5,7 +5,7 @@
     "tags": "tags",
     "status": "text",
     "archive": "checkbox",
-    "file_class": "date",
+    "file_class": "multitext",
     "area": "text",
     "resources": "multitext",
     "indexes": "multitext",
@@ -64,7 +64,7 @@
     "TQ_show_tree": "checkbox",
     "TQ_show_urgency": "checkbox",
     "par": "multitext",
-    "category": "multitext",
+    "category": "text",
     "created": "datetime",
     "workout": "checkbox",
     "boulder": "number",
@@ -87,6 +87,10 @@
     "gastos": "checkbox",
     "updatedFinances": "checkbox",
     "financesUpdated": "checkbox",
-    "notesTaken": "checkbox"
+    "notesTaken": "checkbox",
+    "types": "multitext",
+    "TQ_show_toolbar": "checkbox",
+    "categories": "multitext",
+    "lastConsumed": "date"
   }
 }

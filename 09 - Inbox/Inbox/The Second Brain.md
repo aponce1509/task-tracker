@@ -1,7 +1,5 @@
 ---
 tags:
-  - Linked
-  - project/moc
 ---
 
 # The Second Brain
@@ -13,7 +11,7 @@ building the second brain around the principles described in the book.
 
 ## Capturing
 
-See: [[Capture Criteria: How to Avoid Keeping Too Much (or Too Little)]]
+See: [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
 
 <!-- NOTE: #key Second Brain keys -->
 

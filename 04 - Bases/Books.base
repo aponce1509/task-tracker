@@ -1,0 +1,79 @@
+filters:
+  and:
+    - types.contains(link("Books"))
+views:
+  - type: cards
+    name: All Books
+    groupBy:
+      property: file.tags
+      direction: ASC
+    order:
+      - file.name
+      - rate
+    sort:
+      - property: rate
+        direction: DESC
+    image: note.cover
+    imageFit: contain
+    imageAspectRatio: 1
+  - type: cards
+    name: To consume
+    filters:
+      and:
+        - file.tags.contains("#_to-consume")
+    groupBy:
+      property: genre
+      direction: ASC
+    order:
+      - file.name
+      - rate
+    sort:
+      - property: rate
+        direction: DESC
+    image: note.cover
+  - type: cards
+    name: Completed
+    filters:
+      and:
+        - file.tags.contains("#_completed")
+    groupBy:
+      property: rate
+      direction: DESC
+    order:
+      - file.name
+      - rate
+      - lastConsumed
+    sort:
+      - property: lastConsumed
+        direction: DESC
+    image: note.cover
+  - type: cards
+    name: Dropped
+    filters:
+      and:
+        - file.tags.contains("#_dropped")
+    groupBy:
+      property: rate
+      direction: ASC
+    order:
+      - file.name
+      - rate
+    sort:
+      - property: rate
+        direction: DESC
+    image: note.cover
+  - type: cards
+    name: Completing
+    filters:
+      and:
+        - file.tags.contains("#_completing")
+    groupBy:
+      property: rate
+      direction: ASC
+    order:
+      - file.name
+      - rate
+    sort:
+      - property: rate
+        direction: DESC
+    image: note.cover

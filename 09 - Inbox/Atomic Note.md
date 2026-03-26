@@ -1,2 +1,0 @@
-
-- Small piece of information

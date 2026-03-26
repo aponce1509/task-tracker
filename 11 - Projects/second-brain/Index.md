@@ -1,0 +1,37 @@
+---
+paras:
+  - "[[second-brain]]"
+categories:
+  - "[[Knowledge Atoms]]"
+types:
+  - "[[Theory]]"
+rate:
+tags:
+  - _capture
+created: 2026-03-08 12:15
+---
+# [[Index]]
+
+> [!danger] TO distill
+> - Creo que debería estar en una carpeta ellos solitos como los mocs.
+
+- **When to Create an Index**
+    - **The Three-Note Rule:** Create an index once a sub-topic contains 3+ atomic notes to avoid link clutter.
+    - **Cross-Resource Rule:** If a topic serves multiple PARA Resources (e.g., Math and Finance), it must be an index to act as a shared bridge.
+    - **The Ambiguity Rule:** Use an index when a term branches into distinct sub-fields (e.g., Theory vs. Practical Modeling).
+    - **Mental Landmark Rule:** Only promote "evergreen" concepts that you will revisit long-term, not temporary project data.
+- **Functional Index Types**
+    - **Concept Index:** The "What" — theoretical foundations (e.g., _Interest Rates_).
+    - **Method Index:** The "How" — technical tools and workflows (e.g., _Stochastic Calculus_).
+    - **Entity Index:** The "Who/Where" — specific organizations or systems (e.g., _Federal Reserve_).
+- **What to Exclude**
+    - **Linear Sequences:** If notes follow a natural 1-2-3 order (like a book chapter), just link them directly.
+    - **Project Notes:** Keep PARA Projects as temporary workspaces; don't turn them into permanent indexes.
+    - **Searchable Keywords:** If a simple search bar query is faster than navigating a list, skip the manual index.
+- **Structural Implementation**
+    - **Entry Point Only:** List only the "front door" note for a thread, not every note in the chain.
+    - **The "Lobby" Placement:** Embed or link these indexes within your PARA **Resource** notes for easy access.
+- Usage:
+	- Adopt an **emergent, bottom-up philosophy** for indexing to avoid "categorization fatigue" and premature organization. Rather than pre-defining containers, let your notes dictate the structure: write atomic notes first, link them organically, and use **empty links** as placeholders for potential themes. An Index should only be "promoted" from a ghost link to a physical note once a high-density cluster of notes naturally forms, signaling that the topic has earned its place as a mental landmark. This ensures your system remains a reflection of your actual knowledge growth rather than a rigid, predictive hierarchy.
+
+

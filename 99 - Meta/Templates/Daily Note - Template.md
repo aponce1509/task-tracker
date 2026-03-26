@@ -8,12 +8,14 @@ llamarCasa: false
 gastos: false
 calorias:
 toothTimes: 3
-bookMinutes: 0
+bookMinutes: 25
 films: 0
 episodies: 0
 drinks: 0
 ---
 # [[{{title}}]]
+
+[[Rutinas que mantener]]
 
 - 
 

@@ -2,18 +2,18 @@
 limit: 20
 mapWithTag: false
 icon: group
-tagNames: 
-filesPaths: 
-bookmarksGroups: 
+tagNames:
+filesPaths:
+bookmarksGroups:
 excludes:
+  - categories
+  - paras
   - rate
-  - document_type
-  - system_source
-  - source_url
-  - status
+  - tags
+  - types
 extends: commons
 savedViews: []
-favoriteView: 
+favoriteView:
 fieldsOrder: []
-version: "2.10"
+version: "2.15"
 ---

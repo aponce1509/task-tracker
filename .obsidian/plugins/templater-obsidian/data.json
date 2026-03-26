@@ -8,7 +8,7 @@
     ]
   ],
   "trigger_on_file_creation": true,
-  "auto_jump_to_cursor": false,
+  "auto_jump_to_cursor": true,
   "enable_system_commands": false,
   "shell_path": "",
   "user_scripts_folder": "",
@@ -25,6 +25,10 @@
     {
       "folder": "09 - Inbox",
       "template": "99 - Meta/Templates/Base - Template.md"
+    },
+    {
+      "folder": "02 - Categories/_types",
+      "template": "99 - Meta/Templates/Type - Template.md"
     }
   ],
   "enable_file_templates": false,

@@ -1,7 +1,6 @@
 ---
 tags: []
 ---
-
 # Kalman filters
 
 - Es un algoritmo de estimación óptimo

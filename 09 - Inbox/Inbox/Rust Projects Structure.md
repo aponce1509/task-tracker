@@ -1,8 +1,5 @@
 ---
 tags:
-  - Linked
-  - HasReader
-  - docu_type/learning_page
 ---
 
 <!-- TODO: Code an example of all this note -->

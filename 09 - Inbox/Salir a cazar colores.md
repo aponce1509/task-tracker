@@ -1,12 +1,12 @@
 ---
-categories:
-  - "[[Notes]]"
 paras:
+  - "[[photography_r]]"
+categories:
+types:
+  - "[[Hobbies]]"
 rate:
-status:
 tags:
-  - inbox
-  - notes
-created: 2026-01-17 21:04
+  - _capture
+created: 2026-03-08 17:21
 ---
 # [[Salir a cazar colores]]

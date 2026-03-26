@@ -1,16 +1,19 @@
 ---
+paras:
 categories:
+  - "[[System - Structural]]"
+types:
   - "[[Indexes]]"
+rate:
 tags:
-  - indexes
-created:
+  - _inbox
+created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
-
 # [[<% tp.file.title %>]]
 
-- [[Link To Note]]
+- Links to notes
 
-## Notes
+## Outline
 
 - Comments
 ``

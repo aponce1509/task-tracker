@@ -1,7 +1,5 @@
 ---
 tags:
-  - Linked
-  - WIP
 ---
 
 # Learning Situations

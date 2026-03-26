@@ -39,17 +39,16 @@
   "08 - Tasks": "LiListChecks",
   "07 - Daily": "LiCalendarDays",
   "06 - Inputs": "LiFolderInput",
-  "05 - Fleeting": "CoPaperPlane",
   "04 - Permanents": "LiPenTool",
   "03 - Resources": "LiLibrary",
   "02 - Areas": "LiBuilding",
   "01 - Projects": "LiFolderOpen",
   "00 - Map Of Contents": "IbGlobe",
   "09 - Inbox": "LiInbox",
-  "04 - Permanent": "LiInfinity",
   "03 - 12 Permanent Active": "LiQuestionMarkGlyph",
   "01 - PAR": "LiAreaChart",
   "00 - Map of Contents": "LiMap",
   "02 - Categories": "LiCreateGroup",
-  "todos": "LiListTodo"
+  "05 - --": "CoPaperPlane",
+  "04 - Bases": "LiInfinity"
 }
