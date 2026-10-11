@@ -1,14 +1,3 @@
----
-file_class: note
-created: 2025-07-24 16:49
-category:
-par:
-  - "[[08aa Gym]]"
-tags:
-rate: 7
-system_source: MyMind
-status: Completed
----
 # [[Zona 2 cardio]]
 
 > [!important] Take-aways

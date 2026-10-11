@@ -18,15 +18,11 @@ cover: https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/
 isbn: "[]"
 language:
 paras:
-categories:
-  - "[[Medias]]"
-types:
-  - "[[Books]]"
+type: "[[Medias]]"
 lastConsumed: 2026-01-01
 timesConsumed: "3"
 rate: 3
 tags:
-  - _completed
 created: 2026-02-28
 url: https://www.goodreads.com/book/show/53097424-la-gran-cacer-a?from_search=true&from_srp=true&qid=ZcEFl1TCIZ&rank=1
 ---

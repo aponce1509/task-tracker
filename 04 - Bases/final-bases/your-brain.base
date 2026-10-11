@@ -1,0 +1,80 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: table
+    name: Ideas
+    filters:
+      and:
+        - type == link("Ideas")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: Reflections
+    filters:
+      and:
+        - type == link("Reflections")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: Inquiries
+    filters:
+      and:
+        - type == link("Inquiries")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: Mental Models
+    filters:
+      and:
+        - type == link("Mental Models")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94

@@ -1,0 +1,115 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: table
+    name: Roadmaps
+    filters:
+      and:
+        - type == link("Roadmaps")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - learning_status
+      - maturity
+      - status
+      - winstreak
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 284
+      note.learning_status: 100
+      note.maturity: 101
+      note.status: 94
+      note.winstreak: 59
+  - type: table
+    name: Core Knowledge
+    filters:
+      and:
+        - type == link("Core Knowledge")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - learning_status
+      - maturity
+      - status
+      - winstreak
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 284
+      note.learning_status: 100
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: Synthesis
+    filters:
+      and:
+        - type == link("Synthesis")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - learning_status
+      - maturity
+      - status
+      - winstreak
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 284
+      note.learning_status: 100
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: Emergent Thoughts
+    filters:
+      and:
+        - type == link("Emergent Thoughts")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - learning_status
+      - maturity
+      - status
+      - winstreak
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 284
+      note.learning_status: 100
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: Annotations
+    filters:
+      and:
+        - type == link("Annotations")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - learning_status
+      - maturity
+      - status
+      - winstreak
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 284
+      note.learning_status: 100
+      note.maturity: 101
+      note.status: 94

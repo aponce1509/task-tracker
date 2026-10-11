@@ -1,17 +1,4 @@
----
-file_class: permanent
-created: 2025-07-24 16:28
-category:
-par:
-  - "[[08aa Gym]]"
-tags:
-rate: 7
-system_source: MyMind
-status: Completed
----
 # [[Cardio al entrenar]]
-
-
 
 > [!Key] Take-aways
 > 

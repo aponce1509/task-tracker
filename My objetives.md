@@ -1,10 +1,12 @@
 ---
 tags:
+paras:
+  - "[[PersonalDevelopment]]"
 ---
+Updated:: NONE
 
 # My Objetives
 
-- [ ] #_wip: move todo rationale here_
 ## OLD Todo Rationale
 
 ### Santander

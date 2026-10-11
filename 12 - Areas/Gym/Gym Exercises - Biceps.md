@@ -1,14 +1,4 @@
----
-file_class: note
-created: 2025-08-21 13:42
-category:
-par:
-  - "[[08aa Gym]]"
-tags:
-rate:
-system_source: Web
-status: Completed
----
+
 # [[Gym Exercises - Biceps]]
 
 ## El biceps

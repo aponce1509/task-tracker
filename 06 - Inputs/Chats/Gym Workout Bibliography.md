@@ -1,13 +1,12 @@
 ---
 paras:
-  - [[Gym]]
-categories:
-  - [[Clippings]]
-types:
-  - [[AI Chats]]
+  - "[[Gym]]"
+type: "[[Resources]]"
+subtypes:
+  - "[[External Knowledge - Resources - chats|chats]]"
 rate:
 tags:
-  - _inbox
+maturity: capture
 url: https://chatgpt.com/c/6868ddad-9978-8002-9ba7-3605192c86f2
 created: 2025-07-24
 ---

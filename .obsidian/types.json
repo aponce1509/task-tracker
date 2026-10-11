@@ -91,6 +91,10 @@
     "types": "multitext",
     "TQ_show_toolbar": "checkbox",
     "categories": "multitext",
-    "lastConsumed": "date"
+    "lastConsumed": "date",
+    "active": "checkbox",
+    "subtypes": "multitext",
+    "superceded": "checkbox",
+    "active_paras": "multitext"
   }
 }

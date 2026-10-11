@@ -133,10 +133,14 @@ function getSymbolsPositionField(plugin) {
       value = value.map(transaction.changes);
       const changedLines = [];
       transaction.changes.iterChangedRanges((_f, _t, from, to) => {
-        changedLines.push([
-          transaction.state.doc.lineAt(from).number,
-          transaction.state.doc.lineAt(to).number
-        ]);
+        const start = transaction.state.doc.lineAt(from).number;
+        const end = transaction.state.doc.lineAt(to).number;
+        const lastChangedLine = changedLines[changedLines.length - 1];
+        if (lastChangedLine && start <= lastChangedLine[1] + 1) {
+          lastChangedLine[1] = Math.max(lastChangedLine[1], end);
+        } else {
+          changedLines.push([start, end]);
+        }
       });
       const newRanges = [];
       for (const [start, end] of changedLines) {
@@ -302,13 +306,14 @@ var characterMap = {
   "--": { transform: "\u2013" },
   "!=": { transform: "\u2260" },
   "===": { transform: "\u2261" },
+  "=/=": { transform: "\u2260" },
   "=<": { transform: "\u2264" },
   ">=": { transform: "\u2265" },
   "+-": { transform: "\xB1" },
   "-+": { transform: "\u2213" }
 };
 function getCharacterRegex() {
-  return new RegExp("(<->|->|<-|<=>|<=|=>|--|!=|===|=<|>=|\\+\\-|\\-\\+)", "g");
+  return new RegExp("(<->|->|<-|<=>|<=|=>|--|!=|===|\u2260|=<|>=|\\+\\-|\\-\\+)", "g");
 }
 var SymbolsPrettifier3 = class extends import_obsidian3.Plugin {
   constructor() {
@@ -327,6 +332,5 @@ var SymbolsPrettifier3 = class extends import_obsidian3.Plugin {
     console.log("unloading symbols prettifier");
   }
 };
-
 
 /* nosourcemap */

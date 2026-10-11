@@ -1,13 +1,13 @@
 ---
 paras:
   - "[[product_management]]"
-categories:
-types:
-  - "[[Concept]]"
+type: "[[Core Knowledge]]"
+subtypes:
+  - "[[Knowledge - Core Knowledge - concept|concept]]"
 rate:
 tags:
-  - _capture
-  - _external
+status:
+maturity:
 created: 2026-03-11 22:26
 ---
 # [[User Stories VS Requirements]]

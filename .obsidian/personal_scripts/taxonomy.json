@@ -1,0 +1,173 @@
+{
+  "Your Brain": {
+    "Ideas": {
+      "spark": "Low-friction capture of sudden creative sparks or flash insights.",
+      "concept-seed": "Early-stage unrefined concepts needing further investigation.",
+      "project-idea": "Potential personal or technical project proposals awaiting evaluation.",
+      "experiment": "Specs or setups for personal trial-and-error experiments."
+    },
+    "Reflections": {
+      "introspection": "First-person self-evaluations and personal state tracking.",
+      "philosophical": "Reflections on broad philosophical questions, ethics, or personal values.",
+      "retrospective": "Personal post-mortems on completed life phases or experiences.",
+      "opinion": "Subjective takes and evolving personal stances on non-objective topics."
+    },
+    "Inquiries": {
+      "open-question": "Unresolved internal questions or curiosities needing exploration.",
+      "paradox": "Contradictions or counter-intuitive concepts causing friction.",
+      "internal-debate": "Socratic self-dialogue comparing opposing viewpoints.",
+      "doubt": "Expressed uncertainty regarding an existing mental model or assumption."
+    },
+    "Mental Models": {
+      "heuristic": "Personal cognitive shortcuts or rules of thumb for decision-making.",
+      "framework": "Internalized analytical lenses used to perceive and dissect systems.",
+      "principle": "Core personal rules, tenets, and guiding operational philosophies.",
+      "lens": "Alternative perspective frameworks applied to specific domains or contexts."
+    }
+  },
+  "External Knowledge": {
+    "Medias": {
+      "book": "Books, e-books, and audiobooks consumed for learning or leisure.",
+      "film": "Movies, feature films, and documentaries.",
+      "podcast": "Audio series episodes or shows.",
+      "show": "TV series, mini-series, or serial shows."
+    },
+    "Resources": {
+      "article": "Online blog posts, essays, news articles, or technical write-ups.",
+      "bookmark": "Saved web links or quick reference pointers.",
+      "paper": "Academic papers, research publications, or whitepapers.",
+      "documentation": "Official software/system documentation and manuals.",
+      "tool": "Software applications, developer tools, services, or utilities.",
+      "video": "Reference video content, tutorials, or recorded talks.",
+      "chats": "AI chats extractions"
+    }
+  },
+  "Normative": {
+    "Requirements": {
+      "functional": "User-facing behaviors, business rules, or functional capabilities.",
+      "non-functional": "Quality attributes such as performance, security, and scalability.",
+      "business-rule": "Domain constraints or business policies governing behavior.",
+      "constraint": "Hard technical, legal, or resource boundaries limiting design choices."
+    },
+    "Specs": {
+      "prd": "Product Requirement Documents defining user goals and feature scope.",
+      "rfc": "Request for Comments proposing technical changes or architecture.",
+      "feature-spec": "Detailed technical specification for a specific feature implementation.",
+      "design-doc": "Comprehensive design documents outlining system architecture, data models, and implementation plans."
+    },
+    "Decisions": {
+      "architecture": "High-level structural choices, tech stack selections, or system boundaries.",
+      "product": "Strategic product decisions, trade-offs, and feature prioritization.",
+      "process": "Workflow, team organization, operational policy choices."
+    },
+    "Standards": {
+      "coding": "Code style guides, linter rules, and programming conventions.",
+      "naming": "Conventions for variables, files, APIs, and database schemas.",
+      "workflow": "Standard procedures for git branches, deployments, and reviews.",
+      "operations": "Incident handling, release checklists, and maintenance standards."
+    }
+  },
+  "Descriptive": {
+    "Architectures": {
+      "database": "Schemas, ER diagrams, data models, and storage engine designs.",
+      "domain-model": "Core business logic models, entities, and aggregates.",
+      "service": "Microservice descriptions, system boundaries, and service APIs.",
+      "infrastructure": "Cloud topology, hardware configurations, and network setups.",
+      "api": "REST/GraphQL contracts, endpoints, and interface specifications.",
+      "data-flow": "Pipelines, ETL processes, streaming architectures, and message flows."
+    },
+    "Project Contexts": {
+      "migration": "Data, infrastructure, or code migration plans and progress tracking.",
+      "legacy": "Documentation of legacy components, technical context, and caveats.",
+      "technical-debt": "Tracked code smells, temporary workarounds, and cleanup needed.",
+      "status": "Periodic status updates, project health summaries, and milestone tracking.",
+      "risk": "Potential threats, failure modes, and mitigation strategies for a project."
+    }
+  },
+  "Operational": {
+    "Issues": {
+      "bug": "Unintended behaviors or defects in system execution.",
+      "task": "Distinct, actionable work item to be completed.",
+      "improvement": "Refactoring, optimization, or enhancement to existing capabilities.",
+      "incident": "Production outages, severity alerts, or emergency interventions.",
+      "open-problem": "Unresolved questions or technical roadblocks requiring investigation.",
+      "requrent": "Recurring issues or patterns that need systematic handling."
+    },
+    "Solutions": {
+      "fix": "Resolved solution applied to a bug or defect.",
+      "workaround": "Temporary fix or bypass for a known issue or limitation.",
+      "troubleshooting": "Diagnostic guides and root-cause analysis steps.",
+      "recipe": "Copy-paste code snippets, CLI commands, or operational scripts."
+    },
+    "HowTos": {
+      "guide": "Step-by-step walkthrough for completing a process.",
+      "cheatsheet": "Quick-reference command lists, syntax guides, or shortcuts.",
+      "runbook": "Operational steps for system maintenance, deployments, or recovery."
+    },
+    "Meetings": {
+      "sync": "Regular status alignments or standup notes.",
+      "planning": "Sprint, quarterly, or roadmap planning sessions.",
+      "retrospective": "Sprint or project post-mortems and action items.",
+      "1on1": "Discussion notes between manager and team member."
+    }
+  },
+  "Knowledge": {
+    "Roadmaps": {
+      "curriculum": "Master learning roadmap or broad study track overview.",
+      "course": "Structured class, book syllabus, or formal education track.",
+      "module": "Self-contained study unit, chapter, or milestone topic."
+    },
+    "Core Knowledge": {
+      "concept": "Durable, project-agnostic mental models and theoretical definitions.",
+      "framework": "Structured analytical models, system loops, or calculation methods.",
+      "principle": "Universal heuristics, core rules, and fundamental design tenets."
+    },
+    "Syntheses": {
+      "case-study": "Real-world examples, business case breakdowns, or practical applications.",
+      "research": "In-depth evaluations, comparative studies, or literature reviews.",
+      "reference-anchor": "Pointers to external source material, datasets, or benchmark figures."
+    },
+    "Emergent Thoughts": {
+      "open-question": "Unresolved doubts, technical confusion, or points requiring further study.",
+      "idea": "Actionable original insights, trading strategies, or design concepts.",
+      "hypothesis": "Testable conjectures or speculative working theories."
+    },
+    "Annotations": {
+      "question": "Questions or curiosities that arise while reading or studying.",
+      "evidence": "Supporting facts, stats, or references cited in the source.",
+      "conclusion": "Summaries, takeaways, or final thoughts on a topic.",
+      "extract": "Bigger ideas or concepts extracted from the source."
+    }
+  },
+  "Artifacts": {
+    "Assets": {
+      "code": "Production-grade code snippets or repository references.",
+      "script": "Automation scripts, shell tools, or quick utilities.",
+      "diagram": "Visual architectural diagrams, flowcharts, or system maps.",
+      "dataset": "Test datasets, CSVs, or sample data payloads.",
+      "mockup": "UI/UX designs, wireframes, or prototype links.",
+      "document": "Formal documents, reports, or structured write-ups."
+    }
+  },
+  "Logging": {
+    "Journals": {
+      "daily": "Daily log entry capturing tasks, notes, and log items.",
+      "weekly": "Weekly recap, accomplishments, and focus areas.",
+      "reflection": "Periodic introspection on personal or professional progress.",
+      "scratchpad": "Disposable scratch notes, temporary calculations, or working space.",
+      "brain-dump": "Unstructured stream-of-consciousness thought capture.",
+      "project-log": "Chronological activity log specific to a project."
+    }
+  },
+  "Navigation / Meta": {
+    "Indexes": {
+      "global-index": "Master directory or root entry point of the vault.",
+      "topic-index": "Curated index page for a specific knowledge domain."
+    },
+    "MoCs": {
+      "domain-moc": "Map of content connecting all notes in a specific domain.",
+      "project-moc": "Central navigation hub for a specific project.",
+      "area-moc": "Map of content tracking an area of responsibility."
+    }
+  }
+}

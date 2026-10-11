@@ -1,0 +1,378 @@
+{
+  "feeds": [
+    {
+      "title": "3Blue1Brown (YouTube)",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw",
+      "folder": "Videos",
+      "lastUpdated": 1787733171252,
+      "autoDeleteDuration": 30,
+      "maxItemsLimit": 50,
+      "scanInterval": 0,
+      "excludeFromRefresh": false,
+      "mediaType": "video",
+      "keywordRules": {
+        "overrideGlobalRules": false,
+        "includeLogic": "AND",
+        "rules": []
+      },
+      "siteUrl": "https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw",
+      "lastRefreshDiagnostics": {
+        "fetchedItemCount": 15,
+        "mergedItemCountBeforeRetention": 1,
+        "retainedItemCount": 1,
+        "retentionRemovedCount": 0,
+        "skippedByRefreshCutoffCount": 14,
+        "autoDeleteDurationDays": 30
+      },
+      "iconUrl": "",
+      "feedId": "ab1baab2-4396-4cde-a051-537e4a49c984"
+    },
+    {
+      "title": "Lex Fridman Podcast",
+      "url": "https://lexfridman.com/feed/podcast/",
+      "folder": "Podcasts",
+      "lastUpdated": 1787733198372,
+      "autoDeleteDuration": 30,
+      "maxItemsLimit": 50,
+      "scanInterval": 0,
+      "excludeFromRefresh": false,
+      "mediaType": "podcast",
+      "keywordRules": {
+        "overrideGlobalRules": false,
+        "includeLogic": "AND",
+        "rules": []
+      },
+      "lastRefreshDiagnostics": {
+        "fetchedItemCount": 501,
+        "mergedItemCountBeforeRetention": 2,
+        "retainedItemCount": 2,
+        "retentionRemovedCount": 0,
+        "skippedByRefreshCutoffCount": 499,
+        "autoDeleteDurationDays": 30
+      },
+      "iconUrl": "",
+      "feedId": "20704158-d291-4135-a1de-f248e8c7a5ae"
+    },
+    {
+      "title": "DeepMind Blog",
+      "url": "https://deepmind.com/blog/feed/basic/",
+      "folder": "RSS",
+      "lastUpdated": 1787733204392,
+      "autoDeleteDuration": 30,
+      "maxItemsLimit": 50,
+      "scanInterval": 0,
+      "excludeFromRefresh": false,
+      "mediaType": "article",
+      "keywordRules": {
+        "overrideGlobalRules": false,
+        "includeLogic": "AND",
+        "rules": []
+      },
+      "siteUrl": "https://deepmind.google/blog/",
+      "lastRefreshDiagnostics": {
+        "fetchedItemCount": 100,
+        "mergedItemCountBeforeRetention": 7,
+        "retainedItemCount": 7,
+        "retentionRemovedCount": 0,
+        "skippedByRefreshCutoffCount": 93,
+        "autoDeleteDurationDays": 30
+      },
+      "iconUrl": "",
+      "feedId": "dbc92f44-529d-4d69-a3e6-449102bf849f"
+    },
+    {
+      "title": "arXiv AI (cs.AI) New Papers",
+      "url": "https://export.arxiv.org/rss/cs.AI",
+      "folder": "RSS",
+      "lastUpdated": 1787733209927,
+      "autoDeleteDuration": 30,
+      "maxItemsLimit": 50,
+      "scanInterval": 0,
+      "excludeFromRefresh": false,
+      "mediaType": "article",
+      "keywordRules": {
+        "overrideGlobalRules": false,
+        "includeLogic": "AND",
+        "rules": []
+      },
+      "siteUrl": "http://rss.arxiv.org/rss/cs.AI",
+      "lastRefreshDiagnostics": {
+        "fetchedItemCount": 352,
+        "mergedItemCountBeforeRetention": 352,
+        "retainedItemCount": 50,
+        "retentionRemovedCount": 302,
+        "skippedByRefreshCutoffCount": 0,
+        "autoDeleteDurationDays": 30
+      },
+      "iconUrl": "",
+      "feedId": "23129f47-4a7e-4b9d-810d-977d7b4e3c8d"
+    },
+    {
+      "title": "NASA Breaking News",
+      "url": "http://www.nasa.gov/rss/dyn/breaking_news.rss",
+      "folder": "Uncategorized",
+      "lastUpdated": 1787733396388,
+      "autoDeleteDuration": 30,
+      "maxItemsLimit": 50,
+      "scanInterval": 0,
+      "excludeFromRefresh": false,
+      "mediaType": "article",
+      "keywordRules": {
+        "overrideGlobalRules": false,
+        "includeLogic": "AND",
+        "rules": []
+      },
+      "lastRefreshDiagnostics": {
+        "fetchedItemCount": 10,
+        "mergedItemCountBeforeRetention": 10,
+        "retainedItemCount": 10,
+        "retentionRemovedCount": 0,
+        "skippedByRefreshCutoffCount": 0,
+        "autoDeleteDurationDays": 30
+      },
+      "iconUrl": "",
+      "feedId": "fe3c193d-b506-4fd0-88d8-1f747bf58bfa"
+    }
+  ],
+  "folders": [
+    {
+      "name": "Podcasts",
+      "subfolders": [],
+      "createdAt": 1787732929732,
+      "modifiedAt": 1787732929732
+    },
+    {
+      "name": "RSS",
+      "subfolders": [],
+      "createdAt": 1787732929732,
+      "modifiedAt": 1787732929732
+    },
+    {
+      "name": "Videos",
+      "subfolders": [],
+      "createdAt": 1787732929732,
+      "modifiedAt": 1787732929732
+    },
+    {
+      "name": "Uncategorized",
+      "subfolders": [],
+      "createdAt": 1787732929732,
+      "modifiedAt": 1787732929732
+    }
+  ],
+  "refreshInterval": 0,
+  "lastRefreshTimestamp": 0,
+  "lastGlobalRefreshCompletedAt": 0,
+  "startupRefreshDelaySeconds": 5,
+  "maxItems": 50,
+  "defaultAutoDeleteDuration": 30,
+  "viewStyle": "card",
+  "showFeedArt": true,
+  "showThumbnails": true,
+  "sidebarCollapsed": false,
+  "sidebarWidth": 280,
+  "collapsedFolders": [],
+  "collapsedFeedSections": [],
+  "tagsCollapsed": true,
+  "articleFilter": {
+    "type": "none",
+    "value": null
+  },
+  "articleSort": "newest",
+  "articleGroupBy": "none",
+  "allArticlesPageSize": 50,
+  "unreadArticlesPageSize": 50,
+  "readArticlesPageSize": 50,
+  "savedArticlesPageSize": 50,
+  "starredArticlesPageSize": 50,
+  "availableTags": [
+    {
+      "name": "Important",
+      "color": "#e74c3c"
+    },
+    {
+      "name": "Read later",
+      "color": "#3498db"
+    },
+    {
+      "name": "Favorite",
+      "color": "#f1c40f"
+    },
+    {
+      "name": "Video",
+      "color": "#d04747"
+    },
+    {
+      "name": "Podcast",
+      "color": "#8e44ad"
+    }
+  ],
+  "folderSortOrder": {
+    "by": "custom",
+    "ascending": true
+  },
+  "feedSortOrder": {
+    "by": "name",
+    "ascending": true
+  },
+  "folderFeedSortOrders": {},
+  "viewLocation": "main",
+  "readerViewLocation": "main",
+  "savedArticleOpenLocation": "main",
+  "useWebViewer": true,
+  "corsProxyEnabled": true,
+  "corsProxyUrl": "auto",
+  "customProxyUrls": [],
+  "readerFormat": {
+    "textAlign": "justify",
+    "paragraphWidth": 100,
+    "fontScalePct": 100,
+    "lineHeightPct": 160,
+    "fontFamily": "default",
+    "paragraphSpacing": "default"
+  },
+  "media": {
+    "autoTagVideos": true,
+    "rememberPlaybackProgress": true,
+    "defaultTwitterFolder": "Twitter",
+    "defaultMastodonFolder": "Mastodon",
+    "defaultYouTubeFolder": "Videos",
+    "defaultVideoTag": "Video",
+    "defaultVideoTags": [
+      "Video"
+    ],
+    "defaultYouTubeTag": "Video",
+    "defaultYouTubeTags": [
+      "Video"
+    ],
+    "defaultPodcastFolder": "Podcast",
+    "defaultPodcastTags": [
+      "podcast"
+    ],
+    "defaultRssFolder": "RSS",
+    "defaultRssTag": "RSS",
+    "defaultRssTags": [
+      "RSS"
+    ],
+    "defaultSmallwebFolder": "Smallweb",
+    "defaultSmallwebTag": "smallweb",
+    "defaultSmallwebTags": [
+      "smallweb"
+    ],
+    "defaultTwitterTag": "",
+    "defaultTwitterTags": [],
+    "defaultMastodonTag": "",
+    "defaultMastodonTags": [],
+    "openInSplitView": true,
+    "podcastTheme": "obsidian",
+    "enableApplePodcastsOpen": false,
+    "defaultPlaySpeed": 1
+  },
+  "articleSaving": {
+    "addSavedTag": true,
+    "defaultFolder": "RSS articles/",
+    "defaultTemplate": "---\n title: \"{{title}}\"\n date: \"{{date}}\"\n tags: [{{tags}}]\n source: \"{{source}}\"\n link: \"{{link}}\"\n author: \"{{author}}\"\n feedTitle: \"{{feedTitle}}\"\n summary: \"{{summary}}\"\n guid: \"{{guid}}\"\n---\n\n# {{title}}\n\n{{content}}\n\n  [Source]({{link}})",
+    "includeFrontmatter": true,
+    "frontmatterTemplate": "---\n title: \"{{title}}\"\n date: \"{{date}}\"\n tags: [{{tags}}]\n source: \"{{source}}\"\n link: \"{{link}}\"\n author: \"{{author}}\"\n feedTitle: \"{{feedTitle}}\"\n summary: \"{{summary}}\"\n guid: \"{{guid}}\"\n---",
+    "saveFullContent": true,
+    "fetchTimeout": 10,
+    "savedTemplates": []
+  },
+  "display": {
+    "showCoverImage": true,
+    "allowImageCaching": false,
+    "imageCacheLimitMiB": 100,
+    "imageCacheUnlimited": false,
+    "showSummary": true,
+    "showFilterStatusBar": true,
+    "paginationPosition": "bottom",
+    "showAllFeedsUnreadBadges": true,
+    "showFolderUnreadBadges": true,
+    "showFeedUnreadBadges": true,
+    "allFeedsUnreadBadgeColor": "#8e44ad",
+    "folderUnreadBadgeColor": "#d85b9f",
+    "feedUnreadBadgeColor": "#8e44ad",
+    "allFeedsUnreadBadgeDefaultColor": "#8e44ad",
+    "folderUnreadBadgeDefaultColor": "#d85b9f",
+    "feedUnreadBadgeDefaultColor": "#8e44ad",
+    "filterDisplayStyle": "inline",
+    "mobileShowCardToolbar": true,
+    "mobileShowListToolbar": true,
+    "mobileListToolbarStyle": "minimal",
+    "defaultFilter": "all",
+    "hiddenFilters": [],
+    "useDomainIconsPodcast": false,
+    "useDomainIconsMastodon": false,
+    "useDomainIconsTwitter": false,
+    "useDomainIconsRss": true,
+    "useDomainIconsYouTube": false,
+    "hideDefaultRssIcon": false,
+    "autoMarkReadOnOpen": false,
+    "sidebarRowSpacing": 10,
+    "sidebarRowIndentation": 20,
+    "sidebarItemPaddingLeft": 2,
+    "sidebarItemPaddingRight": 2,
+    "cardColumnsPerRow": 0,
+    "cardSpacing": 15,
+    "hideEmptyFeeds": false,
+    "hideFeedFetchErrorBadges": false,
+    "hideIconDashboard": false,
+    "hideIconDiscover": false,
+    "hideIconAddFeed": false,
+    "hideIconManageFeeds": false,
+    "hideIconSearch": false,
+    "hideIconTags": false,
+    "hideIconAddFolder": false,
+    "hideIconSort": false,
+    "hideIconCollapseAll": false,
+    "hideIconSettings": false,
+    "hideIconDivider": false,
+    "hideToolbarEntirely": false,
+    "iconOrder": [
+      "discover",
+      "divider",
+      "addFeed",
+      "manageFeeds",
+      "search",
+      "tags",
+      "addFolder",
+      "sort",
+      "collapseAll",
+      "settings"
+    ],
+    "articleDateStyle": "relative"
+  },
+  "highlights": {
+    "enabled": false,
+    "defaultColor": "#ffd700",
+    "highlightInContent": true,
+    "highlightInTitles": true,
+    "highlightInSummaries": true,
+    "words": []
+  },
+  "keywordRules": {
+    "includeLogic": "AND",
+    "bypassAll": false,
+    "rules": []
+  },
+  "dashboardMultiFilters": {
+    "statusFilters": [],
+    "tagFilters": [],
+    "logic": "OR"
+  },
+  "sidebarTagFilterMode": "or",
+  "autoBackup": {
+    "backupDataJson": false,
+    "backupOpml": true,
+    "backupUserdata": true
+  },
+  "storageMode": "vault-shards-v2",
+  "storageMigrationDismissedPermanently": false,
+  "storageFolder": ".rss-dashboard-data/feeds",
+  "storageSchemaVersion": 1,
+  "metadataStorageMode": "plugin-default",
+  "metadataStorageFolder": ".rss-dashboard-data",
+  "metadataStorageSchemaVersion": 1,
+  "_syncNonce": "1787733396420-13",
+  "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
+}

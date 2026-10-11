@@ -1,10 +1,11 @@
 {
   "accentColor": "",
-  "cssTheme": "Tokyo Night",
+  "cssTheme": "Things",
   "baseFontSize": 14,
   "interfaceFontFamily": "JetBrains Mono",
   "enabledCssSnippets": [
-    "colored_folders"
+    "colored_folders",
+    "bases-selector"
   ],
   "textFontFamily": "JetBrains Mono",
   "translucency": true

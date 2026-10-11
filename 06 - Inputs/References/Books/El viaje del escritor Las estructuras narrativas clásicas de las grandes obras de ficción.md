@@ -11,15 +11,11 @@ cover: https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/
 isbn: "[]"
 language:
 paras:
-categories:
-  - "[[Medias]]"
-types:
-  - "[[Books]]"
+type: "[[Medias]]"
 lastConsumed:
 timesConsumed:
 rate: 3
 tags:
-  - _completing
 created: 2026-03-05
 url: https://www.goodreads.com/book/show/244465437-el-viaje-del-escritor?from_search=true&from_srp=true&qid=nQ1cwhrMgY&rank=3
 ---

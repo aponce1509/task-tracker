@@ -4,9 +4,6 @@ categories:
 types:
 rate:
 tags:
-  - _external
-  - _capture
-  - _inbox
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
 # [[<% tp.file.title %>]]

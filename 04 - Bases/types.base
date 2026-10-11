@@ -1,6 +1,0 @@
-filters:
-  and:
-    - types.contains(this.file)
-views:
-  - type: table
-    name: Table

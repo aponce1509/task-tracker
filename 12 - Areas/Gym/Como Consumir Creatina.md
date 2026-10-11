@@ -1,15 +1,3 @@
----
-paras:
-  - "[[Gym]]"
-categories:
-  - "[[Knowledge Atoms]]"
-types:
-  - "[[Theory]]"
-rate: 5
-tags:
-  - _capture
-created: 2026-01-26 23:37
----
 
 # [[Como Consumir Creatina]]
 

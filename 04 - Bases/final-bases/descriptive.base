@@ -1,0 +1,42 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: table
+    name: Architectures
+    filters:
+      and:
+        - type == link("Architectures")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: Project Contexts
+    filters:
+      and:
+        - type == link("Project Contexts")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94

@@ -7,7 +7,9 @@
   "attachmentFolderPath": "99 - Meta/Attachments",
   "spellcheck": true,
   "autoPairBrackets": true,
-  "defaultViewMode": "preview",
+  "defaultViewMode": "source",
   "trashOption": "local",
-  "openBehavior": "daily"
+  "openBehavior": "daily",
+  "showLineNumber": false,
+  "livePreview": true
 }

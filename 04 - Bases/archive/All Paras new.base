@@ -1,0 +1,39 @@
+filters:
+  and:
+    - file_class == ["par"]
+    - '!file.name.endsWith("Template")'
+views:
+  - type: cards
+    name: Table
+    groupBy:
+      property: paraType
+      direction: ASC
+    order:
+      - file.name
+      - priority
+      - dueDate
+      - paras
+    sort:
+      - property: priority
+        direction: DESC
+      - property: dueDate
+        direction: ASC
+    columnSize:
+      file.name: 282
+    image: note.img
+  - type: table
+    name: Projects
+  - type: table
+    name: Areas
+  - type: table
+    name: Resources
+  - type: table
+    name: Archive
+  - type: table
+    name: Active Projects
+    filters:
+      and:
+        - active == true
+    groupBy:
+      property: paraType
+      direction: ASC

@@ -1,0 +1,6 @@
+filters:
+  and:
+    - type == this.file
+views:
+  - type: table
+    name: Table

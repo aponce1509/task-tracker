@@ -1,0 +1,45 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: table
+    name: Resources
+    filters:
+      and:
+        - type == link("Resources")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - rate
+    sort:
+      - property: subtype
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 433
+      note.maturity: 149
+  - type: table
+    name: Medias
+    filters:
+      and:
+        - type == link("Medias")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - consumption_status
+      - rate
+    sort:
+      - property: subtype
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 389
+      note.consumption_status: 202
+      note.rate: 52

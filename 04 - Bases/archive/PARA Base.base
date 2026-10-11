@@ -1,0 +1,154 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: table
+    name: All notes
+    filters:
+      or:
+        - '!type.containsAny(link("Issues"))'
+        - type.isEmpty()
+    groupBy:
+      property: type
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+    sort:
+      - property: tags
+        direction: ASC
+    columnSize:
+      file.name: 346
+      note.tags: 279
+  - type: table
+    name: Index
+    groupBy:
+      property: type
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+      - paras
+    columnSize:
+      file.name: 185
+      note.paras: 178
+  - type: table
+    name: Inbox
+    filters:
+      and:
+        - file.tags.contains("inbox")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+      - paras
+    columnSize:
+      file.name: 185
+      note.paras: 178
+  - type: table
+    name: Consumibles
+    filters:
+      and:
+        - file.tags.contains("_consumibles")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+      - paras
+    columnSize:
+      file.name: 185
+      note.paras: 178
+  - type: table
+    name: Logs
+    filters:
+      and:
+        - file.tags.contains("_logs")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+      - paras
+    columnSize:
+      file.name: 185
+      note.paras: 178
+  - type: table
+    name: Capture
+    filters:
+      and:
+        - file.tags.contains("_captures")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+      - paras
+    columnSize:
+      file.name: 185
+      note.paras: 178
+  - type: table
+    name: Resources
+    filters:
+      and:
+        - file.tags.contains("_resources")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+      - paras
+    columnSize:
+      file.name: 185
+      note.paras: 178
+  - type: table
+    name: Bookmarks
+    filters:
+      and:
+        - types.contains("[[Bookmarks]]")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+    sort:
+      - property: rate
+        direction: ASC
+    columnSize:
+      file.name: 326
+      note.tags: 303
+      note.rate: 199
+  - type: table
+    name: Issues
+    filters:
+      and:
+        - type.contains(link("Issues"))
+    groupBy:
+      property: priority
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+    sort:
+      - property: rate
+        direction: ASC
+    columnSize:
+      file.name: 367
+      note.tags: 269
+      note.rate: 199

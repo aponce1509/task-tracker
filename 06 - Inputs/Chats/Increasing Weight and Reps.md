@@ -1,15 +1,14 @@
 ---
 paras:
-  - [[Gym]]
-categories:
-  - [[Clippings]]
-types:
-  - [[AI Chats]]
-tags:
-  - _inbox
+  - "[[Gym]]"
+type: "[[Resources]]"
+subtypes:
+  - "[[External Knowledge - Resources - chats|chats]]"
 rate:
-created: 2025-07-05
+tags:
+maturity: capture
 url: https://chatgpt.com/c/6868e82a-58e8-8002-9f32-467db0e2222b
+created: 2025-07-05
 ---
 
 In my gym workout how I know I should increase weight and how should I

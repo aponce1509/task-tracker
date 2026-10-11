@@ -1,10 +1,7 @@
 ---
-file_class:
-  - category
-created: 2026-02-07 20:50
+file_class: category
+created: 2026-08-29 17:21
 ---
 # [[Meetings]]
 
 ![[types.base]]
-
-

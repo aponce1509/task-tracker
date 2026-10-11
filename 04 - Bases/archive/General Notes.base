@@ -1,0 +1,20 @@
+views:
+  - type: table
+    name: wip notes
+    filters:
+      and:
+        - file.tags.containsAny("_wip")
+    groupBy:
+      property: type
+      direction: ASC
+    order:
+      - file.name
+      - paras
+    columnSize:
+      file.name: 607
+  - type: table
+    name: untyped notes
+    filters:
+      and:
+        - '!file.tags.contains("_inbox")'
+        - type.isEmpty()

@@ -1,14 +1,12 @@
 ---
 paras:
   - "[[second-brain]]"
-categories:
-  - "[[System - Structural]]"
-types:
-  - "[[MoCs]]"
+type:
+subtypes:
 rate:
 tags:
-  - _capture
-  - _wip
+status:
+maturity: capture
 created: 2026-03-08 14:58
 ---
 # [[Notes a base system]]

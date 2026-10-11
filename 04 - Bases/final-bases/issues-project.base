@@ -1,0 +1,127 @@
+filters:
+  and:
+    - paras.contains(this.file)
+    - type == link("Issues")
+    - '!file.name.contains("Issues - Template")'
+views:
+  - type: table
+    name: Issues
+    filters:
+      and:
+        - status != "done"
+    groupBy:
+      property: priority
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: status
+        direction: ASC
+    columnSize:
+      file.name: 425
+      note.dueDate: 132
+  - type: table
+    name: Inbox
+    filters:
+      and:
+        - status == "inbox"
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - priority
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: status
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132
+  - type: table
+    name: Backlog
+    filters:
+      or:
+        - status == ""
+        - status.isEmpty()
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - priority
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: status
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132
+  - type: table
+    name: WIP
+    filters:
+      and:
+        - status == "wip"
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - priority
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: status
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132
+  - type: table
+    name: Blocked
+    filters:
+      and:
+        - status == "blocked"
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - priority
+      - dueDate
+    sort:
+      - property: file.name
+        direction: ASC
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: status
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132

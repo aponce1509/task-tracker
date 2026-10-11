@@ -1,0 +1,61 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: table
+    name: HowTos
+    filters:
+      and:
+        - type == link("HowTos")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: Solutions
+    filters:
+      and:
+        - type == link("Solutions")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: Meetings
+    filters:
+      and:
+        - type == link("Meetings")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94

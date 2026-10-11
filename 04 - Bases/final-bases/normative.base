@@ -1,0 +1,112 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: table
+    name: Requirements
+    filters:
+      and:
+        - type == link("Requirements")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - summary
+      - status
+      - superceded
+    sort:
+      - property: superceded
+        direction: DESC
+      - property: status
+        direction: DESC
+      - property: subtypes
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 289
+      note.summary: 236
+      note.status: 77
+      note.superceded: 42
+  - type: table
+    name: Specs
+    filters:
+      and:
+        - type == link("Specs")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - summary
+      - status
+      - superceded
+    sort:
+      - property: superceded
+        direction: DESC
+      - property: status
+        direction: DESC
+      - property: subtypes
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 289
+      note.summary: 236
+      note.status: 69
+      note.superceded: 78
+  - type: table
+    name: Decissions
+    filters:
+      and:
+        - type == link("Decissions")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - summary
+      - status
+      - superceded
+    sort:
+      - property: superceded
+        direction: DESC
+      - property: status
+        direction: DESC
+      - property: subtypes
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 289
+      note.summary: 236
+      note.status: 77
+      note.superceded: 42
+  - type: table
+    name: Standards
+    filters:
+      and:
+        - type == link("Standards")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - summary
+      - status
+      - superceded
+    sort:
+      - property: superceded
+        direction: DESC
+      - property: status
+        direction: DESC
+      - property: subtypes
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 289
+      note.summary: 236
+      note.status: 77
+      note.superceded: 42

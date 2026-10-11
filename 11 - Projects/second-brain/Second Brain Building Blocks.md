@@ -1,14 +1,12 @@
 ---
 paras:
   - "[[second-brain]]"
-categories:
-  - "[[Core Assets]]"
-types:
-  - "[[Core Block]]"
+type:
+subtypes:
 rate:
 tags:
-  - _capture
-  - _wip
+status:
+maturity: capture
 created: 2026-02-17 08:37
 ---
 # [[Second Brain Building Blocks]]

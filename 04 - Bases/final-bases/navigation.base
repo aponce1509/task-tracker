@@ -1,0 +1,43 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: list
+    name: Indexes
+    filters:
+      and:
+        - type == link("Indexes")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94
+  - type: table
+    name: MoCs
+    filters:
+      and:
+        - type == link("MoCs")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+      - subtypes
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 420
+      note.maturity: 101
+      note.status: 94

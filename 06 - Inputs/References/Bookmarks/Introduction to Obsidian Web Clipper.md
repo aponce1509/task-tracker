@@ -1,14 +1,13 @@
 ---
 paras:
-  - "[[second-brain]]"
-  - "[[obsidian_app]]"
-categories:
-  - "[[Clippings]]"
-types: 
-  - "[[Bookmarks]]"
-rate: 5
+  - "[[obsidian]]"
+type: "[[Resources]]"
+subtypes:
+  - "[[External Knowledge - Resources - tool|tool]]"
+rate:
 tags:
-  - _external
+status:
+maturity: capture
 created: 2026-02-08
 url: https://help.obsidian.md/web-clipper
 aliases:

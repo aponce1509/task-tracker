@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Futures Hedging Visualizer (Long & Short)</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-6">
+    <div class="max-w-6xl mx-auto">
+      <header class="mb-8 text-center">
+        <h1 class="text-3xl font-bold text-emerald-400 mb-2">
+          Futures Hedging Visualizer
+        </h1>
+        <p class="text-gray-400">
+          Interactive demonstration of mitigating risk using Short and Long
+          Futures positions.
+        </p>
+      </header>
+
+      <div class="flex justify-center space-x-4 mb-8">
+        <button
+          id="tabShort"
+          onclick="switchScenario('short')"
+          class="px-6 py-3 font-semibold rounded-lg bg-emerald-600 text-white shadow-lg transition duration-200 cursor-pointer"
+        >
+          Scenario 1: Short Hedge (Commodity Seller/Producer)
+        </button>
+        <button
+          id="tabLong"
+          onclick="switchScenario('long')"
+          class="px-6 py-3 font-semibold rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition duration-200 cursor-pointer"
+        >
+          Scenario 2: Long Hedge (Copper Fabricator)
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div
+          class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-xl flex flex-col justify-between"
+        >
+          <div>
+            <h2 id="scenarioTitle" class="text-xl font-bold text-white mb-4">
+              Short Hedge Setup
+            </h2>
+            <p id="scenarioDesc" class="text-gray-400 text-sm mb-6">
+              The company loses money if the price drops. By going
+              <strong>short</strong>, the futures contract gains value as prices
+              drop, perfectly offsetting the loss.
+            </p>
+
+            <hr class="border-gray-700 mb-6" />
+
+            <div class="mb-6">
+              <label
+                id="sliderLabel"
+                class="block text-sm font-medium text-gray-300 mb-2"
+              >
+                Simulated Future Price Change:
+              </label>
+              <div class="flex items-center space-x-4">
+                <span id="minLabel" class="text-xs text-gray-500">-5¢</span>
+                <input
+                  type="range"
+                  id="priceSlider"
+                  min="-5"
+                  max="5"
+                  step="1"
+                  value="0"
+                  class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                />
+                <span id="maxLabel" class="text-xs text-gray-500">+5¢</span>
+              </div>
+              <div
+                class="text-center mt-3 bg-gray-900 py-2 rounded border border-gray-700"
+              >
+                <span
+                  class="text-xs text-gray-400 block uppercase tracking-wider"
+                  >Current Simulated Shift</span
+                >
+                <span
+                  id="currentShiftVal"
+                  class="text-xl font-bold text-emerald-400"
+                  >0¢</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-3 mt-6">
+            <div
+              class="bg-gray-900 p-4 rounded border border-gray-700 flex justify-between items-center"
+            >
+              <span class="text-sm text-gray-400">Business P&L:</span>
+              <span id="pnlBusiness" class="font-mono font-bold text-white"
+                >$0</span
+              >
+            </div>
+            <div
+              class="bg-gray-900 p-4 rounded border border-gray-700 flex justify-between items-center"
+            >
+              <span class="text-sm text-gray-400">Futures P&L:</span>
+              <span id="pnlFutures" class="font-mono font-bold text-white"
+                >$0</span
+              >
+            </div>
+            <div
+              class="bg-emerald-950 p-4 rounded border border-emerald-800 flex justify-between items-center"
+            >
+              <span class="text-sm font-semibold text-emerald-300"
+                >Total Net Position:</span
+              >
+              <span id="pnlTotal" class="font-mono font-bold text-emerald-400"
+                >$0</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 space-y-6">
+          <div
+            class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-xl"
+          >
+            <h3 class="text-lg font-semibold text-white mb-4">
+              Payoff Diagram
+            </h3>
+            <div class="h-64">
+              <canvas id="payoffChart"></canvas>
+            </div>
+          </div>
+
+          <div
+            class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-xl overflow-x-auto"
+          >
+            <h3 class="text-lg font-semibold text-white mb-3">
+              Hedge Matrix Reference
+            </h3>
+            <table class="w-full text-left text-sm text-gray-400">
+              <thead class="bg-gray-900 text-gray-300 uppercase text-xs">
+                <tr>
+                  <th class="p-3 rounded-l">Price Movement</th>
+                  <th id="tableHeaderBiz" class="p-3">
+                    Underlying Business Impact
+                  </th>
+                  <th id="tableHeaderFuture" class="p-3">
+                    Futures Position Impact
+                  </th>
+                  <th class="p-3 rounded-r">Net Result</th>
+                </tr>
+              </thead>
+              <tbody id="matrixBody" class="divide-y divide-gray-700"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentScenario = "short"; // 'short' or 'long'
+      let chartInstance = null;
+
+      // Constants for Scenario 1 (Short)
+      const SHORT_BIZ_PER_CENT = 10000;
+      const SHORT_FUT_PER_CENT = -10000;
+
+      // Constants for Scenario 2 (Long Copper)
+      // 100,000 lbs. 1 cent move = $1,000 change.
+      // Business loses money if price goes up (must buy expensive copper).
+      const LONG_BIZ_PER_CENT = -1000;
+      const LONG_FUT_PER_CENT = 1000;
+
+      const slider = document.getElementById("priceSlider");
+
+      function switchScenario(type) {
+        currentScenario = type;
+
+        // Toggle active classes on tabs
+        const tabShort = document.getElementById("tabShort");
+        const tabLong = document.getElementById("tabLong");
+
+        if (type === "short") {
+          tabShort.className =
+            "px-6 py-3 font-semibold rounded-lg bg-emerald-600 text-white shadow-lg transition duration-200 cursor-pointer";
+          tabLong.className =
+            "px-6 py-3 font-semibold rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition duration-200 cursor-pointer";
+
+          document.getElementById("scenarioTitle").innerText =
+            "Short Hedge Setup";
+          document.getElementById("scenarioDesc").innerHTML =
+            "The company loses $10,000 per 1¢ drop in price. By holding a <strong>short futures position</strong>, the futures contract generates a $10,000 gain for every 1¢ drop, canceling out market volatility entirely.";
+
+          slider.min = "-5";
+          slider.max = "+5";
+          slider.value = "0";
+          document.getElementById("minLabel").innerText = "-5¢";
+          document.getElementById("maxLabel").innerText = "+5¢";
+        } else {
+          tabShort.className =
+            "px-6 py-3 font-semibold rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition duration-200 cursor-pointer";
+          tabLong.className =
+            "px-6 py-3 font-semibold rounded-lg bg-emerald-600 text-white shadow-lg transition duration-200 cursor-pointer";
+
+          document.getElementById("scenarioTitle").innerText =
+            "Long Copper Hedge";
+          document.getElementById("scenarioDesc").innerHTML =
+            "The fabricator needs 100,000 lbs of copper on May 15. If spot copper spikes above 340¢, costs skyrocket. By going <strong>long 4 May futures (25,000 lbs each)</strong> at 320¢, a lock-in price is secured.";
+
+          slider.min = "300";
+          slider.max = "340";
+          slider.value = "320";
+          document.getElementById("minLabel").innerText = "300¢";
+          document.getElementById("maxLabel").innerText = "340¢";
+        }
+
+        updateDashboard();
+      }
+
+      function calculatePnL(shiftOrPrice) {
+        if (currentScenario === "short") {
+          let shift = parseInt(shiftOrPrice);
+          return {
+            business: shift * SHORT_BIZ_PER_CENT,
+            futures: shift * SHORT_FUT_PER_CENT,
+            displayShift: (shift >= 0 ? "+" : "") + shift + "¢",
+          };
+        } else {
+          // Long Hedge Scenario based on May delivery benchmark price of 320 cents
+          let price = parseInt(shiftOrPrice);
+          let shiftFromBenchmark = price - 320;
+          return {
+            business: shiftFromBenchmark * LONG_BIZ_PER_CENT,
+            futures: shiftFromBenchmark * LONG_FUT_PER_CENT,
+            displayShift: price + "¢",
+          };
+        }
+      }
+
+      function formatCurrency(amount) {
+        if (amount === 0) return "$0";
+        const sign = amount < 0 ? "-" : "+";
+        return `${sign}$${Math.abs(amount).toLocaleString()}`;
+      }
+
+      function updateDashboard() {
+        const val = slider.value;
+        const pnl = calculatePnL(val);
+
+        // Update panel text
+        document.getElementById("currentShiftVal").innerText = pnl.displayShift;
+
+        const bizEl = document.getElementById("pnlBusiness");
+        const futEl = document.getElementById("pnlFutures");
+
+        bizEl.innerText = formatCurrency(pnl.business);
+        futEl.innerText = formatCurrency(pnl.futures);
+
+        // Color coding dynamic PnL
+        bizEl.className = `font-mono font-bold ${pnl.business > 0 ? "text-green-400" : pnl.business < 0 ? "text-red-400" : "text-white"}`;
+        futEl.className = `font-mono font-bold ${pnl.futures > 0 ? "text-green-400" : pnl.futures < 0 ? "text-red-400" : "text-white"}`;
+
+        document.getElementById("pnlTotal").innerText =
+          formatCurrency(pnl.business + pnl.futures) + " (Perfect Hedge)";
+
+        renderTableAndChart();
+      }
+
+      function renderTableAndChart() {
+        let steps = [];
+        if (currentScenario === "short") {
+          steps = [-4, -2, 0, 2, 4];
+          document.getElementById("tableHeaderBiz").innerText =
+            "Asset/Business Value Δ";
+          document.getElementById("tableHeaderFuture").innerText =
+            "Short Future P&L";
+        } else {
+          steps = [300, 310, 320, 330, 340];
+          document.getElementById("tableHeaderBiz").innerText =
+            "Copper Purchase Cost Δ";
+          document.getElementById("tableHeaderFuture").innerText =
+            "Long Future P&L";
+        }
+
+        let labels = [];
+        let bizData = [];
+        let futData = [];
+        let netData = [];
+
+        let html = "";
+
+        steps.forEach((step) => {
+          let pnl = calculatePnL(step);
+          let net = pnl.business + pnl.futures;
+
+          labels.push(pnl.displayShift);
+          bizData.push(pnl.business);
+          futData.push(pnl.futures);
+          netData.push(net);
+
+          html += `
+                    <tr class="hover:bg-gray-700/50 transition">
+                        <td class="p-3 font-semibold text-gray-200">${pnl.displayShift}</td>
+                        <td class="p-3 ${pnl.business > 0 ? "text-green-400" : pnl.business < 0 ? "text-red-400" : "text-gray-300"}">${formatCurrency(pnl.business)}</td>
+                        <td class="p-3 ${pnl.futures > 0 ? "text-green-400" : pnl.futures < 0 ? "text-red-400" : "text-gray-300"}">${formatCurrency(pnl.futures)}</td>
+                        <td class="p-3 font-bold text-emerald-400">${formatCurrency(net)}</td>
+                    </tr>
+                `;
+        });
+
+        document.getElementById("matrixBody").innerHTML = html;
+
+        // Chart Rendering / Updating
+        if (chartInstance) {
+          chartInstance.destroy();
+        }
+
+        const ctx = document.getElementById("payoffChart").getContext("2d");
+        chartInstance = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label:
+                  currentScenario === "short"
+                    ? "Business Asset"
+                    : "Relative Purchase Cost",
+                data: bizData,
+                borderColor: "#ef4444",
+                backgroundColor: "transparent",
+                borderWidth: 2,
+                pointRadius: 4,
+                tension: 0.1,
+              },
+              {
+                label:
+                  currentScenario === "short"
+                    ? "Short Futures"
+                    : "Long Futures",
+                data: futData,
+                borderColor: "#3b82f6",
+                backgroundColor: "transparent",
+                borderWidth: 2,
+                pointRadius: 4,
+                tension: 0.1,
+              },
+              {
+                label: "Net Position (Combined)",
+                data: netData,
+                borderColor: "#10b981",
+                backgroundColor: "transparent",
+                borderWidth: 4,
+                borderDash: [5, 5],
+                pointRadius: 5,
+                tension: 0.1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: "#9ca3af" } },
+            },
+            scales: {
+              x: { grid: { color: "#374151" }, ticks: { color: "#9ca3af" } },
+              y: {
+                grid: { color: "#374151" },
+                ticks: {
+                  color: "#9ca3af",
+                  callback: function (value) {
+                    return "$" + value.toLocaleString();
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Event Listener for interactive manipulation
+      slider.addEventListener("input", updateDashboard);
+
+      // Initial Boot
+      window.onload = () => {
+        updateDashboard();
+      };
+    </script>
+  </body>
+</html>

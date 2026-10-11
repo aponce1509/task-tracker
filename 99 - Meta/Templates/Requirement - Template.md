@@ -6,7 +6,6 @@ types:
   - "[[Requirements]]"
 rate:
 tags:
-  - _inbox
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
 # [[<% tp.file.title %>]]

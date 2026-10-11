@@ -1,0 +1,108 @@
+filters:
+  and:
+    - or:
+        - file.tags.contains("_todo")
+        - type == link("Issues")
+    - '!file.name.endsWith("- Template")'
+views:
+  - type: table
+    name: Incomplete Issues
+    filters:
+      and:
+        - type == link("Issues")
+        - complete == false
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - dueDate
+      - complete
+    sort:
+      - property: dueDate
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 520
+      note.dueDate: 157
+  - type: table
+    name: Incomplete Issues Projects
+    filters:
+      and:
+        - type == link("Issues")
+        - complete == false
+        - paras.containsAny(link("second-brain"), link("coding-workplace"))
+    groupBy:
+      property: paras
+      direction: DESC
+    order:
+      - file.name
+      - priority
+      - dueDate
+      - complete
+    sort:
+      - property: dueDate
+        direction: DESC
+      - property: priority
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 460
+      note.priority: 29
+      note.dueDate: 131
+  - type: table
+    name: Todos Gather
+    filters:
+      and:
+        - paras.isEmpty()
+    groupBy:
+      property: file.tags
+      direction: ASC
+    order:
+      - file.name
+      - complete
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 669
+  - type: table
+    name: Urgents
+    filters:
+      and:
+        - type == link("Issues")
+        - complete == false
+        - or:
+            - file.tags.containsAny("_urgent")
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - dueDate
+      - complete
+    sort: []
+    columnSize:
+      file.name: 461
+      note.dueDate: 155
+  - type: table
+    name: Blocked
+    filters:
+      and:
+        - type == link("Issues")
+        - complete == false
+        - or:
+            - file.tags.containsAny("_blocked")
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - dueDate
+      - complete
+    sort: []
+    columnSize:
+      file.name: 461
+      note.dueDate: 155

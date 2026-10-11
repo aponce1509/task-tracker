@@ -1,0 +1,26 @@
+---
+paras:
+  - "[[second-brain]]"
+type: "[[Standards]]"
+subtypes:
+rate:
+tags:
+status:
+maturity: capture
+created: 2026-05-16 15:02
+---
+# [[WORKFLOWS - Contextual Capture Review]]
+
+> [!summary]
+> Use dead time or project transitions to distill notes relevant *only* to what you are currently working on. High relevance, low effort.
+
+**⏱️ Timecap: 10-15 Minutes**
+
+Triggered during dead time (waiting, commuting) or when opening a Project:
+1. **Filter by Relevance:** Run a query for `#_capture` combined with your current active project or area (e.g., `#_capture AND [[Project X]]`).
+2. **Micro-Distill:** Pick the top 2–3 notes from that list and execute the distillation workflow:
+   - **Bold** key insights.
+   - Drop a `> [!summary]` callout at the top.
+   - Swap the tag to `#_distill`.
+3. **Feed the Project:** Immediately move any newly distilled insights directly into your main project note or workspace.
+4. **Stop Safely:** When your dead time ends or 15 minutes are up, close the vault. No need to clear the whole list.

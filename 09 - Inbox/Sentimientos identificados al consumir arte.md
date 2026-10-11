@@ -1,11 +1,11 @@
 ---
-categories:
-  - "[[Notes]]"
 paras:
+type:
+subtypes:
 rate:
-status:
 tags:
-  - _inbox
+status: inbox
+maturity: capture
 created: 2026-01-17 19:59
 ---
 

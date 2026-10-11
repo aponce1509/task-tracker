@@ -1,10 +1,7 @@
 ---
-file_class:
-  - category
-created: 2026-03-08 14:50
+file_class: category
+created: 2026-08-29 17:21
 ---
 # [[Reflections]]
 
 ![[types.base]]
-
-

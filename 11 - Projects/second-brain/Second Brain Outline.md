@@ -1,13 +1,12 @@
 ---
 paras:
   - "[[second-brain]]"
-categories:
-  - "[[Project Management]]"
-types:
-  - "[[Outlines]]"
+type:
+subtypes:
 rate:
 tags:
-  - _wip
+status:
+maturity: capture
 created: 2026-02-08 15:58
 ---
 # [[Second Brain Outline]]
@@ -15,29 +14,6 @@ created: 2026-02-08 15:58
 [[Notes a base system]]
 ## Comments
 
-- Task to focus you need to actively
-- ADR and PRD must be collected
-- When quick looking in a R you should look only distilled notes and indexes
-- Workflow and Principles
-- Vuelve a pensar si queires separar inetermediate de internal/externa + tags
-
-- Recoge lo que quiero pero me gustaría crear cosas como distilled note, distillation workflow, intermediate Procuct, link with CODE workflow
-
-- Hacer el building blocks notes que va a tirar mucho de aqui.
-	- PARA con inbox y la nota de para y de la estructura de carpetas y mencion al css
-	- CODE algo transversal para organizar las notas y el proceso de captura de conocimiento
-- Notas durante el desarrollo
-	- Sitio claro donde poner task e issues. Me gusta la idea del loggin del proyecto donde pones que estas haciendo y tienes una section de ideas y otra de issues. El logging es para saber que hacer y el contexto y las otras para cosas que ver luego.
-	- Piensa siempre como punto de partida un Implementation detail
-		- Implementation detail suele estar con teoria, requerimiento.
-- No se si me está gustando la idea de wip y `- [ ]` Me parece atractivo que puedo escribir estas cosas donde me salga del culo pero me hace ser desordenado.
-
-
-Cosas que me tengo que saber de memoria:
-- Tags, Categorias y Typos
-- Productos Intermedios y Finales
-- Todos los workflows
-- La Mise-en-Place
 ## Some Interesting chats
 
 - [[Valuable Notes]]

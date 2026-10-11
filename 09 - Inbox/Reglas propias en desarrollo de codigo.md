@@ -1,14 +1,23 @@
 ---
 paras:
-categories:
-types:
+type:
+subtypes:
 rate:
 tags:
-  - _inbox
-  - _capture
+status:
+maturity: capture
 created: 2026-03-11 22:18
 ---
 # [[Reglas propias en desarrollo de codigo]]
+
+Necesitas definir como programar de nuevo.
+
+## Situaciones Actuales
+
+- Librería: usada por terceros
+- Analisis: 
+- 
+
 
 - las clases de los test tienen que tener una descripción de que hacen y en el modulo del test una breve explicación
 - Por motivos de AI la gestion de requerimientos sera:

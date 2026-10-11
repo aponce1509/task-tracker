@@ -6,17 +6,15 @@ tagNames:
 filesPaths:
 bookmarksGroups:
 excludes:
-  - categories
   - tags
-  - types
 extends: commons
 savedViews: []
 favoriteView:
 fieldsOrder:
+  - 2XbBzS
+  - pLQMfz
   - TqUzAP
-  - 8e7XqE
-  - p6kGxx
-version: "2.31"
+version: "2.39"
 fields:
   - name: paraType
     type: Select
@@ -26,21 +24,18 @@ fields:
       valuesListNotePath: 99 - Meta/Metadata Fields/PAR.md
     path: ""
     id: TqUzAP
-  - name: dueDate
-    type: Date
-    options:
-      dateShiftInterval: 1 day
-      dateFormat: YYYY-MM-DD
-      defaultInsertAsLink: false
-      linkPath: ""
+  - name: active
+    type: Boolean
+    options: {}
     path: ""
-    id: 8e7XqE
-  - name: priority
-    type: Number
+    id: pLQMfz
+  - name: img
+    type: Media
     options:
-      min: 0
-      max: 3
-      step: 1
+      embed: false
+      folders: []
+      display: card
+      thumbnailSize: "100"
     path: ""
-    id: p6kGxx
+    id: 2XbBzS
 ---

@@ -1,13 +1,12 @@
 ---
 paras:
   - "[[second-brain]]"
-categories:
-  - "[[Project Management]]"
-types:
-  - "[[Implementation Details]]"
-rate: 4
+type:
+subtypes:
+rate:
 tags:
-  - _intermediate
+status:
+maturity: capture
 created: 2026-02-08 17:38
 ---
 # [[Second Brain Folder Structure]]

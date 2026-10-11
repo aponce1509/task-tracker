@@ -1,28 +1,34 @@
 ---
 paras:
   - "[[second-brain]]"
-categories:
-  - "[[System - Structural]]"
-types:
-  - "[[Outlines]]"
+type:
+subtypes:
 rate:
 tags:
-  - _wip
+status:
+maturity: capture
 created: 2026-03-02 08:35
 ---
 # [[Second Brain MVP]]
 
-- Methodology for note taking
-	- [[How I see the CODE Process|The CODE Process]]
-	- [[PARA Methodology]]
-- Methodology for project Management
-- Metadata properly defined
+## Systems Requirements
+
+- [[Templates]]
+- Notes metadata perfectly defined
 	- [[Properties & Bases]]
 	- [[Note Categorisation]]
 	- [[Tags Reference]]
 	- [[Note-Taking Tag System & Taxonomy]]
+- [[How to manage Task management]]
+	- [[Logging]]
+
+## Principles and Methodologies required
+
+- Methodology for note taking
+	- [[How I see the CODE Process|The CODE Process]]
+	- [[PARA Methodology]]
+- Methodology for Project Management
 - [[Alejandro's Mise-en-Place]]
-- [[Templates]]
 
 ## Incremental during the first months
 

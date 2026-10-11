@@ -36,7 +36,6 @@
   },
   "99 - Meta": "LiGrip",
   "10 - Archive": "LiArchive",
-  "08 - Tasks": "LiListChecks",
   "07 - Daily": "LiCalendarDays",
   "06 - Inputs": "LiFolderInput",
   "04 - Permanents": "LiPenTool",
@@ -50,5 +49,6 @@
   "00 - Map of Contents": "LiMap",
   "02 - Categories": "LiCreateGroup",
   "05 - --": "CoPaperPlane",
-  "04 - Bases": "LiInfinity"
+  "04 - Bases": "LiInfinity",
+  "08 - Issues": "LiListChecks"
 }

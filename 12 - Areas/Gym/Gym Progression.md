@@ -1,14 +1,3 @@
----
-file_class: note
-created: 2025-07-05 11:02
-category:
-par:
-  - "[[08aa Gym]]"
-tags:
-rate: 6
-system_source: MyMind
-status: Completed
----
 # [[Gym Progression]]
 
 ### When to Increase Weight

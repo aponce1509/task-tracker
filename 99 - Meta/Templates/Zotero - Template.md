@@ -1,14 +1,12 @@
 ---
-file_class: capture
-category:
-  - "[[Reference]]"
-tags:
-  - _inbox
 par:
-status:
+type: "[[Resources]]"
+subtypes:
 rate:
-system_source: Zotero
+tags:
+maturity: capture
 created:
+  "{ date }":
 ---
 
 # {{title}}

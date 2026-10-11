@@ -1,12 +1,3 @@
----
-paras:
-  - "[[PersonalDevelopment]]"
-categories:
-types:
-rate:
-tags:
-created: 2026-03-08 17:20
----
 # [[Rutinas que mantener]]
 
 - Meditación: Estar 5-10 minutos simplemente pensando en tu día, en como te
@@ -29,6 +20,11 @@ created: 2026-03-08 17:20
   - Objetivo: obtener un mejor presupuesto para el 2027
 - Familia
   - Visita mensual
-  - Llamar de 3-5 veces a tu familia
+  - Llamar de 3-5 veces/week a tu familia
 - Productivity
   - Dumb Time Scrolling
+- Gestion hormonal
+- Gym
+- Skin care
+- Mantener listas y como gestionar inspiraciones en el movil
+- Como hacemos para conseguir estas rutinas

@@ -17,15 +17,11 @@ cover: https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/
 isbn: "[]"
 language:
 paras:
-categories:
-  - "[[Medias]]"
-types:
-  - "[[Books]]"
+type: "[[Medias]]"
 lastConsumed:
 timesConsumed:
 rate: 5
 tags:
-  - _completing
 created: 2026-03-05
 url: https://www.goodreads.com/book/show/24790.Paula
 ---

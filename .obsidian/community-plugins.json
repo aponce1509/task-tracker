@@ -5,8 +5,6 @@
   "symbols-prettifier",
   "obsidian-advanced-uri",
   "obsidian-footnotes",
-  "obsidian-zotero-desktop-connector",
-  "obsidian-omnivore",
   "quickadd",
   "template-search-library",
   "vantage-obsidian",
@@ -29,10 +27,14 @@
   "readwise-official",
   "obsidian-tracker",
   "drawio-obsidian",
-  "callout-manager",
   "obsidian-full-calendar",
   "tag-wrangler",
   "maps",
   "metadata-menu",
-  "obsidian-admonition"
+  "obsidian-admonition",
+  "obsidian-timestamper",
+  "callout-manager",
+  "css-editor",
+  "rss-dashboard",
+  "zotlit"
 ]

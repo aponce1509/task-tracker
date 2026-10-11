@@ -1,4 +1,13 @@
 ---
+file_class: media
+paras:
+  - "[[second-brain]]"
+type: "[[Medias]]"
+subtypes:
+  - "[[External Knowledge - Medias - book|book]]"
+consumption_status: completed
+rate: 5
+tags:
 title: "Building a Second Brain: A Proven Method to Organize Your Digital Life and Unlock Your Creative Potential"
 author:
   - "[[Tiago Forte]]"
@@ -12,17 +21,6 @@ rateGr: "4.03"
 cover: https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1652891488i/59616977.jpg
 isbn: "[]"
 language:
-paras:
-  - "[[second-brain]]"
-categories:
-  - "[[Medias]]"
-types:
-  - "[[Books]]"
-lastConsumed: 2025-01-01
-timesConsumed: "1"
-rate: 5
-tags:
-  - _completed
 created: 2026-02-09
 url: https://www.goodreads.com/book/show/59616977-building-a-second-brain?ac=1&from_search=true&qid=gqiAtW5GgJ&rank=1
 ---

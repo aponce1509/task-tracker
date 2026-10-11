@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bull Call Spread Visualizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2 { text-align: center; color: #2c3e50; margin-top: 0; }
+        .layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .controls {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+        .chart-container {
+            flex: 2;
+            min-width: 450px;
+            position: relative;
+            height: 450px;
+        }
+        .slider-group {
+            margin-bottom: 15px;
+        }
+        .slider-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        .slider-group input {
+            width: 100%;
+        }
+        .value-span {
+            float: right;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .metrics {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e9ecef;
+        }
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .metric-row strong { color: #495057; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Bull Call Spread Visualizer</h2>
+    
+    <div class="layout">
+        <div class="controls">
+            <h3>Parameters</h3>
+            
+            <div class="slider-group">
+                <label>Long Call Strike ($K_1$): <span id="k1-val" class="value-span">30.00</span></label>
+                <input type="range" id="k1" min="20" max="45" step="0.5" value="30">
+            </div>
+            
+            <div class="slider-group">
+                <label>Long Call Premium: <span id="p1-val" class="value-span">2.75</span></label>
+                <input type="range" id="p1" min="0.1" max="10" step="0.05" value="2.75">
+            </div>
+            
+            <div class="slider-group">
+                <label>Short Call Strike ($K_2$): <span id="k2-val" class="value-span">32.50</span></label>
+                <input type="range" id="k2" min="25" max="50" step="0.5" value="32.5">
+            </div>
+            
+            <div class="slider-group">
+                <label>Short Call Premium: <span id="p2-val" class="value-span">1.50</span></label>
+                <input type="range" id="p2" min="0.1" max="10" step="0.05" value="1.5">
+            </div>
+
+            <div class="metrics">
+                <h3>Strategy Metrics</h3>
+                <div class="metric-row">
+                    <span>Net Debit (Cost):</span>
+                    <span id="m-debit" style="font-weight: bold;">$1.25</span>
+                </div>
+                <div class="metric-row">
+                    <span>Max Risk:</span>
+                    <span id="m-risk" style="color: #dc3545; font-weight: bold;">$1.25</span>
+                </div>
+                <div class="metric-row">
+                    <span>Max Reward:</span>
+                    <span id="m-reward" style="color: #28a745; font-weight: bold;">$1.25</span>
+                </div>
+                <div class="metric-row">
+                    <span>Breakeven Price:</span>
+                    <span id="m-be" style="color: #007bff; font-weight: bold;">$31.25</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="profitChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Elements
+    const k1Slider = document.getElementById('k1');
+    const p1Slider = document.getElementById('p1');
+    const k2Slider = document.getElementById('k2');
+    const p2Slider = document.getElementById('p2');
+
+    const k1Val = document.getElementById('k1-val');
+    const p1Val = document.getElementById('p1-val');
+    const k2Val = document.getElementById('k2-val');
+    const p2Val = document.getElementById('p2-val');
+
+    const mDebit = document.getElementById('m-debit');
+    const mRisk = document.getElementById('m-risk');
+    const mReward = document.getElementById('m-reward');
+    const mBe = document.getElementById('m-be');
+
+    // Initialize Chart
+    const ctx = document.getElementById('profitChart').getContext('2d');
+    let chart;
+
+    function generateData() {
+        const k1 = parseFloat(k1Slider.value);
+        const p1 = parseFloat(p1Slider.value);
+        const k2 = parseFloat(k2Slider.value);
+        const p2 = parseFloat(p2Slider.value);
+
+        // Update Slider Text Labels
+        k1Val.innerText = k1.toFixed(2);
+        p1Val.innerText = p1.toFixed(2);
+        k2Val.innerText = k2.toFixed(2);
+        p2Val.innerText = p2.toFixed(2);
+
+        // Calculate Strategy Metrics
+        const netDebit = p1 - p2;
+        const maxProfit = (k2 - k1) - netDebit;
+        const breakEven = k1 + netDebit;
+
+        mDebit.innerText = `$${netDebit.toFixed(2)}`;
+        mRisk.innerText = `$${netDebit.toFixed(2)}`;
+        mReward.innerText = maxProfit > 0 ? `$${maxProfit.toFixed(2)}` : 'N/A (Invalid Spread)';
+        mBe.innerText = `$${breakEven.toFixed(2)}`;
+
+        // Generate Plot Data points based on context
+        const labels = [];
+        const longCallData = [];
+        const shortCallData = [];
+        const combinedData = [];
+
+        const startPrice = Math.max(0, Math.min(k1, k2) - 10);
+        const endPrice = Math.max(k1, k2) + 10;
+
+        for (let s = startPrice; s <= endPrice; s += 0.5) {
+            labels.push(s.toFixed(2));
+
+            // Long Call PnL: Max(0, S - K1) - P1
+            const longPnL = Math.max(0, s - k1) - p1;
+            longCallData.push(longPnL);
+
+            // Short Call PnL: P2 - Max(0, S - K2)
+            const shortPnL = p2 - Math.max(0, s - k2);
+            shortCallData.push(shortPnL);
+
+            // Combined Strategy PnL
+            combinedData.push(longPnL + shortPnL);
+        }
+
+        return { labels, longCallData, shortCallData, combinedData };
+    }
+
+    function updateChart() {
+        const data = generateData();
+
+        if (chart) {
+            chart.data.labels = data.labels;
+            chart.data.datasets[0].data = data.longCallData;
+            chart.data.datasets[1].data = data.shortCallData;
+            chart.data.datasets[2].data = data.combinedData;
+            chart.update('none'); // Update smoothly without full reset animation
+        } else {
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [
+                        {
+                            label: 'Long Call ($30)',
+                            data: data.longCallData,
+                            borderColor: 'rgba(255, 99, 132, 0.7)',
+                            borderDash: [5, 5],
+                            borderWidth: 2,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Short Call ($32.50)',
+                            data: data.shortCallData,
+                            borderColor: 'rgba(54, 162, 235, 0.7)',
+                            borderDash: [5, 5],
+                            borderWidth: 2,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Net Profit / Loss (Spread)',
+                            data: data.combinedData,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 3,
+                            fill: false,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Stock Price at Expiration ($)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Profit / Loss ($)' },
+                            grid: {
+                                color: function(context) {
+                                    if (context.tick.value === 0) return '#000'; // Make zero-line distinct
+                                    return 'rgba(0, 0, 0, 0.1)';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        }
+    }
+
+    // Attach Event Listeners to Sliders
+    [k1Slider, p1Slider, k2Slider, p2Slider].forEach(slider => {
+        slider.addEventListener('input', updateChart);
+    });
+
+    // Initial render
+    updateChart();
+</script>
+</body>
+</html>

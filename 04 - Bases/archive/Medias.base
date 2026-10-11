@@ -1,0 +1,84 @@
+filters:
+  and:
+    - type == link("Medias")
+views:
+  - type: cards
+    name: All Book Cards
+    filters:
+      and:
+        - file.tags.contains("books")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - rate
+    sort:
+      - property: rate
+        direction: DESC
+    image: note.cover
+    cardSize: 120
+  - type: cards
+    name: All Shows Cards
+    filters:
+      and:
+        - file.tags.contains("shows")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - rate
+    sort:
+      - property: rate
+        direction: DESC
+    image: note.cover
+    cardSize: 120
+  - type: cards
+    name: All Films Cards
+    filters:
+      and:
+        - file.tags.contains("films")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - rate
+    sort:
+      - property: rate
+        direction: DESC
+    image: note.cover
+    cardSize: 120
+  - type: cards
+    name: All Videos Cards
+    filters:
+      and:
+        - file.tags.containsAny("videos")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - rate
+    sort:
+      - property: rate
+        direction: DESC
+    image: note.cover
+    cardSize: 120
+  - type: cards
+    name: All Podcasts Cards
+    filters:
+      and:
+        - file.tags.containsAny("podcasts")
+    groupBy:
+      property: tags
+      direction: ASC
+    order:
+      - file.name
+      - rate
+    sort:
+      - property: rate
+        direction: DESC
+    image: note.cover
+    cardSize: 120

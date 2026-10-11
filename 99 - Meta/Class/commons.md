@@ -1,20 +1,5 @@
 ---
 fields:
-  - name: categories
-    type: MultiFile
-    options:
-      dvQueryString: dv.pages().where(p => p.file_class == "category" && !p.file.name.includes("Template") && !p.file.path.includes("02 - Categories/_types"))
-    display: asList
-    style:
-      italic: true
-      bold: true
-      code: false
-    path: ""
-    id: XisyWP
-    command:
-      id: insert__commons__categories
-      icon: list-plus
-      label: Insert categories field
   - name: paras
     type: MultiFile
     options:
@@ -58,17 +43,46 @@ fields:
       label: Insert tags field
     path: ""
     id: 4YBXU4
-  - name: types
-    type: MultiFile
+  - name: type
+    type: File
     options:
       dvQueryString: dv.pages().where(p => p.file_class == "category" && !p.file.name.includes("Template") && p.file.path.includes("02 - Categories/_types"))
-    command:
-      id: insert__SHTG5O
-      icon: list-plus
-      label: Insert  field
     path: ""
-    id: dmGpsP
-version: "2.79"
+    id: P1TJHU
+    command:
+      id: insert__P1TJHU
+      icon: list-plus
+      label: Insert type field
+  - name: subtypes
+    type: MultiFile
+    options:
+      dvQueryString: dv.pages().where(p => p.file_class == "subtype" && !p.file.name.includes("Template") && p.file.path.includes("02 - Categories/_subtypes"))
+      customRendering: page.file.name.split("-").pop().trim()
+    path: ""
+    id: Dc2RIX
+  - name: status
+    type: Select
+    options:
+      sourceType: ValuesList
+      valuesList:
+        "1": inbox
+        "2": feed
+        "3": wip
+        "4": blocked
+        "5": done
+    path: ""
+    id: 148aJO
+  - name: maturity
+    type: Select
+    options:
+      sourceType: ValuesList
+      valuesList:
+        "1": capture
+        "2": distilled
+        "3": evergreen
+    path: ""
+    id: y4lo2Z
+version: "2.118"
 limit: 20
 mapWithTag: false
 icon: file-spreadsheet
@@ -81,8 +95,10 @@ savedViews: []
 favoriteView:
 fieldsOrder:
   - q7FH7u
-  - XisyWP
-  - dmGpsP
+  - P1TJHU
+  - Dc2RIX
+  - 148aJO
+  - y4lo2Z
   - 4YBXU4
   - St9Dkr
   - F3fV5d

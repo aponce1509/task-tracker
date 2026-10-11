@@ -1,0 +1,29 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: table
+    name: All notes
+    filters:
+      and:
+        - type != link("Issues")
+    groupBy:
+      property: type
+      direction: ASC
+    order:
+      - file.name
+      - tags
+      - rate
+    sort:
+      - property: tags
+        direction: ASC
+  - type: table
+    name: Resources
+    filters:
+      and:
+        - type.containsAny(link("Medias"), link("Resources"))
+    groupBy:
+      property: file.tags
+      direction: ASC
+  - type: table
+    name: View

@@ -8,7 +8,6 @@ par:
   - "[[interest_rates]]"
 status: Doing
 ---
-
 # Interest rate models: theory and practice: with smile, inflation, and credit
 
 URL: Zotero Link:

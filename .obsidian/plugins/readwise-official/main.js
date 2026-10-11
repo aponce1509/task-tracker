@@ -9841,6 +9841,44 @@ if (Md5.hashStr('hello') !== '5d41402abc4b2a76b9719d911017c592') {
     throw new Error('Md5 self test failed.');
 }
 
+const ACCOUNT_EXPIRED_MESSAGE = "Your Readwise trial has expired. Upgrade or renew your account to continue syncing highlights to Obsidian.";
+function getJSONErrorFromResponse(response) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const contentType = response.headers.get("content-type") || "";
+        if (!contentType.includes("application/json")) {
+            return null;
+        }
+        try {
+            return yield response.clone().json();
+        }
+        catch (e) {
+            console.log("Readwise Official plugin: failed to parse error response: ", e);
+            return null;
+        }
+    });
+}
+function getErrorDetailsFromResponse(response) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (!response) {
+            return { message: "Can't connect to server" };
+        }
+        if (response.status === 409) {
+            return { message: "Sync in progress initiated by different client" };
+        }
+        if (response.status === 417) {
+            return { message: "Obsidian export is locked. Wait for an hour." };
+        }
+        const errorResponse = yield getJSONErrorFromResponse(response);
+        if (errorResponse && errorResponse.error === "account_expired") {
+            return {
+                code: errorResponse.error,
+                message: errorResponse.message || ACCOUNT_EXPIRED_MESSAGE,
+            };
+        }
+        return { message: response.statusText || `Request failed with status ${response.status}` };
+    });
+}
+
 // Inspired by
 // https://github.com/renehernandez/obsidian-readwise/blob/eee5676524962ebfa7eaf1084e018dafe3c2f394/src/status.ts
 class StatusBar {
@@ -9885,7 +9923,7 @@ class StatusBar {
 }
 
 // keep pluginVersion in sync with manifest.json
-const pluginVersion = "3.0.1";
+const pluginVersion = "3.0.3";
 // switch to local dev server for development
 const baseURL = "https://readwise.io";
 // define our initial settings
@@ -9914,22 +9952,14 @@ class ReadwisePlugin extends obsidian.Plugin {
         super(...arguments);
         this.scheduleInterval = null;
     }
-    getErrorMessageFromResponse(response) {
-        if (response && response.status === 409) {
-            return "Sync in progress initiated by different client";
-        }
-        if (response && response.status === 417) {
-            return "Obsidian export is locked. Wait for an hour.";
-        }
-        return `${response ? response.statusText : "Can't connect to server"}`;
-    }
-    handleSyncError(buttonContext, msg) {
+    handleSyncError(buttonContext, error) {
         return __awaiter(this, void 0, void 0, function* () {
+            const msg = typeof error === "string" ? error : error.message;
             yield this.clearSettingsAfterRun();
             this.settings.lastSyncFailed = true;
             yield this.saveSettings();
             if (buttonContext) {
-                this.showInfoStatus(buttonContext.buttonEl.parentElement, msg, "rw-error");
+                this.showSyncErrorStatus(buttonContext.buttonEl.parentElement, msg);
                 buttonContext.buttonEl.setText("Run sync");
             }
             else {
@@ -10007,7 +10037,7 @@ class ReadwisePlugin extends obsidian.Plugin {
                     else if (SUCCESS_STATUSES.includes(data.taskStatus)) {
                         // make sure all artifacts are processed
                         yield downloadUnprocessedArtifacts(data.artifactIds);
-                        yield this.acknowledgeSyncCompleted(buttonContext);
+                        yield this.acknowledgeSyncCompleted(buttonContext, statusID);
                         yield this.handleSyncSuccess(buttonContext, "Synced!", statusID);
                         this.notice("Readwise sync completed", true, 1, true);
                         console.log("Readwise Official plugin: completed sync");
@@ -10024,7 +10054,7 @@ class ReadwisePlugin extends obsidian.Plugin {
                 }
                 else {
                     console.log("Readwise Official plugin: bad response in getExportStatus: ", response);
-                    yield this.handleSyncError(buttonContext, this.getErrorMessageFromResponse(response));
+                    yield this.handleSyncError(buttonContext, yield getErrorDetailsFromResponse(response));
                 }
             }
             catch (e) {
@@ -10084,7 +10114,7 @@ class ReadwisePlugin extends obsidian.Plugin {
             }
             else {
                 console.log("Readwise Official plugin: bad response in queueExport: ", response);
-                yield this.handleSyncError(buttonContext, this.getErrorMessageFromResponse(response));
+                yield this.handleSyncError(buttonContext, yield getErrorDetailsFromResponse(response));
                 return;
             }
         });
@@ -10105,12 +10135,29 @@ class ReadwisePlugin extends obsidian.Plugin {
     }
     showInfoStatus(container, msg, className = "") {
         let info = container.find('.rw-info-container');
+        info.empty();
+        info.removeClass("rw-error");
+        info.removeClass("rw-success");
+        info.removeClass("rw-info");
         info.setText(msg);
-        info.addClass(className);
+        if (className) {
+            info.addClass(className);
+        }
+    }
+    showSyncErrorStatus(container, msg) {
+        let info = container.find('.rw-info-container');
+        info.empty();
+        info.removeClass("rw-success");
+        info.removeClass("rw-info");
+        info.addClass("rw-error");
+        info.createEl("span", { text: msg });
     }
     clearInfoStatus(container) {
         let info = container.find('.rw-info-container');
         info.empty();
+        info.removeClass("rw-error");
+        info.removeClass("rw-success");
+        info.removeClass("rw-info");
     }
     getAuthHeaders() {
         return {
@@ -10136,7 +10183,7 @@ class ReadwisePlugin extends obsidian.Plugin {
             }
             else {
                 console.log("Readwise Official plugin: bad response in downloadExport: ", response);
-                yield this.handleSyncError(buttonContext, this.getErrorMessageFromResponse(response));
+                yield this.handleSyncError(buttonContext, yield getErrorDetailsFromResponse(response));
                 throw new Error(`Readwise: error while fetching artifact ${artifactId}`);
             }
             this.fs = this.app.vault.adapter;
@@ -10252,11 +10299,16 @@ class ReadwisePlugin extends obsidian.Plugin {
             });
         });
     }
-    acknowledgeSyncCompleted(buttonContext) {
+    acknowledgeSyncCompleted(buttonContext, statusID) {
         return __awaiter(this, void 0, void 0, function* () {
             let response;
+            // Pass statusID so the server can scope the mark-delivered exactly to the one we
+            // just downloaded, instead of falling back to "all finished+undelivered for config".
+            const url = statusID
+                ? `${baseURL}/api/obsidian/sync_ack?statusID=${statusID}`
+                : `${baseURL}/api/obsidian/sync_ack`;
             try {
-                response = yield fetch(`${baseURL}/api/obsidian/sync_ack`, {
+                response = yield fetch(url, {
                     headers: Object.assign(Object.assign({}, this.getAuthHeaders()), { 'Content-Type': 'application/json' }),
                     method: "POST",
                 });
@@ -10269,7 +10321,7 @@ class ReadwisePlugin extends obsidian.Plugin {
             }
             else {
                 console.log("Readwise Official plugin: bad response in acknowledge sync: ", response);
-                yield this.handleSyncError(buttonContext, this.getErrorMessageFromResponse(response));
+                yield this.handleSyncError(buttonContext, yield getErrorDetailsFromResponse(response));
                 return;
             }
         });
@@ -10351,6 +10403,11 @@ class ReadwisePlugin extends obsidian.Plugin {
                     return;
                 }
                 else {
+                    const syncError = yield getErrorDetailsFromResponse(response);
+                    if (syncError.code === "account_expired") {
+                        yield this.handleSyncError(undefined, syncError);
+                        return;
+                    }
                     console.log(`Readwise Official plugin: saving book id ${bookIds} to refresh later`);
                     const deduplicatedBookIds = new Set([...this.settings.booksToRefresh, ...bookIds]);
                     this.settings.booksToRefresh = Array.from(deduplicatedBookIds);

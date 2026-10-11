@@ -1,0 +1,23 @@
+filters:
+  and:
+    - paras.contains(this.file)
+views:
+  - type: table
+    name: Journals
+    filters:
+      and:
+        - type == link("Journals")
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 447
+      note.maturity: 101
+      note.status: 94

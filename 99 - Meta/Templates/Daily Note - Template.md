@@ -20,3 +20,6 @@ drinks: 0
 - 
 
 ## Daily Log
+
+## WIPS Notes
+

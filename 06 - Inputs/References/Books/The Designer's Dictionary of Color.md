@@ -17,15 +17,12 @@ cover: https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/
 isbn: "[]"
 language:
 paras:
-categories:
-  - "[[Medias]]"
-types:
-  - "[[Books]]"
+  - "[[design]]"
+type: "[[Medias]]"
 lastConsumed:
 timesConsumed:
 rate: 4
 tags:
-  - _to-consume
 created: 2026-02-28
 url: https://www.goodreads.com/book/show/31305530-the-designer-s-dictionary-of-color?from_search=true&from_srp=true&qid=srx8rppm01&rank=2
 ---

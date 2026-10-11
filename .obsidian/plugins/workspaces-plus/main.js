@@ -7,10 +7,6 @@ if you want to view the source visit the plugins github repository
 
 var obsidian = require('obsidian');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var obsidian__default = /*#__PURE__*/_interopDefaultLegacy(obsidian);
-
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -35,6 +31,597 @@ function __awaiter(thisArg, _arguments, P, generator) {
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 }
+
+typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+
+class FileSuggest extends obsidian.AbstractInputSuggest {
+    constructor(app, inputEl) {
+        super(app, inputEl);
+        this.inputEl = inputEl;
+    }
+    getSuggestions(inputStr) {
+        const abstractFiles = this.app.vault.getAllLoadedFiles();
+        const files = [];
+        const lowerCaseInputStr = inputStr.toLowerCase();
+        abstractFiles.forEach((file) => {
+            if (file instanceof obsidian.TFile && file.extension === "md" && file.path.toLowerCase().contains(lowerCaseInputStr)) {
+                files.push(file);
+            }
+        });
+        return files;
+    }
+    renderSuggestion(file, el) {
+        el.setText(file.path);
+    }
+    selectSuggestion(file) {
+        this.inputEl.value = file.path;
+        this.inputEl.trigger("input");
+        this.close();
+    }
+}
+
+// Obsidian's declarative settings API (getSettingDefinitions/getControlValue/setControlValue),
+function getSettingDefinitions(tab) {
+    if (!tab.plugin.utils.isNativePluginEnabled) {
+        return [{ name: "Please enable the workspaces plugin under core plugins before using this plugin" }];
+    }
+    const { workspaces } = tab.plugin.workspacePlugin;
+    const workspacePages = Object.keys(workspaces)
+        .filter(name => !tab.plugin.utils.isMode(name))
+        .map(name => buildWorkspacePage(tab, name, workspaces[name]));
+    const modePages = Object.keys(workspaces)
+        .filter(name => tab.plugin.utils.isMode(name))
+        .map(name => buildModePage(name));
+    return [
+        {
+            type: "group",
+            heading: "Quick switcher",
+            items: [
+                {
+                    name: TOGGLE_TEXT.showInstructions.name,
+                    desc: TOGGLE_TEXT.showInstructions.desc,
+                    control: { type: "toggle", key: "showInstructions" },
+                },
+                {
+                    name: TOGGLE_TEXT.showDeletePrompt.name,
+                    desc: TOGGLE_TEXT.showDeletePrompt.desc,
+                    control: { type: "toggle", key: "showDeletePrompt" },
+                },
+                {
+                    name: TOGGLE_TEXT.workspaceSwitcherRibbon.name,
+                    control: { type: "toggle", key: "workspaceSwitcherRibbon" },
+                },
+                {
+                    name: TOGGLE_TEXT.replaceNativeRibbon.name,
+                    control: { type: "toggle", key: "replaceNativeRibbon" },
+                },
+                {
+                    name: TOGGLE_TEXT.modeSwitcherRibbon.name,
+                    control: { type: "toggle", key: "modeSwitcherRibbon" },
+                },
+            ],
+        },
+        {
+            type: "group",
+            heading: "Workspace enhancements",
+            items: [
+                {
+                    // "(beta)" appended here rather than shared -- display() renders the badge as a
+                    // separate DOM span instead of plain text; see the comment on TOGGLE_TEXT in
+                    // settings.ts.
+                    name: "Workspace modes (beta)",
+                    desc: TOGGLE_TEXT.workspaceSettings.desc,
+                    control: { type: "toggle", key: "workspaceSettings" },
+                },
+                {
+                    name: TOGGLE_TEXT.saveOnChange.name,
+                    desc: TOGGLE_TEXT.saveOnChange.desc,
+                    control: { type: "toggle", key: "saveOnChange" },
+                },
+                {
+                    name: TOGGLE_TEXT.trackOpenFiles.name,
+                    desc: TOGGLE_TEXT.trackOpenFiles.desc,
+                    control: { type: "toggle", key: "trackOpenFiles" },
+                },
+                {
+                    name: TOGGLE_TEXT.systemDarkMode.name,
+                    desc: TOGGLE_TEXT.systemDarkMode.desc,
+                    control: { type: "toggle", key: "systemDarkMode" },
+                    visible: () => tab.plugin.settings.workspaceSettings,
+                },
+                {
+                    name: TOGGLE_TEXT.reloadLivePreview.name,
+                    desc: TOGGLE_TEXT.reloadLivePreview.desc,
+                    control: { type: "toggle", key: "reloadLivePreview" },
+                    visible: () => tab.plugin.settings.workspaceSettings,
+                },
+                {
+                    name: TOGGLE_TEXT.restoreLayoutOnStartup.name,
+                    desc: TOGGLE_TEXT.restoreLayoutOnStartup.desc,
+                    control: { type: "toggle", key: "restoreLayoutOnStartup" },
+                },
+            ],
+        },
+        { type: "group", heading: "Per workspace", items: workspacePages },
+        {
+            type: "group",
+            heading: "Per mode",
+            items: modePages,
+            visible: () => tab.plugin.settings.workspaceSettings,
+        },
+    ];
+}
+function buildWorkspacePage(tab, workspaceName, workspace) {
+    // See the matching comment in settings.ts's display() -- leaves without an id can't be
+    // targeted by setChildId, so they're skipped rather than rendered as controls that collide
+    // on the same key.
+    const overrides = getChildIds(workspace.main)
+        .filter(leaf => leaf.id)
+        .map(leaf => {
+        var _a;
+        return ({
+            name: leaf.id,
+            control: {
+                type: "file",
+                key: `workspace-override:${encodeURIComponent(workspaceName)}:${encodeURIComponent(leaf.id)}`,
+                placeholder: (_a = leaf.file) !== null && _a !== void 0 ? _a : "",
+            },
+        });
+    });
+    return {
+        type: "page",
+        name: workspaceName,
+        items: [
+            {
+                name: "Workspace description",
+                control: { type: "text", key: `workspace-description:${encodeURIComponent(workspaceName)}` },
+            },
+            { type: "group", heading: "File overrides", items: overrides },
+        ],
+    };
+}
+function buildModePage(modeName) {
+    return {
+        type: "page",
+        name: modeName.replace(/^mode: /i, ""),
+        items: [
+            {
+                name: "Save and load left/right sidebar state",
+                control: { type: "toggle", key: `mode-save-sidebar:${encodeURIComponent(modeName)}` },
+            },
+        ],
+    };
+}
+function parseOverrideKey(key) {
+    const rest = key.slice("workspace-override:".length);
+    const sepIndex = rest.indexOf(":");
+    return {
+        workspaceName: decodeURIComponent(rest.slice(0, sepIndex)),
+        leafId: decodeURIComponent(rest.slice(sepIndex + 1)),
+    };
+}
+function getControlValue(tab, key) {
+    var _a, _b, _c, _d, _e, _f, _g;
+    if (key.startsWith("workspace-description:")) {
+        const workspaceName = decodeURIComponent(key.slice("workspace-description:".length));
+        return (_b = (_a = tab.plugin.utils.getWorkspaceSettings(workspaceName)) === null || _a === void 0 ? void 0 : _a.description) !== null && _b !== void 0 ? _b : "";
+    }
+    if (key.startsWith("workspace-override:")) {
+        const { workspaceName, leafId } = parseOverrideKey(key);
+        return (_e = (_d = (_c = tab.plugin.utils.getWorkspaceSettings(workspaceName)) === null || _c === void 0 ? void 0 : _c.fileOverrides) === null || _d === void 0 ? void 0 : _d[leafId]) !== null && _e !== void 0 ? _e : "";
+    }
+    if (key.startsWith("mode-save-sidebar:")) {
+        const modeName = decodeURIComponent(key.slice("mode-save-sidebar:".length));
+        return (_g = (_f = tab.plugin.utils.getModeSettings(modeName)) === null || _f === void 0 ? void 0 : _f.saveSidebar) !== null && _g !== void 0 ? _g : false;
+    }
+    // Only ever invoked by Obsidian itself when getSettingDefinitions() is in play, i.e. on
+    // 1.13.0+; display() is the fallback for 1.8.7-1.12.x, where these methods are simply never
+    // called. Calling PluginSettingTab's own default implementation directly (rather than via
+    // `super`, which is only usable from inside WorkspacesPlusSettingsTab's own class body in
+    // settings.ts) keeps this 1.13.0+-only reference contained to this file.
+    return obsidian.PluginSettingTab.prototype.getControlValue.call(tab, key);
+}
+function setControlValue(tab, key, value) {
+    if (key.startsWith("workspace-description:")) {
+        const workspaceName = decodeURIComponent(key.slice("workspace-description:".length));
+        const settings = tab.plugin.utils.getWorkspaceSettings(workspaceName);
+        if (settings)
+            settings.description = value;
+        tab.plugin.workspacePlugin.saveData();
+        return;
+    }
+    if (key.startsWith("workspace-override:")) {
+        const { workspaceName, leafId } = parseOverrideKey(key);
+        const settings = tab.plugin.utils.getWorkspaceSettings(workspaceName);
+        if (settings) {
+            if (!settings.fileOverrides)
+                settings.fileOverrides = {};
+            const overrideFile = value;
+            if (overrideFile)
+                settings.fileOverrides[leafId] = overrideFile;
+            else
+                delete settings.fileOverrides[leafId];
+        }
+        tab.plugin.workspacePlugin.saveData();
+        return;
+    }
+    if (key.startsWith("mode-save-sidebar:")) {
+        const modeName = decodeURIComponent(key.slice("mode-save-sidebar:".length));
+        const settings = tab.plugin.utils.getModeSettings(modeName);
+        if (settings)
+            settings.saveSidebar = value;
+        tab.plugin.workspacePlugin.saveData();
+        return;
+    }
+    void obsidian.PluginSettingTab.prototype.setControlValue.call(tab, key, value);
+    switch (key) {
+        case "workspaceSwitcherRibbon":
+            tab.plugin.toggleWorkspaceRibbonButton();
+            break;
+        case "replaceNativeRibbon":
+            tab.plugin.toggleNativeWorkspaceRibbon();
+            break;
+        case "modeSwitcherRibbon":
+            tab.plugin.toggleModeRibbonButton();
+            break;
+        case "workspaceSettings":
+            if (value)
+                tab.plugin.enableModesFeature();
+            else
+                tab.plugin.disableModesFeature();
+            tab.update();
+            break;
+    }
+}
+
+// Shared name/desc text for the plugin's toggle settings, consumed by both display() (the
+// pre-1.13.0 fallback) and getSettingDefinitions() (the 1.13.0+ declarative UI) so the two
+// separately-structured implementations can't silently drift apart on wording. Keyed by the
+// WorkspacesPlusSettings property each toggle controls; "workspaceSettings" is the one
+// exception -- it only holds desc text here since display() renders its name with an extra
+// "beta" flair badge that has no equivalent in the declarative API's string-only name field.
+const TOGGLE_TEXT = {
+    showInstructions: {
+        name: "Show instructions",
+        desc: "Show available keyboard shortcuts at the bottom of the workspace quick switcher",
+    },
+    showDeletePrompt: {
+        name: "Show workspace delete confirmation",
+        desc: "Show a confirmation prompt on workspace deletion",
+    },
+    workspaceSwitcherRibbon: { name: "Show workspace sidebar ribbon icon" },
+    replaceNativeRibbon: { name: "Hide the native workspace sidebar ribbon icon" },
+    modeSwitcherRibbon: { name: "Show workspace mode sidebar ribbon icon" },
+    workspaceSettings: {
+        // name intentionally omitted -- display() renders its own name via createFragment (see
+        // below) to add the "beta" flair badge, and getSettingDefinitions() uses its own literal
+        // "Workspace modes (beta)" string since the declarative API's name field is string-only.
+        desc: "Modes are a new type of workspace that store all of the native Obsidian editor, files & links, " +
+            "and appearance settings. Enabling this will add a new mode switcher to the status bar that will allow you " +
+            "to save, apply, rename, and switch between modes.",
+    },
+    saveOnChange: {
+        name: "Auto save the current workspace on layout change",
+        desc: "This option will auto save your current workspace on any layout change. " +
+            "Leave this disabled if you want full control over when your workspace is saved.",
+    },
+    trackOpenFiles: {
+        name: "Automatically track and restore open files",
+        desc: "When enabled, workspaces will remember which files were open and restore them when you switch back. " +
+            "This preserves your exact layout and open notes across workspace switches.",
+    },
+    systemDarkMode: {
+        name: "Respect system dark mode setting",
+        desc: "Let the os determine the light/dark mode setting when switching modes. This setting can only be used if workspace modes is enabled.",
+    },
+    reloadLivePreview: {
+        name: "Automatically reload Obsidian on live preview setting change",
+        desc: "When switching between modes with different experimental live preview settings, reload Obsidian in order for the setting " +
+            "change to take effect. ⚠️note: Obsidian will reload automatically after changing workspaces, if needed, without any prompts.",
+    },
+    restoreLayoutOnStartup: {
+        name: "Reload workspace layout on startup",
+        desc: "Reapply the last-used workspace's saved layout on every Obsidian launch, and when this plugin is toggled off and on " +
+            "again in Community Plugins, so the workspace switcher always agrees with what's on screen. ⚠️note: this discards any " +
+            "unsaved changes to the current layout in favor of that workspace's last-saved copy. Leave this disabled to let " +
+            "Obsidian's own session restore reopen whatever was on screen, unsaved changes included.",
+    },
+};
+const DEFAULT_SETTINGS = {
+    showInstructions: true,
+    showDeletePrompt: true,
+    saveOnSwitch: false,
+    saveOnChange: false,
+    workspaceSettings: false,
+    systemDarkMode: false,
+    globalSettings: {},
+    activeWorkspaceDesktop: "",
+    activeWorkspaceMobile: "",
+    reloadLivePreview: false,
+    workspaceSwitcherRibbon: false,
+    modeSwitcherRibbon: false,
+    replaceNativeRibbon: false,
+    trackOpenFiles: true,
+    restoreLayoutOnStartup: false,
+};
+function getChildIds(split, leafs = []) {
+    var _a, _b, _c, _d, _e;
+    if (split.type === "leaf") {
+        leafs.push({ id: split.id, file: (_b = (_a = split.state) === null || _a === void 0 ? void 0 : _a.state) === null || _b === void 0 ? void 0 : _b.file, mode: (_d = (_c = split.state) === null || _c === void 0 ? void 0 : _c.state) === null || _d === void 0 ? void 0 : _d.mode });
+    }
+    else if (split.type === "split" || split.type === "tabs") {
+        (_e = split.children) === null || _e === void 0 ? void 0 : _e.forEach(child => {
+            getChildIds(child, leafs);
+        });
+    }
+    return leafs;
+}
+class WorkspacesPlusSettingsTab extends obsidian.PluginSettingTab {
+    constructor(app, plugin) {
+        super(app, plugin);
+        this.plugin = plugin;
+    }
+    display() {
+        const { containerEl } = this;
+        containerEl.empty();
+        if (!this.plugin.utils.isNativePluginEnabled) {
+            new obsidian.Setting(containerEl)
+                .setName("Please enable the workspaces plugin under core plugins before using this plugin")
+                .setHeading();
+            return;
+        }
+        new obsidian.Setting(containerEl).setName("Quick switcher").setHeading();
+        new obsidian.Setting(containerEl)
+            .setName(TOGGLE_TEXT.showInstructions.name)
+            .setDesc(TOGGLE_TEXT.showInstructions.desc)
+            .addToggle(toggle => toggle.setValue(this.plugin.settings.showInstructions).onChange(value => {
+            this.plugin.settings.showInstructions = value;
+            void this.plugin.saveData(this.plugin.settings);
+        }));
+        new obsidian.Setting(containerEl)
+            .setName(TOGGLE_TEXT.showDeletePrompt.name)
+            .setDesc(TOGGLE_TEXT.showDeletePrompt.desc)
+            .addToggle(toggle => toggle.setValue(this.plugin.settings.showDeletePrompt).onChange(value => {
+            this.plugin.settings.showDeletePrompt = value;
+            void this.plugin.saveData(this.plugin.settings);
+        }));
+        new obsidian.Setting(containerEl)
+            .setName(TOGGLE_TEXT.workspaceSwitcherRibbon.name)
+            .addToggle(toggle => toggle.setValue(this.plugin.settings.workspaceSwitcherRibbon).onChange(value => {
+            this.plugin.settings.workspaceSwitcherRibbon = value;
+            void this.plugin.saveData(this.plugin.settings);
+            this.plugin.toggleWorkspaceRibbonButton();
+        }));
+        new obsidian.Setting(containerEl)
+            .setName(TOGGLE_TEXT.replaceNativeRibbon.name)
+            .addToggle(toggle => toggle.setValue(this.plugin.settings.replaceNativeRibbon).onChange(value => {
+            this.plugin.settings.replaceNativeRibbon = value;
+            void this.plugin.saveData(this.plugin.settings);
+            this.plugin.toggleNativeWorkspaceRibbon();
+        }));
+        if (!this.plugin.app.isMobile) {
+            new obsidian.Setting(containerEl)
+                .setName(TOGGLE_TEXT.modeSwitcherRibbon.name)
+                .addToggle(toggle => toggle.setValue(this.plugin.settings.modeSwitcherRibbon).onChange(value => {
+                this.plugin.settings.modeSwitcherRibbon = value;
+                void this.plugin.saveData(this.plugin.settings);
+                this.plugin.toggleModeRibbonButton();
+            }));
+        }
+        new obsidian.Setting(containerEl).setName("Workspace enhancements").setHeading();
+        new obsidian.Setting(containerEl)
+            .setName(createFragment(function (e) {
+            e.appendText("Workspace Modes");
+            e.createSpan({
+                cls: "flair mod-pop",
+                text: "beta",
+            });
+        }))
+            .setDesc(this.plugin.app.isMobile
+            ? "Workspace modes are desktop only -- they snapshot and restore Obsidian's core config, which is shared with mobile and would overwrite mobile-specific settings. Plain workspace switching works normally on mobile."
+            : TOGGLE_TEXT.workspaceSettings.desc)
+            .then(setting => {
+            setting.settingEl.addClass("workspace-modes");
+            if (this.plugin.settings.workspaceSettings && !this.plugin.app.isMobile)
+                setting.settingEl.addClass("is-enabled");
+            else
+                setting.settingEl.removeClass("is-enabled");
+            setting.addToggle(toggle => {
+                toggle.setValue(this.plugin.settings.workspaceSettings).onChange(value => {
+                    if (value)
+                        setting.settingEl.addClass("is-enabled");
+                    else
+                        setting.settingEl.removeClass("is-enabled");
+                    this.plugin.settings.workspaceSettings = value;
+                    void this.plugin.saveData(this.plugin.settings);
+                    if (value)
+                        this.plugin.enableModesFeature();
+                    else
+                        this.plugin.disableModesFeature();
+                });
+                if (this.plugin.app.isMobile)
+                    toggle.setDisabled(true);
+            });
+        });
+        new obsidian.Setting(containerEl)
+            .setName(TOGGLE_TEXT.saveOnChange.name)
+            .setDesc(TOGGLE_TEXT.saveOnChange.desc)
+            .addToggle(toggle => toggle.setValue(this.plugin.settings.saveOnChange).onChange(value => {
+            this.plugin.settings.saveOnChange = value;
+            void this.plugin.saveData(this.plugin.settings);
+        }));
+        new obsidian.Setting(containerEl)
+            .setName(TOGGLE_TEXT.trackOpenFiles.name)
+            .setDesc(TOGGLE_TEXT.trackOpenFiles.desc)
+            .addToggle(toggle => toggle.setValue(this.plugin.settings.trackOpenFiles).onChange(value => {
+            this.plugin.settings.trackOpenFiles = value;
+            void this.plugin.saveData(this.plugin.settings);
+        }));
+        new obsidian.Setting(containerEl)
+            .setName(TOGGLE_TEXT.systemDarkMode.name)
+            .setClass("requires-workspace-modes")
+            .setDesc(TOGGLE_TEXT.systemDarkMode.desc)
+            .addToggle(toggle => toggle.setValue(this.plugin.settings.systemDarkMode).onChange(value => {
+            this.plugin.settings.systemDarkMode = value;
+            void this.plugin.saveData(this.plugin.settings);
+        }));
+        new obsidian.Setting(containerEl)
+            .setName(TOGGLE_TEXT.reloadLivePreview.name)
+            .setClass("requires-workspace-modes")
+            .setDesc(TOGGLE_TEXT.reloadLivePreview.desc)
+            .addToggle(toggle => toggle.setValue(this.plugin.settings.reloadLivePreview).onChange(value => {
+            this.plugin.settings.reloadLivePreview = value;
+            void this.plugin.saveData(this.plugin.settings);
+        }));
+        new obsidian.Setting(containerEl)
+            .setName(TOGGLE_TEXT.restoreLayoutOnStartup.name)
+            .setDesc(TOGGLE_TEXT.restoreLayoutOnStartup.desc)
+            .addToggle(toggle => toggle.setValue(this.plugin.settings.restoreLayoutOnStartup).onChange(value => {
+            this.plugin.settings.restoreLayoutOnStartup = value;
+            void this.plugin.saveData(this.plugin.settings);
+        }));
+        new obsidian.Setting(containerEl).setName("Per workspace").setHeading();
+        let { workspaces } = this.plugin.workspacePlugin;
+        Object.entries(workspaces).forEach(entry => {
+            const [workspaceName, workspace] = entry;
+            const workspaceSettings = this.plugin.utils.getWorkspaceSettings(workspaceName);
+            if (this.plugin.utils.isMode(workspaceName))
+                return;
+            // containerEl.createEl("h3", {
+            //   text: workspaceName,
+            // });
+            new obsidian.Setting(containerEl)
+                .setHeading()
+                .setClass("settings-heading")
+                .setName(workspaceName)
+                .then(setting => {
+                setting.settingEl.addClass("is-collapsed");
+                const iconContainer = createSpan({
+                    cls: "settings-collapse-indicator",
+                });
+                obsidian.setIcon(iconContainer, "right-triangle");
+                setting.nameEl.prepend(iconContainer);
+                setting.settingEl.addEventListener("click", e => {
+                    setting.settingEl.toggleClass("is-collapsed", !setting.settingEl.hasClass("is-collapsed"));
+                });
+            });
+            const subContainerEL = containerEl.createDiv({ cls: "settings-container" });
+            new obsidian.Setting(subContainerEL).setName("Workspace description").addText(textfield => {
+                var _a, _b;
+                textfield.inputEl.type = "text";
+                (_a = textfield.inputEl.parentElement) === null || _a === void 0 ? void 0 : _a.addClass("search-input-container");
+                textfield.setValue(String((_b = workspaceSettings === null || workspaceSettings === void 0 ? void 0 : workspaceSettings.description) !== null && _b !== void 0 ? _b : ""));
+                textfield.onChange(value => {
+                    workspaceSettings.description = value;
+                    this.plugin.workspacePlugin.saveData();
+                });
+            });
+            // new Setting(containerEl)
+            //   .setName(`Auto save workspace on changes (not yet implemented)`)
+            //   // .setDesc(``)
+            //   .addToggle(toggle =>
+            //     toggle.setValue(workspaceSettings?.autoSave).onChange(value => {
+            //       workspaceSettings.autoSave = value;
+            //       this.plugin.workspacePlugin.saveData();
+            //     })
+            //   );
+            new obsidian.Setting(subContainerEL).setHeading().setName("File overrides");
+            // Leaves without an id can't be targeted by setChildId (it matches on split.id ===
+            // leafId), so an override entry keyed by a missing id could never actually apply --
+            // skip rendering a control for them rather than let several such leaves collide on
+            // the same fileOverrides[""] entry.
+            getChildIds(workspace.main)
+                .filter(leaf => leaf.id)
+                .forEach(leaf => {
+                let currentFile;
+                if (workspaceSettings.fileOverrides && workspaceSettings.fileOverrides[leaf.id]) {
+                    currentFile = workspaceSettings.fileOverrides[leaf.id];
+                }
+                else {
+                    currentFile = null;
+                }
+                new obsidian.Setting(subContainerEL)
+                    .setName(leaf.id)
+                    .setClass("file-override")
+                    .addSearch(cb => {
+                    new FileSuggest(this.app, cb.inputEl);
+                    cb.setPlaceholder(leaf.file ? leaf.file : "");
+                    if (currentFile)
+                        cb.setValue(currentFile);
+                    // TODO: Allow for assigning names to pane IDs
+                    cb.onChange(overrideFile => {
+                        // store leaf ID and filename override to workspace settings
+                        // the workspace load function will look for overrides and apply them
+                        // need to create a function that can search for a leaf id and update it
+                        if (!workspaceSettings.fileOverrides)
+                            workspaceSettings.fileOverrides = {};
+                        if (overrideFile)
+                            workspaceSettings.fileOverrides[leaf.id] = overrideFile;
+                        else
+                            delete workspaceSettings.fileOverrides[leaf.id];
+                    });
+                });
+            });
+        });
+        new obsidian.Setting(containerEl).setName("Per mode").setHeading().setClass("requires-workspace-modes");
+        Object.entries(workspaces).forEach(entry => {
+            const [modeName] = entry;
+            if (!this.plugin.utils.isMode(modeName))
+                return;
+            const modeSettings = this.plugin.utils.getModeSettings(modeName);
+            new obsidian.Setting(containerEl)
+                .setHeading()
+                .setClass("settings-heading")
+                .setClass("requires-workspace-modes")
+                .setName(modeName === null || modeName === void 0 ? void 0 : modeName.replace(/^mode: /i, ""))
+                .then(setting => {
+                setting.settingEl.addClass("is-collapsed");
+                const iconContainer = createSpan({
+                    cls: "settings-collapse-indicator",
+                });
+                obsidian.setIcon(iconContainer, "right-triangle");
+                setting.nameEl.prepend(iconContainer);
+                setting.settingEl.addEventListener("click", e => {
+                    setting.settingEl.toggleClass("is-collapsed", !setting.settingEl.hasClass("is-collapsed"));
+                });
+            });
+            const subContainerEL = containerEl.createDiv({ cls: "settings-container" });
+            new obsidian.Setting(subContainerEL)
+                .setName(`Save and load left/right sidebar state`)
+                .setClass("requires-workspace-modes")
+                // .setDesc(``)
+                .addToggle(toggle => toggle.setValue(modeSettings === null || modeSettings === void 0 ? void 0 : modeSettings.saveSidebar).onChange(value => {
+                modeSettings.saveSidebar = value;
+                this.plugin.workspacePlugin.saveData();
+            }));
+        });
+    }
+    // Declarative settings API (Obsidian 1.13.0+). display() above remains the fallback for
+    // older versions (minAppVersion is 1.8.7) -- Obsidian only calls display() when
+    // getSettingDefinitions() returns an empty array, which is what the inherited default does
+    // on versions that predate this API entirely. The actual implementation lives in
+    // settingsDeclarative.ts (not here) so eslint.config.mjs's obsidianmd/no-unsupported-api
+    // override can be scoped to just that file instead of this whole one -- these three methods
+    // are the only things in this class that are 1.13.0+-only.
+    getSettingDefinitions() {
+        return getSettingDefinitions(this);
+    }
+    getControlValue(key) {
+        return getControlValue(this, key);
+    }
+    setControlValue(key, value) {
+        setControlValue(this, key, value);
+    }
+}
+// setting.settingEl.addEventListener("click", (e) => {
+//   setting.settingEl.toggleClass(
+//     "is-collapsed",
+//     !setting.settingEl.hasClass("is-collapsed")
+//   );
+// });
 
 var top = 'top';
 var bottom = 'bottom';
@@ -199,7 +786,7 @@ var round = Math.round;
 function getUAString() {
   var uaData = navigator.userAgentData;
 
-  if (uaData != null && uaData.brands) {
+  if (uaData != null && uaData.brands && Array.isArray(uaData.brands)) {
     return uaData.brands.map(function (item) {
       return item.brand + "/" + item.version;
     }).join(' ');
@@ -486,17 +1073,7 @@ function effect$1(_ref2) {
     }
   }
 
-  if (process.env.NODE_ENV !== "production") {
-    if (!isHTMLElement(arrowElement)) {
-      console.error(['Popper: "arrow" element must be an HTMLElement (not an SVGElement).', 'To use an SVG arrow, wrap it in an HTMLElement that will be used as', 'the arrow.'].join(' '));
-    }
-  }
-
   if (!contains(state.elements.popper, arrowElement)) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error(['Popper: "arrow" modifier\'s `element` must be a child of the popper', 'element.'].join(' '));
-    }
-
     return;
   }
 
@@ -527,10 +1104,9 @@ var unsetSides = {
 // Zooming can change the DPR, but it seems to report a value that will
 // cleanly divide the values into the appropriate subpixels.
 
-function roundOffsetsByDPR(_ref) {
+function roundOffsetsByDPR(_ref, win) {
   var x = _ref.x,
       y = _ref.y;
-  var win = window;
   var dpr = win.devicePixelRatio || 1;
   return {
     x: round(x * dpr) / dpr || 0,
@@ -613,7 +1189,7 @@ function mapToStyles(_ref2) {
   var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
     x: x,
     y: y
-  }) : {
+  }, getWindow(popper)) : {
     x: x,
     y: y
   };
@@ -639,17 +1215,6 @@ function computeStyles(_ref5) {
       adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
       _options$roundOffsets = options.roundOffsets,
       roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
-
-  if (process.env.NODE_ENV !== "production") {
-    var transitionProperty = getComputedStyle(state.elements.popper).transitionProperty || '';
-
-    if (adaptive && ['transform', 'top', 'right', 'bottom', 'left'].some(function (property) {
-      return transitionProperty.indexOf(property) >= 0;
-    })) {
-      console.warn(['Popper: Detected CSS transitions on at least one of the following', 'CSS properties: "transform", "top", "right", "bottom", "left".', '\n\n', 'Disable the "computeStyles" modifier\'s `adaptive` option to allow', 'for smooth transitions, or remove these properties from the CSS', 'transition declaration on the popper element if only transitioning', 'opacity or background-color for example.', '\n\n', 'We recommend using the popper element as a wrapper around an inner', 'element that can have any CSS property transitioned for animations.'].join(' '));
-    }
-  }
-
   var commonStyles = {
     placement: getBasePlacement(state.placement),
     variation: getVariation(state.placement),
@@ -1090,10 +1655,6 @@ function computeAutoPlacement(state, options) {
 
   if (allowedPlacements.length === 0) {
     allowedPlacements = placements$1;
-
-    if (process.env.NODE_ENV !== "production") {
-      console.error(['Popper: The `allowedAutoPlacements` option did not allow any', 'placements. Ensure the `placement` option matches the variation', 'of the allowed placements.', 'For example, "auto" cannot be used to allow "bottom-start".', 'Use "auto-start" instead.'].join(' '));
-    }
   } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
 
 
@@ -1645,108 +2206,6 @@ function debounce(fn) {
   };
 }
 
-function format(str) {
-  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
-  }
-
-  return [].concat(args).reduce(function (p, c) {
-    return p.replace(/%s/, c);
-  }, str);
-}
-
-var INVALID_MODIFIER_ERROR = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s';
-var MISSING_DEPENDENCY_ERROR = 'Popper: modifier "%s" requires "%s", but "%s" modifier is not available';
-var VALID_PROPERTIES = ['name', 'enabled', 'phase', 'fn', 'effect', 'requires', 'options'];
-function validateModifiers(modifiers) {
-  modifiers.forEach(function (modifier) {
-    [].concat(Object.keys(modifier), VALID_PROPERTIES) // IE11-compatible replacement for `new Set(iterable)`
-    .filter(function (value, index, self) {
-      return self.indexOf(value) === index;
-    }).forEach(function (key) {
-      switch (key) {
-        case 'name':
-          if (typeof modifier.name !== 'string') {
-            console.error(format(INVALID_MODIFIER_ERROR, String(modifier.name), '"name"', '"string"', "\"" + String(modifier.name) + "\""));
-          }
-
-          break;
-
-        case 'enabled':
-          if (typeof modifier.enabled !== 'boolean') {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"enabled"', '"boolean"', "\"" + String(modifier.enabled) + "\""));
-          }
-
-          break;
-
-        case 'phase':
-          if (modifierPhases.indexOf(modifier.phase) < 0) {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"phase"', "either " + modifierPhases.join(', '), "\"" + String(modifier.phase) + "\""));
-          }
-
-          break;
-
-        case 'fn':
-          if (typeof modifier.fn !== 'function') {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"fn"', '"function"', "\"" + String(modifier.fn) + "\""));
-          }
-
-          break;
-
-        case 'effect':
-          if (modifier.effect != null && typeof modifier.effect !== 'function') {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"effect"', '"function"', "\"" + String(modifier.fn) + "\""));
-          }
-
-          break;
-
-        case 'requires':
-          if (modifier.requires != null && !Array.isArray(modifier.requires)) {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requires"', '"array"', "\"" + String(modifier.requires) + "\""));
-          }
-
-          break;
-
-        case 'requiresIfExists':
-          if (!Array.isArray(modifier.requiresIfExists)) {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requiresIfExists"', '"array"', "\"" + String(modifier.requiresIfExists) + "\""));
-          }
-
-          break;
-
-        case 'options':
-        case 'data':
-          break;
-
-        default:
-          console.error("PopperJS: an invalid property has been provided to the \"" + modifier.name + "\" modifier, valid properties are " + VALID_PROPERTIES.map(function (s) {
-            return "\"" + s + "\"";
-          }).join(', ') + "; but \"" + key + "\" was provided.");
-      }
-
-      modifier.requires && modifier.requires.forEach(function (requirement) {
-        if (modifiers.find(function (mod) {
-          return mod.name === requirement;
-        }) == null) {
-          console.error(format(MISSING_DEPENDENCY_ERROR, String(modifier.name), requirement, requirement));
-        }
-      });
-    });
-  });
-}
-
-function uniqueBy(arr, fn) {
-  var identifiers = new Set();
-  return arr.filter(function (item) {
-    var identifier = fn(item);
-
-    if (!identifiers.has(identifier)) {
-      identifiers.add(identifier);
-      return true;
-    }
-  });
-}
-
 function mergeByName(modifiers) {
   var merged = modifiers.reduce(function (merged, current) {
     var existing = merged[current.name];
@@ -1762,8 +2221,6 @@ function mergeByName(modifiers) {
   });
 }
 
-var INVALID_ELEMENT_ERROR = 'Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.';
-var INFINITE_LOOP_ERROR = 'Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.';
 var DEFAULT_OPTIONS = {
   placement: 'bottom',
   modifiers: [],
@@ -1825,42 +2282,7 @@ function popperGenerator(generatorOptions) {
 
         state.orderedModifiers = orderedModifiers.filter(function (m) {
           return m.enabled;
-        }); // Validate the provided modifiers so that the consumer will get warned
-        // if one of the modifiers is invalid for any reason
-
-        if (process.env.NODE_ENV !== "production") {
-          var modifiers = uniqueBy([].concat(orderedModifiers, state.options.modifiers), function (_ref) {
-            var name = _ref.name;
-            return name;
-          });
-          validateModifiers(modifiers);
-
-          if (getBasePlacement(state.options.placement) === auto) {
-            var flipModifier = state.orderedModifiers.find(function (_ref2) {
-              var name = _ref2.name;
-              return name === 'flip';
-            });
-
-            if (!flipModifier) {
-              console.error(['Popper: "auto" placements require the "flip" modifier be', 'present and enabled to work.'].join(' '));
-            }
-          }
-
-          var _getComputedStyle = getComputedStyle(popper),
-              marginTop = _getComputedStyle.marginTop,
-              marginRight = _getComputedStyle.marginRight,
-              marginBottom = _getComputedStyle.marginBottom,
-              marginLeft = _getComputedStyle.marginLeft; // We no longer take into account `margins` on the popper, and it can
-          // cause bugs with positioning, so we'll warn the consumer
-
-
-          if ([marginTop, marginRight, marginBottom, marginLeft].some(function (margin) {
-            return parseFloat(margin);
-          })) {
-            console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', 'between the popper and its reference element or boundary.', 'To replicate margin, use the `offset` modifier, as well as', 'the `padding` option in the `preventOverflow` and `flip`', 'modifiers.'].join(' '));
-          }
-        }
-
+        });
         runModifierEffects();
         return instance.update();
       },
@@ -1880,10 +2302,6 @@ function popperGenerator(generatorOptions) {
         // anymore
 
         if (!areValidElements(reference, popper)) {
-          if (process.env.NODE_ENV !== "production") {
-            console.error(INVALID_ELEMENT_ERROR);
-          }
-
           return;
         } // Store the reference and popper rects to be read by modifiers
 
@@ -1906,18 +2324,8 @@ function popperGenerator(generatorOptions) {
         state.orderedModifiers.forEach(function (modifier) {
           return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
         });
-        var __debug_loops__ = 0;
 
         for (var index = 0; index < state.orderedModifiers.length; index++) {
-          if (process.env.NODE_ENV !== "production") {
-            __debug_loops__ += 1;
-
-            if (__debug_loops__ > 100) {
-              console.error(INFINITE_LOOP_ERROR);
-              break;
-            }
-          }
-
           if (state.reset === true) {
             state.reset = false;
             index = -1;
@@ -1955,10 +2363,6 @@ function popperGenerator(generatorOptions) {
     };
 
     if (!areValidElements(reference, popper)) {
-      if (process.env.NODE_ENV !== "production") {
-        console.error(INVALID_ELEMENT_ERROR);
-      }
-
       return instance;
     }
 
@@ -1973,11 +2377,11 @@ function popperGenerator(generatorOptions) {
     // one.
 
     function runModifierEffects() {
-      state.orderedModifiers.forEach(function (_ref3) {
-        var name = _ref3.name,
-            _ref3$options = _ref3.options,
-            options = _ref3$options === void 0 ? {} : _ref3$options,
-            effect = _ref3.effect;
+      state.orderedModifiers.forEach(function (_ref) {
+        var name = _ref.name,
+            _ref$options = _ref.options,
+            options = _ref$options === void 0 ? {} : _ref$options,
+            effect = _ref.effect;
 
         if (typeof effect === 'function') {
           var cleanupFn = effect({
@@ -2010,426 +2414,6 @@ var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
 
-const wrapAround = (value, size) => {
-    return ((value % size) + size) % size;
-};
-class Suggest {
-    constructor(owner, containerEl, scope) {
-        this.owner = owner;
-        this.containerEl = containerEl;
-        containerEl.on("click", ".suggestion-item", this.onSuggestionClick.bind(this));
-        containerEl.on("mousemove", ".suggestion-item", this.onSuggestionMouseover.bind(this));
-        scope.register([], "ArrowUp", event => {
-            if (!event.isComposing) {
-                this.setSelectedItem(this.selectedItem - 1, true);
-                return false;
-            }
-        });
-        scope.register([], "ArrowDown", event => {
-            if (!event.isComposing) {
-                this.setSelectedItem(this.selectedItem + 1, true);
-                return false;
-            }
-        });
-        scope.register([], "Enter", event => {
-            if (!event.isComposing) {
-                this.useSelectedItem(event);
-                return false;
-            }
-        });
-    }
-    onSuggestionClick(event, el) {
-        event.preventDefault();
-        const item = this.suggestions.indexOf(el);
-        this.setSelectedItem(item, false);
-        this.useSelectedItem(event);
-    }
-    onSuggestionMouseover(_event, el) {
-        const item = this.suggestions.indexOf(el);
-        this.setSelectedItem(item, false);
-    }
-    setSuggestions(values) {
-        this.containerEl.empty();
-        const suggestionEls = [];
-        values.forEach(value => {
-            const suggestionEl = this.containerEl.createDiv("suggestion-item");
-            this.owner.renderSuggestion(value, suggestionEl);
-            suggestionEls.push(suggestionEl);
-        });
-        this.values = values;
-        this.suggestions = suggestionEls;
-        this.setSelectedItem(0, false);
-    }
-    useSelectedItem(event) {
-        const currentValue = this.values[this.selectedItem];
-        if (currentValue) {
-            this.owner.selectSuggestion(currentValue, event);
-        }
-    }
-    setSelectedItem(selectedIndex, scrollIntoView) {
-        const normalizedIndex = wrapAround(selectedIndex, this.suggestions.length);
-        const prevSelectedSuggestion = this.suggestions[this.selectedItem];
-        const selectedSuggestion = this.suggestions[normalizedIndex];
-        prevSelectedSuggestion === null || prevSelectedSuggestion === void 0 ? void 0 : prevSelectedSuggestion.removeClass("is-selected");
-        selectedSuggestion === null || selectedSuggestion === void 0 ? void 0 : selectedSuggestion.addClass("is-selected");
-        this.selectedItem = normalizedIndex;
-        if (scrollIntoView) {
-            selectedSuggestion.scrollIntoView(false);
-        }
-    }
-}
-class TextInputSuggest {
-    constructor(app, inputEl) {
-        this.app = app;
-        this.inputEl = inputEl;
-        this.scope = new obsidian.Scope();
-        this.suggestEl = createDiv("suggestion-container");
-        const suggestion = this.suggestEl.createDiv("suggestion");
-        this.suggest = new Suggest(this, suggestion, this.scope);
-        this.scope.register([], "Escape", this.close.bind(this));
-        this.inputEl.addEventListener("input", this.onInputChanged.bind(this));
-        this.inputEl.addEventListener("focus", this.onInputChanged.bind(this));
-        this.inputEl.addEventListener("blur", this.close.bind(this));
-        this.suggestEl.on("mousedown", ".suggestion-container", (event) => {
-            event.preventDefault();
-        });
-    }
-    onInputChanged() {
-        const inputStr = this.inputEl.value;
-        const suggestions = this.getSuggestions(inputStr);
-        if (suggestions.length > 0) {
-            this.suggest.setSuggestions(suggestions);
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this.open(this.app.dom.appContainerEl, this.inputEl);
-        }
-    }
-    open(container, inputEl) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.app.keymap.pushScope(this.scope);
-        container.appendChild(this.suggestEl);
-        this.popper = createPopper(inputEl, this.suggestEl, {
-            placement: "bottom-start",
-            modifiers: [
-                {
-                    name: "sameWidth",
-                    enabled: true,
-                    fn: ({ state, instance }) => {
-                        // Note: positioning needs to be calculated twice -
-                        // first pass - positioning it according to the width of the popper
-                        // second pass - position it with the width bound to the reference element
-                        // we need to early exit to avoid an infinite loop
-                        const targetWidth = `${state.rects.reference.width}px`;
-                        if (state.styles.popper.width === targetWidth) {
-                            return;
-                        }
-                        state.styles.popper.width = targetWidth;
-                        instance.update();
-                    },
-                    phase: "beforeWrite",
-                    requires: ["computeStyles"],
-                },
-            ],
-        });
-    }
-    close() {
-        var _a, _b, _c;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.app.keymap.popScope(this.scope);
-        (_a = this.suggest) === null || _a === void 0 ? void 0 : _a.setSuggestions([]);
-        (_b = this.popper) === null || _b === void 0 ? void 0 : _b.destroy();
-        (_c = this.suggestEl) === null || _c === void 0 ? void 0 : _c.detach();
-    }
-}
-
-class FileSuggest extends TextInputSuggest {
-    getSuggestions(inputStr) {
-        const abstractFiles = this.app.vault.getAllLoadedFiles();
-        const files = [];
-        const lowerCaseInputStr = inputStr.toLowerCase();
-        abstractFiles.forEach((file) => {
-            if (file instanceof obsidian.TFile && file.extension === "md" && file.path.toLowerCase().contains(lowerCaseInputStr)) {
-                files.push(file);
-            }
-        });
-        return files;
-    }
-    renderSuggestion(file, el) {
-        el.setText(file.path);
-    }
-    selectSuggestion(file) {
-        this.inputEl.value = file.path;
-        this.inputEl.trigger("input");
-        this.close();
-    }
-}
-
-const DEFAULT_SETTINGS = {
-    showInstructions: true,
-    showDeletePrompt: true,
-    saveOnSwitch: false,
-    saveOnChange: false,
-    workspaceSettings: false,
-    systemDarkMode: false,
-    globalSettings: {},
-    activeWorkspaceDesktop: "",
-    activeWorkspaceMobile: "",
-    reloadLivePreview: false,
-    workspaceSwitcherRibbon: false,
-    modeSwitcherRibbon: false,
-    replaceNativeRibbon: false,
-};
-function getChildIds(split, leafs = null) {
-    // recursive function to get metadata from all leafs in a workspace split
-    if (!leafs)
-        leafs = [];
-    if (split.type == "leaf") {
-        leafs.push({ id: split.id, file: split.state.state.file, mode: split.state.state.mode });
-    }
-    else if (split.type == "split") {
-        split.children.forEach((child) => {
-            getChildIds(child, leafs);
-        });
-    }
-    return leafs;
-}
-class WorkspacesPlusSettingsTab extends obsidian.PluginSettingTab {
-    constructor(app, plugin) {
-        super(app, plugin);
-        this.plugin = plugin;
-    }
-    display() {
-        const { containerEl } = this;
-        containerEl.empty();
-        if (!this.plugin.utils.isNativePluginEnabled) {
-            containerEl.createEl("h2", {
-                text: "Please enable the Workspaces plugin under Core Plugins before using this plugin",
-            });
-            return;
-        }
-        // containerEl.createEl("h2", { text: "Workspaces Plus" });
-        containerEl.createEl("h2", {
-            text: "Quick Switcher Settings",
-        });
-        new obsidian.Setting(containerEl)
-            .setName("Show instructions")
-            .setDesc(`Show available keyboard shortcuts at the bottom of the workspace quick switcher`)
-            .addToggle(toggle => toggle.setValue(this.plugin.settings.showInstructions).onChange(value => {
-            this.plugin.settings.showInstructions = value;
-            this.plugin.saveData(this.plugin.settings);
-        }));
-        new obsidian.Setting(containerEl)
-            .setName("Show workspace delete confirmation")
-            .setDesc(`Show a confirmation prompt on workspace deletion`)
-            .addToggle(toggle => toggle.setValue(this.plugin.settings.showDeletePrompt).onChange(value => {
-            this.plugin.settings.showDeletePrompt = value;
-            this.plugin.saveData(this.plugin.settings);
-        }));
-        new obsidian.Setting(containerEl)
-            .setName("Show Workspace Sidebar Ribbon Icon")
-            // .setDesc(``)
-            .addToggle(toggle => toggle.setValue(this.plugin.settings.workspaceSwitcherRibbon).onChange(value => {
-            this.plugin.settings.workspaceSwitcherRibbon = value;
-            this.plugin.saveData(this.plugin.settings);
-            this.plugin.toggleWorkspaceRibbonButton();
-        }));
-        new obsidian.Setting(containerEl)
-            .setName("Hide the native Workspace Sidebar Ribbon Icon")
-            // .setDesc(``)
-            .addToggle(toggle => toggle.setValue(this.plugin.settings.replaceNativeRibbon).onChange(value => {
-            this.plugin.settings.replaceNativeRibbon = value;
-            this.plugin.saveData(this.plugin.settings);
-            this.plugin.toggleNativeWorkspaceRibbon();
-        }));
-        new obsidian.Setting(containerEl)
-            .setName("Show Workspace Mode Sidebar Ribbon Icon")
-            // .setDesc(``)
-            .addToggle(toggle => toggle.setValue(this.plugin.settings.modeSwitcherRibbon).onChange(value => {
-            this.plugin.settings.modeSwitcherRibbon = value;
-            this.plugin.saveData(this.plugin.settings);
-            this.plugin.toggleModeRibbonButton();
-        }));
-        containerEl.createEl("h2", {
-            text: "Workspace Enhancements",
-        });
-        new obsidian.Setting(containerEl)
-            .setName(createFragment(function (e) {
-            e.appendText("Workspace Modes"),
-                e.createSpan({
-                    cls: "flair mod-pop",
-                    text: "beta",
-                });
-        }))
-            .setDesc(`Modes are a new type of Workspace that store all of the native Obsidian Editor, Files & Links, 
-        and Appearance settings. Enabling this will add a new mode switcher to the status bar that will allow you
-        to save, apply, rename, and switch between modes.`)
-            .then(setting => {
-            setting.settingEl.addClass("workspace-modes");
-            if (this.plugin.settings.workspaceSettings)
-                setting.settingEl.addClass("is-enabled");
-            else
-                setting.settingEl.removeClass("is-enabled");
-            setting.addToggle(toggle => toggle.setValue(this.plugin.settings.workspaceSettings).onChange(value => {
-                if (value)
-                    setting.settingEl.addClass("is-enabled");
-                else
-                    setting.settingEl.removeClass("is-enabled");
-                this.plugin.settings.workspaceSettings = value;
-                this.plugin.saveData(this.plugin.settings);
-                if (value)
-                    this.plugin.enableModesFeature();
-                else
-                    this.plugin.disableModesFeature();
-            }));
-        });
-        new obsidian.Setting(containerEl)
-            .setName("Auto save the current workspace on layout change")
-            .setDesc(`This option will auto save your current workspace on any layout change.
-         Leave this disabled if you want full control over when your workspace is saved.`)
-            .addToggle(toggle => toggle.setValue(this.plugin.settings.saveOnChange).onChange(value => {
-            this.plugin.settings.saveOnChange = value;
-            this.plugin.saveData(this.plugin.settings);
-        }));
-        new obsidian.Setting(containerEl)
-            .setName("Respect system dark mode setting")
-            .setClass("requires-workspace-modes")
-            .setDesc(`Let the OS determine the light/dark mode setting when switching modes. This setting can only be used if Workspace Modes is enabled.`)
-            .addToggle(toggle => toggle.setValue(this.plugin.settings.systemDarkMode).onChange(value => {
-            this.plugin.settings.systemDarkMode = value;
-            this.plugin.saveData(this.plugin.settings);
-        }));
-        new obsidian.Setting(containerEl)
-            .setName("Automatically reload Obsidian on Live Preview setting change")
-            .setClass("requires-workspace-modes")
-            .setDesc(`When switching between Modes with different Experimental Live Preview settings, reload Obsidian in order for the setting
-                change to take effect. ⚠️Note: Obsidian will reload automatically after changing workspaces, if needed, without any prompts.`)
-            .addToggle(toggle => toggle.setValue(this.plugin.settings.reloadLivePreview).onChange(value => {
-            this.plugin.settings.reloadLivePreview = value;
-            this.plugin.saveData(this.plugin.settings);
-        }));
-        containerEl.createEl("h2", {
-            text: "Per Workspace Settings",
-        });
-        let { workspaces } = this.plugin.workspacePlugin;
-        Object.entries(workspaces).forEach(entry => {
-            const [workspaceName, workspace] = entry;
-            const workspaceSettings = this.plugin.utils.getWorkspaceSettings(workspaceName);
-            if (this.plugin.utils.isMode(workspaceName))
-                return;
-            // containerEl.createEl("h3", {
-            //   text: workspaceName,
-            // });
-            new obsidian.Setting(containerEl)
-                .setHeading()
-                .setClass("settings-heading")
-                .setName(workspaceName)
-                .then(setting => {
-                setting.settingEl.addClass("is-collapsed");
-                const iconContainer = createSpan({
-                    cls: "settings-collapse-indicator",
-                });
-                obsidian.setIcon(iconContainer, "right-triangle");
-                setting.nameEl.prepend(iconContainer);
-                setting.settingEl.addEventListener("click", e => {
-                    setting.settingEl.toggleClass("is-collapsed", !setting.settingEl.hasClass("is-collapsed"));
-                });
-            });
-            const subContainerEL = containerEl.createDiv({ cls: "settings-container" });
-            new obsidian.Setting(subContainerEL).setName("Workspace Description").addText(textfield => {
-                var _a;
-                textfield.inputEl.type = "text";
-                (_a = textfield.inputEl.parentElement) === null || _a === void 0 ? void 0 : _a.addClass("search-input-container");
-                textfield.setValue(String((workspaceSettings === null || workspaceSettings === void 0 ? void 0 : workspaceSettings.description) || ""));
-                textfield.onChange(value => {
-                    workspaceSettings.description = value;
-                    this.plugin.workspacePlugin.saveData();
-                });
-            });
-            // new Setting(containerEl)
-            //   .setName(`Auto save workspace on changes (not yet implemented)`)
-            //   // .setDesc(``)
-            //   .addToggle(toggle =>
-            //     toggle.setValue(workspaceSettings?.autoSave).onChange(value => {
-            //       workspaceSettings.autoSave = value;
-            //       this.plugin.workspacePlugin.saveData();
-            //     })
-            //   );
-            new obsidian.Setting(subContainerEL).setHeading().setName("File Overrides");
-            getChildIds(workspace.main).forEach((leaf) => {
-                let currentFile;
-                if (workspaceSettings.fileOverrides && workspaceSettings.fileOverrides[leaf.id]) {
-                    currentFile = workspaceSettings.fileOverrides[leaf.id];
-                }
-                else {
-                    currentFile = null;
-                }
-                new obsidian.Setting(subContainerEL)
-                    .setName(leaf.id ? leaf.id : "unknown")
-                    .setClass("file-override")
-                    .addSearch(cb => {
-                    new FileSuggest(this.app, cb.inputEl);
-                    cb.setPlaceholder(leaf.file ? leaf.file : "");
-                    if (currentFile)
-                        cb.setValue(currentFile);
-                    // TODO: Allow for assigning names to pane IDs
-                    cb.onChange(overrideFile => {
-                        // store leaf ID and filename override to workspace settings
-                        // the workspace load function will look for overrides and apply them
-                        // need to create a function that can search for a leaf id and update it
-                        if (!workspaceSettings.fileOverrides)
-                            workspaceSettings.fileOverrides = {};
-                        if (overrideFile)
-                            workspaceSettings.fileOverrides[leaf.id] = overrideFile;
-                        else
-                            delete workspaceSettings.fileOverrides[leaf.id];
-                    });
-                });
-            });
-        });
-        containerEl
-            .createEl("h2", {
-            text: "Per Mode Settings",
-        })
-            .addClass("requires-workspace-modes");
-        Object.entries(workspaces).forEach(entry => {
-            const [modeName, mode] = entry;
-            if (!this.plugin.utils.isMode(modeName))
-                return;
-            const modeSettings = this.plugin.utils.getModeSettings(modeName);
-            new obsidian.Setting(containerEl)
-                .setHeading()
-                .setClass("settings-heading")
-                .setClass("requires-workspace-modes")
-                .setName(modeName === null || modeName === void 0 ? void 0 : modeName.replace(/^mode: /i, ""))
-                .then(setting => {
-                setting.settingEl.addClass("is-collapsed");
-                const iconContainer = createSpan({
-                    cls: "settings-collapse-indicator",
-                });
-                obsidian.setIcon(iconContainer, "right-triangle");
-                setting.nameEl.prepend(iconContainer);
-                setting.settingEl.addEventListener("click", e => {
-                    setting.settingEl.toggleClass("is-collapsed", !setting.settingEl.hasClass("is-collapsed"));
-                });
-            });
-            const subContainerEL = containerEl.createDiv({ cls: "settings-container" });
-            new obsidian.Setting(subContainerEL)
-                .setName(`Save and load left/right sidebar state`)
-                .setClass("requires-workspace-modes")
-                // .setDesc(``)
-                .addToggle(toggle => toggle.setValue(modeSettings === null || modeSettings === void 0 ? void 0 : modeSettings.saveSidebar).onChange(value => {
-                modeSettings.saveSidebar = value;
-                this.plugin.workspacePlugin.saveData();
-            }));
-        });
-    }
-}
-// setting.settingEl.addEventListener("click", (e) => {
-//   setting.settingEl.toggleClass(
-//     "is-collapsed",
-//     !setting.settingEl.hasClass("is-collapsed")
-//   );
-// });
-
 class ConfirmationModal extends obsidian.Modal {
     constructor(app, config) {
         super(app);
@@ -2445,11 +2429,18 @@ class ConfirmationModal extends obsidian.Modal {
                 cls: "mod-cta",
                 text: cta,
             });
-            btnSumbit.addEventListener("click", (e) => __awaiter(this, void 0, void 0, function* () {
-                yield onAccept();
-                this.close();
-            }));
-            setTimeout(() => {
+            btnSumbit.addEventListener("click", () => {
+                void (() => __awaiter(this, void 0, void 0, function* () {
+                    try {
+                        yield onAccept();
+                        this.close();
+                    }
+                    catch (e) {
+                        console.error("failed to confirm action:", e);
+                    }
+                }))();
+            });
+            window.setTimeout(() => {
                 btnSumbit.focus();
             }, 50);
         });
@@ -2465,7 +2456,7 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         super(plugin.app);
         this.showInstructions = false;
         this.emptyStateText = "No match found.";
-        this.onSuggestionClick = function (evt, itemEl) {
+        this.onSuggestionClick = (evt, itemEl) => {
             if (itemEl.contentEditable === "true") {
                 // allow cursor selection in rename mode by ignoring the click
                 evt.stopPropagation();
@@ -2473,20 +2464,21 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
             }
             evt.preventDefault();
             let item = this.chooser.suggestions.indexOf(itemEl);
-            this.chooser.setSelectedItem(item), this.useSelectedItem(evt);
+            this.chooser.setSelectedItem(item);
+            this.useSelectedItem(evt);
         };
-        this.onSuggestionMouseover = function (evt, itemEl) {
+        this.onSuggestionMouseover = (evt, itemEl) => {
             let item = this.chooser.suggestions.indexOf(itemEl);
             this.chooser.setSelectedItem(item);
         };
-        this.useSelectedItem = function (evt) {
+        this.useSelectedItem = (evt) => {
             const targetEl = evt.composedPath()[0];
             if (targetEl.contentEditable === "true") {
                 this.handleRename(targetEl);
                 return;
             }
             let workspaceName = this.inputEl.value ? this.inputEl.value : this.chooser.values[this.chooser.selectedItem].item;
-            if (!this.values && workspaceName && evt.shiftKey) {
+            if (workspaceName && evt.shiftKey) {
                 this.saveAndStay();
                 // if (!/^mode:/i.test(workspaceName)) this.setWorkspace(workspaceName);
                 // this.close();
@@ -2497,7 +2489,7 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
             let item = this.chooser.values ? this.chooser.values[this.chooser.selectedItem] : workspaceName;
             return void 0 !== item && (this.selectSuggestion(item, evt), true);
         };
-        this.onRenameClick = function (evt, el) {
+        this.onRenameClick = (evt, el) => {
             evt.stopPropagation();
             if (!el)
                 el = this.chooser.suggestions[this.chooser.selectedItem];
@@ -2532,24 +2524,26 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         this.buildInstructions();
         // temporary styling to force a transparent modal background to address certain themes
         // that apply a background to the modal container instead of the modal-bg
-        this.bgEl.parentElement.setAttribute("style", "background-color: transparent !important");
+        this.bgEl.parentElement.addClass("workspaces-plus-transparent-bg-important");
         this.modalEl.classList.add("workspaces-plus-modal");
-        // handle custom modal positioning when invoked via the status bar
-        if (!this.invokedViaHotkey) {
-            this.bgEl.setAttribute("style", "background-color: transparent");
+        // handle custom modal positioning when invoked via the status bar (desktop only --
+        // the status bar is hidden on mobile, so there is no anchor to position against)
+        if (!this.invokedViaHotkey && !this.app.isMobile) {
+            this.bgEl.addClass("workspaces-plus-transparent-bg");
             this.modalEl.classList.add("quick-switch");
         }
         // setup key bindings
         this.scope = new obsidian.Scope();
         this.setupScope.apply(this);
         // setup event listeners
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- Function.prototype.bind's TS overloads fall back to `any` for methods with more than a few params; this is a correctly-bound reference to a real prototype method
         this.modalEl.on("input", ".prompt-input", this.onInputChanged.bind(this));
-        this.modalEl.on("click", ".workspace-item", this.onSuggestionClick.bind(this));
-        this.modalEl.on("mousemove", ".workspace-item", this.onSuggestionMouseover.bind(this));
+        this.modalEl.on("click", ".workspace-item", this.onSuggestionClick);
+        this.modalEl.on("mousemove", ".workspace-item", this.onSuggestionMouseover);
         // clone the input element as a hacky way to get rid of the obsidian onInput handler
-        const inputElClone = this.inputEl.cloneNode();
+        // const inputElClone = this.inputEl.cloneNode() as HTMLInputElement;
         // this.modalEl.replaceChild(inputElClone, this.inputEl);
-        this.inputEl = inputElClone;
+        // this.inputEl = inputElClone;
     }
     onNoSuggestion() {
         this.chooser.setSuggestions(null);
@@ -2558,11 +2552,13 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         el.createEl("button", {
             cls: "list-item-part",
             text: "Save as new workspace",
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- Function.prototype.bind's TS overloads fall back to `any` for methods with more than a few params; this is a correctly-bound reference to a real prototype method
         }).addEventListener("click", this.saveAndStay.bind(this));
     }
     setupScope() {
         this.scope.register([], "Escape", evt => this.onEscape(evt));
         this.scope.register([], "Enter", evt => this.useSelectedItem(evt));
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- Function.prototype.bind's TS overloads fall back to `any` for methods with more than a few params; this is a correctly-bound reference to a real prototype method
         this.scope.register(["Shift"], "Delete", this.deleteWorkspace.bind(this));
         this.scope.register(["Ctrl"], "Enter", evt => this.onRenameClick(evt, null));
         this.scope.register(["Shift"], "Enter", evt => this.useSelectedItem(evt));
@@ -2577,6 +2573,9 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         });
     }
     buildInstructions() {
+        // Touch devices have no modifier-key shortcuts to advertise.
+        if (this.app.isMobile)
+            return;
         if (this.settings.showInstructions || this.invokedViaHotkey) {
             let instructions;
             if (!this.settings.saveOnChange) {
@@ -2629,7 +2628,7 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
     open() {
         this.app.keymap.pushScope(this.scope);
         document.body.appendChild(this.containerEl);
-        if (!this.invokedViaHotkey) {
+        if (!this.invokedViaHotkey && !this.app.isMobile) {
             this.popper = createPopper(document.body.querySelector(".plugin-workspaces-plus"), this.modalEl, {
                 placement: "top-start",
                 modifiers: [{ name: "offset", options: { offset: [0, 10] } }],
@@ -2640,7 +2639,7 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
     }
     onOpen() {
         var _a;
-        super.onOpen();
+        void super.onOpen();
         this.activeWorkspace = this.workspacePlugin.activeWorkspace;
         let selectedIdx = this.getItems().findIndex(workspace => workspace === this.activeWorkspace);
         this.chooser.setSelectedItem(selectedIdx);
@@ -2651,9 +2650,18 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         super.onClose();
     }
     handleRename(targetEl) {
+        var _a;
         targetEl.parentElement.parentElement.removeClass("renaming");
         const originalName = targetEl.dataset.workspaceName;
-        const newName = targetEl.textContent;
+        const newName = (_a = targetEl.textContent) === null || _a === void 0 ? void 0 : _a.trim();
+        // Bail out if the name is empty or unchanged. Without this guard, an unchanged
+        // rename does `workspaces[name] = workspaces[name]` (a no-op) and then
+        // `delete workspaces[name]`, wiping the workspace. See issue #69.
+        if (!newName || newName === originalName) {
+            targetEl.textContent = originalName;
+            targetEl.contentEditable = "false";
+            return;
+        }
         this.workspacePlugin.workspaces[newName] = this.workspacePlugin.workspaces[originalName];
         delete this.workspacePlugin.workspaces[originalName];
         if (originalName === this.activeWorkspace) {
@@ -2715,14 +2723,16 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         try {
             isMobile = this.workspacePlugin.workspaces[workspaceName].left.type == "mobile-drawer";
         }
-        catch (_a) { }
+        catch (_a) {
+            // property chain may not exist yet, fall back to undefined
+        }
         this.addDeleteButton(wrapperEl, workspaceName);
         this.addRenameButton(wrapperEl, el);
         this.addPlatformButton(wrapperEl, isMobile ? "mobile" : "desktop");
         this.addDescription(wrapperEl, workspaceName);
     }
     wrapSuggestion(childEl, parentEl) {
-        const wrapperEl = document.createElement("div");
+        const wrapperEl = createDiv();
         wrapperEl.addClass("workspace-results");
         childEl.dataset.workspaceName = childEl.textContent;
         childEl.removeClass("suggestion-item");
@@ -2730,7 +2740,7 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         childEl.addClass("workspace-name");
         if (childEl.textContent === this.workspacePlugin.activeWorkspace) {
             const activeIcon = wrapperEl.createDiv("active-workspace");
-            activeIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"/></svg>`;
+            obsidian.setIcon(activeIcon, "check");
         }
         wrapperEl.appendChild(childEl);
         parentEl.appendChild(wrapperEl);
@@ -2741,14 +2751,14 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         const renameIcon = wrapperEl.createDiv("rename-workspace");
         renameIcon.setAttribute("aria-label", "Rename workspace");
         renameIcon.setAttribute("aria-label-position", "top");
-        renameIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M12.9 6.858l4.242 4.243L7.242 21H3v-4.243l9.9-9.9zm1.414-1.414l2.121-2.122a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414l-2.122 2.121-4.242-4.242z"/></svg>`;
+        obsidian.setIcon(renameIcon, "pencil");
         renameIcon.addEventListener("click", event => this.onRenameClick(event, el));
     }
     addDeleteButton(wrapperEl, workspaceName) {
         const deleteIcon = wrapperEl.createDiv("delete-workspace");
         deleteIcon.setAttribute("aria-label", "Delete workspace");
         deleteIcon.setAttribute("aria-label-position", "top");
-        deleteIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M7 4V2h10v2h5v2h-2v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6H2V4h5zM6 6v14h12V6H6zm3 3h2v8H9V9zm4 0h2v8h-2V9z"/></svg>`;
+        obsidian.setIcon(deleteIcon, "trash-2");
         deleteIcon.addEventListener("click", event => this.deleteWorkspace(workspaceName));
     }
     addDescription(wrapperEl, workspaceName) {
@@ -2756,7 +2766,9 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         try {
             description = this.workspacePlugin.workspaces[workspaceName][SETTINGS_ATTR$1]["description"];
         }
-        catch (_a) { }
+        catch (_a) {
+            // property chain may not exist yet, fall back to undefined
+        }
         if (description) {
             const descEl = wrapperEl.createDiv("workspace-description");
             descEl.textContent = description;
@@ -2766,11 +2778,11 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
         const renameIcon = wrapperEl.createDiv("platform");
         if (platform == "mobile") {
             renameIcon.setAttribute("aria-label", "Mobile workspace");
-            renameIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="16" height="16" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" fill="none" stroke="none" /><path d="M3 4h17a2 2 0 0 1 2 2v2h-4V6H5v12h9v2H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2m14 6h6a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1V11a1 1 0 0 1 1-1m1 2v7h4v-7h-4z" fill="currentColor"/></svg>`;
+            obsidian.setIcon(renameIcon, "smartphone");
         }
         else {
             renameIcon.setAttribute("aria-label", "Desktop workspace");
-            renameIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" style="vertical-align: -0.125em;" width="16" height="16" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" fill="none" stroke="none" /><path d="M21 16H3V4h18m0-2H3c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h7v2H8v2h8v-2h-2v-2h7a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" fill="currentColor"/></svg>`;
+            obsidian.setIcon(renameIcon, "monitor");
         }
         renameIcon.setAttribute("aria-label-position", "top");
     }
@@ -2799,10 +2811,15 @@ class WorkspacesPlusPluginWorkspaceModal extends obsidian.FuzzySuggestModal {
             modifiers = "Alt";
         else
             modifiers = "";
-        if (modifiers === "Shift")
-            this.saveAndStay(), this.setWorkspace(item), this.close();
-        else if (modifiers === "Alt")
-            this.saveAndSwitch(), this.loadWorkspace(item);
+        if (modifiers === "Shift") {
+            this.saveAndStay();
+            this.setWorkspace(item);
+            this.close();
+        }
+        else if (modifiers === "Alt") {
+            this.saveAndSwitch();
+            this.loadWorkspace(item);
+        }
         else
             this.loadWorkspace(item);
     }
@@ -2820,7 +2837,7 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
         super(plugin.app);
         this.showInstructions = false;
         this.emptyStateText = "No match found";
-        this.onSuggestionClick = function (evt, itemEl) {
+        this.onSuggestionClick = (evt, itemEl) => {
             if (itemEl.contentEditable === "true") {
                 // allow cursor selection in rename mode by ignoring the click
                 evt.stopPropagation();
@@ -2828,20 +2845,21 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
             }
             evt.preventDefault();
             let item = this.chooser.suggestions.indexOf(itemEl);
-            this.chooser.setSelectedItem(item), this.useSelectedItem(evt);
+            this.chooser.setSelectedItem(item);
+            this.useSelectedItem(evt);
         };
-        this.onSuggestionMouseover = function (evt, itemEl) {
+        this.onSuggestionMouseover = (evt, itemEl) => {
             let item = this.chooser.suggestions.indexOf(itemEl);
             this.chooser.setSelectedItem(item);
         };
-        this.useSelectedItem = function (evt) {
+        this.useSelectedItem = (evt) => {
             const targetEl = evt.composedPath()[0];
             if (targetEl.contentEditable === "true") {
                 this.handleRename(targetEl);
                 return;
             }
             let workspaceName = this.inputEl.value ? this.inputEl.value : this.chooser.values[this.chooser.selectedItem].item;
-            if (!this.values && workspaceName && evt.shiftKey) {
+            if (workspaceName && evt.shiftKey) {
                 this.saveAndStay();
                 this.close();
                 return false;
@@ -2851,7 +2869,7 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
             let item = this.chooser.values ? this.chooser.values[this.chooser.selectedItem] : workspaceName;
             return void 0 !== item && (this.selectSuggestion(item, evt), true);
         };
-        this.onRenameClick = function (evt, el) {
+        this.onRenameClick = (evt, el) => {
             evt.stopPropagation();
             if (!el)
                 el = this.chooser.suggestions[this.chooser.selectedItem];
@@ -2886,24 +2904,26 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
         this.buildInstructions();
         // temporary styling to force a transparent modal background to address certain themes
         // that apply a background to the modal container instead of the modal-bg
-        this.bgEl.parentElement.setAttribute("style", "background-color: transparent !important");
+        this.bgEl.parentElement.addClass("workspaces-plus-transparent-bg-important");
         this.modalEl.classList.add("workspaces-plus-mode-modal");
-        // handle custom modal positioning when invoked via the status bar
-        if (!this.invokedViaHotkey) {
-            this.bgEl.setAttribute("style", "background-color: transparent");
+        // handle custom modal positioning when invoked via the status bar (desktop only --
+        // the status bar is hidden on mobile, so there is no anchor to position against)
+        if (!this.invokedViaHotkey && !this.app.isMobile) {
+            this.bgEl.addClass("workspaces-plus-transparent-bg");
             this.modalEl.classList.add("quick-switch");
         }
         // setup key bindings
         this.scope = new obsidian.Scope();
         this.setupScope.apply(this);
         // setup event listeners
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- Function.prototype.bind's TS overloads fall back to `any` for methods with more than a few params; this is a correctly-bound reference to a real prototype method
         this.modalEl.on("input", ".prompt-input", this.onInputChanged.bind(this));
-        this.modalEl.on("click", ".workspace-item", this.onSuggestionClick.bind(this));
-        this.modalEl.on("mousemove", ".workspace-item", this.onSuggestionMouseover.bind(this));
+        this.modalEl.on("click", ".workspace-item", this.onSuggestionClick);
+        this.modalEl.on("mousemove", ".workspace-item", this.onSuggestionMouseover);
         // clone the input element as a hacky way to get rid of the obsidian onInput handler
-        const inputElClone = this.inputEl.cloneNode();
+        // const inputElClone = this.inputEl.cloneNode() as HTMLInputElement;
         // this.modalEl.replaceChild(inputElClone, this.inputEl);
-        this.inputEl = inputElClone;
+        // this.inputEl = inputElClone;
     }
     onNoSuggestion() {
         this.chooser.setSuggestions(null);
@@ -2912,11 +2932,13 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
         el.createEl("button", {
             cls: "list-item-part",
             text: "Save as new mode",
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- Function.prototype.bind's TS overloads fall back to `any` for methods with more than a few params; this is a correctly-bound reference to a real prototype method
         }).addEventListener("click", this.saveAndStay.bind(this));
     }
     setupScope() {
         this.scope.register([], "Escape", evt => this.onEscape(evt));
         this.scope.register([], "Enter", evt => this.useSelectedItem(evt));
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- Function.prototype.bind's TS overloads fall back to `any` for methods with more than a few params; this is a correctly-bound reference to a real prototype method
         this.scope.register(["Shift"], "Delete", this.deleteWorkspace.bind(this));
         this.scope.register(["Ctrl"], "Enter", evt => this.onRenameClick(evt, null));
         this.scope.register(["Shift"], "Enter", evt => this.useSelectedItem(evt));
@@ -2931,6 +2953,9 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
         });
     }
     buildInstructions() {
+        // Touch devices have no modifier-key shortcuts to advertise.
+        if (this.app.isMobile)
+            return;
         if (this.settings.showInstructions || this.invokedViaHotkey) {
             let instructions;
             instructions = [
@@ -2971,7 +2996,7 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
     open() {
         this.app.keymap.pushScope(this.scope);
         document.body.appendChild(this.containerEl);
-        if (!this.invokedViaHotkey) {
+        if (!this.invokedViaHotkey && !this.app.isMobile) {
             this.popper = createPopper(document.body.querySelector(".plugin-workspaces-plus.mode-switcher"), this.modalEl, {
                 placement: "top-start",
                 modifiers: [{ name: "offset", options: { offset: [0, 10] } }],
@@ -2982,7 +3007,7 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
     }
     onOpen() {
         var _a;
-        super.onOpen();
+        void super.onOpen();
         this.activeWorkspace = this.workspacePlugin.activeWorkspace;
         let selectedIdx = this.getItems().findIndex(workspace => workspace === this.activeWorkspace);
         this.chooser.setSelectedItem(selectedIdx);
@@ -2993,13 +3018,24 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
         super.onClose();
     }
     handleRename(targetEl) {
+        var _a;
         // TODO: Update all workspaces on mode rename
         targetEl.parentElement.parentElement.removeClass("renaming");
-        const originalName = "Mode: " + targetEl.dataset.workspaceName;
-        const newName = "Mode: " + targetEl.textContent;
+        const originalBareName = targetEl.dataset.workspaceName;
+        const newBareName = (_a = targetEl.textContent) === null || _a === void 0 ? void 0 : _a.trim();
+        // Bail out if the name is empty or unchanged. Without this guard, an unchanged
+        // rename does `workspaces[name] = workspaces[name]` (a no-op) and then
+        // `delete workspaces[name]`, wiping the mode. See issue #69.
+        if (!newBareName || newBareName === originalBareName) {
+            targetEl.textContent = originalBareName;
+            targetEl.contentEditable = "false";
+            return;
+        }
+        const originalName = "Mode: " + originalBareName;
+        const newName = "Mode: " + newBareName;
         // let settings = this.workspacePlugin.workspaces[this.workspacePlugin.activeWorkspace][SETTINGS_ATTR];
         // let currentMode = settings["mode"] ? settings["mode"] : null;
-        for (const [workspaceName, workspace] of Object.entries(this.workspacePlugin.workspaces)) {
+        for (const workspace of Object.values(this.workspacePlugin.workspaces)) {
             let settings = workspace[SETTINGS_ATTR];
             let mode = settings ? settings["mode"] : null;
             if (mode && mode == originalName) {
@@ -3058,7 +3094,7 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
         this.addRenameButton(wrapperEl, el);
     }
     wrapSuggestion(childEl, parentEl) {
-        const wrapperEl = document.createElement("div");
+        const wrapperEl = createDiv();
         wrapperEl.addClass("workspace-results");
         childEl.dataset.workspaceName = childEl.textContent;
         childEl.removeClass("suggestion-item");
@@ -3067,10 +3103,12 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
         try {
             mode = this.workspacePlugin.workspaces[this.workspacePlugin.activeWorkspace][SETTINGS_ATTR]["mode"].replace(/^mode: /i, "");
         }
-        catch (_a) { }
+        catch (_a) {
+            // property chain may not exist yet, fall back to undefined
+        }
         if (childEl.textContent === mode) {
             const activeIcon = wrapperEl.createDiv("active-workspace");
-            activeIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"/></svg>`;
+            obsidian.setIcon(activeIcon, "check");
         }
         wrapperEl.appendChild(childEl);
         parentEl.appendChild(wrapperEl);
@@ -3080,14 +3118,14 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
         const renameIcon = wrapperEl.createDiv("rename-workspace");
         renameIcon.setAttribute("aria-label", "Rename mode");
         renameIcon.setAttribute("aria-label-position", "top");
-        renameIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M12.9 6.858l4.242 4.243L7.242 21H3v-4.243l9.9-9.9zm1.414-1.414l2.121-2.122a1 1 0 0 1 1.414 0l2.829 2.829a1 1 0 0 1 0 1.414l-2.122 2.121-4.242-4.242z"/></svg>`;
+        obsidian.setIcon(renameIcon, "pencil");
         renameIcon.addEventListener("click", event => this.onRenameClick(event, el));
     }
     addDeleteButton(wrapperEl) {
         const deleteIcon = wrapperEl.createDiv("delete-workspace");
         deleteIcon.setAttribute("aria-label", "Delete mode");
         deleteIcon.setAttribute("aria-label-position", "top");
-        deleteIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M7 4V2h10v2h5v2h-2v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6H2V4h5zM6 6v14h12V6H6zm3 3h2v8H9V9zm4 0h2v8h-2V9z"/></svg>`;
+        obsidian.setIcon(deleteIcon, "trash-2");
         deleteIcon.addEventListener("click", event => this.deleteWorkspace());
     }
     doDelete(workspaceName) {
@@ -3123,8 +3161,10 @@ class WorkspacesPlusPluginModeModal extends obsidian.FuzzySuggestModal {
             modifiers = "Alt";
         else
             modifiers = "";
-        if (modifiers === "Shift")
-            this.saveAndStay(), this.close();
+        if (modifiers === "Shift") {
+            this.saveAndStay();
+            this.close();
+        }
         else
             this.loadWorkspace("Mode: " + item);
     }
@@ -3173,704 +3213,551 @@ function around1(obj, method, createWrapper) {
     }
 }
 
-const DEFAULT_DAILY_NOTE_FORMAT = "YYYY-MM-DD";
-const DEFAULT_WEEKLY_NOTE_FORMAT = "gggg-[W]ww";
-const DEFAULT_MONTHLY_NOTE_FORMAT = "YYYY-MM";
-const DEFAULT_QUARTERLY_NOTE_FORMAT = "YYYY-[Q]Q";
-const DEFAULT_YEARLY_NOTE_FORMAT = "YYYY";
-
+//#endregion
+//#region src/settings.ts
+function validateString(value) {
+	return typeof value === "string" ? value : "";
+}
 function shouldUsePeriodicNotesSettings(periodicity) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const periodicNotes = window.app.plugins.getPlugin("periodic-notes");
-    return periodicNotes && periodicNotes.settings?.[periodicity]?.enabled;
+	return !!window.app.plugins.getPlugin("periodic-notes")?.settings?.[periodicity]?.enabled;
 }
 /**
- * Read the user settings for the `daily-notes` plugin
- * to keep behavior of creating a new note in-sync.
- */
+* Read the user settings for the `daily-notes` plugin
+* to keep behavior of creating a new note in-sync.
+*/
 function getDailyNoteSettings() {
-    try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { internalPlugins, plugins } = window.app;
-        if (shouldUsePeriodicNotesSettings("daily")) {
-            const { format, folder, template } = plugins.getPlugin("periodic-notes")?.settings?.daily || {};
-            return {
-                format: format || DEFAULT_DAILY_NOTE_FORMAT,
-                folder: folder?.trim() || "",
-                template: template?.trim() || "",
-            };
-        }
-        const { folder, format, template } = internalPlugins.getPluginById("daily-notes")?.instance?.options || {};
-        return {
-            format: format || DEFAULT_DAILY_NOTE_FORMAT,
-            folder: folder?.trim() || "",
-            template: template?.trim() || "",
-        };
-    }
-    catch (err) {
-        console.info("No custom daily note settings found!", err);
-    }
+	try {
+		const { internalPlugins, plugins } = window.app;
+		if (shouldUsePeriodicNotesSettings("daily")) {
+			const { format, folder, template } = plugins.getPlugin("periodic-notes")?.settings?.daily || {};
+			return {
+				format: format || "YYYY-MM-DD",
+				folder: validateString(folder).trim(),
+				template: validateString(template).trim()
+			};
+		}
+		const { folder, format, template } = internalPlugins.getPluginById("daily-notes")?.instance?.options || {};
+		return {
+			format: format || "YYYY-MM-DD",
+			folder: validateString(folder).trim(),
+			template: validateString(template).trim()
+		};
+	} catch (err) {
+		console.info("No custom daily note settings found!", err);
+	}
 }
 /**
- * Read the user settings for the `weekly-notes` plugin
- * to keep behavior of creating a new note in-sync.
- */
+* Read the user settings for the `weekly-notes` plugin
+* to keep behavior of creating a new note in-sync.
+*/
 function getWeeklyNoteSettings() {
-    try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const pluginManager = window.app.plugins;
-        const calendarSettings = pluginManager.getPlugin("calendar")?.options;
-        const periodicNotesSettings = pluginManager.getPlugin("periodic-notes")?.settings?.weekly;
-        if (shouldUsePeriodicNotesSettings("weekly")) {
-            return {
-                format: periodicNotesSettings.format || DEFAULT_WEEKLY_NOTE_FORMAT,
-                folder: periodicNotesSettings.folder?.trim() || "",
-                template: periodicNotesSettings.template?.trim() || "",
-            };
-        }
-        const settings = calendarSettings || {};
-        return {
-            format: settings.weeklyNoteFormat || DEFAULT_WEEKLY_NOTE_FORMAT,
-            folder: settings.weeklyNoteFolder?.trim() || "",
-            template: settings.weeklyNoteTemplate?.trim() || "",
-        };
-    }
-    catch (err) {
-        console.info("No custom weekly note settings found!", err);
-    }
+	try {
+		const pluginManager = window.app.plugins;
+		const calendarSettings = pluginManager.getPlugin("calendar")?.options;
+		const periodicNotesSettings = pluginManager.getPlugin("periodic-notes")?.settings?.weekly;
+		if (shouldUsePeriodicNotesSettings("weekly") && periodicNotesSettings) return {
+			format: periodicNotesSettings.format || "gggg-[W]ww",
+			folder: validateString(periodicNotesSettings.folder).trim(),
+			template: validateString(periodicNotesSettings.template).trim()
+		};
+		const settings = calendarSettings || {};
+		return {
+			format: settings.weeklyNoteFormat || "gggg-[W]ww",
+			folder: validateString(settings.weeklyNoteFolder).trim(),
+			template: validateString(settings.weeklyNoteTemplate).trim()
+		};
+	} catch (err) {
+		console.info("No custom weekly note settings found!", err);
+	}
 }
 /**
- * Read the user settings for the `periodic-notes` plugin
- * to keep behavior of creating a new note in-sync.
- */
+* Read the user settings for the `periodic-notes` plugin
+* to keep behavior of creating a new note in-sync.
+*/
 function getMonthlyNoteSettings() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pluginManager = window.app.plugins;
-    try {
-        const settings = (shouldUsePeriodicNotesSettings("monthly") &&
-            pluginManager.getPlugin("periodic-notes")?.settings?.monthly) ||
-            {};
-        return {
-            format: settings.format || DEFAULT_MONTHLY_NOTE_FORMAT,
-            folder: settings.folder?.trim() || "",
-            template: settings.template?.trim() || "",
-        };
-    }
-    catch (err) {
-        console.info("No custom monthly note settings found!", err);
-    }
+	const pluginManager = window.app.plugins;
+	try {
+		const settings = shouldUsePeriodicNotesSettings("monthly") && pluginManager.getPlugin("periodic-notes")?.settings?.monthly || {};
+		return {
+			format: settings.format || "YYYY-MM",
+			folder: validateString(settings.folder).trim(),
+			template: validateString(settings.template).trim()
+		};
+	} catch (err) {
+		console.info("No custom monthly note settings found!", err);
+	}
 }
 /**
- * Read the user settings for the `periodic-notes` plugin
- * to keep behavior of creating a new note in-sync.
- */
+* Read the user settings for the `periodic-notes` plugin
+* to keep behavior of creating a new note in-sync.
+*/
 function getQuarterlyNoteSettings() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pluginManager = window.app.plugins;
-    try {
-        const settings = (shouldUsePeriodicNotesSettings("quarterly") &&
-            pluginManager.getPlugin("periodic-notes")?.settings?.quarterly) ||
-            {};
-        return {
-            format: settings.format || DEFAULT_QUARTERLY_NOTE_FORMAT,
-            folder: settings.folder?.trim() || "",
-            template: settings.template?.trim() || "",
-        };
-    }
-    catch (err) {
-        console.info("No custom quarterly note settings found!", err);
-    }
+	const pluginManager = window.app.plugins;
+	try {
+		const settings = shouldUsePeriodicNotesSettings("quarterly") && pluginManager.getPlugin("periodic-notes")?.settings?.quarterly || {};
+		return {
+			format: settings.format || "YYYY-[Q]Q",
+			folder: validateString(settings.folder).trim(),
+			template: validateString(settings.template).trim()
+		};
+	} catch (err) {
+		console.info("No custom quarterly note settings found!", err);
+	}
 }
 /**
- * Read the user settings for the `periodic-notes` plugin
- * to keep behavior of creating a new note in-sync.
- */
+* Read the user settings for the `periodic-notes` plugin
+* to keep behavior of creating a new note in-sync.
+*/
 function getYearlyNoteSettings() {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pluginManager = window.app.plugins;
-    try {
-        const settings = (shouldUsePeriodicNotesSettings("yearly") &&
-            pluginManager.getPlugin("periodic-notes")?.settings?.yearly) ||
-            {};
-        return {
-            format: settings.format || DEFAULT_YEARLY_NOTE_FORMAT,
-            folder: settings.folder?.trim() || "",
-            template: settings.template?.trim() || "",
-        };
-    }
-    catch (err) {
-        console.info("No custom yearly note settings found!", err);
-    }
+	const pluginManager = window.app.plugins;
+	try {
+		const settings = shouldUsePeriodicNotesSettings("yearly") && pluginManager.getPlugin("periodic-notes")?.settings?.yearly || {};
+		return {
+			format: settings.format || "YYYY",
+			folder: validateString(settings.folder).trim(),
+			template: validateString(settings.template).trim()
+		};
+	} catch (err) {
+		console.info("No custom yearly note settings found!", err);
+	}
 }
-
-// Credit: @creationix/path.js
+//#endregion
+//#region src/vault.ts
 function join(...partSegments) {
-    // Split the inputs into a list of path commands.
-    let parts = [];
-    for (let i = 0, l = partSegments.length; i < l; i++) {
-        parts = parts.concat(partSegments[i].split("/"));
-    }
-    // Interpret the path commands to get the new resolved path.
-    const newParts = [];
-    for (let i = 0, l = parts.length; i < l; i++) {
-        const part = parts[i];
-        // Remove leading and trailing slashes
-        // Also remove "." segments
-        if (!part || part === ".")
-            continue;
-        // Push new path segments.
-        else
-            newParts.push(part);
-    }
-    // Preserve the initial slash if there was one.
-    if (parts[0] === "")
-        newParts.unshift("");
-    // Turn back into a single string path.
-    return newParts.join("/");
+	let parts = [];
+	for (let i = 0, l = partSegments.length; i < l; i++) parts = parts.concat(partSegments[i].split("/"));
+	const newParts = [];
+	for (let i = 0, l = parts.length; i < l; i++) {
+		const part = parts[i];
+		if (!part || part === ".") continue;
+		else newParts.push(part);
+	}
+	if (parts[0] === "") newParts.unshift("");
+	return newParts.join("/");
 }
 function basename(fullPath) {
-    let base = fullPath.substring(fullPath.lastIndexOf("/") + 1);
-    if (base.lastIndexOf(".") != -1)
-        base = base.substring(0, base.lastIndexOf("."));
-    return base;
+	let base = fullPath.substring(fullPath.lastIndexOf("/") + 1);
+	if (base.lastIndexOf(".") != -1) base = base.substring(0, base.lastIndexOf("."));
+	return base;
 }
 async function ensureFolderExists(path) {
-    const dirs = path.replace(/\\/g, "/").split("/");
-    dirs.pop(); // remove basename
-    if (dirs.length) {
-        const dir = join(...dirs);
-        if (!window.app.vault.getAbstractFileByPath(dir)) {
-            await window.app.vault.createFolder(dir);
-        }
-    }
+	const dirs = path.replace(/\\/g, "/").split("/");
+	dirs.pop();
+	if (dirs.length) {
+		const dir = join(...dirs);
+		if (!window.app.vault.getAbstractFileByPath(dir)) await window.app.vault.createFolder(dir);
+	}
 }
 async function getNotePath(directory, filename) {
-    if (!filename.endsWith(".md")) {
-        filename += ".md";
-    }
-    const path = obsidian__default["default"].normalizePath(join(directory, filename));
-    await ensureFolderExists(path);
-    return path;
+	if (!filename.endsWith(".md")) filename += ".md";
+	const path = obsidian.normalizePath(join(directory, filename));
+	await ensureFolderExists(path);
+	return path;
 }
 async function getTemplateInfo(template) {
-    const { metadataCache, vault } = window.app;
-    const templatePath = obsidian__default["default"].normalizePath(template);
-    if (templatePath === "/") {
-        return Promise.resolve(["", null]);
-    }
-    try {
-        const templateFile = metadataCache.getFirstLinkpathDest(templatePath, "");
-        const contents = await vault.cachedRead(templateFile);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const IFoldInfo = window.app.foldManager.load(templateFile);
-        return [contents, IFoldInfo];
-    }
-    catch (err) {
-        console.error(`Failed to read the daily note template '${templatePath}'`, err);
-        new obsidian__default["default"].Notice("Failed to read the daily note template");
-        return ["", null];
-    }
+	const { metadataCache, vault } = window.app;
+	const templatePath = obsidian.normalizePath(template);
+	if (templatePath === "/") return ["", null];
+	try {
+		const templateFile = metadataCache.getFirstLinkpathDest(templatePath, "");
+		return [await vault.cachedRead(templateFile), window.app.foldManager.load(templateFile)];
+	} catch (err) {
+		console.error(`Failed to read the daily note template '${templatePath}'`, err);
+		new obsidian.Notice("Failed to read the daily note template");
+		return ["", null];
+	}
 }
-
+//#endregion
+//#region src/parse.ts
 /**
- * dateUID is a way of weekly identifying daily/weekly/monthly notes.
- * They are prefixed with the granularity to avoid ambiguity.
- */
+* dateUID is a way of weekly identifying daily/weekly/monthly notes.
+* They are prefixed with the granularity to avoid ambiguity.
+*/
 function getDateUID(date, granularity = "day") {
-    const ts = date.clone().startOf(granularity).format();
-    return `${granularity}-${ts}`;
+	return `${granularity}-${date.clone().startOf(granularity).format()}`;
 }
 function removeEscapedCharacters(format) {
-    return format.replace(/\[[^\]]*\]/g, ""); // remove everything within brackets
+	return format.replace(/\[[^\]]*\]/g, "");
 }
 /**
- * XXX: When parsing dates that contain both week numbers and months,
- * Moment choses to ignore the week numbers. For the week dateUID, we
- * want the opposite behavior. Strip the MMM from the format to patch.
- */
+* XXX: When parsing dates that contain both week numbers and months,
+* Moment choses to ignore the week numbers. For the week dateUID, we
+* want the opposite behavior. Strip the MMM from the format to patch.
+*/
 function isFormatAmbiguous(format, granularity) {
-    if (granularity === "week") {
-        const cleanFormat = removeEscapedCharacters(format);
-        return (/w{1,2}/i.test(cleanFormat) &&
-            (/M{1,4}/.test(cleanFormat) || /D{1,4}/.test(cleanFormat)));
-    }
-    return false;
+	if (granularity === "week") {
+		const cleanFormat = removeEscapedCharacters(format);
+		return /w{1,2}/i.test(cleanFormat) && (/M{1,4}/.test(cleanFormat) || /D{1,4}/.test(cleanFormat));
+	}
+	return false;
 }
 function getDateFromFile(file, granularity) {
-    return getDateFromFilename(file.basename, granularity);
+	return getDateFromFilename(file.basename, granularity);
 }
 function getDateFromPath(path, granularity) {
-    return getDateFromFilename(basename(path), granularity);
+	return getDateFromFilename(basename(path), granularity);
 }
 function getDateFromFilename(filename, granularity) {
-    const getSettings = {
-        day: getDailyNoteSettings,
-        week: getWeeklyNoteSettings,
-        month: getMonthlyNoteSettings,
-        quarter: getQuarterlyNoteSettings,
-        year: getYearlyNoteSettings,
-    };
-    const format = getSettings[granularity]().format.split("/").pop();
-    const noteDate = window.moment(filename, format, true);
-    if (!noteDate.isValid()) {
-        return null;
-    }
-    if (isFormatAmbiguous(format, granularity)) {
-        if (granularity === "week") {
-            const cleanFormat = removeEscapedCharacters(format);
-            if (/w{1,2}/i.test(cleanFormat)) {
-                return window.moment(filename, 
-                // If format contains week, remove day & month formatting
-                format.replace(/M{1,4}/g, "").replace(/D{1,4}/g, ""), false);
-            }
-        }
-    }
-    return noteDate;
+	const format = {
+		day: getDailyNoteSettings,
+		week: getWeeklyNoteSettings,
+		month: getMonthlyNoteSettings,
+		quarter: getQuarterlyNoteSettings,
+		year: getYearlyNoteSettings
+	}[granularity]().format.split("/").pop();
+	const noteDate = window.moment(filename, format, true);
+	if (!noteDate.isValid()) return null;
+	if (isFormatAmbiguous(format, granularity)) {
+		if (granularity === "week") {
+			const cleanFormat = removeEscapedCharacters(format);
+			if (/w{1,2}/i.test(cleanFormat)) return window.moment(filename, format.replace(/M{1,4}/g, "").replace(/D{1,4}/g, ""), false);
+		}
+	}
+	return noteDate;
 }
-
-class DailyNotesFolderMissingError extends Error {
-}
+//#endregion
+//#region src/daily.ts
+var DailyNotesFolderMissingError = class extends Error {};
 /**
- * This function mimics the behavior of the daily-notes plugin
- * so it will replace {{date}}, {{title}}, and {{time}} with the
- * formatted timestamp.
- *
- * Note: it has an added bonus that it's not 'today' specific.
- */
+* This function mimics the behavior of the daily-notes plugin
+* so it will replace {{date}}, {{title}}, and {{time}} with the
+* formatted timestamp.
+*
+* Note: it has an added bonus that it's not 'today' specific.
+*/
 async function createDailyNote(date) {
-    const app = window.app;
-    const { vault } = app;
-    const moment = window.moment;
-    const { template, format, folder } = getDailyNoteSettings();
-    const [templateContents, IFoldInfo] = await getTemplateInfo(template);
-    const filename = date.format(format);
-    const normalizedPath = await getNotePath(folder, filename);
-    try {
-        const createdFile = await vault.create(normalizedPath, templateContents
-            .replace(/{{\s*date\s*}}/gi, filename)
-            .replace(/{{\s*time\s*}}/gi, moment().format("HH:mm"))
-            .replace(/{{\s*title\s*}}/gi, filename)
-            .replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
-            const now = moment();
-            const currentDate = date.clone().set({
-                hour: now.get("hour"),
-                minute: now.get("minute"),
-                second: now.get("second"),
-            });
-            if (calc) {
-                currentDate.add(parseInt(timeDelta, 10), unit);
-            }
-            if (momentFormat) {
-                return currentDate.format(momentFormat.substring(1).trim());
-            }
-            return currentDate.format(format);
-        })
-            .replace(/{{\s*yesterday\s*}}/gi, date.clone().subtract(1, "day").format(format))
-            .replace(/{{\s*tomorrow\s*}}/gi, date.clone().add(1, "d").format(format)));
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        app.foldManager.save(createdFile, IFoldInfo);
-        return createdFile;
-    }
-    catch (err) {
-        console.error(`Failed to create file: '${normalizedPath}'`, err);
-        new obsidian__default["default"].Notice("Unable to create new file.");
-    }
+	const { app } = window;
+	const { vault } = app;
+	const moment = window.moment;
+	const { template = "", format = "", folder = "" } = getDailyNoteSettings() ?? {};
+	const [templateContents, IFoldInfo] = await getTemplateInfo(template);
+	const filename = date.format(format);
+	const normalizedPath = await getNotePath(folder, filename);
+	try {
+		const createdFile = await vault.create(normalizedPath, templateContents.replace(/{{\s*date\s*}}/gi, filename).replace(/{{\s*time\s*}}/gi, moment().format("HH:mm")).replace(/{{\s*title\s*}}/gi, filename).replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
+			const now = moment();
+			const currentDate = date.clone().set({
+				hour: now.get("hour"),
+				minute: now.get("minute"),
+				second: now.get("second")
+			});
+			if (calc) currentDate.add(parseInt(timeDelta, 10), unit);
+			if (momentFormat) return currentDate.format(momentFormat.substring(1).trim());
+			return currentDate.format(format);
+		}).replace(/{{\s*yesterday\s*}}/gi, date.clone().subtract(1, "day").format(format)).replace(/{{\s*tomorrow\s*}}/gi, date.clone().add(1, "d").format(format)));
+		app.foldManager.save(createdFile, IFoldInfo);
+		return createdFile;
+	} catch (err) {
+		console.error(`Failed to create file: '${normalizedPath}'`, err);
+		new obsidian.Notice("Unable to create new file.");
+	}
 }
 function getDailyNote(date, dailyNotes) {
-    return dailyNotes[getDateUID(date, "day")] ?? null;
+	return dailyNotes[getDateUID(date, "day")] ?? null;
 }
 function getAllDailyNotes() {
-    /**
-     * Find all daily notes in the daily note folder
-     */
-    const { vault } = window.app;
-    const { folder } = getDailyNoteSettings();
-    const dailyNotesFolder = vault.getAbstractFileByPath(obsidian__default["default"].normalizePath(folder));
-    if (!dailyNotesFolder) {
-        throw new DailyNotesFolderMissingError("Failed to find daily notes folder");
-    }
-    const dailyNotes = {};
-    obsidian__default["default"].Vault.recurseChildren(dailyNotesFolder, (note) => {
-        if (note instanceof obsidian__default["default"].TFile) {
-            const date = getDateFromFile(note, "day");
-            if (date) {
-                const dateString = getDateUID(date, "day");
-                dailyNotes[dateString] = note;
-            }
-        }
-    });
-    return dailyNotes;
+	/**
+	* Find all daily notes in the daily note folder
+	*/
+	const { vault } = window.app;
+	const { folder = "" } = getDailyNoteSettings();
+	const dailyNotesFolder = vault.getAbstractFileByPath(obsidian.normalizePath(folder));
+	if (!(dailyNotesFolder instanceof obsidian.TFolder)) throw new DailyNotesFolderMissingError("Failed to find daily notes folder");
+	const dailyNotes = {};
+	obsidian.Vault.recurseChildren(dailyNotesFolder, (note) => {
+		if (note instanceof obsidian.TFile) {
+			const date = getDateFromFile(note, "day");
+			if (date) {
+				const dateString = getDateUID(date, "day");
+				dailyNotes[dateString] = note;
+			}
+		}
+	});
+	return dailyNotes;
 }
-
-class WeeklyNotesFolderMissingError extends Error {
-}
+//#endregion
+//#region src/weekly.ts
+var WeeklyNotesFolderMissingError = class extends Error {};
 function getDaysOfWeek() {
-    const { moment } = window;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let weekStart = moment.localeData()._week.dow;
-    const daysOfWeek = [
-        "sunday",
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-    ];
-    while (weekStart) {
-        daysOfWeek.push(daysOfWeek.shift());
-        weekStart--;
-    }
-    return daysOfWeek;
+	const { moment } = window;
+	let weekStart = moment.localeData().firstDayOfWeek();
+	const daysOfWeek = [
+		"sunday",
+		"monday",
+		"tuesday",
+		"wednesday",
+		"thursday",
+		"friday",
+		"saturday"
+	];
+	while (weekStart) {
+		daysOfWeek.push(daysOfWeek.shift());
+		weekStart--;
+	}
+	return daysOfWeek;
 }
 function getDayOfWeekNumericalValue(dayOfWeekName) {
-    return getDaysOfWeek().indexOf(dayOfWeekName.toLowerCase());
+	return getDaysOfWeek().indexOf(dayOfWeekName.toLowerCase());
 }
 async function createWeeklyNote(date) {
-    const { vault } = window.app;
-    const { template, format, folder } = getWeeklyNoteSettings();
-    const [templateContents, IFoldInfo] = await getTemplateInfo(template);
-    const filename = date.format(format);
-    const normalizedPath = await getNotePath(folder, filename);
-    try {
-        const createdFile = await vault.create(normalizedPath, templateContents
-            .replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
-            const now = window.moment();
-            const currentDate = date.clone().set({
-                hour: now.get("hour"),
-                minute: now.get("minute"),
-                second: now.get("second"),
-            });
-            if (calc) {
-                currentDate.add(parseInt(timeDelta, 10), unit);
-            }
-            if (momentFormat) {
-                return currentDate.format(momentFormat.substring(1).trim());
-            }
-            return currentDate.format(format);
-        })
-            .replace(/{{\s*title\s*}}/gi, filename)
-            .replace(/{{\s*time\s*}}/gi, window.moment().format("HH:mm"))
-            .replace(/{{\s*(sunday|monday|tuesday|wednesday|thursday|friday|saturday)\s*:(.*?)}}/gi, (_, dayOfWeek, momentFormat) => {
-            const day = getDayOfWeekNumericalValue(dayOfWeek);
-            return date.weekday(day).format(momentFormat.trim());
-        }));
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        window.app.foldManager.save(createdFile, IFoldInfo);
-        return createdFile;
-    }
-    catch (err) {
-        console.error(`Failed to create file: '${normalizedPath}'`, err);
-        new obsidian__default["default"].Notice("Unable to create new file.");
-    }
+	const { vault } = window.app;
+	const { template = "", format = "", folder = "" } = getWeeklyNoteSettings() ?? {};
+	const [templateContents, IFoldInfo] = await getTemplateInfo(template);
+	const filename = date.format(format);
+	const normalizedPath = await getNotePath(folder, filename);
+	try {
+		const createdFile = await vault.create(normalizedPath, templateContents.replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
+			const now = window.moment();
+			const currentDate = date.clone().set({
+				hour: now.get("hour"),
+				minute: now.get("minute"),
+				second: now.get("second")
+			});
+			if (calc) currentDate.add(parseInt(timeDelta, 10), unit);
+			if (momentFormat) return currentDate.format(momentFormat.substring(1).trim());
+			return currentDate.format(format);
+		}).replace(/{{\s*title\s*}}/gi, filename).replace(/{{\s*time\s*}}/gi, window.moment().format("HH:mm")).replace(/{{\s*(sunday|monday|tuesday|wednesday|thursday|friday|saturday)\s*:(.*?)}}/gi, (_, dayOfWeek, momentFormat) => {
+			const day = getDayOfWeekNumericalValue(dayOfWeek);
+			return date.weekday(day).format(momentFormat.trim());
+		}));
+		window.app.foldManager.save(createdFile, IFoldInfo);
+		return createdFile;
+	} catch (err) {
+		console.error(`Failed to create file: '${normalizedPath}'`, err);
+		new obsidian.Notice("Unable to create new file.");
+	}
 }
 function getWeeklyNote(date, weeklyNotes) {
-    return weeklyNotes[getDateUID(date, "week")] ?? null;
+	return weeklyNotes[getDateUID(date, "week")] ?? null;
 }
 function getAllWeeklyNotes() {
-    const weeklyNotes = {};
-    if (!appHasWeeklyNotesPluginLoaded()) {
-        return weeklyNotes;
-    }
-    const { vault } = window.app;
-    const { folder } = getWeeklyNoteSettings();
-    const weeklyNotesFolder = vault.getAbstractFileByPath(obsidian__default["default"].normalizePath(folder));
-    if (!weeklyNotesFolder) {
-        throw new WeeklyNotesFolderMissingError("Failed to find weekly notes folder");
-    }
-    obsidian__default["default"].Vault.recurseChildren(weeklyNotesFolder, (note) => {
-        if (note instanceof obsidian__default["default"].TFile) {
-            const date = getDateFromFile(note, "week");
-            if (date) {
-                const dateString = getDateUID(date, "week");
-                weeklyNotes[dateString] = note;
-            }
-        }
-    });
-    return weeklyNotes;
+	const weeklyNotes = {};
+	if (!appHasWeeklyNotesPluginLoaded()) return weeklyNotes;
+	const { vault } = window.app;
+	const { folder = "" } = getWeeklyNoteSettings() ?? {};
+	const weeklyNotesFolder = vault.getAbstractFileByPath(obsidian.normalizePath(folder));
+	if (!(weeklyNotesFolder instanceof obsidian.TFolder)) throw new WeeklyNotesFolderMissingError("Failed to find weekly notes folder");
+	obsidian.Vault.recurseChildren(weeklyNotesFolder, (note) => {
+		if (note instanceof obsidian.TFile) {
+			const date = getDateFromFile(note, "week");
+			if (date) {
+				const dateString = getDateUID(date, "week");
+				weeklyNotes[dateString] = note;
+			}
+		}
+	});
+	return weeklyNotes;
 }
-
-class MonthlyNotesFolderMissingError extends Error {
-}
+//#endregion
+//#region src/monthly.ts
+var MonthlyNotesFolderMissingError = class extends Error {};
 /**
- * This function mimics the behavior of the daily-notes plugin
- * so it will replace {{date}}, {{title}}, and {{time}} with the
- * formatted timestamp.
- *
- * Note: it has an added bonus that it's not 'today' specific.
- */
+* This function mimics the behavior of the daily-notes plugin
+* so it will replace {{date}}, {{title}}, and {{time}} with the
+* formatted timestamp.
+*
+* Note: it has an added bonus that it's not 'today' specific.
+*/
 async function createMonthlyNote(date) {
-    const { vault } = window.app;
-    const { template, format, folder } = getMonthlyNoteSettings();
-    const [templateContents, IFoldInfo] = await getTemplateInfo(template);
-    const filename = date.format(format);
-    const normalizedPath = await getNotePath(folder, filename);
-    try {
-        const createdFile = await vault.create(normalizedPath, templateContents
-            .replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
-            const now = window.moment();
-            const currentDate = date.clone().set({
-                hour: now.get("hour"),
-                minute: now.get("minute"),
-                second: now.get("second"),
-            });
-            if (calc) {
-                currentDate.add(parseInt(timeDelta, 10), unit);
-            }
-            if (momentFormat) {
-                return currentDate.format(momentFormat.substring(1).trim());
-            }
-            return currentDate.format(format);
-        })
-            .replace(/{{\s*date\s*}}/gi, filename)
-            .replace(/{{\s*time\s*}}/gi, window.moment().format("HH:mm"))
-            .replace(/{{\s*title\s*}}/gi, filename));
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        window.app.foldManager.save(createdFile, IFoldInfo);
-        return createdFile;
-    }
-    catch (err) {
-        console.error(`Failed to create file: '${normalizedPath}'`, err);
-        new obsidian__default["default"].Notice("Unable to create new file.");
-    }
+	const { vault } = window.app;
+	const { template = "", format = "", folder = "" } = getMonthlyNoteSettings() ?? {};
+	const [templateContents, IFoldInfo] = await getTemplateInfo(template);
+	const filename = date.format(format);
+	const normalizedPath = await getNotePath(folder, filename);
+	try {
+		const createdFile = await vault.create(normalizedPath, templateContents.replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
+			const now = window.moment();
+			const currentDate = date.clone().set({
+				hour: now.get("hour"),
+				minute: now.get("minute"),
+				second: now.get("second")
+			});
+			if (calc) currentDate.add(parseInt(timeDelta, 10), unit);
+			if (momentFormat) return currentDate.format(momentFormat.substring(1).trim());
+			return currentDate.format(format);
+		}).replace(/{{\s*date\s*}}/gi, filename).replace(/{{\s*time\s*}}/gi, window.moment().format("HH:mm")).replace(/{{\s*title\s*}}/gi, filename));
+		window.app.foldManager.save(createdFile, IFoldInfo);
+		return createdFile;
+	} catch (err) {
+		console.error(`Failed to create file: '${normalizedPath}'`, err);
+		new obsidian.Notice("Unable to create new file.");
+	}
 }
 function getMonthlyNote(date, monthlyNotes) {
-    return monthlyNotes[getDateUID(date, "month")] ?? null;
+	return monthlyNotes[getDateUID(date, "month")] ?? null;
 }
 function getAllMonthlyNotes() {
-    const monthlyNotes = {};
-    if (!appHasMonthlyNotesPluginLoaded()) {
-        return monthlyNotes;
-    }
-    const { vault } = window.app;
-    const { folder } = getMonthlyNoteSettings();
-    const monthlyNotesFolder = vault.getAbstractFileByPath(obsidian__default["default"].normalizePath(folder));
-    if (!monthlyNotesFolder) {
-        throw new MonthlyNotesFolderMissingError("Failed to find monthly notes folder");
-    }
-    obsidian__default["default"].Vault.recurseChildren(monthlyNotesFolder, (note) => {
-        if (note instanceof obsidian__default["default"].TFile) {
-            const date = getDateFromFile(note, "month");
-            if (date) {
-                const dateString = getDateUID(date, "month");
-                monthlyNotes[dateString] = note;
-            }
-        }
-    });
-    return monthlyNotes;
+	const monthlyNotes = {};
+	if (!appHasMonthlyNotesPluginLoaded()) return monthlyNotes;
+	const { vault } = window.app;
+	const { folder = "" } = getMonthlyNoteSettings() ?? {};
+	const monthlyNotesFolder = vault.getAbstractFileByPath(obsidian.normalizePath(folder));
+	if (!(monthlyNotesFolder instanceof obsidian.TFolder)) throw new MonthlyNotesFolderMissingError("Failed to find monthly notes folder");
+	obsidian.Vault.recurseChildren(monthlyNotesFolder, (note) => {
+		if (note instanceof obsidian.TFile) {
+			const date = getDateFromFile(note, "month");
+			if (date) {
+				const dateString = getDateUID(date, "month");
+				monthlyNotes[dateString] = note;
+			}
+		}
+	});
+	return monthlyNotes;
 }
-
-class QuarterlyNotesFolderMissingError extends Error {
-}
+//#endregion
+//#region src/quarterly.ts
+var QuarterlyNotesFolderMissingError = class extends Error {};
 /**
- * This function mimics the behavior of the daily-notes plugin
- * so it will replace {{date}}, {{title}}, and {{time}} with the
- * formatted timestamp.
- *
- * Note: it has an added bonus that it's not 'today' specific.
- */
+* This function mimics the behavior of the daily-notes plugin
+* so it will replace {{date}}, {{title}}, and {{time}} with the
+* formatted timestamp.
+*
+* Note: it has an added bonus that it's not 'today' specific.
+*/
 async function createQuarterlyNote(date) {
-    const { vault } = window.app;
-    const { template, format, folder } = getQuarterlyNoteSettings();
-    const [templateContents, IFoldInfo] = await getTemplateInfo(template);
-    const filename = date.format(format);
-    const normalizedPath = await getNotePath(folder, filename);
-    try {
-        const createdFile = await vault.create(normalizedPath, templateContents
-            .replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
-            const now = window.moment();
-            const currentDate = date.clone().set({
-                hour: now.get("hour"),
-                minute: now.get("minute"),
-                second: now.get("second"),
-            });
-            if (calc) {
-                currentDate.add(parseInt(timeDelta, 10), unit);
-            }
-            if (momentFormat) {
-                return currentDate.format(momentFormat.substring(1).trim());
-            }
-            return currentDate.format(format);
-        })
-            .replace(/{{\s*date\s*}}/gi, filename)
-            .replace(/{{\s*time\s*}}/gi, window.moment().format("HH:mm"))
-            .replace(/{{\s*title\s*}}/gi, filename));
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        window.app.foldManager.save(createdFile, IFoldInfo);
-        return createdFile;
-    }
-    catch (err) {
-        console.error(`Failed to create file: '${normalizedPath}'`, err);
-        new obsidian__default["default"].Notice("Unable to create new file.");
-    }
+	const { vault } = window.app;
+	const { template = "", format = "", folder = "" } = getQuarterlyNoteSettings() ?? {};
+	const [templateContents, IFoldInfo] = await getTemplateInfo(template);
+	const filename = date.format(format);
+	const normalizedPath = await getNotePath(folder, filename);
+	try {
+		const createdFile = await vault.create(normalizedPath, templateContents.replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
+			const now = window.moment();
+			const currentDate = date.clone().set({
+				hour: now.get("hour"),
+				minute: now.get("minute"),
+				second: now.get("second")
+			});
+			if (calc) currentDate.add(parseInt(timeDelta, 10), unit);
+			if (momentFormat) return currentDate.format(momentFormat.substring(1).trim());
+			return currentDate.format(format);
+		}).replace(/{{\s*date\s*}}/gi, filename).replace(/{{\s*time\s*}}/gi, window.moment().format("HH:mm")).replace(/{{\s*title\s*}}/gi, filename));
+		window.app.foldManager.save(createdFile, IFoldInfo);
+		return createdFile;
+	} catch (err) {
+		console.error(`Failed to create file: '${normalizedPath}'`, err);
+		new obsidian.Notice("Unable to create new file.");
+	}
 }
 function getQuarterlyNote(date, quarterly) {
-    return quarterly[getDateUID(date, "quarter")] ?? null;
+	return quarterly[getDateUID(date, "quarter")] ?? null;
 }
 function getAllQuarterlyNotes() {
-    const quarterly = {};
-    if (!appHasQuarterlyNotesPluginLoaded()) {
-        return quarterly;
-    }
-    const { vault } = window.app;
-    const { folder } = getQuarterlyNoteSettings();
-    const quarterlyFolder = vault.getAbstractFileByPath(obsidian__default["default"].normalizePath(folder));
-    if (!quarterlyFolder) {
-        throw new QuarterlyNotesFolderMissingError("Failed to find quarterly notes folder");
-    }
-    obsidian__default["default"].Vault.recurseChildren(quarterlyFolder, (note) => {
-        if (note instanceof obsidian__default["default"].TFile) {
-            const date = getDateFromFile(note, "quarter");
-            if (date) {
-                const dateString = getDateUID(date, "quarter");
-                quarterly[dateString] = note;
-            }
-        }
-    });
-    return quarterly;
+	const quarterly = {};
+	if (!appHasQuarterlyNotesPluginLoaded()) return quarterly;
+	const { vault } = window.app;
+	const { folder = "" } = getQuarterlyNoteSettings() ?? {};
+	const quarterlyFolder = vault.getAbstractFileByPath(obsidian.normalizePath(folder));
+	if (!(quarterlyFolder instanceof obsidian.TFolder)) throw new QuarterlyNotesFolderMissingError("Failed to find quarterly notes folder");
+	obsidian.Vault.recurseChildren(quarterlyFolder, (note) => {
+		if (note instanceof obsidian.TFile) {
+			const date = getDateFromFile(note, "quarter");
+			if (date) {
+				const dateString = getDateUID(date, "quarter");
+				quarterly[dateString] = note;
+			}
+		}
+	});
+	return quarterly;
 }
-
-class YearlyNotesFolderMissingError extends Error {
-}
+//#endregion
+//#region src/yearly.ts
+var YearlyNotesFolderMissingError = class extends Error {};
 /**
- * This function mimics the behavior of the daily-notes plugin
- * so it will replace {{date}}, {{title}}, and {{time}} with the
- * formatted timestamp.
- *
- * Note: it has an added bonus that it's not 'today' specific.
- */
+* This function mimics the behavior of the daily-notes plugin
+* so it will replace {{date}}, {{title}}, and {{time}} with the
+* formatted timestamp.
+*
+* Note: it has an added bonus that it's not 'today' specific.
+*/
 async function createYearlyNote(date) {
-    const { vault } = window.app;
-    const { template, format, folder } = getYearlyNoteSettings();
-    const [templateContents, IFoldInfo] = await getTemplateInfo(template);
-    const filename = date.format(format);
-    const normalizedPath = await getNotePath(folder, filename);
-    try {
-        const createdFile = await vault.create(normalizedPath, templateContents
-            .replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
-            const now = window.moment();
-            const currentDate = date.clone().set({
-                hour: now.get("hour"),
-                minute: now.get("minute"),
-                second: now.get("second"),
-            });
-            if (calc) {
-                currentDate.add(parseInt(timeDelta, 10), unit);
-            }
-            if (momentFormat) {
-                return currentDate.format(momentFormat.substring(1).trim());
-            }
-            return currentDate.format(format);
-        })
-            .replace(/{{\s*date\s*}}/gi, filename)
-            .replace(/{{\s*time\s*}}/gi, window.moment().format("HH:mm"))
-            .replace(/{{\s*title\s*}}/gi, filename));
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        window.app.foldManager.save(createdFile, IFoldInfo);
-        return createdFile;
-    }
-    catch (err) {
-        console.error(`Failed to create file: '${normalizedPath}'`, err);
-        new obsidian__default["default"].Notice("Unable to create new file.");
-    }
+	const { vault } = window.app;
+	const { template = "", format = "", folder = "" } = getYearlyNoteSettings() ?? {};
+	const [templateContents, IFoldInfo] = await getTemplateInfo(template);
+	const filename = date.format(format);
+	const normalizedPath = await getNotePath(folder, filename);
+	try {
+		const createdFile = await vault.create(normalizedPath, templateContents.replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, _timeOrDate, calc, timeDelta, unit, momentFormat) => {
+			const now = window.moment();
+			const currentDate = date.clone().set({
+				hour: now.get("hour"),
+				minute: now.get("minute"),
+				second: now.get("second")
+			});
+			if (calc) currentDate.add(parseInt(timeDelta, 10), unit);
+			if (momentFormat) return currentDate.format(momentFormat.substring(1).trim());
+			return currentDate.format(format);
+		}).replace(/{{\s*date\s*}}/gi, filename).replace(/{{\s*time\s*}}/gi, window.moment().format("HH:mm")).replace(/{{\s*title\s*}}/gi, filename));
+		window.app.foldManager.save(createdFile, IFoldInfo);
+		return createdFile;
+	} catch (err) {
+		console.error(`Failed to create file: '${normalizedPath}'`, err);
+		new obsidian.Notice("Unable to create new file.");
+	}
 }
 function getYearlyNote(date, yearlyNotes) {
-    return yearlyNotes[getDateUID(date, "year")] ?? null;
+	return yearlyNotes[getDateUID(date, "year")] ?? null;
 }
 function getAllYearlyNotes() {
-    const yearlyNotes = {};
-    if (!appHasYearlyNotesPluginLoaded()) {
-        return yearlyNotes;
-    }
-    const { vault } = window.app;
-    const { folder } = getYearlyNoteSettings();
-    const yearlyNotesFolder = vault.getAbstractFileByPath(obsidian__default["default"].normalizePath(folder));
-    if (!yearlyNotesFolder) {
-        throw new YearlyNotesFolderMissingError("Failed to find yearly notes folder");
-    }
-    obsidian__default["default"].Vault.recurseChildren(yearlyNotesFolder, (note) => {
-        if (note instanceof obsidian__default["default"].TFile) {
-            const date = getDateFromFile(note, "year");
-            if (date) {
-                const dateString = getDateUID(date, "year");
-                yearlyNotes[dateString] = note;
-            }
-        }
-    });
-    return yearlyNotes;
+	const yearlyNotes = {};
+	if (!appHasYearlyNotesPluginLoaded()) return yearlyNotes;
+	const { vault } = window.app;
+	const { folder = "" } = getYearlyNoteSettings() ?? {};
+	const yearlyNotesFolder = vault.getAbstractFileByPath(obsidian.normalizePath(folder));
+	if (!(yearlyNotesFolder instanceof obsidian.TFolder)) throw new YearlyNotesFolderMissingError("Failed to find yearly notes folder");
+	obsidian.Vault.recurseChildren(yearlyNotesFolder, (note) => {
+		if (note instanceof obsidian.TFile) {
+			const date = getDateFromFile(note, "year");
+			if (date) {
+				const dateString = getDateUID(date, "year");
+				yearlyNotes[dateString] = note;
+			}
+		}
+	});
+	return yearlyNotes;
 }
 /**
- * XXX: "Weekly Notes" live in either the Calendar plugin or the periodic-notes plugin.
- * Check both until the weekly notes feature is removed from the Calendar plugin.
- */
+* XXX: "Weekly Notes" live in either the Calendar plugin or the periodic-notes plugin.
+* Check both until the weekly notes feature is removed from the Calendar plugin.
+*/
 function appHasWeeklyNotesPluginLoaded() {
-    const { app } = window;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (app.plugins.getPlugin("calendar")) {
-        return true;
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const periodicNotes = app.plugins.getPlugin("periodic-notes");
-    return periodicNotes && periodicNotes.settings?.weekly?.enabled;
+	const { app } = window;
+	if (app.plugins.getPlugin("calendar")) return true;
+	return !!app.plugins.getPlugin("periodic-notes")?.settings?.weekly?.enabled;
 }
 function appHasMonthlyNotesPluginLoaded() {
-    const { app } = window;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const periodicNotes = app.plugins.getPlugin("periodic-notes");
-    return periodicNotes && periodicNotes.settings?.monthly?.enabled;
+	const { app } = window;
+	return !!app.plugins.getPlugin("periodic-notes")?.settings?.monthly?.enabled;
 }
 function appHasQuarterlyNotesPluginLoaded() {
-    const { app } = window;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const periodicNotes = app.plugins.getPlugin("periodic-notes");
-    return periodicNotes && periodicNotes.settings?.quarterly?.enabled;
+	const { app } = window;
+	return !!app.plugins.getPlugin("periodic-notes")?.settings?.quarterly?.enabled;
 }
 function appHasYearlyNotesPluginLoaded() {
-    const { app } = window;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const periodicNotes = app.plugins.getPlugin("periodic-notes");
-    return periodicNotes && periodicNotes.settings?.yearly?.enabled;
+	const { app } = window;
+	return !!app.plugins.getPlugin("periodic-notes")?.settings?.yearly?.enabled;
 }
 function getPeriodicNoteSettings(granularity) {
-    const getSettings = {
-        day: getDailyNoteSettings,
-        week: getWeeklyNoteSettings,
-        month: getMonthlyNoteSettings,
-        quarter: getQuarterlyNoteSettings,
-        year: getYearlyNoteSettings,
-    }[granularity];
-    return getSettings();
+	const getSettings = {
+		day: getDailyNoteSettings,
+		week: getWeeklyNoteSettings,
+		month: getMonthlyNoteSettings,
+		quarter: getQuarterlyNoteSettings,
+		year: getYearlyNoteSettings
+	}[granularity];
+	return getSettings();
 }
-var createDailyNote_1 = createDailyNote;
-var createMonthlyNote_1 = createMonthlyNote;
-var createQuarterlyNote_1 = createQuarterlyNote;
-var createWeeklyNote_1 = createWeeklyNote;
-var createYearlyNote_1 = createYearlyNote;
-var getAllDailyNotes_1 = getAllDailyNotes;
-var getAllMonthlyNotes_1 = getAllMonthlyNotes;
-var getAllQuarterlyNotes_1 = getAllQuarterlyNotes;
-var getAllWeeklyNotes_1 = getAllWeeklyNotes;
-var getAllYearlyNotes_1 = getAllYearlyNotes;
-var getDailyNote_1 = getDailyNote;
-var getDateFromPath_1 = getDateFromPath;
-var getMonthlyNote_1 = getMonthlyNote;
-var getPeriodicNoteSettings_1 = getPeriodicNoteSettings;
-var getQuarterlyNote_1 = getQuarterlyNote;
-var getWeeklyNote_1 = getWeeklyNote;
-var getYearlyNote_1 = getYearlyNote;
 
-function pathJoin(parts, sep) {
-    const separator = sep || "/";
-    parts = parts.map((part, index) => {
+function pathJoin(parts, sep = "/") {
+    return parts.map((part, index) => {
         if (index) {
-            part = part.replace(new RegExp("^" + separator), "");
+            part = part.replace(new RegExp(`^${sep}`), "");
         }
         if (index !== parts.length - 1) {
-            part = part.replace(new RegExp(separator + "$"), "");
+            part = part.replace(new RegExp(`${sep}$`), "");
         }
         return part;
-    });
-    return parts.join(separator);
+    }).join(sep);
 }
 class Utils {
     constructor(plugin) {
@@ -3886,7 +3773,7 @@ class Utils {
         const workspace = this.getWorkspace(name);
         if (!workspace)
             return null;
-        return workspace[this.SETTINGS_ATTR] ? workspace[this.SETTINGS_ATTR] : (workspace[this.SETTINGS_ATTR] = {});
+        return (workspace[this.SETTINGS_ATTR] ? workspace[this.SETTINGS_ATTR] : (workspace[this.SETTINGS_ATTR] = {}));
     }
     get activeModeName() {
         const settings = this.activeWorkspaceSettings();
@@ -3947,54 +3834,43 @@ class Utils {
         return true;
     }
     setChildId(split, leafId, fileName) {
-        let found = false;
-        function recurse(split, leafId, fileName) {
-            if (found)
-                return;
-            if (split.type == "leaf") {
-                if (split.id == leafId) {
-                    if (fileName) {
-                        split.state.state.file = fileName;
-                    }
-                    else {
-                        split.state.state.file = null;
-                    }
-                    found = true;
+        if (split.type === "leaf" && split.id === leafId) {
+            split.state.state.file = fileName || null;
+            return true;
+        }
+        if (split.type === "split" || split.type === "tabs") {
+            for (const child of split.children) {
+                if (this.setChildId(child, leafId, fileName)) {
+                    return true;
                 }
             }
-            else if (split.type == "split") {
-                split.children.forEach((child) => {
-                    recurse(child, leafId, fileName);
-                });
-            }
         }
-        recurse(split, leafId, fileName);
-        return found;
+        return false;
     }
     createPeriodicNote(granularity, date) {
         const createFn = {
-            day: createDailyNote_1,
-            week: createWeeklyNote_1,
-            month: createMonthlyNote_1,
-            quarter: createQuarterlyNote_1,
-            year: createYearlyNote_1,
+            day: createDailyNote,
+            week: createWeeklyNote,
+            month: createMonthlyNote,
+            quarter: createQuarterlyNote,
+            year: createYearlyNote,
         };
         return createFn[granularity](date);
     }
     getPeriodicNoteFromPath(path) {
         return __awaiter(this, void 0, void 0, function* () {
             const periods = {
-                day: { get: getDailyNote_1, getAll: getAllDailyNotes_1 },
-                week: { get: getWeeklyNote_1, getAll: getAllWeeklyNotes_1 },
-                month: { get: getMonthlyNote_1, getAll: getAllMonthlyNotes_1 },
-                quarter: { get: getQuarterlyNote_1, getAll: getAllQuarterlyNotes_1 },
-                year: { get: getYearlyNote_1, getAll: getAllYearlyNotes_1 },
+                day: { get: getDailyNote, getAll: getAllDailyNotes },
+                week: { get: getWeeklyNote, getAll: getAllWeeklyNotes },
+                month: { get: getMonthlyNote, getAll: getAllMonthlyNotes },
+                quarter: { get: getQuarterlyNote, getAll: getAllQuarterlyNotes },
+                year: { get: getYearlyNote, getAll: getAllYearlyNotes },
             };
             const result = yield Promise.all(Object.entries(periods).map((entry) => __awaiter(this, void 0, void 0, function* () {
                 const [granularity, action] = entry;
-                const date = getDateFromPath_1(path, granularity);
+                const date = getDateFromPath(path, granularity);
                 if (date) {
-                    const settings = getPeriodicNoteSettings_1(granularity);
+                    const settings = getPeriodicNoteSettings(granularity);
                     const resolvedPath = obsidian.normalizePath(pathJoin([settings.folder, (date === null || date === void 0 ? void 0 : date.format(settings.format)) + ".md"]));
                     // console.log(path, date, resolvedPath, settings, granularity);
                     if (path == resolvedPath) {
@@ -4010,24 +3886,75 @@ class Utils {
     }
     applyFileOverrides(workspaceName, workspace) {
         return __awaiter(this, void 0, void 0, function* () {
-            let workspaceSettings = this.getWorkspaceSettings(workspaceName);
-            if (workspaceSettings === null || workspaceSettings === void 0 ? void 0 : workspaceSettings.fileOverrides) {
-                yield Promise.all(Object.entries(workspaceSettings.fileOverrides).map((entry) => __awaiter(this, void 0, void 0, function* () {
-                    let [leafId, fileName] = entry;
-                    let parsedFileName = this.renderTemplateString(fileName);
-                    yield this.getPeriodicNoteFromPath(parsedFileName);
-                    const file = this.app.vault.getAbstractFileByPath(obsidian.normalizePath(parsedFileName));
-                    // console.log("parsedFileName", parsedFileName, file);
-                    if (!file) {
-                        fileName = null;
+            const workspaceSettings = this.getWorkspaceSettings(workspaceName);
+            const fileOverrides = workspaceSettings === null || workspaceSettings === void 0 ? void 0 : workspaceSettings.fileOverrides;
+            if (fileOverrides) {
+                yield Promise.all(Object.entries(fileOverrides).map((_a) => __awaiter(this, [_a], void 0, function* ([leafId, fileName]) {
+                    // Each entry is isolated so one bad override (e.g. a periodic-note template that
+                    // fails to resolve) can't abort the whole batch and lose overrides that would
+                    // otherwise have applied fine.
+                    try {
+                        let parsedFileName = this.renderTemplateString(fileName);
+                        yield this.getPeriodicNoteFromPath(parsedFileName);
+                        const abstractFile = this.app.vault.getAbstractFileByPath(obsidian.normalizePath(parsedFileName));
+                        const file = abstractFile instanceof obsidian.TFile ? abstractFile : null;
+                        if (!file) {
+                            fileName = null;
+                        }
+                        const result = this.setChildId(workspace.main, leafId, file === null || file === void 0 ? void 0 : file.path);
+                        if (!result) {
+                            // clean up any overrides for panes that no longer exist
+                            delete fileOverrides[leafId];
+                        }
                     }
-                    const result = this.setChildId(workspace.main, leafId, file === null || file === void 0 ? void 0 : file.path);
-                    // console.log(workspace);
-                    if (!result) {
-                        // clean up any overrides for panes that no longer exist
-                        delete workspaceSettings.fileOverrides[leafId];
+                    catch (e) {
+                        console.error(`failed to apply file override for leaf ${leafId}:`, e);
                     }
                 })));
+            }
+        });
+    }
+    captureOpenFiles(workspace) {
+        const openFiles = {};
+        function extractFiles(split) {
+            var _a, _b, _c;
+            if (split.type === "leaf") {
+                const file = (_b = (_a = split.state) === null || _a === void 0 ? void 0 : _a.state) === null || _b === void 0 ? void 0 : _b.file;
+                if (file && split.id) {
+                    openFiles[split.id] = file;
+                }
+            }
+            else if (split.type === "split" || split.type === "tabs") {
+                (_c = split.children) === null || _c === void 0 ? void 0 : _c.forEach(child => {
+                    extractFiles(child);
+                });
+            }
+        }
+        if (workspace === null || workspace === void 0 ? void 0 : workspace.main) {
+            extractFiles(workspace.main);
+        }
+        return openFiles;
+    }
+    restoreOpenFiles(workspaceName, workspace) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const workspaceSettings = this.getWorkspaceSettings(workspaceName);
+            const trackedFiles = workspaceSettings === null || workspaceSettings === void 0 ? void 0 : workspaceSettings.trackedFiles;
+            if (!trackedFiles)
+                return;
+            for (const [leafId, filePath] of Object.entries(trackedFiles)) {
+                const abstractFile = this.app.vault.getAbstractFileByPath(obsidian.normalizePath(filePath));
+                const file = abstractFile instanceof obsidian.TFile ? abstractFile : null;
+                if (file) {
+                    // FIle is found, set it
+                    if (!this.setChildId(workspace.main, leafId, file.path)) {
+                        // the leaf this file was tracked against no longer exists in the layout
+                        delete trackedFiles[leafId];
+                    }
+                }
+                else {
+                    // File not found, is not found, create a new one to keep layout intact
+                    this.setChildId(workspace.main, leafId, null);
+                }
             }
         });
     }
@@ -4049,26 +3976,23 @@ class Utils {
     mergeSidebarLayout(newLayout) {
         const workspace = this.app.workspace;
         const currentLayout = workspace.getLayout();
-        newLayout["main"] = currentLayout["main"];
-        workspace.changeLayout(newLayout);
+        newLayout.main = currentLayout["main"];
+        void workspace.changeLayout(newLayout);
     }
     // Template string rendering with math. Credit to Liam Cain https://github.com/liamcain/obsidian-daily-notes-interface
     renderTemplateString(text) {
-        const templateOptions = window.app.internalPlugins.getPluginById("templates").instance.options;
+        // Obsidian's core "templates" plugin instance/options aren't part of the public API,
+        // so its shape is undocumented; this.app is the same global app instance the original
+        // `(<any>window).app` reached for.
+        const templatesInstance = this.app.internalPlugins.getPluginById("templates").instance;
+        const templateOptions = templatesInstance.options;
         let dateFormat = (templateOptions && templateOptions.dateFormat) || "YYYY-MM-DD";
         let timeFormat = (templateOptions && templateOptions.timeFormat) || "HH:mm";
         const date = window.moment();
         return (text = text
-            .replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_, timeOrDate, calc, timeDelta, unit, momentFormat) => {
-            let _format;
-            let resolvedDate;
+            .replace(/{{\s*(date|time)\s*(([+-]\d+)([yqmwdhs]))?\s*(:.+?)?}}/gi, (_match, timeOrDate, calc, timeDelta, unit, momentFormat) => {
+            const _format = timeOrDate === "time" ? timeFormat : dateFormat;
             const now = window.moment();
-            if (timeOrDate == "time") {
-                _format = timeFormat;
-            }
-            else {
-                _format = dateFormat;
-            }
             const currentDate = date.clone().set({
                 hour: now.get("hour"),
                 minute: now.get("minute"),
@@ -4077,13 +4001,7 @@ class Utils {
             if (calc) {
                 currentDate.add(parseInt(timeDelta, 10), unit);
             }
-            if (momentFormat) {
-                resolvedDate = currentDate.format(momentFormat.substring(1).trim());
-                // console.log("momentFormat", momentFormat.substring(1).trim(), resolvedDate);
-            }
-            else {
-                resolvedDate = currentDate.format(_format);
-            }
+            const resolvedDate = momentFormat ? currentDate.format(momentFormat.substring(1).trim()) : currentDate.format(_format);
             return resolvedDate;
         })
             .replace(/{{\s*yesterday\s*}}/gi, date.clone().subtract(1, "day").format(dateFormat))
@@ -4091,18 +4009,41 @@ class Utils {
     }
 }
 
+function cycleWorkspace(workspaceNames, activeWorkspace, loadWorkspace, saveWorkspace) {
+    const workspaces = workspaceNames.filter(name => !/^mode:/i.test(name)).sort();
+    if (workspaces.length === 0)
+        return;
+    if (saveWorkspace && activeWorkspace)
+        saveWorkspace(activeWorkspace);
+    const activeIndex = workspaces.indexOf(activeWorkspace);
+    const nextWorkspace = workspaces[(activeIndex + 1) % workspaces.length];
+    if (nextWorkspace !== activeWorkspace)
+        loadWorkspace(nextWorkspace);
+}
+
 class WorkspacesPlus extends obsidian.Plugin {
     constructor() {
         super(...arguments);
+        // Set when setPlatformWorkspace() triggers a workspace-load at startup (only happens when
+        // settings.restoreLayoutOnStartup is on), so enableModesFeature()'s own onWorkspaceLoad()
+        // bootstrap call can skip re-running it. One-shot: consumed (cleared) the first time
+        // enableModesFeature() checks it, so a later, user-triggered call to enableModesFeature()
+        // (e.g. toggling modes on mid-session) still does its own onWorkspaceLoad() call as before.
+        this.startupWorkspaceLoadTriggered = false;
+        // Incremented on every non-mode loadWorkspace() invocation. Lets an in-flight restore chain
+        // (restoreOpenFiles/applyFileOverrides -> changeLayout -> deferred-leaf loading -> saveData)
+        // recognize it's been superseded by a newer workspace switch and bail out instead of
+        // re-applying a stale layout or persisting stale data over the newer switch.
+        this.workspaceLoadGeneration = 0;
         this.setWorkspaceName = obsidian.debounce(() => {
             var _a, _b, _c;
             if (!this.isNativePluginEnabled) {
-                (_a = this.changeWorkspaceButton) === null || _a === void 0 ? void 0 : _a.setText("Error: The Workspaces core plugin is disabled");
+                (_a = this.changeWorkspaceButton) === null || _a === void 0 ? void 0 : _a.setText("Error: the workspaces core plugin is disabled");
             }
             else {
                 (_b = this.changeWorkspaceButton) === null || _b === void 0 ? void 0 : _b.setText(this.utils.activeWorkspace);
             }
-            if (this.settings.workspaceSettings)
+            if (this.modesEnabled)
                 (_c = this.changeModeButton) === null || _c === void 0 ? void 0 : _c.setText(this.utils.getActiveModeDisplayName());
         }, 100, true);
         this.debouncedSave = obsidian.debounce(
@@ -4111,31 +4052,31 @@ class WorkspacesPlus extends obsidian.Plugin {
             // avoid errors if the debounced save happens in the middle of a workspace switch
             if (workspaceName === this.utils.activeWorkspace) {
                 if (this.debug)
-                    console.log("layout invoked save: " + workspaceName);
+                    console.debug("layout invoked save: " + workspaceName);
                 this.workspacePlugin.saveWorkspace(workspaceName);
             }
             else {
                 if (this.debug)
-                    console.log("skipped saving because the workspace has been changed");
+                    console.debug("skipped saving because the workspace has been changed");
             }
         }, 2000, true);
         this.onConfigChange = () => {
-            if (!this.settings.workspaceSettings)
+            if (!this.modesEnabled)
                 return;
             if (this.workspaceLoading) {
                 if (this.debug)
-                    console.log("skipped save due to recent workspace switch");
+                    console.debug("skipped save due to recent workspace switch");
                 return;
             }
             const activeModeName = this.utils.activeModeName;
             if (activeModeName) {
                 if (this.debug)
-                    console.log("config invoked mode update: " + activeModeName);
+                    console.debug("config invoked mode update: " + activeModeName);
                 this.workspacePlugin.saveWorkspace(activeModeName);
             }
             else {
                 if (this.debug)
-                    console.log("config invoked global update");
+                    console.debug("config invoked global update");
                 this.updateGlobalSettings();
             }
         };
@@ -4183,7 +4124,15 @@ class WorkspacesPlus extends obsidian.Plugin {
             else {
                 customSettings = this.utils.setWorkspaceSettings(workspaceName, customSettings);
             }
-            if (this.settings.workspaceSettings && this.utils.isMode(workspaceName)) {
+            // Capture currently open files if tracking is enabled
+            if (this.settings.trackOpenFiles) {
+                const currentWorkspace = this.workspacePlugin.workspaces[workspaceName];
+                if (currentWorkspace) {
+                    const openFiles = this.utils.captureOpenFiles(currentWorkspace);
+                    customSettings.trackedFiles = openFiles;
+                }
+            }
+            if (this.modesEnabled && this.utils.isMode(workspaceName)) {
                 customSettings.app = this.app.vault.config;
             }
             let explorerFoldState = yield this.app.loadLocalStorage("file-explorer-unfold");
@@ -4196,19 +4145,19 @@ class WorkspacesPlus extends obsidian.Plugin {
             this.setWorkspaceAttribute(); // sets HTML data attribute
             this.updatePlatformWorkspace(name);
             const settings = this.utils.getWorkspaceSettings(name);
-            if (this.settings.workspaceSettings) {
+            if (this.modesEnabled) {
                 const modeName = settings === null || settings === void 0 ? void 0 : settings.mode;
                 const mode = modeName && this.utils.getModeSettings(modeName);
                 let combinedSettings;
                 if (mode) {
                     combinedSettings = this.mergeModeSettings(mode);
                     if (this.debug)
-                        console.log("loading mode settings", mode, combinedSettings);
+                        console.debug("loading mode settings", mode, combinedSettings);
                 }
                 else {
                     combinedSettings = this.mergeGlobalSettings();
                     if (this.debug)
-                        console.log("loading default settings", combinedSettings);
+                        console.debug("loading default settings", combinedSettings);
                     settings && (settings["mode"] = null);
                 }
                 if (this.settings.systemDarkMode)
@@ -4218,17 +4167,17 @@ class WorkspacesPlus extends obsidian.Plugin {
             }
             if (settings)
                 this.utils.updateFoldState(settings);
-            this.saveData(this.settings);
+            void this.saveData(this.settings);
         };
         this.reloadIfNeeded = obsidian.debounce(() => {
             function sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
+                return new Promise(resolve => window.setTimeout(resolve, ms));
             }
             // this is currently the only way to tell if CM6 is actually loaded on desktop
             const isLoaded = this.app.commands.editorCommands["editor:toggle-source"] ? true : false;
             const isEnabled = this.app.vault.config.livePreview;
             if (isEnabled != isLoaded) {
-                this.app.workspace.saveLayout().then(() => __awaiter(this, void 0, void 0, function* () {
+                void this.app.workspace.saveLayout().then(() => __awaiter(this, void 0, void 0, function* () {
                     while (true) {
                         yield sleep(100);
                         if (this.app.workspace.layoutReady) {
@@ -4271,22 +4220,26 @@ class WorkspacesPlus extends obsidian.Plugin {
             this.registerEventHandlers();
             this.registerCommands();
             this.app.workspace.onLayoutReady(() => {
-                this.setPlatformWorkspace();
-                // store current Obsidian settings into local plugin storage
-                if (this.settings.workspaceSettings)
+                // store current Obsidian settings into local plugin storage -- must run before
+                // setPlatformWorkspace(), which (when settings.restoreLayoutOnStartup is on) can trigger
+                // a synchronous workspace-load that reads globalSettings back via mergeGlobalSettings();
+                // if globalSettings were still empty at that point, applySettings() would overwrite (and
+                // persist) an empty app.vault.config.
+                if (this.modesEnabled)
                     this.storeGlobalSettings();
+                this.setPlatformWorkspace();
                 this.backupCoreConfig();
-                setTimeout(() => {
+                window.setTimeout(() => {
                     this.registerWorkspaceHotkeys();
                     this.setWorkspaceAttribute();
                     this.addStatusBarIndicator.apply(this);
-                    if (this.settings.workspaceSettings)
+                    if (this.modesEnabled)
                         this.enableModesFeature();
                     if (this.settings.workspaceSwitcherRibbon) {
                         this.toggleWorkspaceRibbonButton();
                         this.toggleNativeWorkspaceRibbon();
                     }
-                    if (this.settings.workspaceSettings && this.settings.modeSwitcherRibbon) {
+                    if (this.modesEnabled && this.settings.modeSwitcherRibbon) {
                         this.toggleModeRibbonButton();
                     }
                 }, 100);
@@ -4294,9 +4247,9 @@ class WorkspacesPlus extends obsidian.Plugin {
         });
     }
     backupCoreConfig() {
-        this.backupConfigFile("workspaces");
-        this.backupConfigFile("app");
-        this.backupConfigFile("appearance");
+        void this.backupConfigFile("workspaces");
+        void this.backupConfigFile("app");
+        void this.backupConfigFile("appearance");
     }
     backupConfigFile(configType) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -4304,13 +4257,13 @@ class WorkspacesPlus extends obsidian.Plugin {
             const fileExists = yield this.app.vault.exists(configFileName);
             if (!fileExists) {
                 const configData = yield this.app.vault.readConfigJson(configType);
-                if (configData)
+                if (configData && typeof configData === "object")
                     return this.app.vault.writeJson(configFileName, configData, true);
             }
         });
     }
     onunload() {
-        if (this.settings.workspaceSettings) {
+        if (this.modesEnabled) {
             let combinedSettings = this.mergeGlobalSettings();
             this.applySettings(combinedSettings);
         }
@@ -4322,7 +4275,7 @@ class WorkspacesPlus extends obsidian.Plugin {
     }
     loadSettings() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.settings = Object.assign({}, DEFAULT_SETTINGS, yield this.loadData());
+            this.settings = Object.assign({}, DEFAULT_SETTINGS, (yield this.loadData()));
         });
     }
     saveSettings() {
@@ -4333,7 +4286,7 @@ class WorkspacesPlus extends obsidian.Plugin {
     registerCommands() {
         this.addCommand({
             id: "open-workspaces-plus",
-            name: "Open Workspaces Plus",
+            name: "Open workspace switcher",
             callback: () => new WorkspacesPlusPluginWorkspaceModal(this, this.settings, true).open(),
         });
         this.addCommand({
@@ -4344,6 +4297,20 @@ class WorkspacesPlus extends obsidian.Plugin {
                 new obsidian.Notice("Successfully saved workspace: " + this.workspacePlugin.activeWorkspace);
             },
         });
+        this.addCommand({
+            id: "cycle-workspace",
+            name: "Cycle to next workspace",
+            callback: () => this.cycleWorkspace(),
+        });
+        this.addCommand({
+            id: "save-and-cycle-workspace",
+            name: "Save current workspace and cycle to next",
+            callback: () => this.cycleWorkspace(true),
+        });
+    }
+    cycleWorkspace(saveCurrent = false) {
+        const activeWorkspace = this.workspacePlugin.activeWorkspace;
+        cycleWorkspace(Object.keys(this.workspacePlugin.workspaces), activeWorkspace, workspaceName => this.workspacePlugin.loadWorkspace(workspaceName), saveCurrent ? workspaceName => this.workspacePlugin.saveWorkspace(workspaceName) : undefined);
     }
     registerEventHandlers() {
         this.registerEvent(this.app.workspace.on("workspace-delete", this.onWorkspaceDelete));
@@ -4352,6 +4319,14 @@ class WorkspacesPlus extends obsidian.Plugin {
         this.registerEvent(this.app.workspace.on("workspace-load", this.onWorkspaceLoad));
         this.registerEvent(this.app.workspace.on("layout-change", this.onLayoutChange));
         this.registerEvent(this.app.workspace.on("resize", this.onLayoutChange));
+    }
+    // Modes snapshot and restore Obsidian's entire core config (app.json, which is shared
+    // across platforms). applySettings() replaces app.vault.config wholesale, so restoring a
+    // desktop-captured snapshot on mobile would drop mobile-only keys (mobile toolbar, pull
+    // action, etc.) and persist the loss. Until Modes captures/merges config platform-safely,
+    // the feature is desktop-only regardless of the stored toggle.
+    get modesEnabled() {
+        return this.settings.workspaceSettings && !this.app.isMobile;
     }
     get changeWorkspaceButton() {
         var _a;
@@ -4364,11 +4339,27 @@ class WorkspacesPlus extends obsidian.Plugin {
     setPlatformWorkspace() {
         if (!this.isNativePluginEnabled)
             return;
-        // note: don't call this too early in the init process or setActiveWorkspace will wipe all workspaces
+        // note: don't call this too early in the init process or it will wipe all workspaces
         const _activeWorkspace = this.app.isMobile
             ? this.settings.activeWorkspaceMobile
             : this.settings.activeWorkspaceDesktop;
-        if (_activeWorkspace) {
+        if (!_activeWorkspace)
+            return;
+        if (this.settings.restoreLayoutOnStartup) {
+            // loadWorkspace (not setActiveWorkspace) so the saved layout is actually reapplied on
+            // startup, not just the active-workspace label. Obsidian's own setActiveWorkspace only
+            // sets that label; without an actual reload, the status bar can end up naming a
+            // workspace whose layout was never restored, disagreeing with whatever Obsidian's
+            // native session-restore happened to reopen. Opt-in (see TOGGLE_TEXT.restoreLayoutOnStartup
+            // in settings.ts) because it also means every plugin load -- startup, and toggling the
+            // plugin off/on in Community Plugins -- discards whatever unsaved layout is currently
+            // on screen in favor of that workspace's last-saved copy.
+            this.startupWorkspaceLoadTriggered = true;
+            this.workspacePlugin.loadWorkspace(_activeWorkspace);
+        }
+        else {
+            // Only update the remembered active-workspace label; leave whatever layout is already
+            // on screen (e.g. Obsidian's own native session-restore) untouched.
             this.workspacePlugin.setActiveWorkspace(_activeWorkspace);
         }
     }
@@ -4398,7 +4389,7 @@ class WorkspacesPlus extends obsidian.Plugin {
     }
     toggleModeRibbonButton() {
         var _a, _b;
-        if (this.settings.workspaceSettings && this.settings.modeSwitcherRibbon) {
+        if (this.modesEnabled && this.settings.modeSwitcherRibbon) {
             if (!this.ribbonIconMode) {
                 this.ribbonIconMode = this.addRibbonIcon("gear", "Manage modes", () => __awaiter(this, void 0, void 0, function* () { return new WorkspacesPlusPluginModeModal(this, this.settings, true).open(); }));
             }
@@ -4409,22 +4400,35 @@ class WorkspacesPlus extends obsidian.Plugin {
         }
     }
     enableModesFeature() {
-        if (this.settings.workspaceSettings) {
+        if (this.modesEnabled) {
             this.storeGlobalSettings();
             this.addStatusBarIndicator("mode");
             this.addCommand({
                 id: "open-workspaces-plus-modes",
-                name: "Open Workspaces Plus Modes",
+                name: "Open mode switcher",
                 callback: () => new WorkspacesPlusPluginModeModal(this, this.settings, true).open(),
             });
-            if (this.debug)
-                console.log("toggle load", this.workspacePlugin.activeWorkspace);
-            this.onWorkspaceLoad(this.workspacePlugin.activeWorkspace);
+            if (this.startupWorkspaceLoadTriggered) {
+                // setPlatformWorkspace() already fired a workspace-load (and therefore
+                // onWorkspaceLoad) synchronously at startup -- avoid running it a second time.
+                this.startupWorkspaceLoadTriggered = false;
+            }
+            else {
+                if (this.debug)
+                    console.debug("toggle load", this.workspacePlugin.activeWorkspace);
+                this.onWorkspaceLoad(this.workspacePlugin.activeWorkspace);
+            }
             this.registerEvent(this.app.vault.on("config-changed", this.onConfigChange));
         }
     }
     disableModesFeature() {
         var _a;
+        // Only undo what enableModesFeature() actually set up. It no-ops unless modesEnabled
+        // (so it never runs on mobile), and statusBarMode is the marker it leaves behind.
+        // Without this, toggling the persisted `workspaceSettings` off while the feature was
+        // never active would run applySettings() over an empty globalSettings and wipe app.json.
+        if (!this.statusBarMode)
+            return;
         this.app.vault.off("config-changed", this.onConfigChange);
         let combinedSettings = this.mergeGlobalSettings();
         this.applySettings(combinedSettings);
@@ -4480,7 +4484,7 @@ class WorkspacesPlus extends obsidian.Plugin {
     setWorkspaceAttribute() {
         const workspace = this.utils.activeWorkspace;
         document.body.dataset.workspaceName = workspace;
-        if (this.settings.workspaceSettings) {
+        if (this.modesEnabled) {
             const modeName = this.utils.getActiveModeDisplayName();
             if (modeName)
                 document.body.dataset.workspaceMode = modeName;
@@ -4526,7 +4530,7 @@ class WorkspacesPlus extends obsidian.Plugin {
         // this.app.changeBaseFontSize(settings?.baseFontSize as number);
         this.app.customCss.loadData();
         this.app.customCss.applyCss();
-        setTimeout(() => {
+        window.setTimeout(() => {
             this.app.enableCssTransition();
         }, 1000);
     }
@@ -4544,23 +4548,24 @@ class WorkspacesPlus extends obsidian.Plugin {
     }
     setLoadingStatus() {
         this.workspaceLoading = true;
-        setTimeout(() => {
+        window.setTimeout(() => {
             this.workspaceLoading = false;
         }, 2000);
     }
     updateGlobalSettings() {
         this.settings.globalSettings = Object.assign({}, this.settings.globalSettings, this.app.vault.config);
-        this.saveData(this.settings);
+        void this.saveData(this.settings);
     }
     storeGlobalSettings() {
         if (Object.keys(this.settings.globalSettings).length === 0) {
             this.settings.globalSettings = Object.assign({}, this.app.vault.config);
-            this.saveData(this.settings);
+            void this.saveData(this.settings);
         }
         return this.settings.globalSettings;
     }
     installWorkspaceHooks() {
         // patch the internal workspaces plugin to emit events on save, delete, and load
+        // eslint-disable-next-line @typescript-eslint/no-this-alias -- captured for the patched functions below, whose own `this` is rebound to workspacePlugin
         const plugin = this;
         this.register(around(this.workspacePlugin, {
             saveWorkspace(old) {
@@ -4570,9 +4575,10 @@ class WorkspacesPlus extends obsidian.Plugin {
                         return;
                     let settings;
                     settings = plugin.utils.getWorkspaceSettings(workspaceName);
+                    // old.call()'s TS typing falls back to `any` for this arity, same as bind() elsewhere in this codebase
                     const result = old.call(this, workspaceName, ...etc);
                     if (plugin.debug)
-                        console.log("workspace saved: " + workspaceName);
+                        console.debug("workspace saved: " + workspaceName);
                     this.app.workspace.trigger("workspace-save", workspaceName, settings);
                     return result;
                 };
@@ -4581,6 +4587,7 @@ class WorkspacesPlus extends obsidian.Plugin {
                 return function deleteWorkspace(workspaceName, ...etc) {
                     if (!workspaceName || !plugin.isNativePluginEnabled)
                         return;
+                    // old.call()'s TS typing falls back to `any` for this arity, same as bind() elsewhere in this codebase
                     const result = old.call(this, workspaceName, ...etc);
                     this.app.workspace.trigger("workspace-delete", workspaceName);
                     return result;
@@ -4592,29 +4599,70 @@ class WorkspacesPlus extends obsidian.Plugin {
                         return;
                     plugin.setLoadingStatus();
                     let result;
-                    if (plugin.settings.workspaceSettings && plugin.utils.isMode(workspaceName)) {
+                    if (plugin.modesEnabled && plugin.utils.isMode(workspaceName)) {
                         // if the workspace being loaded is a mode, invoke the mode loader
                         let modeName = workspaceName;
                         workspaceName = plugin.utils.activeWorkspace;
                         result = plugin.utils.loadMode(workspaceName, modeName);
                     }
                     else {
-                        // result = old.call(this, workspaceName, ...etc);
                         const workspace = this.workspaces[workspaceName];
                         if (workspace) {
-                            // TODO: Ensure this stays in sync with the native Obsidian function
                             this.activeWorkspace = workspaceName;
-                            try {
-                                plugin.utils.applyFileOverrides(workspaceName, workspace).then(() => {
-                                    this.app.workspace.changeLayout(workspace);
+                            // Guards against a rapid second switch superseding this one while its restore
+                            // chain is still in flight (see the generation checks below).
+                            const generation = ++plugin.workspaceLoadGeneration;
+                            // Restore tracked files, then overrides -- sequential (not Promise.all) is
+                            // intentional: when the same leaf is both tracked and overridden, the override
+                            // must win, which only holds if it's applied after restoreOpenFiles.
+                            const restore = plugin.settings.trackOpenFiles
+                                ? plugin.utils
+                                    .restoreOpenFiles(workspaceName, workspace)
+                                    .then(() => plugin.utils.applyFileOverrides(workspaceName, workspace))
+                                : plugin.utils.applyFileOverrides(workspaceName, workspace);
+                            restore
+                                .catch((e) => {
+                                // Swallow and continue to changeLayout() regardless -- both
+                                // restoreOpenFiles and applyFileOverrides already isolate per-leaf
+                                // errors internally, so a rejection here means something unexpected
+                                // happened, not "nothing was restored."
+                                console.error("failed to restore files:", e);
+                            })
+                                .then(() => __awaiter(this, void 0, void 0, function* () {
+                                // A newer switch started while restore was running -- applying this
+                                // (now-stale) layout would revert the user's screen back to it.
+                                if (generation !== plugin.workspaceLoadGeneration)
+                                    return;
+                                yield this.app.workspace.changeLayout(workspace);
+                                if (generation !== plugin.workspaceLoadGeneration)
+                                    return;
+                                // changeLayout() creates the leaves, but leaves in the background stay
+                                // "deferred" (a lightweight placeholder) until focused. Force-load every
+                                // deferred leaf in the workspace -- not just the ones this plugin wrote a
+                                // file into -- since any background leaf can be left in that state.
+                                const leaves = [];
+                                this.app.workspace.iterateAllLeaves(leaf => leaves.push(leaf));
+                                yield Promise.all(leaves
+                                    .filter(leaf => leaf.isDeferred)
+                                    .map(leaf => 
+                                // Isolate each leaf. A leaf whose view type isn't registered
+                                // on this device -- e.g. a desktop-only plugin's view in a
+                                // layout opened on mobile/iPad -- rejects here, and an
+                                // unguarded Promise.all would then abort the whole restore:
+                                // saveData() is skipped and the sidebar / ribbon are left
+                                // half-rebuilt until the app is reloaded. Mirrors the
+                                // per-entry isolation in Utils.applyFileOverrides.
+                                Promise.resolve()
+                                    .then(() => leaf.loadIfDeferred())
+                                    .catch((e) => {
+                                    console.error("failed to load deferred leaf:", e);
+                                })));
+                                if (generation === plugin.workspaceLoadGeneration)
                                     this.saveData();
-                                });
-                            }
-                            catch (_a) {
-                                console.log("failed to apply overrides");
-                                this.app.workspace.changeLayout(workspace);
-                                this.saveData();
-                            }
+                            }))
+                                .catch((e) => {
+                                console.error("failed to apply workspace layout:", e);
+                            });
                         }
                     }
                     this.app.workspace.trigger("workspace-load", workspaceName);
@@ -4626,3 +4674,5 @@ class WorkspacesPlus extends obsidian.Plugin {
 }
 
 module.exports = WorkspacesPlus;
+
+/* nosourcemap */

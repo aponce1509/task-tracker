@@ -3,31 +3,60 @@ file_class:
   - par
 paraType: Project
 paras:
-priority: 3
-dueDate:
 rate:
 created: 2026-02-08 11:48
 img: "[[second-brain-icon.png]]"
+active: true
 ---
 # [[second-brain]]
-
-## Quick-Access
-
-- 
-
+ 
 ## Index
 
+- [[The Second Brain System]]
 - [[Second Brain Outline]]
+
+## Operative Searches
+
+![[issues-project.base]]
+
+## Tags Searches
+
+- TBD: during operation
 ## Bases
+### Indexes and Mocs
 
-### Issues
+![[navigation.base]]
 
-![[PARA Base.base#Issues]]
+### Your Brain
 
-### Bookmarks
+![[your-brain.base]]
 
-![[PARA Base.base#Bookmarks]]
+### Resources and Medias
 
-### Generic
+![[external-resources.base]]
 
-![[PARA Base.base]]
+### Normative: Requirements, Decissions, Specs, Standards
+
+![[normative.base]]
+
+### Descriptive: Architecture, Project Context
+
+![[descriptive.base]]
+
+### Operational: HowTos, Solutions, Meetings
+
+![[operational.base]]
+
+### Knowledge: Roadmaps, Core Knowledge, Syntheses, Thoughts, Annotations
+
+![[knowledge.base]]
+
+### Artifacts
+
+![[assets.base]]
+
+### Logging
+
+
+![[logging.base]]
+
