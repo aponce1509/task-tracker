@@ -1,92 +1,93 @@
 ---
-name: Obsidian Vault Notes
+name: obsidian-vault-notes
 description:
   MANDATORY when creating, writing, editing or refactoring any Markdown (.md)
-  note in this Obsidian vault (second brain). Enforces the metadata system -
-  properties schema, type/subtype taxonomy, the 4-tag whitelist, wikilink and
-  formatting rules.
+  note in this Obsidian vault (second brain). Structures raw material - brain
+  dumps, uncleaned notes, loose ideas - into well-formed vault notes following
+  the metadata framework. Also governs the creation of new note templates,
+  tags and taxonomy entries (clusters/types/subtypes).
 ---
 
-# Obsidian Vault Notes - Non-negotiable Rules
+# Obsidian Vault Notes - Note Creation
 
-## 1. Three engines - never mix them
+## Role
 
-- **Properties (YAML)** = ALL state/metadata. NEVER express with tags or folders
-  what a property can hold.
-- **Type/Subtypes** = identity. ONE `type` per note, immutable. `subtypes`
-  multi-value.
-- **Tags** = ONLY these 4 cross-references. NEVER invent others:
-  - `#learnable` (memorize) - `#sentations_request` (collect feelings to
-    replicate) - `#rfm` (request for meditation) - `#todo` (todos to extract)
+You act as the user's secretary and clone: given anything that should live in
+the vault - a brain dump, an uncleaned note, a pasted conversation, a loose
+idea - you structure it into one or more well-formed vault notes. You decide
+what each piece is, where it goes, and which metadata it carries, following
+the framework defined in the `references/` of this skill.
+
+This skill also covers **creating and managing new system elements**: note
+templates, tags, and taxonomy entries (create, rename, remove, orphan
+cleanup). It does NOT cover broader system maintenance (audits, migrations,
+vault-wide reorganizations) - that belongs to a separate skill.
+
+## The system in one look
+
+Every dimension of a note belongs to exactly one engine - never mix them:
+
+- **Properties (YAML)** = ALL state/metadata. NEVER express with tags or
+  folders what a property can hold.
+- **Type/Subtypes** = identity. ONE immutable `type`, multi-value `subtypes`.
+  Generated from `taxonomy.json` - never hand-create those files.
+- **Tags** = ONLY these 4 cross-references: `#learnable` (memorize),
+  `#sentations_request` (collect feelings to replicate), `#rfm` (request for
+  meditation), `#todo` (todos to extract). NEVER invent others.
 - **PARA context** = `paras:` wikilinks to `[[Project]]` / `[[Area]]` /
   `[[Resource]]` notes.
 
-## 2. Base frontmatter (every note)
+> **Type** says what it is · **Properties** say how it is · **PARA** says
+> where it belongs · **Tags** say what to do with it.
 
-```yaml
----
-paras: [] # wikilinks to PAR notes
-type: "" # ONE wikilink to a note in 02 - Categories/_types/
-subtypes: [] # wikilinks to notes in 02 - Categories/_subtypes/
-rate: # 1-5, optional
-tags: [] # ONLY the 4 canonical tags
-status: inbox # inbox | feed | wip | blocked | done
-maturity: capture # capture | distilled | evergreen
-created: YYYY-MM-DD HH:mm
----
-```
+## Where to look
 
-FORBIDDEN keys: `lifecycle` (use `maturity`), `subtype` (use `subtypes`),
-`para_type` (use `paraType`). FORBIDDEN tags: `#_inbox`, `#_capture`, `#_wip`,
-`#_to_consume` and any other legacy `#_*` status tag - migrate to the matching
-property.
+| Situation | Read |
+| --- | --- |
+| Assign metadata to any note (frontmatter schema, class fields, forbidden keys/tags) | `references/system-properties.md` |
+| Choose a type/subtype · add, rename, remove or clean up clusters/types/subtypes | `references/system-taxonomy.md` |
+| Apply tags · propose a new tag | `references/system-tags.md` |
+| Create an index note | `references/note-index.md` |
+| Create a note kind with no `note-<kind>.md` yet | base schema in `references/system-properties.md` + closest template in `99 - Meta/Templates/` |
 
-## 3. Class-specific fields (classes in `99 - Meta/Class/`)
+## Processing raw material
 
-- `issue`: `priority` (0=high/1/2), `dueDate`, `role`
-  (core|milestone|pattern|debt)
-- `par`: `paraType` (Project|Area|Resource), `active`, `img` - NO tags
-- `learning`: `learning_status` (to_learn|learning|learned|abandoned),
-  `winstreak`
-- `media`: `consumption_status`
-  (to_consume|consuming|completed|abandoned|pending_new_content) - NO
-  status/maturity
-- `normatives`: `summary`, `superceded`
+1. **Split**: decide whether the input is one note or several; each note gets
+   a single identity (exactly one type).
+2. **Metadata**: for each note, read the matching `references/note-<kind>.md`
+   when it exists; fill the commons schema and pick type/subtypes from the
+   taxonomy.
+3. **Place**: work items → `08 - Issues/`; PAR notes → `01 - PAR/`; project
+   material → `11 - Projects/<project>/`; areas → `12 - Areas/`; resources →
+   `13 - Resources/`; indexes → `00 - Map of Contents/`; anything not yet
+   classifiable → `09 - Inbox/`.
+4. **Link**: set `paras:` to the relevant project/area/resource and add body
+   wikilinks to related notes - never leave a note without context.
+5. **Flag**: follow-ups only through the 4 canonical tags (`#todo` for todos
+   to extract, ...).
 
-## 4. Types/subtypes are GENERATED - never hand-create or edit
+## Creating new system elements
 
-- Source of truth: `.obsidian/personal_scripts/taxonomy.json` (clusters → types
-  → subtypes).
-- Files in `02 - Categories/_types/` and `02 - Categories/_subtypes/` come from
-  `subtypes_generation.sh` - do not edit them; change the JSON and regenerate.
-- Creating a new type/tag requires explicit user approval
-  ([[WORKFLOWS - New Tags & Types]]): not redundant, consistent, enables a real
-  query.
+- **New subtype/type/cluster**: explicit user approval required, then the
+  taxonomy CLI; renames, removals and orphan cleanup follow the same CLI -
+  procedures in `references/system-taxonomy.md`.
+- **New tag**: explicit user approval required, then register it in
+  [[Tag System & Ontology]] - rules in `references/system-tags.md`.
+- **New note kind**: add `references/note-<kind>.md` to this skill (what it
+  is, when to use it, how to metadata it) and, when it needs a scaffold, a
+  template in `99 - Meta/Templates/`. New metadata fields mean a class in
+  `99 - Meta/Class/` - see `references/system-properties.md`.
 
-Manage the taxonomy with the CLI (works from any directory):
-
-```bash
-bash .obsidian/personal_scripts/taxonomy.sh help   # all commands
-bash .obsidian/personal_scripts/taxonomy.sh tree   # clusters → types → subtypes
-```
-
-Add/remove/edit clusters, types or subtypes only through this CLI - it guards
-every edit, regenerates the generated notes and flags orphans. Full workflow
-(approval gate, regeneration, orphan cleanup, link sweeps) in
-`references/taxonomy-management.md`.
-
-## 5. Body formatting
+## Body formatting
 
 - `# [[Title]]` H1 only for the title. No `---` separators in body. Minimal
   headings. No blank lines inside bullet lists.
-- Wikilinks `[[Note]]`, embeds `![[Note]]`, callouts `> [!type]`. Subtype links
-  use the alias form: `"[[Knowledge - Roadmaps - course|course]]"`.
+- Wikilinks `[[Note]]`, embeds `![[Note]]`, callouts `> [!type]`. Subtype
+  links use the alias form: `"[[Knowledge - Roadmaps - course|course]]"`.
 
-## 6. Canonical references (read when in doubt)
+## Canonical vault references (read when in doubt)
 
-- `11 - Projects/second-brain/_0_final/The Metadata system.md` (MOC)
-- `11 - Projects/second-brain/_0_final/Common Frontmatter Schemas & Specific Note Templates.md`
-  (properties)
-- `11 - Projects/second-brain/_0_final/Information Architecture & Taxonomy Model.md`
-  (types/subtypes)
-- `11 - Projects/second-brain/_0_final/Tag System & Ontology.md` (tags)
+- [[The Metadata system]] (MoC of the metadata core)
+- [[Common Frontmatter Schemas & Specific Note Templates]] (properties)
+- [[Information Architecture & Taxonomy Model]] (types/subtypes)
+- [[Tag System & Ontology]] (tags)
