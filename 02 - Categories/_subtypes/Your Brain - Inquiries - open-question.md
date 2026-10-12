@@ -1,8 +1,7 @@
 ---
 aliases:
-  - "open-question"
-file_class:
-  - subtype
+  - "Inquiries open-question"
+file_class: subtype
 created: 2026-08-29 17:21
 ---
 # [[Your Brain - Inquiries - open-question|open-question]]

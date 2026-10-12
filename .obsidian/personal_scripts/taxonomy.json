@@ -91,7 +91,7 @@
       "improvement": "Refactoring, optimization, or enhancement to existing capabilities.",
       "incident": "Production outages, severity alerts, or emergency interventions.",
       "open-problem": "Unresolved questions or technical roadblocks requiring investigation.",
-      "requrent": "Recurring issues or patterns that need systematic handling."
+      "recurring": "Recurring issues or patterns that need systematic handling."
     },
     "Solutions": {
       "fix": "Resolved solution applied to a bug or defect.",
@@ -159,7 +159,7 @@
       "project-log": "Chronological activity log specific to a project."
     }
   },
-  "Navigation / Meta": {
+  "Navigation & Meta": {
     "Indexes": {
       "global-index": "Master directory or root entry point of the vault.",
       "topic-index": "Curated index page for a specific knowledge domain."

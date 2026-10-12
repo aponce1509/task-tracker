@@ -35,8 +35,14 @@ fields:
     path: ""
     id: F3fV5d
   - name: tags
-    type: Input
-    options: {}
+    type: Multi
+    options:
+      sourceType: ValuesList
+      valuesList:
+        "1": learnable
+        "2": sentations_request
+        "3": rfm
+        "4": todo
     command:
       id: insert__commons__tags
       icon: list-plus
@@ -46,7 +52,7 @@ fields:
   - name: type
     type: File
     options:
-      dvQueryString: dv.pages().where(p => p.file_class == "category" && !p.file.name.includes("Template") && p.file.path.includes("02 - Categories/_types"))
+      dvQueryString: dv.pages().where(p => p.file_class == "type" && !p.file.name.includes("Template") && p.file.path.includes("02 - Categories/_types"))
     path: ""
     id: P1TJHU
     command:
@@ -57,7 +63,7 @@ fields:
     type: MultiFile
     options:
       dvQueryString: dv.pages().where(p => p.file_class == "subtype" && !p.file.name.includes("Template") && p.file.path.includes("02 - Categories/_subtypes"))
-      customRendering: page.file.name.split("-").pop().trim()
+      customRendering: page.file.name.split(" - ").pop().trim()
     path: ""
     id: Dc2RIX
   - name: status

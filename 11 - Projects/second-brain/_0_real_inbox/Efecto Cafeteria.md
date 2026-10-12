@@ -6,7 +6,7 @@ type: "[[Ideas]]"
 subtypes:
 rate:
 tags:
-  - sensations_request
+  - sentations_request
 status:
 maturity: capture
 created: 2026-05-06 20:19

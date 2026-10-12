@@ -1,11 +1,10 @@
 ---
 aliases:
-  - "requrent"
-file_class:
-  - subtype
-created: 2026-08-29 17:21
+  - "recurring"
+file_class: subtype
+created: 2026-10-12 13:49
 ---
-# [[Operational - Issues - requrent|requrent]]
+# [[Operational - Issues - recurring|recurring]]
 
 > [!note] When to use
 > Recurring issues or patterns that need systematic handling.

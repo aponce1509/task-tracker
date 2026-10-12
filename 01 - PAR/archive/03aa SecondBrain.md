@@ -3,7 +3,7 @@ file_class:
 document_type:
   - index
 tags:
-status: Backlog
+status: inbox
 par:
 category:
 ---

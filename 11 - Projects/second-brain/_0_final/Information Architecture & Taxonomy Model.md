@@ -27,8 +27,9 @@ It strictly separates:
 > 1. Source of truth: `.obsidian/personal_scripts/taxonomy.json`
 > 2. Generator: `.obsidian/personal_scripts/subtypes_generation.sh`
 > 3. Output:
->    - Type notes → `02 - Categories/_types/` (`file_class: category`, embed `types.base`)
->    - Subtype notes → `02 - Categories/_subtypes/` (`file_class: subtype`, alias = final slug, embed `subtypes.base`)
+>    - Type notes → `02 - Categories/_types/` (`file_class: type`, embed `types.base`)
+>    - Subtype notes → `02 - Categories/_subtypes/` (`file_class: subtype`, embed `subtypes.base`)
+>    - Aliases: the subtype slug when unique; `<Type> <slug>` when the slug collides across types (e.g. `Core Knowledge framework`), so `[[links]]` are never ambiguous.
 
 **To add/rename a type or subtype:** edit `taxonomy.json` → rerun the script → never hand-edit the generated files.
 
@@ -81,7 +82,7 @@ Mirror of `taxonomy.json` (the JSON prevails on any mismatch).
 
 ### Operational
 
-- **Issues**: actionable work items → `bug`, `task`, `improvement`, `incident`, `open-problem`, `requrent`
+- **Issues**: actionable work items → `bug`, `task`, `improvement`, `incident`, `open-problem`, `recurring`
 - **Solutions**: reusable fixes → `fix`, `workaround`, `troubleshooting`, `recipe`
 - **HowTos**: repeatable procedures → `guide`, `cheatsheet`, `runbook`
 - **Meetings**: meeting notes and outcomes → `sync`, `planning`, `retrospective`, `1on1`
@@ -107,10 +108,3 @@ Mirror of `taxonomy.json` (the JSON prevails on any mismatch).
 - **Indexes**: entry points into the system → `global-index`, `topic-index`
 - **MoCs**: maps of content → `domain-moc`, `project-moc`, `area-moc`
 
-## Known Issues (to fix)
-
-1. **Typo**: subtype `requrent` → should be `recurring` (requires JSON fix + regeneration + link sweep).
-2. **Alias collisions**: `framework`, `principle`, `open-question`, `retrospective` exist in two types each — `[[framework]]` links are ambiguous. Qualify or dedupe.
-3. **Double spaces**: `Navigation / Meta` generates filenames like `Navigation  &  Meta - MoCs - domain-moc.md` (double space around `&`). Normalize in the script or the JSON key.
-4. **`created` overwrite**: regenerating rewrites `created` on every file. The script should skip existing files or preserve their date.
-5. **Missing embed**: all generated files embed `![[types.base]]` / `![[subtypes.base]]`, but only `archive/types.base` exists and `subtypes.base` exists nowhere — create them or drop the embed from the script.

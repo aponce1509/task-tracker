@@ -1,8 +1,7 @@
 ---
 aliases:
-  - "principle"
-file_class:
-  - subtype
+  - "Core Knowledge principle"
+file_class: subtype
 created: 2026-08-29 17:21
 ---
 # [[Knowledge - Core Knowledge - principle|principle]]

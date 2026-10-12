@@ -3,7 +3,7 @@ paras:
   - "[[cs_learnings]]"
 type: "[[Indexes]]"
 subtypes:
-  - "[[Navigation  &  Meta - Indexes - topic-index|topic-index]]"
+  - "[[Navigation & Meta - Indexes - topic-index|topic-index]]"
   - "[[External Knowledge - Resources - tool|tool]]"
 rate:
 tags:

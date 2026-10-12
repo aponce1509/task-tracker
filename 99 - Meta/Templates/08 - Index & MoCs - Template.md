@@ -9,12 +9,12 @@ created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 # [[<% tp.file.title %>]]
 
 - [[Indexes]]
-	- [[Navigation  &  Meta - Indexes - global-index]]
-	- [[Navigation  &  Meta - Indexes - topic-index]]
+	- [[Navigation & Meta - Indexes - global-index]]
+	- [[Navigation & Meta - Indexes - topic-index]]
 - [[MoCs]]
-	- [[Navigation  &  Meta - MoCs - domain-moc]]
-	- [[Navigation  &  Meta - MoCs - area-moc]]
-	- [[Navigation  &  Meta - MoCs - project-moc]]
+	- [[Navigation & Meta - MoCs - domain-moc]]
+	- [[Navigation & Meta - MoCs - area-moc]]
+	- [[Navigation & Meta - MoCs - project-moc]]
 
 > [!summary] SHOR Description
 > Content

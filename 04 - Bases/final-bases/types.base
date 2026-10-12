@@ -1,0 +1,14 @@
+filters:
+  and:
+    - type == this.file
+views:
+  - type: table
+    name: Notes
+    order:
+      - file.name
+      - subtypes
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC

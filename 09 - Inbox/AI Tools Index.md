@@ -3,7 +3,7 @@ paras:
   - "[[06-ai]]"
   - "[[04_developer_environments]]"
 type: "[[Indexes]]"
-subtypes: ["[[Navigation  &  Meta - Indexes - topic-index|topic_index]]"] 
+subtypes: ["[[Navigation & Meta - Indexes - topic-index|topic_index]]"] 
 rate:
 tags:
 status: inbox

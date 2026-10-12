@@ -3,7 +3,7 @@ paras:
   - "[[second-brain]]"
 type: "[[MoCs]]"
 subtypes:
-  - "[[Navigation  &  Meta - MoCs - domain-moc|domain-moc]]"
+  - "[[Navigation & Meta - MoCs - domain-moc|domain-moc]]"
 rate:
 tags:
 status: done

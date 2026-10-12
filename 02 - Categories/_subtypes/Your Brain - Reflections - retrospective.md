@@ -1,8 +1,7 @@
 ---
 aliases:
-  - "retrospective"
-file_class:
-  - subtype
+  - "Reflections retrospective"
+file_class: subtype
 created: 2026-08-29 17:21
 ---
 # [[Your Brain - Reflections - retrospective|retrospective]]

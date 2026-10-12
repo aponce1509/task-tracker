@@ -1,0 +1,14 @@
+filters:
+  and:
+    - subtypes.contains(this.file)
+views:
+  - type: table
+    name: Notes
+    order:
+      - file.name
+      - type
+      - maturity
+      - status
+    sort:
+      - property: file.name
+        direction: ASC

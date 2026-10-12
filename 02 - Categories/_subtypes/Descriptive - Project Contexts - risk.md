@@ -1,8 +1,7 @@
 ---
 aliases:
   - "risk"
-file_class:
-  - subtype
+file_class: subtype
 created: 2026-08-29 17:21
 ---
 # [[Descriptive - Project Contexts - risk|risk]]

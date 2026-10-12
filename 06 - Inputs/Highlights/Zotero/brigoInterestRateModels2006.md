@@ -6,7 +6,7 @@ document_type:
   - capture
 par:
   - "[[interest_rates]]"
-status: Doing
+status: wip
 ---
 # Interest rate models: theory and practice: with smile, inflation, and credit
 

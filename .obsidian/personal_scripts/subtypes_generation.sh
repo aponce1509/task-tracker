@@ -31,22 +31,44 @@ os.makedirs(types_dir, exist_ok=True)
 with open(json_file, 'r', encoding='utf-8') as f:
     taxonomy = json.load(f)
 
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+# Detect subtype slug collisions so aliases stay unique across the vault.
+slug_counts = {}
+for _category, _types in taxonomy.items():
+    for _note_type, _subtypes in _types.items():
+        for _slug in _subtypes:
+            slug_counts[_slug] = slug_counts.get(_slug, 0) + 1
 
 for category, types in taxonomy.items():
-    formatted_category = category.replace("/", " & ")
+    # Normalize category to avoid double spaces
+    formatted_category = category.replace("/", " & ").replace("  ", " ").strip()
 
     for note_type, subtypes in types.items():
         # ---------------------------------------------------------
-        # 1. Create the Type file (lives in _type directory)
+        # 1. Create the Type file (lives in _types directory)
         # ---------------------------------------------------------
         type_basename = f"{note_type}.md"
         type_file_path = os.path.join(types_dir, type_basename)
         type_link_name = note_type
 
+        # Only create if doesn't exist - preserve created date
+        if os.path.exists(type_file_path):
+            # Read existing file to get created date if possible
+            with open(type_file_path, 'r', encoding='utf-8') as existing:
+                content = existing.read()
+            # Try to extract created date
+            created_date = None
+            for line in content.splitlines():
+                if line.strip().startswith('created:'):
+                    created_date = line.split(':', 1)[1].strip()
+                    break
+            if not created_date:
+                created_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+        else:
+            created_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+
         type_content = f"""---
-file_class: category
-created: {timestamp}
+file_class: type
+created: {created_date}
 ---
 # [[{type_link_name}]]
 
@@ -56,7 +78,7 @@ created: {timestamp}
         with open(type_file_path, 'w', encoding='utf-8') as out_file:
             out_file.write(type_content)
 
-        print(f"  [+] Created Type: _type/{type_basename}")
+        print(f"  [+] Created/Updated Type: _types/{type_basename}")
 
         # ---------------------------------------------------------
         # 2. Create the Subtype files (lives in BASE_DIR)
@@ -66,12 +88,29 @@ created: {timestamp}
             subtype_file_path = os.path.join(base_dir, subtype_basename)
             subtype_link_name = subtype_basename.replace('.md', '')
 
+            # Only create if doesn't exist - preserve created date
+            if os.path.exists(subtype_file_path):
+                with open(subtype_file_path, 'r', encoding='utf-8') as existing:
+                    content = existing.read()
+                created_date = None
+                for line in content.splitlines():
+                    if line.strip().startswith('created:'):
+                        created_date = line.split(':', 1)[1].strip()
+                        break
+                if not created_date:
+                    created_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+            else:
+                created_date = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+            # Qualify the alias when the slug exists in more than one type,
+            # otherwise [[slug]] links are ambiguous.
+            alias = subtype_name if slug_counts.get(subtype_name, 1) == 1 else f"{note_type} {subtype_name}"
+
             subtype_content = f"""---
 aliases:
-  - "{subtype_name}"
-file_class:
-  - subtype
-created: {timestamp}
+  - "{alias}"
+file_class: subtype
+created: {created_date}
 ---
 # [[{subtype_link_name}|{subtype_name}]]
 
@@ -84,7 +123,7 @@ created: {timestamp}
             with open(subtype_file_path, 'w', encoding='utf-8') as out_file:
                 out_file.write(subtype_content)
 
-            print(f"      [+] Created Subtype: {subtype_basename}")
+            print(f"      [+] Created/Updated Subtype: {subtype_basename}")
 
 print("\nDone! All type and subtype files generated successfully.")
 EOF

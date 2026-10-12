@@ -54,8 +54,10 @@ created: YYYY-MM-DD HH:mm
 | `learning` | `learning_status` (to_learn/learning/learned/abandoned), `winstreak` | — | study notes |
 | `media` | `consumption_status` (to_consume/consuming/completed/abandoned/pending_new_content) | `status`, `maturity` | books, films, podcasts… |
 | `normatives` | `summary`, `superceded` | — | standards/decisions |
-| `category` | — | `paras`, `rate`, `tags` (+ dead excludes) | generated type notes |
+| `type` | — | `paras`, `rate`, `tags` | generated type notes |
 | `subtype` | — | — | generated subtype notes |
+
+> [!note] `winstreak` (learning class): consecutive successful learning/review cycles, `0`–`5`.
 
 ## Type-Specific Schema Overrides
 

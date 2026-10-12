@@ -1,8 +1,7 @@
 ---
 aliases:
   - "architecture"
-file_class:
-  - subtype
+file_class: subtype
 created: 2026-08-29 17:21
 ---
 # [[Normative - Decisions - architecture|architecture]]

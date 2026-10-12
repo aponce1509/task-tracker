@@ -1,8 +1,7 @@
 ---
 aliases:
-  - "principle"
-file_class:
-  - subtype
+  - "Mental Models principle"
+file_class: subtype
 created: 2026-08-29 17:21
 ---
 # [[Your Brain - Mental Models - principle|principle]]

@@ -1,5 +1,5 @@
 ---
-file_class: knowledge
+file_class: learning
 paras:
 type: 
 subtypes:

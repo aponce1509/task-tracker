@@ -4,7 +4,7 @@ category:
   - "[[Reference]]"
 par:
   - "[[08aa Gym]]"
-status: Completed
+status: done
 rate: 7
 system_source: Zotero
 created: 2025-07-24

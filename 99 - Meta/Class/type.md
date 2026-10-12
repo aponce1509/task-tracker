@@ -6,11 +6,9 @@ tagNames:
 filesPaths:
 bookmarksGroups:
 excludes:
-  - categories
   - paras
   - rate
   - tags
-  - types
 extends: commons
 savedViews: []
 favoriteView:

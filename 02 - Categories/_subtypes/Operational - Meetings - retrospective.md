@@ -1,8 +1,7 @@
 ---
 aliases:
-  - "retrospective"
-file_class:
-  - subtype
+  - "Meetings retrospective"
+file_class: subtype
 created: 2026-08-29 17:21
 ---
 # [[Operational - Meetings - retrospective|retrospective]]

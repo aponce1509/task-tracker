@@ -3,7 +3,7 @@ paras:
   - "[[second-brain]]"
 type: "[[Indexes]]"
 subtypes:
-  - "[[Navigation  &  Meta - Indexes - topic-index|topic_index]]"
+  - "[[Navigation & Meta - Indexes - topic-index|topic_index]]"
 rate:
 tags:
 status:
