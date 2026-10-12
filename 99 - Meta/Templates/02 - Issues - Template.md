@@ -2,7 +2,7 @@
 file_class: issue
 paras:
 type: "[[Issues]]"
-subtype:
+subtypes:
 role:
 priority:
 rate:
@@ -11,6 +11,7 @@ status: inbox
 maturity: capture
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 dueDate:
+dependencies:
 complete: false
 ---
 <%*
@@ -39,9 +40,8 @@ const filename = `${prefix}${numberStr} ${taskTitle}`;
 await tp.file.rename(`${filename}`);
 await tp.file.move(`${folder}/${filename}`)
 
-tp.file.include("[[template-content]]");
+tR += `# [[${filename}]]`;
 %>
-# [[<% await tp.file.title %>]]
 
 ## Description
 
@@ -55,7 +55,15 @@ tp.file.include("[[template-content]]");
 
 ## Post-Mortem
 
-- We have added this to the logging?
+- We have added this to the logging? (project journal — TBD)
+- Objective moved:
 - Good things:
 - Bad Things:
-- Note to create: tbd
+- Rate (1-3):
+- Notes to create?
+	- Ending note: core note/index that builds the final solution
+	- Reusable in other places
+	- Tech debt
+	- Review of the resources & tools used
+	- Additional requirements
+	- Ideas

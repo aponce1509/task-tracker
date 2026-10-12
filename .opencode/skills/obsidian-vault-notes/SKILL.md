@@ -48,6 +48,7 @@ Every dimension of a note belongs to exactly one engine - never mix them:
 | Choose a type/subtype · add, rename, remove or clean up clusters/types/subtypes | `references/system-taxonomy.md` |
 | Apply tags · propose a new tag | `references/system-tags.md` |
 | Create an index note | `references/note-index.md` |
+| Create, work on or close an issue (script, template, post-mortem) | `references/note-issue.md` |
 | Create a note kind with no `note-<kind>.md` yet | base schema in `references/system-properties.md` + closest template in `99 - Meta/Templates/` |
 
 ## Processing raw material

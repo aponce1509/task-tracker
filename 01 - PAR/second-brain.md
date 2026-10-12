@@ -57,6 +57,5 @@ active: true
 
 ### Logging
 
-
 ![[logging.base]]
 

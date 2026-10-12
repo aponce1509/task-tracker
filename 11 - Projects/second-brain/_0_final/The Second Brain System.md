@@ -23,4 +23,6 @@ Index of the system's canonical notes, `_0_final/`. It lists every note that def
 	- `99 - Meta/Class/`
 	- `04 - Bases/final-bases/`
 	- `99 - Meta/Templates/`
+- [[Task Management]]
+	- [[The Issue System]]
 - [[All Obsidian commands]]

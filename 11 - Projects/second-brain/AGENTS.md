@@ -33,6 +33,8 @@ Entry point: `_0_final/The Second Brain System.md` — a Zettelkasten-style inde
 | `_0_final/Common Frontmatter Schemas & Specific Note Templates.md` | Specs | Properties engine and class schemas. |
 | `_0_final/Tag System & Ontology.md` | Specs | The only 4 canonical tags. |
 | `_0_final/All Obsidian commands.md` | Resources / tool | Dataview utility listing every command. |
+| `_0_final/The Issue System.md` | Specs | What an issue is: definition, properties (incl. `dependencies`), script-based creation, post-mortem. |
+| `_0_final/Task Management.md` | MoC (draft) | Task management as a system: issues, creation, closing. Candidate links; sections to backfill. |
 
 ### Skeleton (operational, in continuous improvement)
 
@@ -42,6 +44,8 @@ Entry point: `_0_final/The Second Brain System.md` — a Zettelkasten-style inde
 - `99 - Meta/Class/` — Metadata Menu classes (commons, note, par, issue, learning, media, normatives, type, subtype).
 - `04 - Bases/final-bases/` — the final Bases views.
 - `99 - Meta/Templates/` — note templates (a duplicate `Templates 1/` folder exists: open item, not yet resolved).
+- `.obsidian/personal_scripts/create-issue.sh` — issue creation wrapper (answers the Templater prompt, fills properties).
+- `.opencode/commands/postmortem.md` — guided post-mortem command for issues.
 
 ### Backlog (not yet consolidated)
 
@@ -74,3 +78,4 @@ Maps of content describe the system as a whole (how I stay productive), not the 
 
 - 2026-10-12 — agents.md created. `_0_final/The Second Brain System.md` added as the index/entry point.
 - 2026-10-12 — index reframed to Zettelkasten style: every canonical note listed, taxonomy spec sub-notes nested under it.
+- 2026-10-12 — task management defined: `_0_final/The Issue System.md` + draft `_0_final/Task Management.md`; issue template fixed (broken `template-content` include removed, `subtypes`/`dependencies`, post-mortem helper points, H1 gets the numbered name); `dependencies` added to the `issue` class; `create-issue.sh` + `/postmortem` command added; both included in the vault skill (`references/note-issue.md`).
