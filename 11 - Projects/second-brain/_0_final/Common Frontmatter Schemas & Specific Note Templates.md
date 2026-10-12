@@ -2,122 +2,125 @@
 paras:
   - "[[second-brain]]"
 type: "[[Specs]]"
-subtypes: ["[[Normative - Specs - feature-spec|spec]]"]
+subtypes:
+  - "[[Normative - Specs - feature-spec|feature-spec]]"
 rate:
 tags:
-status:
-maturity: capture
+status: done
+maturity: evergreen
 created: 2026-08-18 23:15
 ---
 # [[Common Frontmatter Schemas & Specific Note Templates]]
 
-## Global Property & Metadata Taxonomy
+This note defines the **properties engine**: every piece of structured metadata is a YAML property, managed by Metadata Menu classes in `99 - Meta/Class/`.
 
-Instead of relying on tags with prefixes like `#_inbox` or `#_to_learn`, dimensions are elevated to explicit YAML keys:
+> [!important] Dimensions are properties, never tags
+> - Execution → `status`: `inbox` | `feed` | `wip` | `blocked` | `done`
+> - Knowledge lifecycle → `maturity`: `capture` | `distilled` | `evergreen`
+> - Identity → `type` + `subtypes` → [[Information Architecture & Taxonomy Model]]
+> - Cross-references → the 4 tags → [[Tag System & Ontology]]
 
-- Execution Properties
-	- `status`: `inbox` | `wip` | `blocked` | `done`
-- Knowledge Lifecycle Properties
-	- `lifecycle`: `capture` | `distilled` | `evergreen`
-- Structural Role Properties
-	- `role`: `core` | `pattern` | `milestone` | `debt`
-- Learning Properties
-	- `learning_status`: `to_learn` | `learning` | `learned` | `abandoned`
-- Media Consumption Properties
-	- `consumption_status`: `to_consume` | `consuming` | `completed` | `abandoned` | `pending_new_content`
+## Common Base Schema (`commons` class)
 
-This note contains the boilerplate YAML frontmatter templates for notes in your vault.
-
-## Common Base Schema
-
-Every note in the system inherits these core properties.
+Every note inherits these properties.
 
 ```yaml
 ---
-paras: []             # List of links to P/A/R index notes (e.g., ["[[Project A]]"])
-type: ""              # Structural identity (e.g., "Resource", "Issue", "Concept")
-subtype: []           # List of applicable subtypes (e.g., ["article", "paper"])
-tags: []              # Cross-cutting thematic or inline tags
-rate: null            # Rating scale: 1 to 5
-created: YYYY-MM-DD   # Creation timestamp
-status: inbox         # Options: inbox, wip, blocked, done
-lifecycle: capture    # Options: capture, distilled, evergreen
+paras: []              # MultiFile: links to PAR notes (e.g., ["[[second-brain]]"])
+type: ""               # File: ONE link to a note in 02 - Categories/_types/
+subtypes: []           # MultiFile: links to notes in 02 - Categories/_subtypes/
+tags: []               # ONLY the 4 canonical tags
+rate:                  # Number 1-5, optional
+status: inbox          # inbox | feed | wip | blocked | done
+maturity: capture      # capture | distilled | evergreen
+created: YYYY-MM-DD HH:mm
 ---
 ```
+
+> [!warning] Forbidden legacy keys
+> - `lifecycle` → use `maturity` (0 notes use `lifecycle`; `maturity` is the live key)
+> - `subtype` → use `subtypes` (plural, as in `commons`)
+> - `para_type` → use `paraType`
+
+## Class Hierarchy (`99 - Meta/Class/`)
+
+`commons` is the root. Each class extends it and adds its own fields:
+
+| Class | Adds | Excludes | Used for |
+| --- | --- | --- | --- |
+| `note` | — | — | default note |
+| `par` | `paraType` (Project/Area/Resource), `active`, `img` | `tags` | PAR index notes in `01 - PAR/` |
+| `issue` | `dueDate`, `priority` (0=high, 1, 2), `role` (core/milestone/pattern/debt) | — | work items in `08 - Issues/` |
+| `learning` | `learning_status` (to_learn/learning/learned/abandoned), `winstreak` | — | study notes |
+| `media` | `consumption_status` (to_consume/consuming/completed/abandoned/pending_new_content) | `status`, `maturity` | books, films, podcasts… |
+| `normatives` | `summary`, `superceded` | — | standards/decisions |
+| `category` | — | `paras`, `rate`, `tags` (+ dead excludes) | generated type notes |
+| `subtype` | — | — | generated subtype notes |
 
 ## Type-Specific Schema Overrides
 
-### 1. P/A/R Index Notes (`para`)
-
-Use this for root nodes in your PARA structure (Projects, Areas, Resources).
+### 1. PAR Index Notes (`file_class: par`)
 
 ```yaml
 ---
 paras: []
-type: "PAR"
-subtype: ["index"]
-tags: []
-rate: null
-created: YYYY-MM-DD
-paraType: "Project"     # Options: Project, Area, Resource
-active: true            # Active project/area flag
-lifecycle: evergreen
----
-
-```
-
-
-### 2. Issues (`Issue`)
-
-Use for actionable work items, tasks, and bugs.
-
-```yaml
----
-paras: []
-type: "Issue"
-subtype: ["bug"]        # Options: bug, task, improvement, incident, open-problem
-tags: []
-rate: null
-created: YYYY-MM-DD
-status: wip             # Options: inbox, wip, blocked, done
-priority: 0             # Scale: 0 (High), 1 (Medium), 2 (Low)
-dueDate: YYYY-MM-DD     # Target resolution date
-role: "debt"            # Options: core, pattern, milestone, debt
----
-
-```
-
-
-### 3. External Knowledge - Medias (`Media`)
-
-Use for books, films, podcasts, videos, and shows.
-
-```yaml
----
-paras: []
-type: "Media"
-subtype: ["book"]       # Options: book, film, podcast, show, video
-tags: []
-rate: 5                 # Rating: 1-5
-created: YYYY-MM-DD
-consumption_status: "to_consume" # Options: to_consume, consuming, completed, abandoned, pending_new_content
+type: ""
+subtypes: []
+rate:
+status:
+maturity: evergreen
+created: YYYY-MM-DD HH:mm
+paraType: Project      # Project | Area | Resource
+active: true
+img:
 ---
 ```
 
-
-### 4. Learning & Study Notes (`Syllabus` / `Concept`)
-
-Use when managing deliberate learning paths or educational material.
+### 2. Issues (`file_class: issue`)
 
 ```yaml
 ---
 paras: []
-type: "Syllabus"
-subtype: ["course"]     # Options: course, curriculum, module
+type: "[[Issues]]"
+subtypes: ["[[Operational - Issues - bug|bug]]"]
+rate:
 tags: []
-rate: null
-created: YYYY-MM-DD
-learning_status: "learning" # Options: to_learn, learning, learned, abandoned
-lifecycle: "distilled"
+status: wip            # inbox | feed | wip | blocked | done
+maturity: capture
+created: YYYY-MM-DD HH:mm
+priority: 0            # 0 (High), 1 (Medium), 2 (Low)
+dueDate: YYYY-MM-DD
+role: debt             # core | milestone | pattern | debt
+---
+```
+
+### 3. Medias (`file_class: media`)
+
+```yaml
+---
+paras: []
+type: "[[Medias]]"
+subtypes: ["[[External Knowledge - Medias - book|book]]"]
+rate: 5
+tags: []
+consumption_status: to_consume
+created: YYYY-MM-DD HH:mm
+---
+```
+
+### 4. Learning (`file_class: learning`)
+
+```yaml
+---
+paras: []
+type: "[[Roadmaps]]"
+subtypes: ["[[Knowledge - Roadmaps - course|course]]"]
+rate:
+tags: []
+status: wip
+maturity: distilled
+created: YYYY-MM-DD HH:mm
+learning_status: learning
+winstreak: 0
 ---
 ```

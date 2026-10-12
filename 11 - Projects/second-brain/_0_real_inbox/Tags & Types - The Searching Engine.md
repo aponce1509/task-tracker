@@ -17,6 +17,7 @@ created: 2026-05-15 12:12
 > - `#learnable`: Algo que quiero poder decir de memoria 
 > - `#sentations_request`: Necesito coleccionar como me siento para replicarlo
 > - `#rfm`: Request for meditation
+> - `#todo`: Todos to be extracted
 
 This note defines the unified structure for how information is classified across note types and tags.
 

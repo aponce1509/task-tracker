@@ -6,39 +6,49 @@ subtypes:
   - "[[Normative - Specs - feature-spec|feature-spec]]"
 rate:
 tags:
-status:
-maturity: capture
+status: done
+maturity: evergreen
 created: 2026-08-21 19:35
 ---
 # [[Tag System & Ontology]]
 
-
-This note defines the global rules and schemas for tags within the vault. 
+This note is the only canonical tag reference of the vault.
 
 > [!important] Core Role of Tags
-> - **YAML Metadata** handles structured attributes (type, status, rate, lifecycle, dates).
-> - **PARA System** handles contextual grouping via internal links (`[[Project]]`, `[[Area]]`, `[[Resource]]`).
-> - **Tags** handle lightweight, transversal cross-cutting overlays, inline markers, and temporal workflow flags that transcend specific projects or schemas.
+> - **Properties (YAML)** handle structured metadata (`status`, `maturity`, `rate`, class fields) → [[Common Frontmatter Schemas & Specific Note Templates]]
+> - **Type & Subtypes** handle identity → [[Information Architecture & Taxonomy Model]]
+> - **PARA links** (`paras:`) handle context (project / area / resource)
+> - **Tags** are ONLY lightweight cross-references: inline flags that cut across every folder, type and project.
 
-1. Inline & Semantic Markers: Used inside note bodies to flag granular content snippets without needing separate notes or frontmatter fields.
-	1. `#rule`: Defines explicit rules, formulas, constraints, or non-negotiable guidelines inline.
-	2. `#definition`: Marks key terminology definitions for quick extraction across notes.
-	3. `#quote`: Highlights notable quotes, citations, or excerpts.
-	4. `#example`: Flags practical demonstrations or illustrative cases.
-2. Temporal & Workflow Contexts: Captures immediate focus or environmental constraints that aren't tied to a specific project or metadata field.
-	1. `#context/quick-win`: Actionable items or ideas executable in under 10 minutes.
-	2. `#context/focus`: Current deep-work targets across any area.
-	3. `#workflow/blocked-external`: Items waiting specifically on third-party inputs or external dependencies.
-3. Methodological & Analytical Overlays: Applies cross-cutting conceptual perspectives across disparate subjects.
-	1. `#perspective/mental-model`: Applied cognitive models (e.g., first-principles thinking).
-	2. `#perspective/tradeoff`: Notes or sections highlighting explicit compromise choices.
-	3. `#perspective/anti-pattern`: Common failure modes, bad practices, or pitfalls to avoid.
-4. Technical & Utility Tags: Captures specific utility attributes where dedicated metadata keys are unnecessary.
-	1. `#tool/<name>`: Specific software, languages, or hardware tools referenced inline (e.g., `#tool/python`, `#tool/docker`).
-	2. `#format/<type>`: Specific input formats when relevant (e.g., `#format/cheatsheet`, `#format/diagram`).
-5. Functional Tags 
-	1. `#extract`: Marks high-value inline snippets or quotes to be carved out into standalone notes
-	2. `#todo`: Quick inline task marker inside a note body for lightweight tracking
-	3. `#verify`: Flags claims, calculations, or statements that need fact-checking or confirmation
-	4. `#missing`: Marks gaps in knowledge, missing references, or incomplete sections
-	5. `#debt`: Highlights temporary shortcuts, suboptimal logic, or technical/structural debt
+## Canonical Tags
+
+> [!important] To keep track
+> - `#learnable`: Algo que quiero poder decir de memoria
+> - `#sentations_request`: Necesito coleccionar como me siento para replicarlo
+> - `#rfm`: Request for meditation
+> - `#todo`: Todos to be extracted
+
+## What must NEVER be a tag
+
+| Dimension | Where it lives instead |
+| --- | --- |
+| Execution state (inbox, feed, wip, blocked, done) | `status:` property |
+| Knowledge lifecycle (capture, distilled, evergreen) | `maturity:` property |
+| Identity (issue, concept, book, …) | `type:` + `subtypes:` properties |
+| Context (project, area, resource) | `paras:` links |
+| Quality | `rate:` property |
+| Learning / media progress | `learning_status:` / `consumption_status:` |
+
+Legacy dimensional tags (`#_inbox`, `#_capture`, `#_wip`, `#_to_consume`, …) are **deprecated** — migrate them to the matching property on sight.
+
+## Rules for a new tag
+
+1. It must answer a cross-cutting question that no property, type or PARA link can answer.
+2. It must enable a permanent search you will actually run.
+3. Meditate first ([[WORKFLOWS - New Tags & Types]]): not redundant, consistent with the philosophy, the query it enables makes sense.
+4. Register it in this note before use.
+
+## Suggested additions (pending meditation)
+
+- `#extract`: high-value inline snippet to carve out into a standalone note — the content-level counterpart of `#todo`.
+- `#verify`: claim, calculation or quote that needs fact-checking before it can be trusted or reused.
