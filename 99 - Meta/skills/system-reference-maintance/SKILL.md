@@ -56,7 +56,7 @@ needs a decision) · `[·]` INFO (coverage, manual-diff seeds).
 
 Two more things the script prints as `INFO` seeds for the manual part below:
 distinct keys per `file_class`, and key/class mismatches inside legacy zones
-(`01 - PAR/archive`, `06 - Inputs`, `Templates 1`, … —
+(`01 - PAR/archive`, `06 - Inputs`, … —
 pre-engine content, collect for bulk migration later). Notes under
 `07 - Daily/` and the Daily/Weekly Note templates are exempt everywhere:
 daily/weekly notes are habit trackers, their properties are free by design.
