@@ -20,7 +20,7 @@ belongs to exactly one of them.
 
 1. **Properties** — structured metadata: state, lifecycle, rating, tracking →
    [[Common Frontmatter Schemas & Specific Note Templates]]
-2. **Taxonomy** — identity: one immutable `type` + `subtypes`, generated from
+2. **Taxonomy** — identity: one `type` (changeable as the note matures) + `subtypes`, generated from
    `taxonomy.json` → [[Information Architecture & Taxonomy Model]]
 3. **Tags** — only 4 cross-references: `#learnable` · `#sentations_request` ·
    `#rfm` · `#todo` → [[Tag System & Ontology]]

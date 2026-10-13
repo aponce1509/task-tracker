@@ -1,6 +1,6 @@
 # System - Taxonomy (clusters, types, subtypes)
 
-Identity of a note = ONE immutable `type` + multi-value `subtypes`. Canonical
+Identity of a note = ONE `type` at a time + multi-value `subtypes`. Canonical
 source: [[Information Architecture & Taxonomy Model]].
 
 > [!important] The taxonomy is GENERATED, not hand-written
@@ -25,8 +25,14 @@ In the examples below: `c` = cluster, `t` = type, `s` = subtype slug,
 
 ## Choosing type and subtypes for a note
 
-- The `type` answers "what IS this note?" - structural identity, immutable,
-  exactly one. It determines the expected schema of the note.
+- The `type` answers "what IS this note?" - structural identity, exactly one
+  at a time. It determines the expected schema of the note.
+- A note may change type as it matures (e.g. a `hypothesis` rewritten into a
+  `design-doc`). Rewrite it in place: set the new `type` and `subtypes`
+  together, adapt the frontmatter to the new schema (class fields), raise
+  `maturity` if it applies, and fix links that used the old subtype alias
+  (`bash "$CLI" sweep "<old-subtype>"`). Do not split into a new note just to
+  change type.
 - `subtypes` classify within that identity and enable grouping in Bases.
   Read the subtype descriptions in `taxonomy.json` before choosing.
 - Link subtypes with the alias form: `"[[Knowledge - Roadmaps - course|course]]"`.

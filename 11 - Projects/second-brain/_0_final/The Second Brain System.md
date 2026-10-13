@@ -41,5 +41,10 @@ Index of the system's canonical notes, `_0_final/`. It lists every note that def
 	- [[Express - CODE]]
 		- [[Intermediate and Final Products]]
 	- [[Progressive Summarisation]]
+	- #todo: Missing - still in the inbox:
+		- [[External Notes]]
+		- [[Convergence and Divergence]]
+		- [[Intermediate and Final Products]]
+		- [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
 	- Workflows: [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] · [[WORKFLOWS - Distillation of a Note]] · [[WORKFLOWS - Contextual Capture Review]]
 - [[All Obsidian commands]]

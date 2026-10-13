@@ -41,13 +41,13 @@ bash .obsidian/personal_scripts/subtypes_generation.sh \
 ## Core Principles
 
 > [!note] Every note is defined by
-> - **Type** (`type`): immutable structural identity. Single link to a `_types` note.
+> - **Type** (`type`): structural identity. Single link to a `_types` note. It can change as the note matures.
 > - **Subtypes** (`subtypes`): classification within the identity. Links to `_subtypes` notes.
 > - **Properties**: state and tracking live in YAML, never in tags.
 > - **MoCs & Indexes**: provide navigation, never classification.
 
 > [!important] System Behavior Rules
-> - Type is immutable: it determines the expected schema of the note.
+> - Type determines the expected schema of the note. It may change over the note's life (e.g. hypothesis → design-doc): update `type`, `subtypes` and the schema fields together.
 > - Subtypes enable grouping in Bases without parsing multi-value tags.
 > - Issues are work, not knowledge.
 > - Patterns bridge solutions & concepts as reusable abstractions.

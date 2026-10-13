@@ -29,7 +29,7 @@ Every dimension of a note belongs to exactly one engine - never mix them:
 
 - **Properties (YAML)** = ALL state/metadata. NEVER express with tags or
   folders what a property can hold.
-- **Type/Subtypes** = identity. ONE immutable `type`, multi-value `subtypes`.
+- **Type/Subtypes** = identity. ONE `type` at a time (it may change as the note matures, see `references/system-taxonomy.md`), multi-value `subtypes`.
   Generated from `taxonomy.json` - never hand-create those files.
 - **Tags** = ONLY these 4 cross-references: `#learnable` (memorize),
   `#sentations_request` (collect feelings to replicate), `#rfm` (request for
