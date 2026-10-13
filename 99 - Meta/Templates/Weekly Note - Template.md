@@ -9,6 +9,9 @@ financesUpdated: false
 ## Completed tasks
 
 - 
+
+## Learned
+
 ## Active Projects
 
 ![[All Paras new.base#Active Projects]]

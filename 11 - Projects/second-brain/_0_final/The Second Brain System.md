@@ -3,7 +3,7 @@ paras:
   - "[[second-brain]]"
 type: "[[Indexes]]"
 subtypes:
-  - "[[Navigation & Meta - Indexes - global-index|global-index]]"
+  - "[[Navigation & Meta - Indexes - topic-index|topic-index]]"
 rate:
 tags:
 status: done
@@ -39,7 +39,6 @@ created: 2026-10-12 15:10
 	- [[The Issue System]]
 	- [[The Meeting System]]
 	- Project journal (performance tracking + logbook; CLI-only edits): `.obsidian/personal_scripts/journal.sh` · `99 - Meta/Templates/Project Journal - Template.md`
-		- [[Journal - second-brain]]
 - **[[The CODE system]]**
 	- [[How I see the CODE Process]]
 	- [[Capturing - CODE]]

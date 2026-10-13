@@ -3,7 +3,7 @@ paras:
   - "[[04_developer_environments]]"
 type: "[[Indexes]]"
 subtypes:
-  - "[[Navigation & Meta - Indexes - global-index|global-index]]"
+  - "[[Navigation & Meta - Indexes - topic-index|topic-index]]"
 rate:
 tags:
 status:

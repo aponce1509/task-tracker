@@ -25,6 +25,7 @@ bash .obsidian/personal_scripts/create-issue.sh --title "Short description" \
 | `--project <par>` | sets `paras: ["[[<par>]]"]` |
 | `--subtype <slug>` | bug, task, improvement, incident, open-problem, recurring |
 | `--priority <0-2>` | 0 high, 1 medium, 2 low |
+| `--role <role>` | core, milestone, pattern, debt |
 | `--depends <issue>` | adds to `dependencies` (repeatable; number or note name) |
 | `--open` | opens the note in Obsidian |
 

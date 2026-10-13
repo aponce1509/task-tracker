@@ -15,8 +15,8 @@ created: 2026-10-13 23:25
 > [!abstract] Notes define, guidance applies
 > The notes in `_0_final/` are the source of truth: they say what each thing is and how I want it. Skills, agents and commands are the AI guidance: they hold the writing rules, the guardrails and the procedures that apply the notes. Scripts do the mechanical part. When guidance and a note disagree, the note wins and the guidance is fixed.
 
-> [!warning] Drafts
-> The commands are drafts: bullet lists of what they must do. Skills and agents are first versions, not tuned yet.
+> [!warning] First versions
+> Skills, agents and commands are first versions, not tuned on real use yet.
 
 ## Hierarchy
 
@@ -69,6 +69,7 @@ created: 2026-10-13 23:25
 | `/new-concept` | `note-concept`, `concept-distiller`, `navigation-curator` |
 | `/guide-distillation` | `obsidian-vault-notes` and the skill of the note kind |
 | `/guide-inbox-clean` | `inbox-triager`, then the skills of the kinds, `note-issue` |
+| `/recall` | Recall of the day's or week's concepts: questions, extensions, open questions (`#rfm`), topics to read, facts to memorize (`#learnable`) |
 | `/postmortem` | The post-mortem of an issue |
 
 The commands are also the base to remake the legacy workflows in `_0_final/workflows/`.
@@ -90,7 +91,6 @@ These checks are done by the `vault-auditor` agent, never by a script:
 
 ## Open
 
-- `/recall`: a daily command to read the concepts linked from the daily note.
 - Creation scripts for meetings and concepts, same pattern as `create-issue.sh`, if the agents prove slow.
 
 ## Related

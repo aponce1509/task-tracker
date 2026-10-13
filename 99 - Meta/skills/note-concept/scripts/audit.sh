@@ -10,7 +10,6 @@
 #   unrecalled    no daily note (07 - Daily/) links the concept
 #   no-out        no body link to a concept, a source (Medias/Resources) or an
 #                 unresolved note
-#   learnable     #learnable with maturity distilled/evergreen (loop not closed)
 #   identity      type is not Core Knowledge, or no subtype
 #
 # Usage: audit.sh [--root DIR] [--quiet]   exit 0 clean, 1 findings
@@ -32,6 +31,7 @@ cd "$ROOT"
 
 find . -name '*.md' \
 	-not -path './.obsidian/*' -not -path './.trash/*' -not -path './.git/*' \
+	-not -path './.claude/*' -not -path './.opencode/*' -not -path './.agents/*' \
 	-not -path './02 - Categories/*' -not -path './99 - Meta/*' -print0 |
 	xargs -0 awk -v quiet="$QUIET" '
 function base(p,   n) { n = p; sub(/^.*\//, "", n); sub(/\.md$/, "", n); return tolower(n) }
@@ -44,13 +44,11 @@ infm {
 	if ($0 ~ /^type:/) { t = $0; if (match(t, /\[\[[^]]+\]\]/)) type[f] = substr(t, RSTART + 2, RLENGTH - 4) }
 	if ($0 ~ /^maturity:/) { m = $0; sub(/^maturity:[ \t]*/, "", m); mat[f] = m }
 	if ($0 ~ /^[A-Za-z_]+:/) insub = ($0 ~ /^subtypes:/)
-	if ($0 ~ /learnable/ && $0 ~ /^(tags:|  *- )/) learn[f] = 1
 	if ((insub || $0 ~ /^subtypes:/) && $0 ~ /\[\[/) { nsub[f]++; if ($0 ~ /Knowledge - Core Knowledge - /) cksub[f] = 1 }
 	next
 }
 /^```/ { incode = !incode; next }
 incode { next }
-/(^|[ \t])#learnable([^A-Za-z0-9_]|$)/ { learn[f] = 1 }
 {
 	line = $0
 	while (match(line, /\[\[[^]]+\]\]/)) {
@@ -83,18 +81,16 @@ END {
 			if ((tg in concept && tg != k) || tt == "Medias" || tt == "Resources") { good = 1; break }
 		}
 		if (!good) add("no-out", f)
-		if (learn[f] && (mat[f] == "distilled" || mat[f] == "evergreen")) add("learnable", f)
 		if (type[f] != "Core Knowledge" || nsub[f] == 0) add("identity", f)
 	}
-	split("orphan unrecalled no-out learnable identity", order, " ")
+	split("orphan unrecalled no-out identity", order, " ")
 	label["orphan"] = "no index or MoC links it"
 	label["unrecalled"] = "no daily note links it"
 	label["no-out"] = "no link to a concept, source or unresolved note"
-	label["learnable"] = "#learnable but maturity distilled/evergreen"
 	label["identity"] = "type not Core Knowledge or no subtype"
 	total = 0
 	printf "concepts: %d\n", n
-	for (o = 1; o <= 5; o++) { c = order[o]; printf "%-11s %3d  %s\n", c, cnt[c], label[c]; total += cnt[c]
+	for (o = 1; o <= 4; o++) { c = order[o]; printf "%-11s %3d  %s\n", c, cnt[c], label[c]; total += cnt[c]
 		if (!quiet) for (j = 1; j <= cnt[c]; j++) printf "  - %s\n", hit[c, j]
 	}
 	exit (total > 0)

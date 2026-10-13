@@ -1,3 +1,0 @@
-# Areas index
-
-## Links

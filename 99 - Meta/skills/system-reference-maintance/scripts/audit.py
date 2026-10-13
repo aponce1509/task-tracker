@@ -31,7 +31,7 @@ TYPES_DIR = "02 - Categories/_types"
 SUBTYPES_DIR = "02 - Categories/_subtypes"
 CLASS_DIR = "99 - Meta/Class"
 BASES_DIR = "04 - Bases/final-bases"
-SKIP_DIRS = {".obsidian", ".opencode", ".trash", ".git", "node_modules"}
+SKIP_DIRS = {".obsidian", ".opencode", ".claude", ".agents", ".trash", ".git", "node_modules"}
 SKIP_PREFIXES = ("99 - Meta/Calendar/", "99 - Meta/Excalidraw/")  # plugin-managed system files, not notes
 HABIT_FREE = re.compile(r"^07 - Daily/|^99 - Meta/Templates/(Daily|Weekly) Note - Template\.md$")
 # Daily/weekly notes are habit trackers: their properties are free by design

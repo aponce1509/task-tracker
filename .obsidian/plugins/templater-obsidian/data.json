@@ -11,11 +11,7 @@
   "folder_templates": [
     {
       "folder": "01 - PAR",
-      "template": "99 - Meta/Templates/Index - Template.md"
-    },
-    {
-      "folder": "08 - Tasks",
-      "template": "99 - Meta/Templates/Task - Template.md"
+      "template": "99 - Meta/Templates/09 - PARA Note - Template.md"
     },
     {
       "folder": "09 - Inbox",

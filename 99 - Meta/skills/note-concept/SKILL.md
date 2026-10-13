@@ -20,7 +20,7 @@ Shared rules: the `obsidian-vault-notes` skill. Indexes and MoCs: the `note-inde
 2. Graph: search the existing concepts, indexes and MoCs of the topic, then draw the creation graph (format below). Show it and wait for approval. Change it until the user approves.
 3. Write: one note per `[new]` concept (template `99 - Meta/Templates/Concept - Template.md`). For many concepts, hand each one to a `concept-distiller` agent with the approved graph.
 4. Navigation: apply the `[new]` and `extend` entries of the Navigation block with the `note-index-moc` skill (or the `navigation-curator` agent).
-5. Recall: link every new concept from today's daily note, `obsidian daily:append content="- [[<concept>]]"`. A link, never an embed.
+5. Recall: link every new concept from today's daily note, as a bullet under `## Learned`. Get the file with `obsidian daily:path` and insert with the Edit tool; if the section does not exist (older notes), add `## Learned` before `## WIPS Notes`, or at the end. A link, never an embed.
 6. Audit: `bash "99 - Meta/skills/note-concept/scripts/audit.sh"` and fix what the new notes caused.
 
 ## Graph format
@@ -61,6 +61,6 @@ MoC outline: scaling -> pick algorithm (Index) -> inertia, silhouette -> overfit
 ## Guardrails
 
 - Never write before the graph is approved.
-- Never add `#learnable` to a concept; it is for courses, books and videos.
+- `#learnable` marks what the user wants to say from memory. Add it only when the user asks; never use it as a state.
 - Never copy text from a source as the concept body; rewrite it in the user's style.
 - Write as the user would: no notes addressed to the user.

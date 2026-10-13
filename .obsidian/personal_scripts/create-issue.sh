@@ -6,7 +6,7 @@
 #   - answers the template prompt ("Task Name?") in the running Obsidian app
 #   - waits for the note to be numbered, renamed and moved into 08 - Issues/
 #   - optionally fills properties afterwards: --project, --subtype,
-#     --priority, --depends
+#     --priority, --role, --depends
 #
 # Run: create-issue.sh --title "Fix the flux capacitor"
 #      create-issue.sh --title "Refactor vault scripts" --project second-brain \
@@ -42,6 +42,7 @@ Options
   -p, --project <name>    PAR note linked from paras: (e.g. second-brain)
   -s, --subtype <slug>    bug | task | improvement | incident | open-problem | recurring
       --priority <0-2>    0 (High), 1 (Medium), 2 (Low)
+  -r, --role <role>       core | milestone | pattern | debt
   -d, --depends <issue>   Issue this one depends on (repeatable); accepts a
                           number (_I00005) or the full note name
       --open              Open the created issue in Obsidian
@@ -58,7 +59,7 @@ js_escape() { # escape a value for a single-quoted JS string literal
 obsidian_cli() { (cd "$ROOT_DIR" && "$OBSIDIAN_BIN" "$@"); }
 
 main() {
-  local title="" project="" subtype="" priority="" open_flag=0
+  local title="" project="" subtype="" priority="" role="" open_flag=0
   local -a depends=()
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -74,6 +75,9 @@ main() {
       --priority)
         [[ -n "${2:-}" ]] || die "--priority needs a value"
         priority="$2"; shift 2 ;;
+      -r|--role)
+        [[ -n "${2:-}" ]] || die "--role needs a value"
+        role="$2"; shift 2 ;;
       -d|--depends)
         [[ -n "${2:-}" ]] || die "--depends needs a value"
         depends+=("$2"); shift 2 ;;
@@ -107,6 +111,9 @@ main() {
 
   if [[ -n "$priority" ]]; then
     [[ "$priority" =~ ^[0-2]$ ]] || die "--priority must be 0, 1 or 2"
+  fi
+  if [[ -n "$role" ]]; then
+    [[ "$role" =~ ^(core|milestone|pattern|debt)$ ]] || die "--role must be core, milestone, pattern or debt"
   fi
 
   local subtype_link=""
@@ -195,7 +202,7 @@ JS
 
   local rel="${new_file#"$ROOT_DIR"/}"
 
-  if [[ -n "$project" || -n "$subtype_link" || -n "$priority" || ${#dep_links[@]} -gt 0 ]]; then
+  if [[ -n "$project" || -n "$subtype_link" || -n "$priority" || -n "$role" || ${#dep_links[@]} -gt 0 ]]; then
     local assign="" list="" d
     if [[ -n "$project" ]]; then
       assign+="fm.paras = ['[[$(js_escape "$project")]]'];"
@@ -205,6 +212,9 @@ JS
     fi
     if [[ -n "$priority" ]]; then
       assign+="fm.priority = $priority;"
+    fi
+    if [[ -n "$role" ]]; then
+      assign+="fm.role = '$role';"
     fi
     if [[ ${#dep_links[@]} -gt 0 ]]; then
       for d in "${dep_links[@]}"; do
@@ -224,6 +234,7 @@ JS
   if [[ -n "$project" ]]; then info "  project    : $project"; fi
   if [[ -n "$subtype" ]]; then info "  subtype    : $subtype"; fi
   if [[ -n "$priority" ]]; then info "  priority   : $priority"; fi
+  if [[ -n "$role" ]]; then info "  role       : $role"; fi
   if [[ ${#dep_links[@]} -gt 0 ]]; then info "  depends on : ${dep_links[*]}"; fi
 
   if [[ "$open_flag" -eq 1 ]]; then

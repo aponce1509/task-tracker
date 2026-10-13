@@ -24,6 +24,7 @@ created: 2026-10-13 23:15
 - A note can appear in any number of indexes and MoCs. A concept has no single parent.
 - Links to notes that do not exist yet are allowed: they mark the notes to write.
 - Other notes (syntheses, specs, hypotheses) can be built from an index or a MoC.
+- Knowledge navigation (`topic-index`, `domain-moc`) links knowledge: concepts and the notes built from them, never issues, meetings or journals. Work navigation (`project-moc`, `area-moc`) exists to track work, so it may link issues, meetings and journals.
 - Folder: `00 - Map of Contents/`, or next to the content that they curate.
 - Metadata: commons schema, class `note`. `status: done` and `maturity: evergreen` when they are in use; `status: wip` while a MoC is a draft.
 
@@ -34,7 +35,7 @@ created: 2026-10-13 23:15
 - Nesting depth has no limit. Headers only to group a long list.
 - When an entry is itself an index or a MoC, it is highlighted in bold: `- **[[Clustering model training]]**`. This is the link from an index to the MoC it leads to.
 - One callout on top with the abstract: the question the index answers.
-- Subtypes: `global-index` (the root, normally one), `topic-index` (one domain).
+- Subtypes: `global-index` (the root of the vault, exactly one: [[Your main notes]]), `topic-index` (one domain, including big ones like [[The Second Brain System]]).
 - Test: "Is the value of this note only in which notes it lists and how it groups them?"
 
 ```markdown
@@ -57,7 +58,7 @@ created: 2026-10-13 23:15
 
 - A MoC is a navigation point that describes a topic with the notes that exist: prose that links concepts.
 - It reads as a path when the topic has an order (a training flow), as a map when it has no order.
-- It links concepts, not issues: issues belong to [[Task Management]].
+- A `domain-moc` links concepts, not issues. A `project-moc` or `area-moc` may link the work of its project or area ([[Task Management]] is a project MoC).
 - Subtypes: `domain-moc` (a domain), `project-moc` (a project hub), `area-moc` (an area).
 - Test: "Does this note explain how its notes connect?"
 
@@ -74,23 +75,27 @@ First apply [[scaling]], because distance-based models depend on the units. Then
 
 - Indexes and MoCs grow when concepts are created: the creation graph of [[The Concept System]] marks which index or MoC to `extend`.
 - A new concept goes to the index by its title. It goes to the MoC only when it changes the flow.
-- Every index is reachable from the global index; every MoC is linked from at least one index.
+- One root: [[Your main notes]] is the only global index. Every other index hangs from it, directly or through another index; every MoC is linked from at least one index.
+- A new top-level index goes into the root, in bold, under the group of its domain.
+- Archived notes (`archive/` folders, `10 - Archive/`) are out of navigation: they need no place in the tree.
 
 ## Audit
 
 Script: `99 - Meta/skills/note-index-moc/scripts/audit.sh` (bash, read-only). It reports:
 
 - Index with prose paragraphs (only bullets, links, headers and callouts allowed).
-- Index with entries of an unexpected cluster (for example issues in a knowledge index).
+- Topic index that links concepts and also issues, meetings or journals.
 - Index with no link to a concept.
+- More than one global index.
 - Index not reachable from the global index.
 - Index with a single entry.
-- MoC that links more issues than concepts.
+- Domain MoC that links more issues than concepts.
 - MoC that no index links.
 - Concept with the same `paras` as a MoC that the MoC does not mention (a hint, not an error).
 
 ## Related
 
 - [[The Concept System]] — the atoms
-- [[The Second Brain System]] — a global index
+- [[Your main notes]] — the global index, root of the vault
+- [[The Second Brain System]] — the topic index of the system
 - [[The Note Kinds]] — the map of all note kinds

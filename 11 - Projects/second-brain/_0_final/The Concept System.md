@@ -29,7 +29,8 @@ created: 2026-10-13 23:05
 
 - The Core Knowledge subtypes are the options, not a hierarchy to fill: `concept` (definition, mental model), `framework` (structured model, method), `principle` (heuristic, rule), `culture` (general culture). A note takes the subtypes that apply.
 - Culture: things of general culture, nice to know but not core for the main thread, for example something seen in a film or during a travel.
-- A concept is not a source. Books, courses and videos are Medias or Resources; the concept links to them. The `#learnable` tag is for those sources, not for concepts.
+- A concept is not a source. Books, courses and videos are Medias or Resources; the concept links to them.
+- `#learnable` marks anything I want to be able to say from memory: a definition, a formula, a fact. It is a flag, not a state, so no audit checks it.
 - Syntheses, hypotheses and specs are not concepts: they combine concepts.
 
 ## Metadata
@@ -84,7 +85,25 @@ $$\sum_{i=1}^{n} \min_{j} \lVert x_i - \mu_j \rVert^2$$
 
 - Out: at least one link to another concept or to a source. Links to notes that do not exist yet are allowed: they mark concepts to write.
 - In: at least one index or MoC links the concept. A concept without one is an orphan atom.
-- Recall: the daily note of the day links the concept (a link, not an embed). This records what I learn each day; I read it at the end of the day and in the weekly review. There is no exit from the loop: it is a record, not spaced repetition.
+- Recall: the daily note of the day links the concept under `## Learned` (a link, not an embed). This records what I learn each day. There is no exit from the loop: it is a record, not spaced repetition.
+
+## Recall
+
+Recall is not strictly needed: the daily link already keeps the record. It is a chance to test what I learned and to go further.
+
+- When: at the end of the day (the concepts of the daily note) and in the weekly review (the concepts of the week's daily notes).
+- How: a conversation, one concept at a time. Questions go from recall (define it) to use (apply it to a case) to connection (relate it to another concept).
+- Extend: what the conversation adds goes to the concept note, or becomes a new concept.
+- Output: under each concept in `## Learned`, the questions that stay open to answer or meditate (`#rfm`), the topics to read or study next, and the facts I want to say from memory (`#learnable`). The daily note keeps the day; the weekly note keeps the week.
+
+```markdown
+## Learned
+
+- [[kmeans]]
+	- Why does k-means fail on clusters that are not convex? #rfm
+	- Read: [[gaussian mixtures]], the soft version of k-means
+	- Each step never increases $\sum_i \lVert x_i - \mu_{c(i)} \rVert^2$, so k-means converges #learnable
+```
 
 ## Creation graph
 
@@ -119,7 +138,6 @@ Script: `99 - Meta/skills/note-concept/scripts/audit.sh` (bash, read-only). It r
 - Concept that no index or MoC links (orphan atom).
 - Concept that no daily note links (never recalled).
 - Concept with no outgoing link to another concept or source (unresolved links count as links).
-- Concept with `#learnable` and `maturity` already `distilled` (loop not closed).
 - Concept without a `Core Knowledge` type or without a subtype.
 
 ## Related

@@ -27,7 +27,7 @@ paras: ["[[<par>]]"]
 type: "[[Indexes]]"          # or "[[MoCs]]"
 subtypes:
   - "[[Navigation & Meta - Indexes - topic-index|topic-index]]"
-  # global-index | domain-moc | project-moc | area-moc
+  # domain-moc | project-moc | area-moc; global-index only for the root
 rate:
 tags: []
 status: done                 # wip for a MoC draft
@@ -44,13 +44,14 @@ Folder: `00 - Map of Contents/`, or next to the content. Template: `99 - Meta/Te
 - Only bullets. No prose paragraphs, no per-link commentary. Any short bullet is fine (link, group label, path).
 - Nest as deep as needed, tab-indented, no blank lines in the list. Headers only to group a long list.
 - Index or MoC entries in bold: `- **[[Clustering model training]]**`.
-- More than one entry; at least one concept. Link the new index from the global index or from an index already reachable from it.
+- More than one entry; at least one concept. Link the new index from the root ([[Your main notes]], under its domain group) or from an index already reachable from it.
+- Never create a second `global-index`: the vault has one root.
 
 ## Write a MoC
 
 - `# [[Title]]`, then a `> [!abstract]` callout: what the reader can do after the MoC.
 - Prose in ASD-STE100 that links concepts. Use the order of the flow when the topic has one.
-- Link concepts, not issues. Unresolved links are allowed for concepts still to write.
+- `domain-moc`: link concepts, not issues. `project-moc` / `area-moc`: may link the issues, meetings and journal of the project or area. Unresolved links are allowed for concepts still to write.
 - Link the new MoC from at least one index, in bold.
 
 ## Extend
@@ -63,6 +64,6 @@ When a creation graph marks `extend`:
 ## Guardrails
 
 - Never invent notes to fill an index. Unresolved links only for concepts that the graph marks `[?]`.
-- Never put issues, meetings or journals in a knowledge index or MoC.
+- Never put issues, meetings or journals in a `topic-index` or `domain-moc`; work belongs in a `project-moc` or `area-moc`.
 - Write as the user would: no notes addressed to the user.
 - Audit after a change: `bash "99 - Meta/skills/note-index-moc/scripts/audit.sh"`.

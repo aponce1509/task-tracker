@@ -24,7 +24,7 @@ System work:
 
 Subagents: `99 - Meta/agents/<name>.md` — `meeting-extractor`, `concept-distiller`, `navigation-curator`, `inbox-triager` (read-only), `vault-auditor` (read-only). Writer agents write only an approved plan passed in the prompt.
 
-Slash commands: `99 - Meta/commands/<name>.md` — `/postmortem` (guided post-mortem for an issue) plus the drafts `/create-issue`, `/parse-meeting`, `/new-concept`, `/guide-distillation`, `/guide-inbox-clean`.
+Slash commands: `99 - Meta/commands/<name>.md` — `/postmortem` (guided post-mortem for an issue), `/create-issue`, `/parse-meeting`, `/new-concept`, `/guide-distillation`, `/guide-inbox-clean`, `/recall`.
 
 `.opencode/` and `.claude/` hold `skills`, `commands` and `agents` as dir symlinks to the canonical `99 - Meta/` folders. Keep the six views aligned with `scripts/sync-skills.sh` (`status` / `sync` / `clean`).
 

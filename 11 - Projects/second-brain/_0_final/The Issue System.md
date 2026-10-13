@@ -65,7 +65,7 @@ bash .obsidian/personal_scripts/create-issue.sh --title "Short description" \
 
 - The script drives the running Obsidian app: it answers the template prompt, waits for numbering/rename/move and then fills the optional properties.
 - Template: `99 - Meta/Templates/02 - Issues - Template.md` (Templater). It self-numbers (`_I00001 …`), asks the task name and files itself into `08 - Issues/`.
-- Flags: `--project` (paras) · `--subtype` (bug, task, improvement, incident, open-problem, recurring) · `--priority` · `--depends` (repeatable) · `--open`.
+- Flags: `--project` (paras) · `--subtype` (bug, task, improvement, incident, open-problem, recurring) · `--priority` · `--role` (core, milestone, pattern, debt) · `--depends` (repeatable) · `--open`.
 
 ## Post-mortem
 

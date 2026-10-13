@@ -21,5 +21,7 @@ drinks: 0
 
 ## Daily Log
 
+## Learned
+
 ## WIPS Notes
 
