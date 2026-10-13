@@ -1,9 +1,9 @@
 ---
 paras:
   - "[[04_developer_environments]]"
-type: "[[Indexes]]"
+type: "[[Resources]]"
 subtypes:
-  - "[[Navigation & Meta - Indexes - topic-index|topic-index]]"
+  - "[[External Knowledge - Resources - tool|tool]]"
 rate:
 tags:
 status:

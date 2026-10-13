@@ -10,6 +10,12 @@ created: 2026-08-29 11:16
 ---
 # [[neovim]]
 
-> [!summary] All NeoVim Any order
+> [!abstract] Neovim
+> Which notes explain my Neovim setup.
 
+- [[runtimepath]]
+	- [[lua require resolution]]
+	- [[lazy.nvim bootstrap]]
+- [[lazy.nvim plugin spec]]
+	- [[lazy loading]]
 - [[lazy.nvim explained - TJ video]]

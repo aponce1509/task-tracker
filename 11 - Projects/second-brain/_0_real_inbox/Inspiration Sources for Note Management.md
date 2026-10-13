@@ -15,6 +15,7 @@ created: 2026-02-09 07:50
 ## Some Sources that are stick to my mind
 
 - [[Building a Second Brain - Tiago Forte]] by [[Tiago Forte]]
+	- [[Progressive Summarisation]]
 - [[Tiago Forte]] videos: [Tiago Forte Chanel](https://www.youtube.com/@TiagoForte)
 	- [No Folders Needed! Elizabeth's Radical Notion Second Brain](https://www.youtube.com/watch?v=LflU3FqZ6h4)
 - [How I use Obsidian by Steph Ango](https://stephango.com/vault)

@@ -22,7 +22,7 @@ System work:
 - `task-planner` — task selection for "what should I do next" / "plan my day": active PARs → open issues → dependencies, priorities, due dates → ordered tree. Read-only.
 - `project-journaling` — log completed issues and parsed meetings, and anything else only when the user explicitly asks (milestones, tech debt, close), to project journals, always through `journal.sh`.
 
-Subagents: `99 - Meta/agents/<name>.md` — `meeting-extractor`, `concept-distiller`, `navigation-curator`, `inbox-triager` (read-only), `vault-auditor` (read-only). Writer agents write only an approved plan passed in the prompt.
+Subagents: `99 - Meta/agents/<name>.md` — `meeting-extractor`, `concept-distiller`, `navigation-curator`, `inbox-triager` (read-only), `vault-auditor` (read-only). Writer agents write only an approved plan passed in the prompt. Agent models are set per harness: `model: sonnet` in the frontmatter is for Claude Code, and `opencode.json` (`agent.<name>.model`) overrides it for OpenCode. A new agent needs both.
 
 Slash commands: `99 - Meta/commands/<name>.md` — `/postmortem` (guided post-mortem for an issue), `/create-issue`, `/parse-meeting`, `/new-concept`, `/guide-distillation`, `/guide-inbox-clean`, `/recall`.
 

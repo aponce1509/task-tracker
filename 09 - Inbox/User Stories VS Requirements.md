@@ -26,3 +26,5 @@ User stories are high-level, user-centric, and conversational placeholders for r
 - **Hybrid Approach:** Using both can provide structure (requirements) while keeping user focus (stories).
 - **Acceptance Criteria:** User stories often include acceptance criteria to define success, bridging the gap to technical requirements.
 - **Purpose:** User stories ensure the "why" isn't lost, while requirements ensure the technical details are covered.
+
+Related: [[Product Documentation]] lists user stories and requirements next to the PRD and the spec; [[Documentación de proyectos simplificada]] is the source chat.

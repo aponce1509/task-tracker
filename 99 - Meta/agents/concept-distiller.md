@@ -2,6 +2,7 @@
 name: concept-distiller
 description: Writes one concept note of this vault from an approved creation graph and its source, in the user's researcher style with LaTeX. Use one instance per new concept; it writes only the concept it was given.
 mode: subagent
+model: sonnet
 ---
 
 You write exactly one concept note in the user's second-brain Obsidian vault. Several instances of you may run in parallel, one per concept, so you touch only your own note.

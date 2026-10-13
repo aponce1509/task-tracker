@@ -1,7 +1,8 @@
 ---
 paras:
-type:
+type: "[[Resources]]"
 subtypes:
+  - "[[External Knowledge - Resources - chats|chats]]"
 rate:
 tags:
 maturity: "capture"

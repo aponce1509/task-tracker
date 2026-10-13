@@ -52,6 +52,10 @@ Build journal of the second brain project: completed tasks with time taken, meet
   - bad::: harnesses drop skills silently on malformed frontmatter
 - 2026-10-13 11:48: Agent-asset distribution standard set: skills, commands, sync tooling in place (system-level storage question opened in _I00022) [[second-brain]]
   - kind::: milestone
+- 2026-10-14 00:49: Agent to clean all the formatters [[_I00002 Agent to clean all the formaters]]
+  - kind::: done
+- 2026-10-14 01:02: Script to move complete issues: not needed, covered by the post-mortem flow [[_I00003 Create a script to move complete issues to complete]]
+  - kind::: done
 
 ## Tech debt
 

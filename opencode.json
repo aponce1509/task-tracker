@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "concept-distiller": { "model": "opencode-go/glm-5.3-flash" },
+    "inbox-triager": { "model": "opencode-go/glm-5.3-flash" },
+    "meeting-extractor": { "model": "opencode-go/glm-5.3-flash" },
+    "navigation-curator": { "model": "opencode-go/glm-5.3-flash" },
+    "vault-auditor": { "model": "opencode-go/glm-5.3-flash" }
+  }
+}

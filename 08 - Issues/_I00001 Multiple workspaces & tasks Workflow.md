@@ -17,6 +17,19 @@ status:
 ## Description
 
 - Tienes que estar basado en windsurf y devin
+- Need to analyze our current dotfiles
+	- Define the layers
+	- Extract the abstractions of the system
+- Fix any gaps
+- Configure devin accordingly
+- with this we complete [[_I00004 AI Integration in your note system]] create some notes describing your system
+- We can use this oportunity to
+	- archive non used configs
+	- setup for windows
+	- runbook for deploying in a new computer
+	- [[_I00020 Configure the Obsidian setup scripts with env vars]]
+	- think other envs vars and how to set the up in another computer
+- go with [[_I00027 Cut the verbosity of the journal and the project AGENTS.md]]
 
 `= this.file.outlinks`
 `$= dv.current().file.link`

@@ -27,7 +27,7 @@ created: 2026-02-28 16:53
 	- [[Notes a base system]]
 	- [[Second Brain Outline]]
 - [[Alejandro's Mise-en-Place]]
-	- [[Second Brain Workflows]]
+	- [[The Maintenance System]]
 	- [[Rules]]: busca todas las rules que hay por las notas
 - [[Second Brain MVP]]
 	- [[Second Brain Building Blocks]]I

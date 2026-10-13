@@ -29,7 +29,7 @@ created: 2026-02-15 20:02
 
 ## Workflows
 
-[[Second Brain Workflows]]
+[[The Maintenance System]]
 
 ## Apps (tools) and layout
 

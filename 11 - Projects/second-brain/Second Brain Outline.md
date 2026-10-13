@@ -35,7 +35,7 @@ created: 2026-02-08 15:58
 	- Database items. [[Introduction to Obsidian Web Clipper|Obsidian Web Clipper]]
 	- Clippings: Chats, Annotations, Bookmarks
 - [[Alejandro's Mise-en-Place]]
-- [[Second Brain Workflows]]: 
+- [[The Maintenance System]]: 
 - [[Why to maintain a Second Brain]]
 - [[External Helpers for note taking]]
 	- Personal Notebook

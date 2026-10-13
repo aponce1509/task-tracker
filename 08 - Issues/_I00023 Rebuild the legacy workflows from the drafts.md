@@ -29,18 +29,18 @@ dependencies:
 
 ## Tasks
 
-- [ ] Answer the open questions of each draft
-- [ ] Rewrite Out of the Inbox
+- [x] Answer the open questions of each draft
+- [x] Rewrite Out of the Inbox
   - Driven by `/guide-inbox-clean`
-- [ ] Rewrite Bi-Monthly Inbox Sweep
+- [x] Rewrite Bi-Monthly Inbox Sweep
   - `/guide-inbox-clean` in batches plus the `vault-audi
-- [ ] Rewrite Distillation of a Note
+- [x] Rewrite Distillation of a Note
   - Driven by `/guide-distillation`
-- [ ] Rewrite Contextual Capture Review
+- [x] Rewrite Contextual Capture Review
   - Decide if it gets its own command
-- [ ] Fold in the todo-tag clean step of [[_I00019 add to any workflow clean of todo tags]]
-- [ ] Update the links from the index and the CODE MoC; om the commands" from the index
-- [ ] Move the tmp drafts to `.trash/`
+- [x] Fold in the todo-tag clean step of [[_I00019 add to any workflow clean of todo tags]]
+- [x] Update the links from the index and the CODE MoC; om the commands" from the index
+- [x] Move the tmp drafts to `.trash/`
 
 ## Post-Mortem
 

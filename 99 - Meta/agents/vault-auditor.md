@@ -2,6 +2,7 @@
 name: vault-auditor
 description: Audits this vault without writing - runs the engine audit and the note-kind audit scripts, checks the AI guidance (skills, agents, commands) by reading it, and explains the drift in plain words with the fix for each finding.
 mode: subagent
+model: sonnet
 disallowedTools: Write, Edit, NotebookEdit
 permission:
   edit: deny

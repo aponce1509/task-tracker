@@ -72,7 +72,7 @@ created: 2026-10-13 23:25
 | `/recall` | Recall of the day's or week's concepts: questions, extensions, open questions (`#rfm`), topics to read, facts to memorize (`#learnable`) |
 | `/postmortem` | The post-mortem of an issue |
 
-The commands are also the base to remake the legacy workflows in `_0_final/workflows/`.
+The workflows in `_0_final/workflows/` run these commands; [[The Maintenance System]] maps them. Command drafts for the workflows without one wait in `_0_real_inbox/commands - tmp/`.
 
 ## Distribution
 

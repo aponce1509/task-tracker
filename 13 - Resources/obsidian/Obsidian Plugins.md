@@ -1,9 +1,9 @@
 ---
 paras:
   - "[[obsidian]]"
-type: "[[Indexes]]"
+type: "[[Resources]]"
 subtypes:
-  - "[[Navigation & Meta - Indexes - topic-index|topic-index]]"
+  - "[[External Knowledge - Resources - tool|tool]]"
 rate:
 tags:
 created: 2026-08-29 10:29

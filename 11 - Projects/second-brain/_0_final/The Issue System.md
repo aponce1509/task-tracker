@@ -69,12 +69,12 @@ bash .obsidian/personal_scripts/create-issue.sh --title "Short description" \
 
 ## Post-mortem
 
-Closing an issue includes a post-mortem, kept with its helper points at the end of the issue:
+Closing an issue includes a post-mortem at the end of the issue. The template's "Notes to create?" list is reference and inspiration only: the post-mortem cleans it down to the links of the notes actually created:
 
 - Objective it moved · good things · bad things · rate 1-3.
 - Entries feed the **project journal** (`journal.sh log --kind done --link "[[<issue>]]"`), for example [[Journal - second-brain]].
 - Notes to create from it (taxonomy check): ending note — core note/index that builds the final solution —, reusable pieces, tech debt (Descriptive → Project Contexts → technical-debt), review of resources & tools used (External Knowledge → Resources), additional requirements (Normative → Requirements), ideas (Your Brain → Ideas), decisions or solutions when a pattern emerges.
-- The `/postmortem` command (`99 - Meta/commands/postmortem.md`) guides the session; the helper points stay at the end of the issue.
+- The `/postmortem` command (`99 - Meta/commands/postmortem.md`) guides the session and leaves only the created notes linked.
 
 ## Related
 

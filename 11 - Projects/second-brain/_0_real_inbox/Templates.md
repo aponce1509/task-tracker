@@ -13,7 +13,7 @@ created: 2026-03-08 17:30
 
 ## Content
 
-The templates collect the different [[Note Categorisation]], [[Second Brain Workflows]] and [[Second Brain - Checklists]]
+The templates collect the different [[Note Categorisation]], [[The Maintenance System]] and [[Second Brain - Checklists]]
 
 ## Base elements
 

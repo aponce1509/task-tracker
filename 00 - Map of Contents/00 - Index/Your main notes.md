@@ -23,8 +23,10 @@ created: 2026-08-29 11:45
 - Computer science
 	- **[[Git]]**
 - Developer environments
-	- **[[Your Tech Stack]]**
+	- [[Your Tech Stack]]
 	- **[[neovim]]**
-	- **[[AI Tools Index]]**
+	- [[AI Tools Index]]
 - Obsidian
-	- **[[Obsidian Plugins]]**
+	- [[Obsidian Plugins]]
+- Product management
+	- **[[Product Management]]**

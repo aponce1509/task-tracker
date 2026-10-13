@@ -1,5 +1,5 @@
 ---
-description: Guided post-mortem for a second-brain issue; fills the issue's Post-Mortem section, keeping the helper points at the end of the issue
+description: Guided post-mortem for a second-brain issue; fills the issue's Post-Mortem section and cleans the notes-to-create helper list down to the notes actually created
 ---
 
 Run the post-mortem for the issue in $ARGUMENTS (accepts an issue number like `_I00020`, a note name, or a path; when empty, take the most recently modified open issue in `08 - Issues/`, never from `complete/` or `todos/`).
@@ -20,7 +20,7 @@ Walk the user through the post-mortem conversationally, one topic at a time:
 
 Then update the issue:
 
-- Fill the `## Post-Mortem` section in place. Keep the helper bullets and their order; the helper points stay at the end of the issue with nothing below them.
-- Keep entries short; link created notes from the "Notes to create?" sub-list.
+- Fill the `## Post-Mortem` section in place, with nothing below it. The "Notes to create?" sub-list in the template is only reference and inspiration: when closing, clean it so it keeps only the links to the notes actually created (one bullet per note). When none was created, replace the list by a single `- Notes created: none` bullet.
+- Keep entries short.
 - Update `rate:` in the frontmatter if the user gave one.
 - Do not move or rename the file — archiving to `08 - Issues/complete/` is a separate step.

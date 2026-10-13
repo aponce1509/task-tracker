@@ -38,7 +38,7 @@ Core Second Brain principles
 	- Annotations: [[PARA Methodology]]
 	- Need review of the implementation: [[PARA Note]]
 	- [[Second Brain Folder Structure]]
-- Maintenance workflows: [[Second Brain Workflows]]
+- Maintenance workflows: [[The Maintenance System]]
 	- [[WORKFLOWS - Bi-Monthly Inbox Sweep]]
 	- [[WORKFLOWS - Complete Issue]]
 	- [[WORKFLOWS - Contextual Capture Review]]
@@ -48,7 +48,6 @@ Core Second Brain principles
 	- [[WORKFLOWS - New Properties]]
 	- [[WORKFLOWS - New Tags & Types]]
 	- [[WORKFLOWS - Out of the Inbox]]
-	- [[New Tag workflow]]
 
 Searching & Organization of Notes
 - [[The Metadata system]]
@@ -87,9 +86,9 @@ Task Management
 		- Music [[00_pensamientos-1]]
 	- [[RULE - Create notes for the issues]]
 - Workflows
-	- [[Starting to work Workflow]]
+	- [[WORKFLOWS - Start Day]]
 	- [[WORKFLOWS - Start Issue]]
-	- [[WORKFLOWS - End Issue]]
+	- [[WORKFLOWS - Complete Issue]]
 	- [[WORKFLOWS - Start Day]]
 	- [[WORKFLOWS - End Day]]
 	- [[WORKFLOWS - Start Week]]

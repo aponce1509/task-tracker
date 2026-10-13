@@ -1,0 +1,21 @@
+Drives [[WORKFLOWS - Start Week]] and [[WORKFLOWS - End Week]].
+
+- Argument: `start | end`, default by weekday (Monday → start, Friday to Sunday → end)
+- Load: `task-planner`, `obsidian-vault-notes`, `note-issue`
+- start
+	- Read last week's highlights and rolled tasks
+	- Show the Active Projects; the user picks the focus
+	- `task-planner` for the week; propose the backlog
+	- Propose the PAR for the capture review; mark the sweep week
+	- Approval stop, then write the top of the weekly note
+- end
+	- Run `spotlight.sh` and show the weekly rows
+	- Done issues of the week (bases + journals)
+	- Rolled tasks: drop, split or deprioritise, one by one
+	- Offer `/recall week`
+	- `#rfm` older than a week: answer / issue / delete
+	- Stale `wip` issues and silent PARs: one decision each
+	- Ask for 2 or 3 highlights; set `cleanSystem: true`
+- Rules
+	- Every change to an issue or a PAR waits for approval
+	- Timecap 15 minutes: stop and list what is left for next week

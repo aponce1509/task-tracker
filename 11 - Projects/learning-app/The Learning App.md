@@ -1,8 +1,8 @@
 ---
 paras:
   - "[[learning-app]]"
-type: "[[MoCs]]"
-subtypes: ["[[Navigation & Meta - MoCs - project-moc|project-moc]]"]
+type: "[[Ideas]]"
+subtypes: ["[[Your Brain - Ideas - project-idea|project-idea]]"]
 rate:
 tags:
 status: inbox

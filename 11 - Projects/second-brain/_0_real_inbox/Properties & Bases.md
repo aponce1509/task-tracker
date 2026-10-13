@@ -44,6 +44,6 @@ Obsidian has special ways of searching using tags, so its usage really interesti
 > - Try to add them in the property not using the `#` in the middle of the doc.
 > - inline tags are allowed but not as the norm.
 > - All the tags must be included in the file [[Tags Reference]]
-> - When a new tag is created you must follow the [[New Tag workflow]]
+> - When a new tag is created you must follow the [[WORKFLOWS - New Tags & Types]]
 
 

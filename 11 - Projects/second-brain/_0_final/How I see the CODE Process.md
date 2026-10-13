@@ -49,11 +49,11 @@ El mapa canónico de este proceso vive en [[The CODE system]].
 Nosotros implementamos CODE usando:
 - [[The Metadata system]]: las propiedades (`status`, `maturity`) cargan el ciclo de vida
 - [[Second Brain Folder Structure]]
-- [[Second Brain Workflows]]
+- [[The Maintenance System]]
 
 > [!important] 
 > Antes de hacer nada productivo piensa en que fases estas
-> [[Starting to work Workflow]]
+> [[WORKFLOWS - Start Day]]
 
 ## [[Capturing - CODE]]
 

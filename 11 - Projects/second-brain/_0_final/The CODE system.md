@@ -53,12 +53,12 @@ The lifecycle is carried by the commons properties, not by tags — [[Common Fro
 
 ## Operating the loop
 
-- Out of the inbox → [[WORKFLOWS - Out of the Inbox]]: triage → contextualise → metadata → placement. Organising gives a home, not perfection.
-- Inbox zero → [[WORKFLOWS - Bi-Monthly Inbox Sweep]]: every two weeks, purge untouched inbox notes older than 7 days and empty the capture devices.
-- Distillation → [[WORKFLOWS - Distillation of a Note]]: prune → bold → summary callout → maturity up.
+- Out of the inbox → [[WORKFLOWS - Out of the Inbox]]: batches of five, the triager proposes, I decide, the note gets metadata and place. Organising gives a home, not perfection.
+- Safety net → [[WORKFLOWS - Bi-Monthly Inbox Sweep]]: every two weeks, empty the capture devices, purge inbox notes older than two weeks and run the audits.
+- Distillation → [[WORKFLOWS - Distillation of a Note]]: context → diagnosis by kind → summary callout → maturity up.
 - Dead-time micro-distill → [[WORKFLOWS - Contextual Capture Review]]: only what the current project needs, time-capped.
 
-These run next to the maintenance loops of [[System Maintenance & Review]] and the routines of [[Second Brain Workflows]].
+These run next to the maintenance loops of [[System Maintenance & Review]] and the routines of [[The Maintenance System]].
 
 ## Principles the loop leans on
 

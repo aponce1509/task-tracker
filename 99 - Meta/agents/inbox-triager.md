@@ -2,6 +2,7 @@
 name: inbox-triager
 description: Reviews a batch of notes in 09 - Inbox of this vault and proposes, per note, the metadata fixes, format and typo fixes, issues to create, a short fill for brain dumps, and the destination folder or new PAR. Read-only, it never writes.
 mode: subagent
+model: sonnet
 disallowedTools: Write, Edit, NotebookEdit
 permission:
   edit: deny

@@ -33,8 +33,14 @@ created: 2026-10-12 15:10
 - **[[The Retrieval system]]**
 	- [[Search & Base Queries Reference]]
 	- `99 - Meta/skills/task-planner/SKILL.md`
-- [[System Maintenance & Review]]
-	- `99 - Meta/skills/system-reference-maintance/` — the audit executor
+- **[[The Maintenance System]]**
+	- [[System Maintenance & Review]]
+		- `99 - Meta/skills/system-reference-maintance/` — the audit executor
+	- Day: [[WORKFLOWS - Start Day]] · [[WORKFLOWS - End Day]]
+	- Week: [[WORKFLOWS - Start Week]] · [[WORKFLOWS - End Week]]
+	- Work events: [[WORKFLOWS - Start Issue]] · [[WORKFLOWS - Complete Issue]] · [[WORKFLOWS - New PAR]] · [[WORKFLOWS - End PAR]]
+	- Learning: [[WORKFLOWS - Learning Session]]
+	- System changes: [[WORKFLOWS - New Tags & Types]] · [[WORKFLOWS - New Properties]]
 - **[[Task Management]]**
 	- [[The Issue System]]
 	- [[The Meeting System]]
@@ -53,7 +59,7 @@ created: 2026-10-12 15:10
 		- [[Convergence and Divergence]]
 		- [[Intermediate and Final Products]]
 		- [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
-	- Workflows (legacy, to remake from the commands): [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] · [[WORKFLOWS - Distillation of a Note]] · [[WORKFLOWS - Contextual Capture Review]]
+	- Workflows: [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] · [[WORKFLOWS - Distillation of a Note]] · [[WORKFLOWS - Contextual Capture Review]]
 - [[The AI Guidance System]]
 	- Skills: `99 - Meta/skills/` · Agents: `99 - Meta/agents/` · Commands: `99 - Meta/commands/`
 	- `scripts/sync-skills.sh`

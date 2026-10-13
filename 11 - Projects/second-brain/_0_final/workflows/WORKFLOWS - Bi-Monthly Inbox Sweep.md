@@ -13,14 +13,22 @@ created: 2026-05-16 15:02
 # [[WORKFLOWS - Bi-Monthly Inbox Sweep]]
 
 > [!summary]
-> A 15-minute routine every two weeks to empty the inbox safety net and handle items that slipped past daily routines.
+> The safety net, every two weeks. It empties the capture devices, purges what no longer matters, cleans the inbox in batches and runs the audits. The target is no inbox note older than two weeks, not inbox zero.
 
-**⏱️ Timecap: 15 Minutes**
+> [!info] Why not inbox zero
+> The vault is untidy by design. A note captured this week can wait for its use. A note untouched for two weeks has no use coming, and the sweep decides on it.
 
-Every two weeks (e.g., alternating Sundays):
-1. **Ruthless Purge:** Look at notes with `status: inbox` older than 7 days. If you haven't touched them or they feel irrelevant, delete them without guilt.
-2. **Batch Categorize:** For the survivors, apply the absolute minimum metadata needed to get them out of the inbox:
-   - Assign to a `paras` folder or link.
-   - Clear `status: inbox` — organised notes keep `maturity: capture` until a distillation pass touches them.
-3. **Check Quick Capture Devices:** Empty external intake points (e.g., phone widgets, voice notes, Apple Notes) into Obsidian.
-4. **Celebrate Zero:** Ensure the inbox query (`["status":inbox]`) returns exactly 0 results.
+**Trigger:** every second week, next to the periodic review of [[System Maintenance & Review]] · **Timecap:** 15 minutes for the inbox, the audits apart · **Driven by:** `/guide-inbox-clean`, the `vault-auditor` agent
+
+## Steps
+
+- Empty the capture devices into `09 - Inbox/`: phone, voice notes, Apple Notes.
+- Purge: the `inbox-triager` proposes deletions among the `status: inbox` notes older than two weeks. I decide; deletions go to `.trash/`.
+- Run [[WORKFLOWS - Out of the Inbox]] in batches of five until the timecap.
+- Run the `vault-auditor` agent: engine audit, concept audit, index and MoC audit, guidance checks.
+- Turn the top findings into issues with `/create-issue`, only the ones worth work. The rest waits for the next sweep.
+- No journal entry.
+
+## Tidies
+
+- Inbox, capture devices, orphans, links, legacy marks, engines, AI guidance.

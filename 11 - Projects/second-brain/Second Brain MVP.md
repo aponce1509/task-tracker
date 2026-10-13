@@ -33,7 +33,7 @@ created: 2026-03-02 08:35
 ## Incremental during the first months
 
 - [[Templates]]
-- [[Second Brain Workflows]]
+- [[The Maintenance System]]
 - [[Rules]]
 - [[External Helpers for note taking]]
 - Keep completing notes in [[Second Brain Outline]]

@@ -27,14 +27,17 @@ created: 2026-10-12 17:05
 	- `dependencies:` — what must resolve first
 	- `04 - Bases/final-bases/issues-all.base` · `issues-project.base` — views
 	- `#todo` extraction — [[Tag System & Ontology]]
+- Workflows — [[The Maintenance System]]
+	- [[WORKFLOWS - Start Issue]] · [[WORKFLOWS - Complete Issue]]
+	- [[WORKFLOWS - Start Day]] · [[WORKFLOWS - End Day]] · [[WORKFLOWS - Start Week]] · [[WORKFLOWS - End Week]]
 - Close
-	- Post-mortem with the helper points at the end of the issue — `/postmortem`
+	- Post-mortem at the end of the issue, with the notes-to-create list cleaned to the notes created — `/postmortem`
 	- Project journal — `journal.sh`, the `project-journaling` skill · [[Journal - second-brain]]
 - Meetings — [[The Meeting System]]: todos become issues, every meeting is logged in the journal
 	- Derived notes: ending note · reusables · tech debt · resources & tools · additional requirements · ideas
 - Open threads
 	- Move completed issues to `08 - Issues/complete/` — [[_I00003 Create a script to move complete issues to complete]]
-	- TODO extraction workflow — [[_I00019 add to any workflow clean of todo tags]]
+	- TODO extraction — the todo sweep of [[WORKFLOWS - End Day]] and [[WORKFLOWS - Complete Issue]] ([[_I00019 add to any workflow clean of todo tags]])
 - Other notes
 	- Task Management
 		- [[How to manage Task management]]
@@ -49,11 +52,3 @@ created: 2026-10-12 17:05
 			- [[Keeping the Focus]]
 				- Music [[00_pensamientos-1]]
 			- [[RULE - Create notes for the issues]]
-		- Workflows
-			- [[Starting to work Workflow]]
-			- [[WORKFLOWS - Start Issue]]
-			- [[WORKFLOWS - End Issue]]
-			- [[WORKFLOWS - Start Day]]
-			- [[WORKFLOWS - End Day]]
-			- [[WORKFLOWS - Start Week]]
-			- [[WORKFLOWS - End Week]]

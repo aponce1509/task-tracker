@@ -2,8 +2,9 @@
 paras:
   - "[[06-ai]]"
   - "[[04_developer_environments]]"
-type: "[[Indexes]]"
-subtypes: ["[[Navigation & Meta - Indexes - topic-index|topic-index]]"]
+type: "[[Resources]]"
+subtypes:
+  - "[[External Knowledge - Resources - tool|tool]]"
 rate:
 tags:
 status: inbox
@@ -12,7 +13,8 @@ created: 2026-05-06 20:21
 ---
 # [[AI Tools Index]]
 
-IDE:
+## IDE
+
 - Google Antigravity
 - Codex
 - Claude Code
@@ -20,10 +22,12 @@ IDE:
 - Github Copilot
 - OpenCode
 
-Harnesses
+## Harnesses
+
 - https://pi.dev/docs/latest
 
-Others:
+## Others
+
 - https://herdr.dev/
 - Openrouter
 - Elevenlabs
@@ -69,12 +73,12 @@ Others:
 
 ## Workflow
 
-Elements
-- Task Manager
-- Coding env
-- Project picker
-- Notes manager
-	- Meetings to markdown
+- Elements
+	- Task Manager
+	- Coding env
+	- Project picker
+	- Notes manager
+		- Meetings to markdown
 
 - Project to work on
 	- Fuzzy Finder
@@ -87,10 +91,10 @@ Elements
 - review
 - close
 
-UI/UX
-- Task Dashboard
-- Project Documentation
-	- Think how to organise this
+- UI/UX
+	- Task Dashboard
+	- Project Documentation
+		- Think how to organise this
 
 
 ## Skills/Rules/Agents

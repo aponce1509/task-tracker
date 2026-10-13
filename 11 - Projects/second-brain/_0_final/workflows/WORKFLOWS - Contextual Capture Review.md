@@ -13,15 +13,18 @@ created: 2026-05-16 15:02
 # [[WORKFLOWS - Contextual Capture Review]]
 
 > [!summary]
-> Use dead time or project transitions to distill notes relevant *only* to what you are currently working on. High relevance, low effort.
+> Use dead time or a project switch to distill only the captures that the current project needs. High relevance, low effort, no need to clear the list.
 
-**⏱️ Timecap: 10-15 Minutes**
+**Trigger:** dead time, or when I open a project · **Timecap:** 10 to 15 minutes · **Driven by:** a query and `/guide-distillation`
 
-Triggered during dead time (waiting, commuting) or when opening a Project:
-1. **Filter by Relevance:** Run a query for notes at `maturity: capture` combined with your current active project or area (e.g., `["maturity":capture] ["paras":"[[Project X]]"]`).
-2. **Micro-Distill:** Pick the top 2–3 notes from that list and execute the distillation workflow:
-   - **Bold** key insights.
-   - Drop a `> [!summary]` callout at the top.
-   - Climb the maturity: `maturity: capture` → `maturity: distilled`.
-3. **Feed the Project:** Immediately move any newly distilled insights directly into your main project note or workspace.
-4. **Stop Safely:** When your dead time ends or 15 minutes are up, close the vault. No need to clear the whole list.
+## Steps
+
+- Query the captures of the current PAR: `["maturity":capture] ["paras":"[[<project>]]"]`.
+- Pick the top two or three. The open issues of the PAR and the recent edits give the order; I decide.
+- Run [[WORKFLOWS - Distillation of a Note]] on each.
+- Feed the project: link the distilled notes from the project MoC, or from the PAR note when the project has no MoC. A link, never a copy.
+- Stop when the time is up.
+
+## Tidies
+
+- Raw captures and orphans of the active PAR.
