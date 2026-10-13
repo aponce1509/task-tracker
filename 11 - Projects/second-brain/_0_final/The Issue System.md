@@ -38,7 +38,20 @@ Full schema: [[Common Frontmatter Schemas & Specific Note Templates]] (class `is
 
 ## Body conventions
 
-Free form. When there is information worth flagging, prefer callouts:
+Free form, with this shape:
+
+- The description reads like an issue: enough context to understand the problem and to follow it later, without the conversation that created it.
+- Tasks are concise. Each task can carry sub-bullets with comments, suggestions or anything that helps:
+	```markdown
+	- [ ] Task title
+	  - Comment 1
+	  - Suggestion
+	- [ ] Task 2
+	```
+- Comments about the resolution can go next to the tasks, also when the post-mortem exists.
+- An issue created from a meeting links back to the meeting note ([[The Meeting System]]).
+
+When there is information worth flagging, prefer callouts:
 
 - `> [!abstract]` — summary: what and why in two lines.
 - `> [!info]` (or `> [!warning]` / `> [!danger]`) — rationale: the reasoning behind a decision or trade-off inside the issue.
@@ -59,7 +72,7 @@ bash .obsidian/personal_scripts/create-issue.sh --title "Short description" \
 Closing an issue includes a post-mortem, kept with its helper points at the end of the issue:
 
 - Objective it moved · good things · bad things · rate 1-3.
-- Entries feed the **project journal** (planned, not created yet: `Logging - Journals - project-log`).
+- Entries feed the **project journal** (`journal.sh log --kind done --link "[[<issue>]]"`), for example [[Journal - second-brain]].
 - Notes to create from it (taxonomy check): ending note — core note/index that builds the final solution —, reusable pieces, tech debt (Descriptive → Project Contexts → technical-debt), review of resources & tools used (External Knowledge → Resources), additional requirements (Normative → Requirements), ideas (Your Brain → Ideas), decisions or solutions when a pattern emerges.
 - The `/postmortem` command (`99 - Meta/commands/postmortem.md`) guides the session; the helper points stay at the end of the issue.
 
@@ -68,3 +81,4 @@ Closing an issue includes a post-mortem, kept with its helper points at the end 
 - [[Common Frontmatter Schemas & Specific Note Templates]] — the `issue` class and the `dependencies` field
 - [[Information Architecture & Taxonomy Model]] — [[Issues]] type and its subtypes
 - [[Task Management]] — the MoC this note belongs to
+- [[The Note Kinds]] — the map of all note kinds

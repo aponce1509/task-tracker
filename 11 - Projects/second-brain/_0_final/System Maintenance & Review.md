@@ -36,6 +36,7 @@ A "mod" is any change to the system: a base or view, a template, a Metadata Menu
 
 Run the `system-reference-maintance` skill (`audit.py`) on a bi-monthly rhythm, next to [[WORKFLOWS - Bi-Monthly Inbox Sweep]]:
 
+- Note kinds: `bash "99 - Meta/skills/note-concept/scripts/audit.sh"` and `bash "99 - Meta/skills/note-index-moc/scripts/audit.sh"` — checks in [[The Concept System]] and [[The Index and MoC System]]; the `vault-auditor` agent runs all audits and the guidance checks of [[The AI Guidance System]]
 - Taxonomy: `bash .obsidian/personal_scripts/taxonomy.sh verify` → "generated notes: all expected files exist", "orphans: none"
 - Bases: headless query every `.base` in `04 - Bases/final-bases/` — scoped bases returning `[]` is pass, a YAML/filter error is fail; coverage matrix: every type has a base, every subtype a view or a groupBy (target design in [[The Retrieval system]])
 - Links: `obsidian unresolved` → zero · `obsidian dev:errors` → clean

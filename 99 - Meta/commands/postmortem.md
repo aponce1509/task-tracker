@@ -15,7 +15,7 @@ Walk the user through the post-mortem conversationally, one topic at a time:
 1. Objective moved — which personal or work objective this issue moved.
 2. Good things and bad things.
 3. Rate 1-3.
-4. Journal — would this feed the project journal? The journal is planned but does not exist yet (`Logging - Journals - project-log`); note it as pending, do not invent one.
+4. Journal — the completed issue is logged in the project journal through the `project-journaling` skill (`journal.sh log --kind done --link "[[<issue>]]"`); add the good and bad things to that entry.
 5. Notes to create — propose per the taxonomy and create only after explicit confirmation, following the obsidian-vault-notes skill: ending note (core note/index that builds the final solution; reusable pieces), tech debt (Descriptive → Project Contexts → technical-debt), review of the resources & tools used (External Knowledge → Resources), additional requirements (Normative → Requirements), decisions or solutions when a pattern emerges, ideas (Your Brain → Ideas).
 
 Then update the issue:

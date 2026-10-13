@@ -29,12 +29,12 @@ created: 2026-10-12 17:05
 	- `#todo` extraction — [[Tag System & Ontology]]
 - Close
 	- Post-mortem with the helper points at the end of the issue — `/postmortem`
-	- Project journal (planned, TBD) — [[Logging - Journals - project-log|project-log]]
+	- Project journal — `journal.sh`, the `project-journaling` skill · [[Journal - second-brain]]
+- Meetings — [[The Meeting System]]: todos become issues, every meeting is logged in the journal
 	- Derived notes: ending note · reusables · tech debt · resources & tools · additional requirements · ideas
 - Open threads
 	- Move completed issues to `08 - Issues/complete/` — [[_I00003 Create a script to move complete issues to complete]]
 	- TODO extraction workflow — [[_I00019 add to any workflow clean of todo tags]]
-	- Project journal note does not exist yet (TBD)
 - Other notes
 	- Task Management
 		- [[How to manage Task management]]

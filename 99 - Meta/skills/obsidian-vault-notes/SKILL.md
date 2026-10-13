@@ -47,17 +47,31 @@ Every dimension of a note belongs to exactly one engine - never mix them:
 | Assign metadata to any note (frontmatter schema, class fields, forbidden keys/tags) | `references/system-properties.md` |
 | Choose a type/subtype · add, rename, remove or clean up clusters/types/subtypes | `references/system-taxonomy.md` |
 | Apply tags · propose a new tag | `references/system-tags.md` |
-| Create an index note | `references/note-index.md` |
-| Create, work on or close an issue (script, template, post-mortem) | `references/note-issue.md` |
-| Create a note kind with no `note-<kind>.md` yet | base schema in `references/system-properties.md` + closest template in `99 - Meta/Templates/` |
+| Write or format the body of any note (the user's look) | `references/writing-style.md` |
+| Project journal note kind | `references/note-journal.md` (edits only via the `project-journaling` skill) |
+| Any other note (no kind skill) | base schema in `references/system-properties.md` + closest template in `99 - Meta/Templates/` |
+
+## Note kinds - route to their skill
+
+Special kinds have their own skill. Load it, and keep this skill for the
+shared rules. Specs live in `11 - Projects/second-brain/_0_final/`
+([[The Note Kinds]]); the specs win over any skill.
+
+| Kind | Skill | Spec |
+| --- | --- | --- |
+| Issue | `note-issue` | [[The Issue System]] |
+| Meeting | `note-meeting` | [[The Meeting System]] |
+| Concept (Core Knowledge) | `note-concept` | [[The Concept System]] |
+| Index, MoC | `note-index-moc` | [[The Index and MoC System]] |
+| Project journal | `project-journaling` | `references/note-journal.md` |
 
 ## Processing raw material
 
 1. **Split**: decide whether the input is one note or several; each note gets
    a single identity (exactly one type).
-2. **Metadata**: for each note, read the matching `references/note-<kind>.md`
-   when it exists; fill the commons schema and pick type/subtypes from the
-   taxonomy.
+2. **Metadata**: for each note of a special kind, load its `note-<kind>`
+   skill (table above); otherwise fill the commons schema and pick
+   type/subtypes from the taxonomy.
 3. **Place**: work items → `08 - Issues/`; PAR notes → `01 - PAR/`; project
    material → `11 - Projects/<project>/`; areas → `12 - Areas/`; resources →
    `13 - Resources/`; indexes → `00 - Map of Contents/`; anything not yet
@@ -74,13 +88,17 @@ Every dimension of a note belongs to exactly one engine - never mix them:
   procedures in `references/system-taxonomy.md`.
 - **New tag**: explicit user approval required, then register it in
   [[Tag System & Ontology]] - rules in `references/system-tags.md`.
-- **New note kind**: add `references/note-<kind>.md` to this skill (what it
-  is, when to use it, how to metadata it) and, when it needs a scaffold, a
-  template in `99 - Meta/Templates/`. New metadata fields mean a class in
+- **New note kind**: first a spec note in `11 - Projects/second-brain/_0_final/`
+  (what it is, metadata, body, links, audit), linked from [[The Note Kinds]];
+  then a `note-<kind>` skill in `99 - Meta/skills/` that applies it (rules,
+  guardrails, steps - never a copy of the spec) and, when it needs a
+  scaffold, a template in `99 - Meta/Templates/`. New metadata fields mean a class in
   `99 - Meta/Class/` - see `references/system-properties.md`.
 
 ## Body formatting
 
+- Follow `references/writing-style.md` (the rules behind
+  [[How I Like My Notes]]): written as the user, callouts on top, ASD-STE100.
 - `# [[Title]]` H1 only for the title. No `---` separators in body. Minimal
   headings. No blank lines inside bullet lists.
 - Wikilinks `[[Note]]`, embeds `![[Note]]`, callouts `> [!type]`. Subtype

@@ -6,6 +6,7 @@
 #
 #   "99 - Meta/skills/<name>/SKILL.md"   agent skills
 #   "99 - Meta/commands/<name>.md"       slash commands
+#   "99 - Meta/agents/<name>.md"         subagents
 #
 # Every harness reads them through committed dir-level symlinks, one per agent:
 #
@@ -13,6 +14,8 @@
 #   .claude/skills      -> ../99 - Meta/skills
 #   .opencode/commands  -> ../99 - Meta/commands
 #   .claude/commands    -> ../99 - Meta/commands
+#   .opencode/agents    -> ../99 - Meta/agents
+#   .claude/agents      -> ../99 - Meta/agents
 #
 # This script idempotently repairs those views, migrates legacy layouts
 # (real dirs with copies) into the canonical folders, and cleans the junk
@@ -87,6 +90,7 @@ done
 
 SKILLS_SRC="$ROOT/99 - Meta/skills"
 COMMANDS_SRC="$ROOT/99 - Meta/commands"
+AGENTS_SRC="$ROOT/99 - Meta/agents"
 
 is_symlink() { [ -L "$1" ]; }
 is_real_dir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -112,6 +116,8 @@ each_view() {
 	printf 'skills|.claude/skills|../99 - Meta/skills\n'
 	printf 'commands|.opencode/commands|../99 - Meta/commands\n'
 	printf 'commands|.claude/commands|../99 - Meta/commands\n'
+	printf 'agents|.opencode/agents|../99 - Meta/agents\n'
+	printf 'agents|.claude/agents|../99 - Meta/agents\n'
 	[ "$CODEX" = "1" ] && printf 'skills|.agents/skills|../99 - Meta/skills\n'
 	return 0
 }
@@ -120,6 +126,7 @@ src_of_kind() {
 	case "$1" in
 	skills) echo "$SKILLS_SRC" ;;
 	commands) echo "$COMMANDS_SRC" ;;
+	agents) echo "$AGENTS_SRC" ;;
 	esac
 }
 
@@ -165,7 +172,7 @@ migrate_view() {
 		warn "no --apply: $rel left untouched"
 		return
 	fi
-	kind="$(printf '%s\n' "$rel" | grep -q 'skills' && echo skills || echo commands)"
+	case "$rel" in *skills) kind=skills ;; *agents) kind=agents ;; *) kind=commands ;; esac
 	src="$(src_of_kind "$kind")"
 	say "migrating $rel into ${src#$ROOT/}/:"
 	mkdir -p "$src"
@@ -193,6 +200,7 @@ cmd_sync() {
 	say "sync: vault $ROOT"
 	check_canonical_real "$SKILLS_SRC" "skills" || exit 2
 	check_canonical_real "$COMMANDS_SRC" "commands" || exit 2
+	check_canonical_real "$AGENTS_SRC" "agents" || exit 2
 
 	say "views:"
 	while IFS='|' read -r kind rel target; do
@@ -203,6 +211,7 @@ cmd_sync() {
 		# relative target must match the view map so links stay repo-portable
 		case "$rel" in
 		.opencode/skills|.claude/skills|.agents/skills) target="../99 - Meta/skills" ;;
+		.opencode/agents|.claude/agents) target="../99 - Meta/agents" ;;
 		*) target="../99 - Meta/commands" ;;
 		esac
 		migrate_view "$rel" "$target"
@@ -224,7 +233,7 @@ cmd_sync() {
 cmd_clean() {
 	HUMAN=0
 	say "clean: vault $ROOT (dry-run: $DRY — pass --apply to act)"
-	for src in "$SKILLS_SRC" "$COMMANDS_SRC"; do
+	for src in "$SKILLS_SRC" "$COMMANDS_SRC" "$AGENTS_SRC"; do
 		[ -d "$src" ] || continue
 		say "in ${src#$ROOT/}/:"
 		while IFS= read -r -d '' f; do
@@ -269,9 +278,10 @@ cmd_clean() {
 cmd_status() {
 	local off=0 state
 	say "status: vault $ROOT"
-	printf '  canonical: %s skills, %s commands\n' \
+	printf '  canonical: %s skills, %s commands, %s agents\n' \
 		"$(find "$SKILLS_SRC" -mindepth 1 -maxdepth 1 -type d -not -name '.*' 2>/dev/null | wc -l | tr -d ' ')" \
-		"$(find "$COMMANDS_SRC" -mindepth 1 -maxdepth 1 -type f 2>/dev/null | wc -l | tr -d ' ')"
+		"$(find "$COMMANDS_SRC" -mindepth 1 -maxdepth 1 -type f 2>/dev/null | wc -l | tr -d ' ')" \
+		"$(find "$AGENTS_SRC" -mindepth 1 -maxdepth 1 -type f -name '*.md' 2>/dev/null | wc -l | tr -d ' ')"
 	while IFS='|' read -r _kind rel target; do
 		state="$(view_state "$ROOT/$rel" "$target")"
 		printf '  %-10s %-22s want: %s\n' "$state" "$rel" "$target"

@@ -1,22 +1,17 @@
 ---
 paras:
-type:
+type: "[[Indexes]]"
 subtypes:
+  - "[[Navigation & Meta - Indexes - topic-index|topic-index]]"
 rate:
 tags:
+status: done
+maturity: evergreen
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
 # [[<% tp.file.title %>]]
 
-- [[Indexes]]
-	- [[Navigation & Meta - Indexes - global-index]]
-	- [[Navigation & Meta - Indexes - topic-index]]
-- [[MoCs]]
-	- [[Navigation & Meta - MoCs - domain-moc]]
-	- [[Navigation & Meta - MoCs - area-moc]]
-	- [[Navigation & Meta - MoCs - project-moc]]
+> [!abstract] 
+> 
 
-> [!summary] SHOR Description
-> Content
-
-- Links to notes
+- 

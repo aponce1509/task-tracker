@@ -4,7 +4,7 @@ status: draft
 description:
   Keep the project journals of this vault up to date, always through
   journal.sh (.obsidian/personal_scripts/journal.sh), the only editor of
-  journal files. Trigger only when an issue is completed or the user
+  journal files. Trigger only when an issue is completed, a meeting note is parsed, or the user
   explicitly asks to log something (meeting, milestone, product, tech debt,
   project close). Never log anything else on its own initiative.
 ---
@@ -47,11 +47,14 @@ Canonical references: the note kind lives in the vault skill
 
 ## When to trigger
 
-The journal is kept lean: log an entry only in two cases.
+The journal is kept lean: log an entry only in three cases.
 
 1. **An issue was completed** (status done) — log it without being asked:
    `log --kind done --what "..." [--dur <min>] --link "[[<issue note>]]"`.
-2. **The user explicitly asks** to log something ("log this", "journal it",
+2. **A meeting note was parsed** by the `note-meeting` skill — log it
+   without being asked: `log --kind meeting --what "..." --link "[[<meeting note>]]"`
+   ([[The Meeting System]]).
+3. **The user explicitly asks** to log something ("log this", "journal it",
    "update the journal", "close the journal"). Pick the command by what they
    ask for:
 
@@ -69,7 +72,7 @@ The journal is kept lean: log an entry only in two cases.
 Guardrails against overfilling the journal. Without an explicit user request,
 never log:
 
-- Anything that is not a completed issue: meetings, milestones, products,
+- Anything that is not a completed issue or a parsed meeting: milestones, products,
   tech debt, finished sub-tasks, scripts, docs, configs, migrations. Notice
   them if useful, but at most offer once ("want me to journal this?") and
   accept a no.

@@ -12,9 +12,10 @@ created: 2026-10-12 15:10
 ---
 # [[The Second Brain System]]
 
-Index of the system's canonical notes, `_0_final/`. It lists every note that defines the system; new notes are added here, and existing entries are only pruned when a new index replaces this one.
+> [!abstract] Canonical notes of the second brain
+> Index of `_0_final/`: every note that defines the system. New notes are added here; entries are pruned only when a new index replaces this one.
 
-- [[The Metadata system]]
+- **[[The Metadata system]]**
 	- [[Information Architecture & Taxonomy Model]]
 		- [[Common Frontmatter Schemas & Specific Note Templates]]
 		- [[Tag System & Ontology]]
@@ -23,16 +24,23 @@ Index of the system's canonical notes, `_0_final/`. It lists every note that def
 	- `99 - Meta/Class/`
 	- `04 - Bases/final-bases/`
 	- `99 - Meta/Templates/`
-- [[The Retrieval system]]
+- **[[The Note Kinds]]**
+	- [[How I Like My Notes]]
+	- [[The Issue System]]
+	- [[The Meeting System]]
+	- [[The Concept System]]
+	- [[The Index and MoC System]]
+- **[[The Retrieval system]]**
 	- [[Search & Base Queries Reference]]
 	- `99 - Meta/skills/task-planner/SKILL.md`
 - [[System Maintenance & Review]]
 	- `99 - Meta/skills/system-reference-maintance/` — the audit executor
-- [[Task Management]]
+- **[[Task Management]]**
 	- [[The Issue System]]
+	- [[The Meeting System]]
 	- Project journal (performance tracking + logbook; CLI-only edits): `.obsidian/personal_scripts/journal.sh` · `99 - Meta/Templates/Project Journal - Template.md`
 		- [[Journal - second-brain]]
-- [[The CODE system]]
+- **[[The CODE system]]**
 	- [[How I see the CODE Process]]
 	- [[Capturing - CODE]]
 	- [[Organise - CODE]]
@@ -46,5 +54,8 @@ Index of the system's canonical notes, `_0_final/`. It lists every note that def
 		- [[Convergence and Divergence]]
 		- [[Intermediate and Final Products]]
 		- [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
-	- Workflows: [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] · [[WORKFLOWS - Distillation of a Note]] · [[WORKFLOWS - Contextual Capture Review]]
+	- Workflows (legacy, to remake from the commands): [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] · [[WORKFLOWS - Distillation of a Note]] · [[WORKFLOWS - Contextual Capture Review]]
+- [[The AI Guidance System]]
+	- Skills: `99 - Meta/skills/` · Agents: `99 - Meta/agents/` · Commands: `99 - Meta/commands/`
+	- `scripts/sync-skills.sh`
 - [[All Obsidian commands]]

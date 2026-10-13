@@ -90,7 +90,7 @@ Mirror of `taxonomy.json` (the JSON prevails on any mismatch).
 ### Knowledge
 
 - **Roadmaps**: structured learning paths → `curriculum`, `course`, `module`
-- **Core Knowledge**: durable, project-agnostic models → `concept`, `framework`, `principle`
+- **Core Knowledge**: durable, project-agnostic models → `concept`, `framework`, `principle`, `culture` ([[The Concept System]])
 - **Syntheses**: investigations and evaluations → `case-study`, `research`, `reference-anchor`
 - **Emergent Thoughts**: active synthesis and hypotheses → `open-question`, `idea`, `hypothesis`
 - **Annotations**: notes on external sources → `question`, `evidence`, `conclusion`, `extract`

@@ -1,8 +1,12 @@
 ---
 paras:
 type: "[[Meetings]]"
+subtypes:
+  - "[[Operational - Meetings - sync|sync]]"
 rate:
 tags:
+status: inbox
+maturity: capture
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
 <%*
@@ -50,19 +54,15 @@ await tp.file.move(`${folder}/${filename}`);
 
 // Optional: If you want to use that timestamp somewhere in the file content:
 // tR += `Created on: ${timestamp}`;
+tR += `# [[${filename}]]`;
 %>
 
-# [[<% tp.date.now("YYYY-MM-DD") %>]]
+> [!abstract] Summary
+> 
 
-## Creation/Move checklist
+## Take aways
 
-- [ ] add context to the title
-- [ ] Add paras
-- [ ] Take-away completed
-- [ ] Create issues Requirements
-- [ ] Remove inbox
-
-## Take Aways
+## Todos
 
 ## Preparation
 

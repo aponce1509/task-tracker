@@ -39,4 +39,4 @@ Existing context notes on clustering and on stationarity tests (ADF, KPSS). Goal
 
 - Project or Resource for the PAR note.
 - Whether a `method` subtype under Core Knowledge is worth proposing.
-- Whether experiments deserve their own class or stay prose in issues.
+- Whether experiments deserve their own class or stay prose in issues: ==Experiments are not meant to be citizens of the system by any means==
