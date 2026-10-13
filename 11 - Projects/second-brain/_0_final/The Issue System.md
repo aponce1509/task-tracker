@@ -61,7 +61,7 @@ Closing an issue includes a post-mortem, kept with its helper points at the end 
 - Objective it moved · good things · bad things · rate 1-3.
 - Entries feed the **project journal** (planned, not created yet: `Logging - Journals - project-log`).
 - Notes to create from it (taxonomy check): ending note — core note/index that builds the final solution —, reusable pieces, tech debt (Descriptive → Project Contexts → technical-debt), review of resources & tools used (External Knowledge → Resources), additional requirements (Normative → Requirements), ideas (Your Brain → Ideas), decisions or solutions when a pattern emerges.
-- The `/postmortem` command (`.opencode/commands/postmortem.md`) guides the session; the helper points stay at the end of the issue.
+- The `/postmortem` command (`99 - Meta/commands/postmortem.md`) guides the session; the helper points stay at the end of the issue.
 
 ## Related
 

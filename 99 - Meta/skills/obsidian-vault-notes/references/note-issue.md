@@ -10,6 +10,8 @@ An issue is just a description of something to be done. Canonical definition:
 - Class `issue` (Metadata Menu) adds to the commons schema: `priority`
   (0 high, 1 medium, 2 low), `dueDate`, `role` (core/milestone/pattern/debt)
   and `dependencies` - wikilinks to other issues that must resolve first.
+- Done state lives ONLY in `status: done` plus the `complete/` folder - no
+  `complete:` key (legacy, migrated 2026-10-13).
 - Project context goes in `paras:` (links to PAR notes).
 
 ## Placement
@@ -58,7 +60,7 @@ Notes:
 ## Closing - post-mortem
 
 The helper points of the Post-Mortem section stay at the end of the issue.
-The `/postmortem` command (`.opencode/commands/postmortem.md`) guides the
+The `/postmortem` command (`99 - Meta/commands/postmortem.md`) guides the
 session and fills them in place. Entries feed the project journal
 (`journal.sh log --kind done --link "[[this issue]]"`; the
 `project-journaling` skill owns when to log) and spawn follow-up notes

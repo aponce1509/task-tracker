@@ -4,7 +4,7 @@ Personal Obsidian vault (second brain). These instructions apply to any agent wo
 
 ## Skills
 
-The skill sources live in `99 - Meta/skills/<name>/SKILL.md` — one folder per skill. `.opencode/skills/` and `.claude/skills/` are committed symlinks to that folder, so every harness loads the same sources. If your harness has no skill mechanism, read the relevant `SKILL.md` directly from `99 - Meta/skills/`.
+The skill sources live in `99 - Meta/skills/<name>/SKILL.md` — one folder per skill. `.opencode/skills/` and `.claude/skills/` are committed symlinks to that folder, so every harness loads the same sources. If your harness has no skill mechanism, read the relevant `SKILL.md` directly from `99 - Meta/skills/`. Keep the views aligned with `scripts/sync-skills.sh` (`status` / `sync` / `clean`; `--apply` also migrates legacy real-dir layouts into the canonical folders).
 
 Read before touching notes:
 
@@ -17,7 +17,7 @@ System work:
 - `task-planner` — task selection for "what should I do next" / "plan my day": active PARs → open issues → dependencies, priorities, due dates → ordered tree. Read-only.
 - `project-journaling` — log completions and events (meetings, finished issues, milestones, tech debt, close) to project journals, always through `journal.sh`.
 
-Slash command: `/postmortem` — guided post-mortem for an issue. Canonical file `.opencode/commands/postmortem.md`, mirrored to Claude Code via the `.claude/commands/postmortem.md` symlink.
+Slash command: `/postmortem` — guided post-mortem for an issue. Canonical file `99 - Meta/commands/postmortem.md`; `.opencode/commands/` and `.claude/commands/` are symlinks to that folder. Keep the four views aligned with `scripts/sync-skills.sh` (`status` / `sync` / `clean`).
 
 External dependency: the `obsidian` CLI, used by the skills for search, bases and daily notes. Its usage is documented by the globally installed `obsidian-cli` skill (`~/.agents/skills/obsidian-cli/`), available to any project on this machine.
 
