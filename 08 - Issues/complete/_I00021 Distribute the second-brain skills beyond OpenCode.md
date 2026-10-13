@@ -43,7 +43,7 @@ dependencies:
 
 ## Post-Mortem
 
-- We have added this to the logging? (project journal — TBD; `11 - Projects/second-brain/Journal - second-brain.md` exists now, so entries can land via `journal.sh` on the user's word)
+- We have added this to the logging? → yes: `journal.sh` entry 9 (done, linked to this issue) + entry 10 (milestone: the agent-asset distribution standard) in [[Journal - second-brain]]
 - Objective moved: we now have a standard way of saving skills and commands in the second brain — one canonical store (`99 - Meta/skills/` + `99 - Meta/commands/`) visible in the vault, distributed by git, read by every harness through committed symlinks. Ready to extend to agents; the system-level question (repos vs dotfiles vs split) opened as [[_I00022 Decide how skills and commands are stored across my systems]].
 - Good things:
 	- Real bug found and fixed: three of five skills were silently never loaded even in OpenCode — `: ` inside their `description:` block scalars breaks strict frontmatter parsing and the skill gets dropped without any warning; proven with a probe matrix, fix verified in fresh sessions.
