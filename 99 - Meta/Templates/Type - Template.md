@@ -1,6 +1,5 @@
 ---
-file_class:
-  - category
+file_class: type
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
 # [[<% tp.file.title %>]]

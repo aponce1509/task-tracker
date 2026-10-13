@@ -3,10 +3,11 @@ paras:
   - "[[second-brain]]"
 type: "[[Standards]]"
 subtypes:
+  - "[[Normative - Standards - workflow|workflow]]"
 rate:
 tags:
-status:
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-05-16 15:02
 ---
 # [[WORKFLOWS - Contextual Capture Review]]

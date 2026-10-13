@@ -1,12 +1,13 @@
 ---
 paras:
   - "[[second-brain]]"
-type:
+type: "[[Standards]]"
 subtypes:
+  - "[[Normative - Standards - workflow|workflow]]"
 rate:
 tags:
-status: wip
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-02-15 23:55
 ---
 # [[Express - CODE]]

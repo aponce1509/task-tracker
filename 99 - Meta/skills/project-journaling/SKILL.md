@@ -4,9 +4,9 @@ status: draft
 description:
   Keep the project journals of this vault up to date, always through
   journal.sh (.obsidian/personal_scripts/journal.sh), the only editor of
-  journal files. Trigger on completions and events such as meetings,
-  finished issues or tasks, milestones, products, tech debt, project close,
-  or explicit log requests. Not for work in progress or ordinary note edits.
+  journal files. Trigger only when an issue is completed or the user
+  explicitly asks to log something (meeting, milestone, product, tech debt,
+  project close). Never log anything else on its own initiative.
 ---
 
 # Project Journaling
@@ -47,34 +47,40 @@ Canonical references: the note kind lives in the vault skill
 
 ## When to trigger
 
-Log an entry when one of these lands — each is a concrete event, not a
-background action:
+The journal is kept lean: log an entry only in two cases.
 
-| Event | Action |
+1. **An issue was completed** (status done) — log it without being asked:
+   `log --kind done --what "..." [--dur <min>] --link "[[<issue note>]]"`.
+2. **The user explicitly asks** to log something ("log this", "journal it",
+   "update the journal", "close the journal"). Pick the command by what they
+   ask for:
+
+| Requested | Action |
 | --- | --- |
-| A meeting happened | `log --kind meeting --what "..." --link "[[<meeting note>]]"` — link the meeting note; create it first if it does not exist (Operational - Meetings) |
-| An issue / task was completed | `log --kind done --what "..." [--dur <min>] --link "[[<issue note>]]"` |
-| Something else completed (script, doc, config, migration...) | `log --kind done --what "..."` — link the artifact note when one exists |
-| A milestone hit | `log --kind milestone --what "..." [--link ...]` |
-| An intermediate product was produced | `journal.sh product "<...>" [--link ...]` |
-| Tech debt surfaced while working | `journal.sh debt "<item>" [--link ...]` |
-| The project (or a workstream) closes | close protocol below |
-
-Also trigger on explicit requests: "log this", "journal it", "update the
-journal", "close the journal".
+| A meeting | `log --kind meeting --what "..." --link "[[<meeting note>]]"` — link the meeting note; create it first if it does not exist (Operational - Meetings) |
+| Something completed (script, doc, config, migration...) | `log --kind done --what "..."` — link the artifact note when one exists |
+| A milestone | `log --kind milestone --what "..." [--link ...]` |
+| An intermediate product | `journal.sh product "<...>" [--link ...]` |
+| Tech debt | `journal.sh debt "<item>" [--link ...]` |
+| Close the project or workstream | close protocol below |
 
 ## When NOT to trigger
 
-Not every action is journaled — that is the point of the trigger list:
+Guardrails against overfilling the journal. Without an explicit user request,
+never log:
 
+- Anything that is not a completed issue: meetings, milestones, products,
+  tech debt, finished sub-tasks, scripts, docs, configs, migrations. Notice
+  them if useful, but at most offer once ("want me to journal this?") and
+  accept a no.
+- Sub-steps of an issue — the issue's completion is the single entry.
 - Work still in progress, failed attempts, ordinary reading or planning.
-- Editing ordinary notes, creating notes that are not completions or
-  meetings, answering questions, searches.
+- Editing ordinary notes, creating notes that are not issue completions,
+  answering questions, searches.
 - Personal logging (daily notes, `Logging - Template.md` journals) — that is
   a different flow, not a project journal.
 
-If unsure whether something "completed", ask the user once; never log
-speculative entries.
+When in doubt, do not log. Never log speculative entries.
 
 ## Logging flow
 

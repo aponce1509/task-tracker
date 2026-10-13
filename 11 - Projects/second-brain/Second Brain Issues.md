@@ -22,7 +22,7 @@ created: 2026-02-28 16:53
 	- Tienes un issue para este tema
 	- [[Ending Index]]
 	- [[How do we organise the note that build the final project]]
-	- [[Implementing the O fo CODE]]
+	- [[Implementing the O of CODE]]
 - Outlines
 	- [[Notes a base system]]
 	- [[Second Brain Outline]]

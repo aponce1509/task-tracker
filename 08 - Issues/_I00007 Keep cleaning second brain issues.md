@@ -3,12 +3,13 @@ file_class: issue
 paras:
   - "[[second-brain]]"
 type: "[[Issues]]"
+subtypes:
+  - "[[Operational - Issues - recurring|recurring]]"
 priority: 2
 rate:
 tags:
 created: 2026-05-15 23:31
 dueDate:
-complete: false
 status:
 ---
 # [[_I00007 Keep cleaning second brain issues]]

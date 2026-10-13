@@ -3,12 +3,13 @@ file_class: issue
 paras:
   - "[[LearningToLearn]]"
 type: "[[Issues]]"
+subtypes:
+  - "[[Operational - Issues - task|task]]"
 priority:
 rate:
 tags:
 created: 2026-05-16 13:53
 dueDate:
-complete: false
 status:
 ---
 

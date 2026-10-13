@@ -62,6 +62,9 @@ created: YYYY-MM-DD HH:mm
 
 > [!note] `winstreak` (learning class): consecutive successful learning/review cycles, `0`–`5`.
 
+> [!note] Daily & weekly notes are habit trackers
+> Notes under `07 - Daily/` and the `Daily Note - Template` / `Weekly Note - Template` are **property-free by design**: no class schema applies, and habit keys (`calorias`, `toothTimes`, `films`, `bookMinutes`, …) are valid properties there, not drift. The `system-reference-maintance` audit exempts them.
+
 ## Type-Specific Schema Overrides
 
 ### 1. PAR Index Notes (`file_class: par`)

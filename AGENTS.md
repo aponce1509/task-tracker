@@ -15,7 +15,7 @@ System work:
 
 - `system-reference-maintance` — run the audit after any system modification (taxonomy, properties, tags, bases) and for periodic reviews: `python3 "99 - Meta/skills/system-reference-maintance/scripts/audit.py"`. Read-only; exit 1 = new drift.
 - `task-planner` — task selection for "what should I do next" / "plan my day": active PARs → open issues → dependencies, priorities, due dates → ordered tree. Read-only.
-- `project-journaling` — log completions and events (meetings, finished issues, milestones, tech debt, close) to project journals, always through `journal.sh`.
+- `project-journaling` — log completed issues, and anything else only when the user explicitly asks (meetings, milestones, tech debt, close), to project journals, always through `journal.sh`.
 
 Slash command: `/postmortem` — guided post-mortem for an issue. Canonical file `99 - Meta/commands/postmortem.md`; `.opencode/commands/` and `.claude/commands/` are symlinks to that folder. Keep the four views aligned with `scripts/sync-skills.sh` (`status` / `sync` / `clean`).
 

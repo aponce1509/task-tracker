@@ -3,7 +3,8 @@ file_class: issue
 paras:
   - "[[second-brain]]"
 type: "[[Issues]]"
-subtype:
+subtypes:
+  - "[[Operational - Issues - task|task]]"
 role:
 priority:
 rate:
@@ -12,7 +13,6 @@ status: inbox
 maturity: capture
 created: 2026-08-28 17:12
 dueDate:
-complete: false
 ---
 
 # [[_I00017 Remove edit all the archive notes]]

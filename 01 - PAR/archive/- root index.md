@@ -1,8 +1,5 @@
 ---
-file_class:
 status: wip
-category:
-par:
 tags:
 rate:
 ---

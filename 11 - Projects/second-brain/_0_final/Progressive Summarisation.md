@@ -1,12 +1,13 @@
 ---
 paras:
   - "[[second-brain]]"
-type: "[[Annotations]]"
+type: "[[Core Knowledge]]"
 subtypes:
+  - "[[Knowledge - Core Knowledge - concept|concept]]"
 rate:
 tags:
-status:
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-02-15 21:06
 ---
 # [[Progressive Summarisation]]

@@ -40,4 +40,4 @@ La idea detrás de las recompras del Tesoro es aumentar la demanda de determinad
 
 **Idea fundamental para recordar**
 
-El yield es, en esencia, la rentabilidad que exige el mercado por prestar dinero al Gobierno. El Tesoro no controla directamente ese yield: las condiciones de la emisión y el precio que el mercado está dispuesto a pagar determinan la rentabilidad resultante. Por eso, cuando los yields de mercado suben, la nueva deuda que emite el Gobierno tiende a resultar más cara.#j# Content
+El yield es, en esencia, la rentabilidad que exige el mercado por prestar dinero al Gobierno. El Tesoro no controla directamente ese yield: las condiciones de la emisión y el precio que el mercado está dispuesto a pagar determinan la rentabilidad resultante. Por eso, cuando los yields de mercado suben, la nueva deuda que emite el Gobierno tiende a resultar más cara.

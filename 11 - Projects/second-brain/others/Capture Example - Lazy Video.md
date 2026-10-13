@@ -34,8 +34,6 @@ and so on.
 
 ## The process
 
-<!-- NOTE: #output/workflow -->
-
 1. Save it to Reader, you will use it for general comments and for future
    consumption.
 2. Create a note for the video

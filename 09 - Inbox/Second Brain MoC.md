@@ -11,15 +11,19 @@ created: 2026-09-06 17:22
 ---
 # [[Second Brain MoC]]
 
+> [!info] The CODE wing is now canonical
+> The lifecycle map lives in [[The CODE system]] (`_0_final/`); the raw outline below stays as history and backlog.
+
 Note taking
-- CODE: [[How I see the CODE Process]]
+- CODE: [[The CODE system]]
+- How I see it: [[How I see the CODE Process]]
 	- [[Capturing - CODE]]
 		- [[External Notes]]
 			- None of that. YET to be defined depend on what your are learning
 	- [[Organise - CODE]]
 	- [[Distill - CODE]]
 	- [[Express - CODE]]
-	- [[Implementing the O fo CODE]]
+	- [[Implementing the O of CODE]]
 	- [[Progressive Summarisation]]
 	- Externals References
 		- [[Convergence and Divergence]]

@@ -2,7 +2,8 @@
 file_class: issue
 paras:
 type: "[[Issues]]"
-subtype:
+subtypes:
+  - "[[Operational - Issues - improvement|improvement]]"
 role:
 priority:
 rate:
@@ -11,7 +12,6 @@ status: inbox
 maturity: capture
 created: 2026-08-29 17:10
 dueDate:
-complete: false
 ---
 
 # [[_I00019 add to any workflow clean of todo tags]]

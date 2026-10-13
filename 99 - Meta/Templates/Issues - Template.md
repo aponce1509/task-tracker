@@ -7,7 +7,6 @@ rate:
 tags:
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 dueDate:
-complete: false
 ---
 <%*
 const baseFolder = "08 - Issues";

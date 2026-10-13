@@ -12,7 +12,6 @@ maturity: capture
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 dueDate:
 dependencies:
-complete: false
 ---
 <%*
 const baseFolder = "08 - Issues";

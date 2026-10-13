@@ -3,13 +3,14 @@ file_class: issue
 paras:
   - "[[second-brain]]"
 type: "[[Issues]]"
+subtypes:
+  - "[[Operational - Issues - recurring|recurring]]"
 priority: 2
 rate:
 tags:
 created: 2026-05-16 14:40
 dueDate:
-complete: true
-status:
+status: done
 ---
 # [[_I00010 Recurrent maintance task for your pkm]]
 

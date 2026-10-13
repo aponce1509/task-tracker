@@ -1,9 +1,6 @@
 ---
 paras:
-categories:
-  - "[[Project Management]]"
-types:
-  - "[[Requirements]]"
+type: "[[Requirements]]"
 rate:
 tags:
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>

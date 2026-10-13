@@ -1,12 +1,13 @@
 ---
 paras:
   - "[[second-brain]]"
-type:
+type: "[[Standards]]"
 subtypes:
+  - "[[Normative - Standards - workflow|workflow]]"
 rate:
 tags:
-status: wip
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-02-15 20:46
 ---
 # [[Organise - CODE]]
@@ -49,7 +50,7 @@ The most common framework for organising for actionability [[PARA Methodology]]:
 
 - The daily procedure: [[WORKFLOWS - Out of the Inbox]] (triage → contextualise → metadata → placement).
 - The leftovers routine: [[WORKFLOWS - Bi-Monthly Inbox Sweep]] — untouched inbox notes older than 7 days get purged; the inbox query must be 0.
-- The rules of the O: [[Implementing the O fo CODE]].
+- The rules of the O: [[Implementing the O of CODE]].
 
 ## Relationship with Divergence
 

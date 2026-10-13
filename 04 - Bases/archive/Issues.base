@@ -10,14 +10,13 @@ views:
     filters:
       and:
         - type == link("Issues")
-        - complete == false
+        - status != "done"
     groupBy:
       property: paras
       direction: ASC
     order:
       - file.name
       - dueDate
-      - complete
     sort:
       - property: dueDate
         direction: ASC
@@ -31,7 +30,7 @@ views:
     filters:
       and:
         - type == link("Issues")
-        - complete == false
+        - status != "done"
         - paras.containsAny(link("second-brain"), link("coding-workplace"))
     groupBy:
       property: paras
@@ -40,7 +39,6 @@ views:
       - file.name
       - priority
       - dueDate
-      - complete
     sort:
       - property: dueDate
         direction: DESC
@@ -62,7 +60,7 @@ views:
       direction: ASC
     order:
       - file.name
-      - complete
+      - status
     sort:
       - property: file.name
         direction: ASC
@@ -73,7 +71,7 @@ views:
     filters:
       and:
         - type == link("Issues")
-        - complete == false
+        - status != "done"
         - or:
             - file.tags.containsAny("_urgent")
     groupBy:
@@ -82,7 +80,7 @@ views:
     order:
       - file.name
       - dueDate
-      - complete
+      - status
     sort: []
     columnSize:
       file.name: 461
@@ -92,7 +90,7 @@ views:
     filters:
       and:
         - type == link("Issues")
-        - complete == false
+        - status != "done"
         - or:
             - file.tags.containsAny("_blocked")
     groupBy:
@@ -101,7 +99,7 @@ views:
     order:
       - file.name
       - dueDate
-      - complete
+      - status
     sort: []
     columnSize:
       file.name: 461

@@ -5,8 +5,6 @@ paraType: Resource
 paras:
   - "[[second-brain]]"
   - "[[03 productivity]]"
-priority:
-dueDate:
 rate:
 created: 2026-02-08 16:42
 active:

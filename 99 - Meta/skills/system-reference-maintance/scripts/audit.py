@@ -24,7 +24,6 @@ from pathlib import Path
 # Tags are NOT configured here: canonical / pending / legacy tags are parsed from
 # TAG_REFERENCE (see load_tag_reference). Edit the note, not this script.
 FORBIDDEN_KEYS = {"lifecycle", "subtype", "para_type"}  # old names of properties
-KNOWN_LEGACY_KEYS = {"complete"}  # dual bookkeeping on issues (migration pending)
 EXEMPT_KEYS = {"file_class", "aliases", "cssclasses", "title"}  # native/Obsidian
 TAG_REFERENCE = "11 - Projects/second-brain/_0_final/Tag System & Ontology.md"
 QUERIES_REFERENCE = "11 - Projects/second-brain/_0_final/Search & Base Queries Reference.md"
@@ -34,6 +33,9 @@ CLASS_DIR = "99 - Meta/Class"
 BASES_DIR = "04 - Bases/final-bases"
 SKIP_DIRS = {".obsidian", ".opencode", ".trash", ".git", "node_modules"}
 SKIP_PREFIXES = ("99 - Meta/Calendar/", "99 - Meta/Excalidraw/")  # plugin-managed system files, not notes
+HABIT_FREE = re.compile(r"^07 - Daily/|^99 - Meta/Templates/(Daily|Weekly) Note - Template\.md$")
+# Daily/weekly notes are habit trackers: their properties are free by design
+# (daily habit keys like calorias/toothTimes/films are valid there), not drift.
 
 BASELINE_FILE = Path(__file__).resolve().parent.parent / "audit-baseline.json"
 
@@ -236,10 +238,11 @@ def check_types(root, types, subnames, verbose):
                   f"(use --verbose to list)" if empty_type else
                   f"type coverage: {len(set(used_types) & set(types))}/{len(types)} types in use")
     no_sub_issues = [f for f in used_types.get("Issues", [])
-                     if not (split_frontmatter(f.read_text())[0].get("subtypes") or [])]
+                     if not rel(root, f).startswith("99 - Meta/Templates/")
+                     and not (split_frontmatter(f.read_text())[0].get("subtypes") or [])]
     if no_sub_issues:
         warn("types", f"{len(no_sub_issues)} issue notes have no subtypes yet "
-                      f"(known migration; --verbose to list)",
+                      f"(templates exempt; --verbose to list)",
              key="issues-without-subtypes", n=len(no_sub_issues))
 
 
@@ -304,8 +307,9 @@ def check_properties(root, classes, verbose):
     stray_keys = {}     # (class, key) -> count, active zones
     old_keys = {}       # (class, key) -> count, legacy zones
     legacy_zones = set()
-    legacy_complete = 0
     for f in iter_notes(root):
+        if HABIT_FREE.search(rel(root, f)):
+            continue  # daily/weekly habit trackers: properties are free by design
         fm, _ = split_frontmatter(f.read_text())
         fc_raw = fm.get("file_class", "") or ""
         if isinstance(fc_raw, list):
@@ -322,27 +326,18 @@ def check_properties(root, classes, verbose):
         eff = fc or "note"
         allowed = class_fields(classes, eff) | EXEMPT_KEYS
         z = zone(f)
-        if z == "legacy":
-            legacy_zones.add(rel(root, f).split("/")[0] + "/")
-        if "complete" in fm:
-            if z == "active":
-                legacy_complete += 1
-            else:
-                old_keys[(eff, "complete")] = old_keys.get((eff, "complete"), 0) + 1
         for key in fm:
             if key in FORBIDDEN_KEYS:
                 fail("properties", f"{rel(root, f)}: forbidden key '{key}' "
                                    f"(use the schema name; see Common Frontmatter "
                                    f"Schemas)")
             elif key not in allowed:
+                if z == "legacy":
+                    legacy_zones.add(rel(root, f).split("/")[0] + "/")
                 if z == "active":
                     stray_keys[(eff, key)] = stray_keys.get((eff, key), 0) + 1
                 else:
                     old_keys[(eff, key)] = old_keys.get((eff, key), 0) + 1
-    if legacy_complete:
-        warn("properties", f"{legacy_complete} active issues carry the legacy "
-                           f"'complete' key (issue dual bookkeeping; migration pending)",
-             key="legacy-complete", n=legacy_complete)
     for (eff, key), n in sorted(stray_keys.items(), key=lambda kv: -kv[1]):
         warn("properties", f"key '{key}' outside class '{eff}' schema ({n} active-zone "
                            f"files) — extend the class or fix the note",
@@ -357,11 +352,10 @@ def check_properties(root, classes, verbose):
     done_conflict = 0
     for f in iter_notes(root, sub="08 - Issues"):
         fm, _ = split_frontmatter(f.read_text())
-        complete = str(fm.get("complete", "")).lower() == "true"
         status = (fm.get("status", "") or "").strip()
         in_complete = "/complete/" in str(f)
-        done_any = status == "done" or complete or in_complete
-        done_all = status == "done" and complete and in_complete
+        done_any = status == "done" or in_complete
+        done_all = status == "done" and in_complete
         if done_any and not done_all and f.parent.name == "Issues":
             done_conflict += 1
     if done_conflict:

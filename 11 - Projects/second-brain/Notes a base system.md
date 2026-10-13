@@ -113,7 +113,7 @@ created: 2026-03-08 14:58
 			- Youtube Video
 			- Bookmarks
 		- [[Daily Log]]: Here you capture all the workflow of the day. Split by projects, eventually move to the project log. Ideally at the en of the project this log should look like an index
-	- [[Implementing the O fo CODE]]:
+	- [[Implementing the O of CODE]]:
 		- Complete Notes
 		- Move notes
 		- Create task

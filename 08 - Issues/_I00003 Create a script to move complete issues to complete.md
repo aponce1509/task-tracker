@@ -3,12 +3,13 @@ file_class: issue
 paras:
   - "[[second-brain]]"
 type: "[[Issues]]"
+subtypes:
+  - "[[Operational - Issues - task|task]]"
 priority: 2
 rate:
 tags:
 created: 2026-05-15 18:46
 dueDate:
-complete: false
 status:
 ---
 # [[_I00003 Create a script to move complete issues to complete]]

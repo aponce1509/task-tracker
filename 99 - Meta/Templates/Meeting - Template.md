@@ -1,9 +1,6 @@
 ---
 paras:
-categories:
-  - "[[Logs]]"
-types:
-  - "[[Meetings]]"
+type: "[[Meetings]]"
 rate:
 tags:
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>

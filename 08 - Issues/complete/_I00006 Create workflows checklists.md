@@ -3,13 +3,14 @@ file_class: issue
 paras:
   - "[[second-brain]]"
 type: "[[Issues]]"
+subtypes:
+  - "[[Operational - Issues - task|task]]"
 priority: 2
 rate:
 tags:
 created: 2026-05-15 23:25
 dueDate:
-complete: true
-status:
+status: done
 ---
 # [[_I00006 Create workflows checklists]]
 

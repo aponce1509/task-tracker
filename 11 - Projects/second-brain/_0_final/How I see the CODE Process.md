@@ -1,12 +1,13 @@
 ---
 paras:
   - "[[second-brain]]"
-type:
+type: "[[Mental Models]]"
 subtypes:
+  - "[[Your Brain - Mental Models - framework|framework]]"
 rate:
 tags:
-status: wip
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-02-03 18:03
 aliases:
   - The CODE Process
@@ -66,7 +67,7 @@ Consiste en almacenar:
 > Organise is more about defining your environment that the thing itself: 
 > - Just move the things around so it is searchable
 
-So HOW do we implement organisation in your second brain: [[Implementing the O fo CODE]]
+So HOW do we implement organisation in your second brain: [[Implementing the O of CODE]]
 
 ## [[Distill - CODE]]
 

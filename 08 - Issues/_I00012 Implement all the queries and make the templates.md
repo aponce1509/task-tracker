@@ -3,12 +3,13 @@ file_class: issue
 paras:
   - "[[second-brain]]"
 type: "[[Issues]]"
+subtypes:
+  - "[[Operational - Issues - task|task]]"
 priority: 0
 rate:
 tags:
 created: 2026-05-17 11:11
 dueDate:
-complete: false
 status:
 ---
 

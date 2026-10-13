@@ -48,10 +48,10 @@ views:
       note.maturity: 101
       note.status: 94
   - type: table
-    name: Synthesis
+    name: Syntheses
     filters:
       and:
-        - type == link("Synthesis")
+        - type == link("Syntheses")
     groupBy:
       property: subtypes
       direction: ASC

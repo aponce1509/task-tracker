@@ -57,10 +57,10 @@ views:
       note.status: 69
       note.superceded: 78
   - type: table
-    name: Decissions
+    name: Decisions
     filters:
       and:
-        - type == link("Decissions")
+        - type == link("Decisions")
     groupBy:
       property: subtypes
       direction: ASC

@@ -1,7 +1,7 @@
 ---
 paras:
-categories:
-types:
+type:
+subtypes:
 rate:
 tags:
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>

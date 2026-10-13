@@ -1,20 +1,20 @@
 ---
 paras:
   - "[[second-brain]]"
-type:
+type: "[[Standards]]"
 subtypes:
+  - "[[Normative - Standards - workflow|workflow]]"
 rate:
 tags:
-status: wip
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-02-15 20:54
 ---
-# [[Implementing the O fo CODE]]
+# [[Implementing the O of CODE]]
 
-> [!Summary] This note implements how we do organise in our project:
+> [!summary] This note implements how we do organise in our project:
 >
-> - [[Implementing the O fo CODE#Rules]]
-> - [[Implementing the O fo CODE#Implementation Notes]]
+> - The outline and rules below
 > - The executable checklist: [[WORKFLOWS - Out of the Inbox]]
 
 ## Outline

@@ -3,12 +3,13 @@ file_class: issue
 paras:
   - "[[coding-workplace]]"
 type: "[[Issues]]"
+subtypes:
+  - "[[Operational - Issues - task|task]]"
 priority:
 rate:
 tags:
 created: 2026-05-20 08:06
 dueDate:
-complete: false
 status:
 ---
 

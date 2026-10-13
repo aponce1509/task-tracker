@@ -4,6 +4,7 @@ paras:
   - "[[second-brain]]"
 type: "[[Issues]]"
 subtypes:
+  - "[[Operational - Issues - task|task]]"
   - "[[Operational - Issues - improvement|improvement]]"
 role:
 priority:
@@ -14,7 +15,6 @@ maturity: capture
 created: 2026-10-12 17:10
 dueDate:
 dependencies:
-complete: false
 ---
 # [[_I00020 Configure the Obsidian setup scripts with env vars]]
 

@@ -29,9 +29,10 @@ Reference]] · [[Task Management]].
   candidates.
 - **Issues** live in `08 - Issues/` (class `issue`), archived under
   `08 - Issues/complete/`. Frontmatter that matters here:
-	- `status`: `inbox` | `feed` | `wip` | `blocked` | `done` — legacy notes
-	  instead carry `complete: true`; treat an issue as done when ANY of:
-	  `status == "done"` · `complete == true` · path under `complete/`.
+	- `status`: `inbox` | `feed` | `wip` | `blocked` | `done` — done needs
+      agreement of property and folder: `status == "done"` && path under
+      `complete/`. An issue in the active folder with `status: done` is drift
+      (move it to `complete/` or reopen).
 	- `priority`: `0` high, `1` medium, `2` low; empty = unrated (lowest).
 	- `dueDate`: `YYYY-MM-DD` or empty.
 	- `dependencies`: wikilinks to issues that must resolve first (real links,

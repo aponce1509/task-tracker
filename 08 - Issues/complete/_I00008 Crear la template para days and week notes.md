@@ -3,13 +3,14 @@ file_class: issue
 paras:
   - "[[second-brain]]"
 type: "[[Issues]]"
+subtypes:
+  - "[[Operational - Issues - task|task]]"
 priority: 2
 rate:
 tags:
 created: 2026-05-15 23:31
 dueDate:
-complete: true
-status:
+status: done
 ---
 
 # [[_I00008 Crear la template para days and week notes]]

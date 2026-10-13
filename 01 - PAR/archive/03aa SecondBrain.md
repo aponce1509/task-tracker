@@ -1,11 +1,6 @@
 ---
-file_class:
-document_type:
-  - index
 tags:
 status: inbox
-par:
-category:
 ---
 # [[03aa SecondBrain]]
 

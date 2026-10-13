@@ -1,12 +1,12 @@
 ---
-file_class: capture
-category:
-  - "[[Reference]]"
-par:
+paras:
   - "[[08aa Gym]]"
-status: done
+type: "[[Resources]]"
+subtypes:
 rate: 7
-system_source: Zotero
+tags:
+status: done
+maturity: capture
 created: 2025-07-24
 ---
 # Does Cardio Kill Gains? Here’s What the Research Really Says

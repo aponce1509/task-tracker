@@ -50,14 +50,16 @@ needs a decision) · `[·]` INFO (coverage, manual-diff seeds).
 | --- | --- | --- |
 | `types` | `.obsidian/personal_scripts/taxonomy.json` + generated `02 - Categories/_types/` `_subtypes/` | generated files out of sync (missing/orphans), `type:` and `subtypes:` links whose target is not in the taxonomy, alias ≠ slug (e.g. `topic_index` vs `topic-index`), notes of a type without subtypes |
 | `tags` | [[Tag System & Ontology]] (the 4 canonical: `#learnable` `#sentations_request` `#rfm` `#todo`) | tags in use that no reference registers, legacy dimensional `#_*` tags pending migration, registered-but-not-canonical tags to confirm |
-| `properties` | `99 - Meta/Class/*.md` (class chains: commons → par/issue/media/…) | `file_class` values that are not classes, keys outside the class schema (per-file-class counts), forbidden legacy keys (`lifecycle`, `subtype`, `para_type`), the legacy `complete:` dual bookkeeping, done-rule disagreement |
+| `properties` | `99 - Meta/Class/*.md` (class chains: commons → par/issue/media/…) | `file_class` values that are not classes, keys outside the class schema (per-file-class counts; daily/weekly notes exempt — habit trackers), forbidden legacy keys (`lifecycle`, `subtype`, `para_type`), done-rule disagreement (done = `status: done` AND the `complete/` folder — both, or neither) |
 | `bases` | `04 - Bases/final-bases/` + [[Search & Base Queries Reference]] | bases documented nowhere / documented but gone, types with no working view (e.g. a filter `type == link("Decissions")` — typo — matches nothing), per-subtype view coverage vs the per-type wing rollout |
 | `cli` | the running Obsidian app | every final base parsing headless via `base:query`, unresolved link count |
 
 Two more things the script prints as `INFO` seeds for the manual part below:
 distinct keys per `file_class`, and key/class mismatches inside legacy zones
-(`01 - PAR/archive`, `06 - Inputs`, `07 - Daily`, `Templates 1`, … —
-pre-engine content, collect for bulk migration later).
+(`01 - PAR/archive`, `06 - Inputs`, `Templates 1`, … —
+pre-engine content, collect for bulk migration later). Notes under
+`07 - Daily/` and the Daily/Weekly Note templates are exempt everywhere:
+daily/weekly notes are habit trackers, their properties are free by design.
 
 ## The agent's part
 

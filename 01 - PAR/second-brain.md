@@ -38,7 +38,7 @@ active: true
 
 ![[external-resources.base]]
 
-### Normative: Requirements, Decissions, Specs, Standards
+### Normative: Requirements, Decisions, Specs, Standards
 
 ![[normative.base]]
 

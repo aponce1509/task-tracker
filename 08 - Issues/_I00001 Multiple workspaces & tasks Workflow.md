@@ -3,12 +3,13 @@ file_class: issue
 paras:
   - "[[coding-workplace]]"
 type: "[[Issues]]"
+subtypes:
+  - "[[Operational - Issues - task|task]]"
 priority:
 rate:
 tags:
 created: 2026-05-15 19:06
 dueDate:
-complete: false
 status:
 ---
 # [[_I00001 Multiple workspaces & tasks Workflow]]

@@ -1,12 +1,11 @@
 ---
-file_class: capture
-category:
-  - "[[Reference]]"
+paras:
+type: "[[Resources]]"
+subtypes:
 tags:
-par:
 status:
 rate:
-system_source: Zotero
+maturity: capture
 created:
 ---
 

@@ -1,5 +1,5 @@
 ---
-par:
+paras:
 type: "[[Resources]]"
 subtypes:
 rate:

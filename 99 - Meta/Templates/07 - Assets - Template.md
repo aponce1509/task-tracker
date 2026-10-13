@@ -6,7 +6,6 @@ status: inbox
 maturity: capture
 tags:
 rate:
-url: 
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
 # [[<% await tp.file.title %>]]

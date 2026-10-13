@@ -3,8 +3,6 @@ file_class:
   - par
 paraType: Resource
 paras:
-priority:
-dueDate:
 rate:
 created: 2026-03-08 12:49
 active:

@@ -2,7 +2,7 @@
 paras:
   - "[[learning-app]]"
 type: "[[MoCs]]"
-subtypes: ["[[Navigation & Meta - MoCs - project-moc|moc]]"]
+subtypes: ["[[Navigation & Meta - MoCs - project-moc|project-moc]]"]
 rate:
 tags:
 status: inbox

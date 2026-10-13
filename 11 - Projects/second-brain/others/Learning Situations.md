@@ -9,8 +9,6 @@ tags:
 > Exists different situations where you will learn something. Each heading here
 > is on situation. We must capture only
 
-<!-- NOTE: #key -->
-
 > [!IMPORTANT]
 >
 > Capture only the things that are deeper than one search deep. Focus on
@@ -39,8 +37,6 @@ You read a book chapter to:
 1. Solve a question that you face during a task
 2. Complete the syllabus of a course
 3. Learn something specific
-
-<!-- NOTE: #key We should threat any book as group of chapter -->
 
 A book is a bunch of chapters. You should start doing the capture after ending
 the chapter.

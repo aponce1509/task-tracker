@@ -3,8 +3,6 @@ file_class:
   - par
 paraType: Area
 paras:
-priority:
-dueDate:
 rate:
 created: 2026-03-08 17:18
 active: true
