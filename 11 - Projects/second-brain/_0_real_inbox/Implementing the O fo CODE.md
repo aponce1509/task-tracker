@@ -5,7 +5,7 @@ type:
 subtypes:
 rate:
 tags:
-status:
+status: wip
 maturity: capture
 created: 2026-02-15 20:54
 ---
@@ -15,7 +15,7 @@ created: 2026-02-15 20:54
 >
 > - [[Implementing the O fo CODE#Rules]]
 > - [[Implementing the O fo CODE#Implementation Notes]]
-> - We use this to define the [[CHECKLIST - Out Of Inbox]]
+> - The executable checklist: [[WORKFLOWS - Out of the Inbox]]
 
 ## Outline
 
@@ -23,10 +23,10 @@ created: 2026-02-15 20:54
 	- [[Second Brain Folder Structure]]
 - Searchability
 	- [[Properties & Bases]]
-	- [[Tags Reference]] & [[Note-Taking Tag System & Taxonomy]]
+	- [[Tags & Types - The Searching Engine]]
 	- [[PARA Note]]
 - Rules:
-	- [[Organising Workflow]]: A note with the inbox tag is not organised. Now [[CHECKLIST - Out Of Inbox]]
+	- A note in the inbox is not organised: [[WORKFLOWS - Out of the Inbox]]
 	- Don't waste time cleaning or formatting the note when organising
 	- Questions:
 		- Is this note useful? If not, remove

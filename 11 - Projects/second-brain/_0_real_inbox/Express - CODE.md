@@ -5,7 +5,7 @@ type:
 subtypes:
 rate:
 tags:
-status:
+status: wip
 maturity: capture
 created: 2026-02-15 23:55
 ---
@@ -23,4 +23,10 @@ Expressing is the act of sharing your work and ideas with the world (or your tea
 2. **Build for Future You**: Treat your code, documentation, and logic as products that your "future self" or a colleague will "consume."
 3. **Move from Research to Production**: Expressing is the moment where gathered data transforms into a decision, a feature, or a fix.
 
+## References
+
+- [[The CODE system]]
+- [[How I see the CODE Process|The CODE Process]]
+- [[Intermediate and Final Products]] · [[Intermediate Products]]
+- [[Building a Second Brain - Tiago Forte]]
 

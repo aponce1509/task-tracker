@@ -41,7 +41,8 @@ Run the `system-reference-maintance` skill (`audit.py`) on a bi-monthly rhythm, 
 - Links: `obsidian unresolved` → zero · `obsidian dev:errors` → clean
 - Properties: sweep forbidden legacy keys (`lifecycle`, `subtype`, `para_type`) and legacy `#_*` tags → migrate to the matching property on sight
 - Tags: `obsidian tags sort=count counts` → only `#learnable` · `#sentations_request` · `#rfm` · `#todo` survive
-- Issues hygiene: done-rule consistency (`status: done` vs `complete: true` vs the `complete/` folder) and issues living in the right folder
+- Issues hygiene: done-rule consistency (`status: done` must agree with the
+  `complete/` folder — both, or neither) and issues living in the right folder
 
 ## Escalation
 

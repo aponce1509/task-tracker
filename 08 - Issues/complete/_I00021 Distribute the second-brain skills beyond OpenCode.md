@@ -7,9 +7,9 @@ subtypes:
   - "[[Operational - Issues - improvement|improvement]]"
 role:
 priority:
-rate:
+rate: 2
 tags:
-status: inbox
+status: done
 maturity: capture
 created: 2026-10-13 00:13
 dueDate:
@@ -43,12 +43,19 @@ dependencies:
 
 ## Post-Mortem
 
-- We have added this to the logging? (project journal — TBD)
-- Objective moved:
+- We have added this to the logging? (project journal — TBD; `11 - Projects/second-brain/Journal - second-brain.md` exists now, so entries can land via `journal.sh` on the user's word)
+- Objective moved: we now have a standard way of saving skills and commands in the second brain — one canonical store (`99 - Meta/skills/` + `99 - Meta/commands/`) visible in the vault, distributed by git, read by every harness through committed symlinks. Ready to extend to agents; the system-level question (repos vs dotfiles vs split) opened as [[_I00022 Decide how skills and commands are stored across my systems]].
 - Good things:
+	- Real bug found and fixed: three of five skills were silently never loaded even in OpenCode — `: ` inside their `description:` block scalars breaks strict frontmatter parsing and the skill gets dropped without any warning; proven with a probe matrix, fix verified in fresh sessions.
+	- One canonical store for agent assets, visible and searchable as vault content, git-distributed, harness-agnostic; verified end-to-end in OpenCode and Claude Code.
+	- The standard is tool-backed and extendable: `scripts/sync-skills.sh` (`status`/`sync`/`clean`), sandbox-matrix-tested; the pattern is ready to grow to agents and other repos.
 - Bad Things:
-- Rate (1-3):
-- Notes to create?
+	- The silent-drop failure mode stays dangerous in general: malformed SKILL.md frontmatter disappears skills with zero feedback — the task planner silently didn't apply for a whole day.
+	- Command distribution has no CLI support (`npx skills` handles skills only) — symlink-only for now; registry publishing deferred because the skills are vault-bound.
+	- Execution churn: wrong symlink depth on the first command mirror, and a first description rewrite that ate the closing `---` — both caught and fixed, but exactly the mistakes the sync/clean pass should prevent next time.
+	- The harness auto-committed mid-session (`0bb0060 "changes"`), so part of the "untracked skills" resolution happened outside a deliberate commit.
+- Rate (1-3): 2
+- Notes to create? → issue [[_I00022 Decide how skills and commands are stored across my systems]] created (coding-workplace); no further notes
 	- Ending note: core note/index that builds the final solution
 	- Reusable in other places
 	- Tech debt

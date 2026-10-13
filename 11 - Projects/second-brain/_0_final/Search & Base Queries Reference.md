@@ -24,10 +24,10 @@ created: 2026-10-12 18:15
 | --- | --- | --- | --- |
 | `your-brain.base` | Ideas · Reflections · Inquiries · Mental Models | maturity, status | scoped |
 | `external-resources.base` | Resources · Medias | Resources: maturity, rate — Medias: consumption_status, rate | scoped |
-| `normative.base` | Requirements · Specs · Decissions · Standards | summary, status, superceded | scoped |
+| `normative.base` | Requirements · Specs · Decisions · Standards | summary, status, superceded | scoped |
 | `descriptive.base` | Architectures · Project Contexts | maturity, status | scoped |
 | `operational.base` | HowTos · Solutions · Meetings | maturity, status | scoped |
-| `knowledge.base` | Roadmaps · Core Knowledge · Synthesis · Emergent Thoughts · Annotations | Roadmaps add learning_status, winstreak | scoped |
+| `knowledge.base` | Roadmaps · Core Knowledge · Syntheses · Emergent Thoughts · Annotations | Roadmaps add learning_status, winstreak | scoped |
 | `assets.base` | Assets | maturity, status | scoped |
 | `logging.base` | Journals | maturity, status | scoped |
 | `navigation.base` | Indexes (list) · MoCs | maturity, status | scoped |

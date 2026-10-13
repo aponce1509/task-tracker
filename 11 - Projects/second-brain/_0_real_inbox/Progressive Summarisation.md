@@ -28,6 +28,12 @@ A technique for "layering" a note over time. You only add a layer of summarisati
 2. **Speed**: It allows for "glanceable" notes that can be understood in under 10 seconds.
 3. **Efficiency**: You only invest effort in notes that you actually re-read.
 
+## When the layers happen
+
+- The first layer may land while organising ([[Organise - CODE]]): more context, summary lines, first bullets.
+- The deeper layers come with each distillation revisit ([[Distill - CODE]]), never at capture time.
+
 ## References
 
-- [[Building a Second Brain - Tiago Forte]] 
+- [[Building a Second Brain - Tiago Forte]]
+- [[The CODE system]]

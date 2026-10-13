@@ -33,6 +33,25 @@ Build journal of the second brain project: completed tasks with time taken, meet
 - 2026-10-13 10:17: Project journaling system in place: journal.sh CLI, journal class, Project Journal template, note-journal reference in the vault skill, project-journaling skill [[Project Journaling]]
   - kind::: done
   - comment::: Bulleted format for humans; links live inline in the description; Excel-ready via journal.sh export
+- 2026-10-13 11:04: CODE lifecycle MoC shipped: _0_final/The CODE system.md (capture → organise → distill → express) + phase notes updated in _0_real_inbox [[The CODE system]]
+  - kind::: milestone
+- 2026-10-13 11:06: Legacy complete key retired from the issue system: 21 issues + both issue templates migrated to the single done rule (status: done + complete/ folder); _I00006 archived; audit, task-planner and issue references updated; archive Issues.base views repointed to status != done [[System Maintenance & Review]]
+  - kind::: done
+- 2026-10-13 11:18: Decisions and Syntheses views revived: normative.base 'Decissions' and knowledge.base 'Synthesis' typo filters repointed to the taxonomy types ([[Decisions]], [[Syntheses]]); view names fixed; cheatsheet rows synced; Decissions typo swept from 5 PAR notes + PARA template (headings) [[The Retrieval system]]
+  - kind::: done
+- 2026-10-13 11:34: CODE wing organised into _0_final: 7 notes typed by nature + 4 workflows into workflows/, typo rename to 'Implementing the O of CODE' [[Implementing the O of CODE]]
+  - kind::: done
+- 2026-10-13 11:38: Properties engine swept to zero: habit-tracker exemption built into the audit (daily/weekly notes and their templates are property-free by design), phantom classes killed (capture/category templates -> real classes, DoesCardioKill migrated to Roncero template shape), forbidden subtype -> subtypes on _I00017/18/19, 7 archive PARs lose priority/dueDate (no deadlines on PAR notes), legacy templates modernized (categories/types -> type, summary/url dropped), 3 PAR-archive stubs cleaned with the Readwise link preserved in body [[Common Frontmatter Schemas & Specific Note Templates]]
+  - kind::: done
+  correct: 'Roncero' above should read 'active Zotero template shape'
+- 2026-10-13 11:47: All 21 issue notes subtyped against the existing canonical six (task x15, improvement x3: Developer UI & UX / todo-tag cleanup / skills distribution, recurring x2: the two maintenance buckets); nothing new needed in the taxonomy; issue templates exempted from the audit's no-subtypes count (scaffolding, not issues); migration's dropped-parent-key YAML bug caught by the audit rerun and repaired [[The Issue System]]
+  - kind::: done
+- 2026-10-13 11:48: Skills and commands distributed beyond OpenCode: canonical 99 - Meta store, committed symlink views, npx skills verified; silent-load bug fixed (3 of 5 skills never loaded in OpenCode) [[_I00021 Distribute the second-brain skills beyond OpenCode]]
+  - kind::: done
+  - good::: standard store + real bug found and fixed
+  - bad::: harnesses drop skills silently on malformed frontmatter
+- 2026-10-13 11:48: Agent-asset distribution standard set: skills, commands, sync tooling in place (system-level storage question opened in _I00022) [[second-brain]]
+  - kind::: milestone
 
 ## Tech debt
 

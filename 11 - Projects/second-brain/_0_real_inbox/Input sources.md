@@ -2,7 +2,7 @@
 paras:
   - "[[second-brain]]"
 type: "[[Ideas]]"
-subtypes: ["[[Your Brain - Ideas - project-idea|idea]]"]
+subtypes: ["[[Your Brain - Ideas - project-idea|project-idea]]"]
 rate:
 tags:
   - rfm

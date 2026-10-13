@@ -5,7 +5,7 @@ type:
 subtypes:
 rate:
 tags:
-status:
+status: wip
 maturity: capture
 created: 2026-02-15 20:41
 ---
@@ -14,6 +14,14 @@ created: 2026-02-15 20:41
 
 > [!note] Definition
 > Capture is the process of externalising information and thoughts to free up cognitive space. It involves acting as a filter for both external inputs and internal sparks, ensuring that nothing valuable is lost to forgetfulness.
+
+## The capture contract
+
+- What enters: the external world (meetings, web pages, articles, whatever surrounds you) and the mind (sparks, ideas, reflections).
+- What gets taken depends on the connector: the whole source, just the link, or just the highlight. Each connector decides its own granularity.
+- What you do at capture: metadata only — `paras`, `type`/`subtypes`, `status: inbox`, `maturity: capture`. No summarising, no cleaning, no polishing.
+- Where it goes: every capture lands in `09 - Inbox/`. Capture now, curate later — the note leaves the inbox only through organizing ([[Organise - CODE]]).
+- Template for manual captures: `99 - Meta/Templates/Manual External Capture - Template.md`.
 
 ## Sources of Capture
 
@@ -41,5 +49,6 @@ created: 2026-02-15 20:41
 ## References
 
 - [[Building a Second Brain - Tiago Forte]]
+- [[The CODE system]]
 - [[How I see the CODE Process|The CODE Process]]
 - [[Convergence and Divergence]]

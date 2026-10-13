@@ -38,7 +38,9 @@ created: 2026-10-12 18:15
 ## Open threads
 
 - Generate the per-type bases for the remaining types from `taxonomy.json` (recipe: `issues-subtypes.base`) — the recipe is proven, the rollout is pending.
-- Legacy issues carry no `subtypes` and mix `complete: true` with `status`; adoption is gradual ([[Queries]] wishlist: sprint methodology, meetings base).
+- Legacy issues carry no `subtypes`; done state is `status: done` + the
+  `complete/` folder (the legacy `complete:` key was migrated away). Adoption
+  is gradual ([[Queries]] wishlist: sprint methodology, meetings base).
 
 ## Agent Rules
 

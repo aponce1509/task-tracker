@@ -32,4 +32,13 @@ Index of the system's canonical notes, `_0_final/`. It lists every note that def
 	- [[The Issue System]]
 	- Project journal (performance tracking + logbook; CLI-only edits): `.obsidian/personal_scripts/journal.sh` · `99 - Meta/Templates/Project Journal - Template.md`
 		- [[Journal - second-brain]]
+- [[The CODE system]]
+	- [[How I see the CODE Process]]
+	- [[Capturing - CODE]]
+	- [[Organise - CODE]]
+		- [[Implementing the O fo CODE]]
+	- [[Distill - CODE]]
+	- [[Express - CODE]]
+		- [[Intermediate and Final Products]]
+	- [[Progressive Summarisation]]
 - [[All Obsidian commands]]

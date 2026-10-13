@@ -41,6 +41,8 @@ created: YYYY-MM-DD HH:mm
 > - `lifecycle` → use `maturity` (0 notes use `lifecycle`; `maturity` is the live key)
 > - `subtype` → use `subtypes` (plural, as in `commons`)
 > - `para_type` → use `paraType`
+> - `complete` → use `status: done` + the `complete/` folder (issues legacy;
+>   migrated 2026-10-13)
 
 ## Class Hierarchy (`99 - Meta/Class/`)
 

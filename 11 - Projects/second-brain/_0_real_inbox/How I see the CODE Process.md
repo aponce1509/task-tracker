@@ -5,7 +5,7 @@ type:
 subtypes:
 rate:
 tags:
-status:
+status: wip
 maturity: capture
 created: 2026-02-03 18:03
 aliases:
@@ -13,6 +13,9 @@ aliases:
 ---
 
 # [[How I see the CODE Process]]
+
+> [!info] Canonical map
+> El MoC que define este ciclo de vida es [[The CODE system]]; esta nota conserva la visión original.
 
 Este proceso trata de recoger el principio de primero divergir para luego converger: [[Convergence and Divergence]]
 
@@ -33,14 +36,17 @@ Es fundamental ser capaz de pasar a modo convergente algunos tips:
 	- [[Distill - CODE]]
 	- [[Express - CODE]]
 - [[Convergence and Divergence]]
-	- La convergencia es capturar
-	- La divergencia consiste en expresar
+	- La divergencia es capturar: recoger de forma abierta, sin juicio
+	- La convergencia consiste en expresar: producidas las capturas, cerrar hacia un resultado
+	- (Corregido 2026-10-13: estaba invertido; alineado con [[Convergence and Divergence]])
 - Las otras dos son una transición
 	- Organizamos para tener un sistema ordenado y poder usar las capturas bien
 	- Cuando estamos convergiendo y usamos las capturas aprovechamos para mejorar esas capturas de forma que sean utiles
 
+El mapa canónico de este proceso vive en [[The CODE system]].
+
 Nosotros implementamos CODE usando:
-- [[Note-Taking Tag System & Taxonomy]]
+- [[The Metadata system]]: las propiedades (`status`, `maturity`) cargan el ciclo de vida
 - [[Second Brain Folder Structure]]
 - [[Second Brain Workflows]]
 
