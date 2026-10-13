@@ -1,0 +1,176 @@
+filters:
+  and:
+    - paras.contains(this.file)
+    - type == link("Issues")
+    - '!file.name.contains("Issues - Template")'
+views:
+  - type: table
+    name: By Subtype
+    filters:
+      and:
+        - status != "done"
+    groupBy:
+      property: subtypes
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - priority
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: status
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132
+  - type: table
+    name: Bug
+    filters:
+      and:
+        - status != "done"
+        - subtypes.contains(link("Operational - Issues - bug"))
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132
+  - type: table
+    name: Task
+    filters:
+      and:
+        - status != "done"
+        - subtypes.contains(link("Operational - Issues - task"))
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132
+  - type: table
+    name: Improvement
+    filters:
+      and:
+        - status != "done"
+        - subtypes.contains(link("Operational - Issues - improvement"))
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132
+  - type: table
+    name: Incident
+    filters:
+      and:
+        - status != "done"
+        - subtypes.contains(link("Operational - Issues - incident"))
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132
+  - type: table
+    name: Open Problem
+    filters:
+      and:
+        - status != "done"
+        - subtypes.contains(link("Operational - Issues - open-problem"))
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132
+  - type: table
+    name: Recurring
+    filters:
+      and:
+        - status != "done"
+        - subtypes.contains(link("Operational - Issues - recurring"))
+    groupBy:
+      property: paras
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - dueDate
+    sort:
+      - property: priority
+        direction: ASC
+      - property: dueDate
+        direction: ASC
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 322
+      note.priority: 57
+      note.dueDate: 132

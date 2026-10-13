@@ -54,6 +54,7 @@ created: YYYY-MM-DD HH:mm
 | `learning` | `learning_status` (to_learn/learning/learned/abandoned), `winstreak` | — | study notes |
 | `media` | `consumption_status` (to_consume/consuming/completed/abandoned/pending_new_content) | `status`, `maturity` | books, films, podcasts… |
 | `normatives` | `summary`, `superceded` | — | standards/decisions |
+| `journal` | `description` (Input: one line on what the journal tracks) | — | project journals, CLI-edited via `.obsidian/personal_scripts/journal.sh` |
 | `type` | — | `paras`, `rate`, `tags` | generated type notes |
 | `subtype` | — | — | generated subtype notes |
 
@@ -127,3 +128,22 @@ learning_status: learning
 winstreak: 0
 ---
 ```
+
+### 5. Project journals (`file_class: journal`)
+
+```yaml
+---
+paras: []              # the project PAR note
+type: "[[Journals]]"
+subtypes: ["[[Logging - Journals - project-log|project-log]]"]
+rate:
+tags: []
+status: wip            # wip while open → done on close
+maturity: capture
+created: YYYY-MM-DD HH:mm
+description: ""        # one line on what this journal tracks
+---
+```
+
+> [!note] Journals are edited only through `.obsidian/personal_scripts/journal.sh` — entries are bulleted (`- timestamp: description` with inline links + `key::: ` sub-bullets) and export to Excel/CSV; the close protocol creates the tech debt note. The `project-journaling` skill owns when to log.
+

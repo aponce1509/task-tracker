@@ -55,7 +55,7 @@ tR += `# [[${filename}]]`;
 
 ## Post-Mortem
 
-- We have added this to the logging? (project journal — TBD)
+- We have added this to the logging? (project journal: `journal.sh log --kind done --link "[[...]]"`)
 - Objective moved:
 - Good things:
 - Bad Things:

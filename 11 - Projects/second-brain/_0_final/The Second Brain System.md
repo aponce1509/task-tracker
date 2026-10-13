@@ -23,6 +23,13 @@ Index of the system's canonical notes, `_0_final/`. It lists every note that def
 	- `99 - Meta/Class/`
 	- `04 - Bases/final-bases/`
 	- `99 - Meta/Templates/`
+- [[The Retrieval system]]
+	- [[Search & Base Queries Reference]]
+	- `.opencode/skills/task-planner/SKILL.md`
+- [[System Maintenance & Review]]
+	- `.opencode/skills/system-reference-maintance/` — the audit executor
 - [[Task Management]]
 	- [[The Issue System]]
+	- Project journal (performance tracking + logbook; CLI-only edits): `.obsidian/personal_scripts/journal.sh` · `99 - Meta/Templates/Project Journal - Template.md`
+		- [[Journal - second-brain]]
 - [[All Obsidian commands]]

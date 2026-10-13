@@ -59,7 +59,9 @@ Notes:
 
 The helper points of the Post-Mortem section stay at the end of the issue.
 The `/postmortem` command (`.opencode/commands/postmortem.md`) guides the
-session and fills them in place. Entries feed the project journal (planned,
-not created yet) and spawn follow-up notes (ending note, reusables, tech
-debt, resources review, additional requirements, ideas) - propose via the
-taxonomy, create only with user approval.
+session and fills them in place. Entries feed the project journal
+(`journal.sh log --kind done --link "[[this issue]]"`; the
+`project-journaling` skill owns when to log) and spawn follow-up notes
+(ending note, reusables, tech debt, resources review, additional
+requirements, ideas) - propose via the taxonomy, create only with user
+approval. The journal close protocol produces the tech debt file.

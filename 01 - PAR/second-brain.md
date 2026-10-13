@@ -13,15 +13,18 @@ active: true
 ## Index
 
 - [[The Second Brain System]]
+- [[The Retrieval system]]
 - [[Second Brain Outline]]
 
 ## Operative Searches
 
 ![[issues-project.base]]
 
-## Tags Searches
+![[issues-subtypes.base]]
 
+## Tags Searches
 - TBD: during operation
+
 ## Bases
 ### Indexes and Mocs
 

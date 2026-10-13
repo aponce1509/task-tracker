@@ -19,6 +19,8 @@ await tp.file.move("01 - PAR/" + tp.file.title)
 
 ![[issues-project.base]]
 
+![[issues-subtypes.base]]
+
 ## Tags Searches
 
 - TBD: during operation
