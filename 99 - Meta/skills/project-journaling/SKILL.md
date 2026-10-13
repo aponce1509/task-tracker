@@ -2,17 +2,11 @@
 name: project-journaling
 status: draft
 description:
-  Keep the project journals of this Obsidian vault up to date: performance
-  tracking (completed tasks with time taken) and project logbook (what was
-  done, comments, good/bad things) — always through journal.sh
-  (.obsidian/personal_scripts/journal.sh), the ONLY editor of journal files.
-  Trigger when something concrete completes or an event worth logging lands:
-  a meeting happened (link the meeting note), an issue or task was completed
-  (link it), a deliverable or milestone was completed, an intermediate
-  product was produced, tech debt surfaced, or a project closes. Also
-  trigger on explicit "log this", "journal it", "update the journal". Do NOT
-  trigger for work still in progress, reading, planning, or ordinary note
-  edits — not every action is logged, only completions and events.
+  Keep the project journals of this vault up to date, always through
+  journal.sh (.obsidian/personal_scripts/journal.sh), the only editor of
+  journal files. Trigger on completions and events such as meetings,
+  finished issues or tasks, milestones, products, tech debt, project close,
+  or explicit log requests. Not for work in progress or ordinary note edits.
 ---
 
 # Project Journaling

@@ -2,6 +2,7 @@
  "items": {
   "bases|type-without-view:Decisions": null,
   "bases|type-without-view:Syntheses": null,
+  "cli|unresolved-links": 131,
   "properties|06 - Inputs/Highlights/Zotero/DoesCardioKill.md: file_class 'capture' is not a class in 99 - Meta/Class/": null,
   "properties|08 - Issues/_I00017 Remove edit all the archive notes.md: forbidden key 'subtype' (use the schema name; see Common Frontmatter Schemas)": null,
   "properties|08 - Issues/_I00018 personal vps.md: forbidden key 'subtype' (use the schema name; see Common Frontmatter Schemas)": null,
@@ -9,8 +10,8 @@
   "properties|99 - Meta/Templates 1/Type - Template.md: file_class 'category' is not a class in 99 - Meta/Class/": null,
   "properties|99 - Meta/Templates 1/Zotero - Template.md: file_class 'capture' is not a class in 99 - Meta/Class/": null,
   "properties|99 - Meta/Templates/Type - Template.md: file_class 'category' is not a class in 99 - Meta/Class/": null,
-  "properties|legacy-complete": 22,
-  "properties|stray-key:issue:complete": 22,
+  "properties|legacy-complete": 23,
+  "properties|stray-key:issue:complete": 23,
   "properties|stray-key:note:artConsumed": 1,
   "properties|stray-key:note:bookMinutes": 1,
   "properties|stray-key:note:calorias": 1,
@@ -41,12 +42,6 @@
   "tags|unregistered-tag:j": 1,
   "tags|unregistered-tag:key": 1,
   "tags|unregistered-tag:output/workflow": 1,
-  "types|03 - 12 Permanent Active/04 - Developer Environments/neovim.md: subtype alias 'topic_index' != slug 'topic-index' (Navigation & Meta - Indexes - topic-index)": null,
-  "types|09 - Inbox/AI Tools Index.md: subtype alias 'topic_index' != slug 'topic-index' (Navigation & Meta - Indexes - topic-index)": null,
-  "types|11 - Projects/learning-app/The Learning App.md: subtype alias 'moc' != slug 'project-moc' (Navigation & Meta - MoCs - project-moc)": null,
-  "types|11 - Projects/second-brain/_0_real_inbox/Input sources.md: subtype alias 'idea' != slug 'project-idea' (Your Brain - Ideas - project-idea)": null,
-  "types|11 - Projects/second-brain/_0_real_inbox/Inspiration Sources for Note Management.md: subtype alias 'topic_index' != slug 'topic-index' (Navigation & Meta - Indexes - topic-index)": null,
-  "types|13 - Resources/obsidian/Obsidian Plugins.md: subtype alias 'topic_index' != slug 'topic-index' (Navigation & Meta - Indexes - topic-index)": null,
   "types|issues-without-subtypes": 21
  }
 }

@@ -5,7 +5,7 @@
 # the taxonomy (types/subtypes), the Metadata Menu classes (properties),
 # the 4 canonical tags, and the Bases coverage. Zero dependencies.
 #
-# Run from anywhere: python3 .opencode/skills/system-reference-maintance/scripts/audit.py [vault_root]
+# Run from anywhere: python3 "99 - Meta/skills/system-reference-maintance/scripts/audit.py" [vault_root]
 # Flags: --verbose · --section=tags|types|properties|bases|cli · --no-obsidian
 #        --quick   (types/tags/properties/bases only, short output)
 #        --accept  (rewrite audit-baseline.json from the current FAIL/WARN findings)

@@ -17,8 +17,8 @@ created: 2026-10-12 23:40
 
 > [!info] Executor
 > The checks here run through the `system-reference-maintance` skill:
-> `python3 .<harness-folder>/skills/system-reference-maintance/scripts/audit.py`
-> (`.<harness-folder>/skills/system-reference-maintance/SKILL.md` documents markers, verdicts and escalation).
+> `python3 "99 - Meta/skills/system-reference-maintance/scripts/audit.py"`
+> (`99 - Meta/skills/system-reference-maintance/SKILL.md` documents markers, verdicts and escalation).
 
 ## After any mod
 

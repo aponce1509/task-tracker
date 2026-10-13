@@ -30,13 +30,16 @@ complete: false
 
 ## Tasks
 
-- [ ] Commit the two untracked skills (`task-planner`, `system-reference-maintance`) or deliberately gitignore them - today git distributes only part of the set
-- [ ] Decide the canonical location of the skill sources: keep `.opencode/skills/` as source of truth, or a neutral `skills/` at the root with `.opencode/skills/` as a view
-- [ ] Expose the skills to Claude Code with committed `.claude/skills` symlink(s) pointing at the canonical copies (try a single dir-level symlink, fall back to per-skill symlinks if discovery fails)
-- [ ] Mirror the `/postmortem` command for Claude Code via `.claude/commands` (its frontmatter + `$ARGUMENTS` format is compatible)
-- [ ] Add a root `AGENTS.md` with a Skills section: where the skill sources live (`.opencode/skills/*/SKILL.md`), which to read before touching notes, and the dependency on the `obsidian` CLI (covered globally by the `obsidian-cli` skill in `~/.agents/skills/`)
-- [ ] Optional: `scripts/sync-skills.sh` to install skills globally (`~/.agents/skills/`, `~/.claude/skills/`), driven by a per-skill audience marker (`project` | `global`) so vault-bound ones stay home
-- [ ] Optional: publish the generic skills to the skills.sh registry (`npx skills add <owner>/<repo>`) once they are repo-independent
+- [x] Commit the two untracked skills (`task-planner`, `system-reference-maintance`) or deliberately gitignore them - today git distributes only part of the set *(moot: all five skills were committed mid-session by the harness checkpoint `0bb0060`, and the canonical move below re-lands them tracked at `99 - Meta/skills/`)*
+- [x] Decide the canonical location of the skill sources: keep `.opencode/skills/` as source of truth, or a neutral `skills/` at the root with `.opencode/skills/` as a view *(decided 2026-10-13: `99 - Meta/skills/` inside the vault — sources visible and searchable as vault content; `.opencode/skills/` and `.claude/skills/` are committed dir-level symlinks to it)*
+- [x] Expose the skills to Claude Code with committed `.claude/skills` symlink(s) pointing at the canonical copies (try a single dir-level symlink, fall back to per-skill symlinks if discovery fails) *(dir-level symlink `.claude/skills -> ../99 - Meta/skills` worked; no per-skill fallback needed; verified via fresh headless OpenCode session and `npx skills ls`)*
+- [x] Mirror the `/postmortem` command for Claude Code via `.claude/commands` (its frontmatter + `$ARGUMENTS` format is compatible) *(committed symlink `.claude/commands/postmortem.md -> ../../.opencode/commands/postmortem.md`)*
+- [x] Add a root `AGENTS.md` with a Skills section: where the skill sources live (`.opencode/skills/*/SKILL.md`), which to read before touching notes, and the dependency on the `obsidian` CLI (covered globally by the `obsidian-cli` skill in `~/.agents/skills/`) *(done, with canonical paths `99 - Meta/skills/*/SKILL.md` + a skill-file gotcha section)*
+- [x] Optional: `scripts/sync-skills.sh` to install skills globally (`~/.agents/skills/`, `~/.claude/skills/`), driven by a per-skill audience marker (`project` | `global`) so vault-bound ones stay home *(not needed under the symlink design: there are no copies to sync — one canonical folder, views are symlinks; for a future global install of generic skills, `npx skills add "./99 - Meta/skills" -g -a <agent>` covers it)*
+- [x] Optional: publish the generic skills to the skills.sh registry (`npx skills add <owner>/<repo>`) once they are repo-independent *(verified locally instead: `npx skills add "./99 - Meta/skills" --list` finds all 5, `npx skills use` generates a portable prompt; registry publishing deferred — the skills are vault-bound, they would need a repo-independent rewrite first)*
+
+> [!summary] Resolved 2026-10-13 — with a bug found on the way
+> The Description's premise was optimistic: the three vault-bound skills (`task-planner`, `system-reference-maintance`, `project-journaling`) were **not even activating in OpenCode** — only `markdown-editing` and `obsidian-vault-notes` appeared in `available_skills`. Root cause, proven with a controlled probe matrix: their `description:` YAML block scalars contained `: ` (colon+space), which breaks strict frontmatter parsing, and OpenCode then silently drops the skill (its lenient fallback only reads single-line values, leaving the description empty). Fix: descriptions rewritten short (<360 chars) and colon-free; all five now load in a fresh session (verified headless). Documented in the root `AGENTS.md` gotcha section. The symlink views also survived a live test: OpenCode's watcher picked up new skills through `.opencode/skills -> ../99 - Meta/skills` instantly.
 
 
 ## Post-Mortem

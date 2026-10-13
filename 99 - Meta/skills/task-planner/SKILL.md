@@ -2,12 +2,11 @@
 name: task-planner
 status: draft
 description:
-  Pick what to work on right now in this Obsidian vault (second brain).
-  Searches active projects/areas/resources, gathers each project's open issues
-  with their dependencies, priorities and due dates, and renders an ordered
-  ASCII tree of candidate tasks. Use when the user asks "what should I do
-  next", "plan my day", or names a project to plan. Read-only: it proposes,
-  the user decides what moves to the daily todo.
+  Pick what to work on right now in this vault (second brain). Gathers the
+  active projects' open issues with dependencies, priorities and due dates
+  and renders an ordered ASCII tree of candidate tasks. Use when asked what
+  to do next or to plan a day or project. It only proposes, the user
+  decides.
 ---
 
 # Task Planner

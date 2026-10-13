@@ -50,8 +50,8 @@ property.
 
 ## Agent Rules
 
-- `.<harness-folder>/skills/obsidian-vault-notes/SKILL.md` — auto-loaded when an
+- `99 - Meta/skills/obsidian-vault-notes/SKILL.md` — auto-loaded when an
   agent writes or modifies vault notes.
-- `.<harness-folder>/skills/system-reference-maintance/SKILL.md` — the audit:
+- `99 - Meta/skills/system-reference-maintance/SKILL.md` — the audit:
   taxonomy, properties/classes, tags and bases vs their references (the period
   loop behind [[System Maintenance & Review]]).

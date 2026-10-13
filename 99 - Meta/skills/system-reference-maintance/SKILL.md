@@ -1,15 +1,11 @@
 ---
 name: system-reference-maintance
 description:
-  Audit that the vault mechanics still match their canonical references when
-  anything is added or modified: types/subtypes taxonomy (taxonomy.json,
-  generated notes, every type/subtype link in use), properties + Metadata Menu
-  classes (file_class, fields in schema, forbidden legacy keys), tags (nothing
-  in use that Tag System & Ontology does not register) and Bases (views match
-  types/subtypes, Search & Base Queries Reference stays true). Read-only: it
-  reports findings; fixes flow through create-issue.sh or the taxonomy CLI.
-  Use after any system mod, for periodic reviews, or whenever the user
-  suspects drift.
+  Audit that the vault mechanics still match their canonical references
+  after any change - types/subtypes taxonomy, properties and Metadata Menu
+  classes, tags, and Bases vs the Search & Base Queries Reference
+  cheatsheet. Read-only, it reports findings. Use after any system
+  modification, for periodic reviews, or on suspected drift.
 ---
 
 # System Reference Maintance
@@ -21,7 +17,7 @@ and this skill finds it.
 ## Run
 
 ```bash
-S=.opencode/skills/system-reference-maintance/scripts/audit.py
+S="99 - Meta/skills/system-reference-maintance/scripts/audit.py"
 python3 $S --quick            # fast drift check: new items + debt counts, no Obsidian needed
 python3 $S                    # full report incl. every known-debt item and INFO seeds
 python3 $S --verbose --section=tags   # one engine: types|tags|properties|bases|cli
@@ -114,4 +110,4 @@ itself changes.
 
 Companions: [[The Retrieval system]] (target base design) · [[The Metadata
 system]] (the engines being audited) · [[system-tags]] philosophy in
-`.opencode/skills/obsidian-vault-notes/references/`.
+`99 - Meta/skills/obsidian-vault-notes/references/`.

@@ -42,5 +42,5 @@ created: 2026-10-12 18:15
 
 ## Agent Rules
 
-- Task selection runs through `.opencode/skills/task-planner/SKILL.md` (draft) — active PARs → open issues → deps/priorities/dueDates → ordered ASCII tree for the day.
+- Task selection runs through `99 - Meta/skills/task-planner/SKILL.md` (draft) — active PARs → open issues → deps/priorities/dueDates → ordered ASCII tree for the day.
 - Maintenance runs through [[System Maintenance & Review]]: after any base/query change update [[Search & Base Queries Reference]] (the `system-reference-maintance` audit enforces it); periodic metadata review via the same skill.
