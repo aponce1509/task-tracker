@@ -22,25 +22,86 @@ created: 2026-10-14 17:49
 
 ## Definition
 
-Notation: a tty is a character device, usually a file `/dev/tty*`. A process
-reads input bytes from it and writes output bytes to it.
+Notation: a tty is a character device, a file `/dev/tty*`. A process reads input bytes from it and writes output bytes to it. The tty driver of the kernel serves these calls.
 
-A tty has three parts:
+### A device file is a door into the kernel
 
-- The device file, for example `/dev/tty1` (a virtual console) or `/dev/pts/0`
-  (a pseudoterminal).
-- The kernel tty driver, which talks to the hardware or to the other end of the
-  device.
-- The line discipline, a layer of the driver that processes the bytes.
+Unix gives every program the same calls: `open`, `read`, `write`, `close`. A regular file backs them with disk blocks. A device file backs them with driver code in the kernel.
 
-Each session can have one controlling terminal. The session leader acquires it.
-The file `/dev/tty` always refers to the controlling terminal of the calling
-process. The command `tty` prints the file name of the terminal connected to
-standard input.
+```
+program                kernel
+-------                ------
+read(fd, buf, n) ----> which file is fd?
+                         |
+                         +-- /home/a/notes.md --> filesystem code --> disk
+                         |
+                         +-- /dev/ttys003    --> tty driver code  --> terminal
+```
 
-The name is historical. A teletype was an electromechanical terminal, see
-[[teletype and video terminal]]. The Unix tty abstraction keeps the model of
-such a device: a stream of characters in, a stream of characters out.
+The file under `/dev` holds no data. It is a name that points to a driver. The first letter of `ls -l` gives the file type.
+
+- `-` is a regular file.
+- `d` is a directory.
+- `c` is a character device. Bytes arrive one after another, as a stream.
+- `b` is a block device, such as a disk. It is read in fixed-size blocks at any position.
+
+The major number selects the driver. The minor number selects the instance.
+
+### A character device is a stream
+
+A terminal is a stream. Characters arrive in order. A program cannot seek to byte 500 of a keyboard. The driver offers two operations: give the next bytes and take these bytes.
+
+```
+keyboard side:    k  e  y  s  ----> read()   returns bytes as they come
+display side:     <---- write()   takes bytes and shows them
+```
+
+### The tty driver sits in the middle
+
+The driver does not only pass bytes through. It sits between the terminal and the process, and it applies the line discipline.
+
+```
+ terminal end                  kernel                     process end
++------------+        +----------------------+        +--------------+
+| keyboard   | -----> |   tty driver         | -----> | shell        |
+|            |        |   line discipline:   |  read  | read(fd)     |
+|            |        |   - echo             |        |              |
+| display    | <----- |   - edit line        | <----- | write(fd)    |
+|            |        |   - Ctrl+C -> signal |  write |              |
++------------+        +----------------------+        +--------------+
+```
+
+In canonical mode the driver collects the typed characters, echoes them, applies editing keys such as backspace, and returns the line to the process after the newline. The process never sees the editing keys. Ctrl+C makes the driver send `SIGINT` to the foreground process group. The process reads nothing.
+
+### The terminal end changed over time
+
+```
+1970s:   teletype --serial wire--> tty driver --> process       (hardware)
+today:   emulator --pty master---> tty driver --> process       (software)
+                                    (slave side = /dev/ttys003)
+```
+
+The process cannot tell the difference. It opens a character device and reads and writes bytes. A [[terminal emulator]] needs a [[pseudoterminal]] for this reason: the pty makes software look like the serial line, with the same driver and line discipline.
+
+### The shell holds the device
+
+A shell starts with three file descriptors on the same device.
+
+```
+fd 0  stdin   --+
+fd 1  stdout  --+--> /dev/ttys003  (character device)
+fd 2  stderr  --+
+```
+
+Writing to the file name of that device, for example with `echo hello > $(tty)`, reaches the same display.
+
+### Names and controlling terminal
+
+- The device files are `/dev/tty1` (a virtual console), `/dev/pts/0` (a Linux pseudoterminal) and `/dev/ttys003` (a macOS pseudoterminal).
+- Each session can have one controlling terminal. The session leader acquires it.
+- The file `/dev/tty` always refers to the controlling terminal of the calling process.
+- The command `tty` prints the file name of the terminal connected to standard input.
+- The name is historical. A teletype was an electromechanical terminal, see [[teletype and video terminal]]. The abstraction keeps its model: a stream of characters in, a stream of characters out.
 
 ## Properties
 
