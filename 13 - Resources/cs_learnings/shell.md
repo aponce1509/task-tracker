@@ -9,7 +9,6 @@ status: done
 maturity: capture
 created: 2026-10-14 17:49
 ---
-
 # [[shell]]
 
 > [!abstract] shell
@@ -27,7 +26,7 @@ A shell is a program $S$ that loops over three steps:
 $$\text{prompt} \to \text{read}(\text{tty}) \to \text{parse} \to \text{run}$$
 
 - Prompt: the shell draws the [[shell prompt]] before it reads each line.
-- Read: the shell reads one line from the tty.
+- Read: the shell reads one line from the [[tty]].
 - Parse: the shell splits the line into words, expands variables and finds pipes
   and redirects.
 - Run: the shell calls `fork`. The child calls `exec` to load $P$. The parent
@@ -52,11 +51,10 @@ The shell also handles:
 
 ## Example
 
-The user runs zsh with oh-my-zsh. oh-my-zsh is a set of plugins and themes that
+I use zsh with oh-my-zsh. oh-my-zsh is a set of plugins and themes that
 `.zshrc` loads at start of an interactive shell.
 
 ## Links
 
-- Uses [[pseudoterminal]]
-- Used by [[shell prompt]]
-- Source: user; see [[Terminal and shell prompt reading list]]
+- see [[Terminal and shell prompt reading list]]
+- Index: [[Terminal and shell prompt]]

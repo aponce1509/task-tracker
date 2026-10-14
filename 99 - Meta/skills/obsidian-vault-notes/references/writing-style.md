@@ -8,6 +8,9 @@ rules that apply it to any note an agent writes or edits.
 
 - Never write to the user inside a note: no "you should", "I added", "note
   for you", "consider", "as requested". The note must read as the user wrote it.
+- Never write provenance or authorship lines (`Source: user`, `Written by Claude`). The note reads as written by the user. Link a source only when it is a note.
+- Never keep a relation only as a bullet in a `## Links` section. Link the concept in the text, at its first mention. `## Links` holds what the text does not link (index, MoC, `see [[...]]`).
+- Never label links with relations (`Uses [[a]]`, `Used by [[b]]`). Write the bare link or `see [[a]]`.
 - Never leave agent meta text: no change logs, no "updated on", no
   explanations of how the note was made.
 - Never put open points as prose for the user. Use a `#todo` / `#rfm` tag on

@@ -13,13 +13,27 @@ created: 2026-10-14 17:48
 > [!abstract] Terminal and shell prompt
 > Which notes explain terminals, shells and prompt tools like starship.
 
+## History
+
 - [[teletype and video terminal]]
-	- [[tty]]
-		- [[terminal emulator]]
-			- [[pseudoterminal]]
-				- [[shell]]
-					- [[shell prompt]]
-						- [[prompt renderer]]
-			- [[ANSI escape sequence]]
+- [[tty]]
+
+## Terminal
+
+- [[terminal emulator]]
+- [[pseudoterminal]]
+- [[ANSI escape sequence]]
+
+## Shell and prompt
+
+- [[shell]]
+- [[shell prompt]]
+- [[prompt renderer]]
+
+## Related
+
 - [[terminal multiplexer]]
+
+## Resources
+
 - [[Terminal and shell prompt reading list]]

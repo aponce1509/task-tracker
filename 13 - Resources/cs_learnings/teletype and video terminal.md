@@ -37,7 +37,7 @@ A serial line connects it to the host.
 
 One host serves many terminals. Each terminal has its own serial line. Each user
 types on a terminal and sees only their own output. The host treats each
-terminal as a character stream in and a character stream out.
+terminal as a character stream in and a character stream out. Unix keeps this model in the [[tty]]. A [[terminal emulator]] imitates a video terminal in software.
 
 ## Properties
 
@@ -48,6 +48,5 @@ terminal as a character stream in and a character stream out.
 
 ## Links
 
-- Leads to [[tty]]
-- Leads to [[terminal emulator]]
-- Source: user; see [[Terminal and shell prompt reading list]]
+- see [[Terminal and shell prompt reading list]]
+- Index: [[Terminal and shell prompt]]

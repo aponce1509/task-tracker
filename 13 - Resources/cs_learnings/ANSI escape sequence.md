@@ -15,7 +15,7 @@ created: 2026-10-14 17:49
 > [!abstract] ANSI escape sequence
 > - An ANSI escape sequence is a run of plain bytes that starts with the control byte ESC and tells a terminal to do something other than print text.
 > - It solves the problem of styling output and moving the cursor through a text stream.
-> - The program only writes bytes. The terminal emulator interprets them.
+> - The program only writes bytes. The [[terminal emulator]] interprets them.
 
 ## Definition
 
@@ -54,10 +54,9 @@ printf '\033[38;2;255;100;0mtruecolor\033[0m\n'
 ```
 
 The first line prints `fail` in bold red, then resets, then prints `ok`
-unstyled. The shell never sees a color. It only sees bytes.
+unstyled. The [[shell]] never sees a color. It only sees bytes. A [[shell prompt]] uses the same sequences to color its text.
 
 ## Links
 
-- Uses [[terminal emulator]]
-- Used by [[shell prompt]]
-- Source: user; see [[Terminal and shell prompt reading list]]
+- see [[Terminal and shell prompt reading list]]
+- Index: [[Terminal and shell prompt]]

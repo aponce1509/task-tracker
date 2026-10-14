@@ -46,7 +46,7 @@ MoC outline: scaling -> pick algorithm (Index) -> inertia, silhouette -> overfit
 ```
 
 - Every node is `[new]`, `[exists]`, `extend` or `[?]` (a link to a note that does not exist yet).
-- Every new concept has a source (`<-`) or the user as the source.
+- Every new concept has a source note (`<-`) or none. When there is none, the note carries no source line.
 - Every new concept has a way in: an index or MoC that links it.
 
 ## Write a concept
@@ -56,6 +56,8 @@ MoC outline: scaling -> pick algorithm (Index) -> inertia, silhouette -> overfit
 - `> [!abstract] Title` on top, as bullets: what it is, what it solves, the key idea or formula.
 - Style of a mathematics or computer science researcher: definitions, notation, formulas in LaTeX (`$...$`, `$$...$$`), short ASD-STE100 sentences.
 - One idea per note. When the draft holds two ideas, propose a split.
+- Link every concept that has a note inline, at its first mention in the text, in the abstract or the body. `## Links` only keeps what the text does not link: `Index: [[...]]`, `see [[...]]`, unresolved notes to write.
+- `## Links` holds bare links (`[[shell]]`, `see [[shell]]`), never `Uses [[...]]` or `Source: user`. The index or MoC that links the concept may appear as `Index: [[...]]`.
 - At least one outgoing link to a concept or a source. Unresolved links are fine.
 
 ## Guardrails

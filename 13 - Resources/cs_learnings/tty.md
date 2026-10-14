@@ -14,7 +14,7 @@ created: 2026-10-14 17:49
 
 > [!abstract] tty
 >
-> - A tty is a Unix terminal device. The name comes from teletype.
+> - A tty is a Unix terminal device. The name comes from [[teletype and video terminal|teletype]].
 > - The kernel tty driver sits between a terminal and a process. It moves bytes
 >   in both directions and applies a line discipline.
 > - The line discipline edits input lines, echoes characters and turns some
@@ -85,7 +85,7 @@ The process cannot tell the difference. It opens a character device and reads an
 
 ### The shell holds the device
 
-A shell starts with three file descriptors on the same device.
+A [[shell]] starts with three file descriptors on the same device.
 
 ```
 fd 0  stdin   --+
@@ -101,7 +101,7 @@ Writing to the file name of that device, for example with `echo hello > $(tty)`,
 - Each session can have one controlling terminal. The session leader acquires it.
 - The file `/dev/tty` always refers to the controlling terminal of the calling process.
 - The command `tty` prints the file name of the terminal connected to standard input.
-- The name is historical. A teletype was an electromechanical terminal, see [[teletype and video terminal]]. The abstraction keeps its model: a stream of characters in, a stream of characters out.
+- The name is historical. A teletype was an electromechanical terminal, see teletype and video terminal. The abstraction keeps its model: a stream of characters in, a stream of characters out.
 
 ## Properties
 
@@ -125,6 +125,8 @@ The program interface for these settings is termios. The structure
 `struct termios` holds flags and special characters. A program reads it with
 `tcgetattr` and sets it with `tcsetattr`. The command `stty` shows and changes
 the same settings from the shell.
+
+The tty carries bytes only. Colors and cursor moves are [[ANSI escape sequence|escape sequences]] inside that byte stream. A [[shell prompt]] and the output of a [[prompt renderer]] use them.
 
 ## Example
 
@@ -151,10 +153,5 @@ history of the output. The terminal emulator keeps the scrollback, not the tty.
 
 ## Links
 
-- Uses [[teletype and video terminal]]
-- Used by [[pseudoterminal]]
-- Used by [[terminal emulator]]
-- Related: [[shell]], [[ANSI escape sequence]], [[shell prompt]],
-  [[prompt renderer]]
+- see [[Terminal and shell prompt reading list]]
 - Index: [[Terminal and shell prompt]]
-- Source: user; see [[Terminal and shell prompt reading list]]

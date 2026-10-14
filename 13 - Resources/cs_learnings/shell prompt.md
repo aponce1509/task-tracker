@@ -9,13 +9,12 @@ status: done
 maturity: capture
 created: 2026-10-14 17:49
 ---
-
 # [[shell prompt]]
 
 > [!abstract] shell prompt
-> - The shell prompt is the string the shell prints before it reads each command.
+> - The shell prompt is the string the [[shell]] prints before it reads each command.
 > - In zsh, `PROMPT` and `RPROMPT` define it. Prompt escapes and, with `prompt_subst`, command substitution expand it.
-> - The shell writes it as text. The terminal emulator only displays it.
+> - The shell writes it as text. The [[terminal emulator]] only displays it.
 
 ## Definition
 
@@ -31,7 +30,7 @@ In zsh, the shell expands $P$ and $R$ before printing:
   a color).
 - Command substitution, only when the `prompt_subst` option is set.
 
-Colors are ANSI escape sequences. The line editor must not count them as visible
+Colors are [[ANSI escape sequence|ANSI escape sequences]]. The line editor must not count them as visible
 characters. Wrap them in `%{ ... %}`, or use the zero-width markers of the
 shell. Then the line editor computes the width of the prompt correctly.
 
@@ -44,6 +43,8 @@ Hooks run around each command:
 
 - The prompt is text that the shell writes. It is not a feature of the terminal
   emulator.
+- A [[prompt renderer]] such as starship builds the string that the shell uses
+  as $P$.
 - A slow `precmd` makes the prompt slow, because the shell runs it before every
   prompt.
 - A wrong width count breaks line editing, for example wrapping and cursor
@@ -51,8 +52,5 @@ Hooks run around each command:
 
 ## Links
 
-- Uses [[shell]]
-- Uses [[ANSI escape sequence]]
-- Used by [[prompt renderer]]
-- Source: user; see [[Terminal and shell prompt reading list]]
+- see [[Terminal and shell prompt reading list]]
 - Index: [[Terminal and shell prompt]]

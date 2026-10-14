@@ -26,7 +26,7 @@ A pseudoterminal is a pair $(M, S)$ of character devices. The kernel connects
 them. Bytes written to $M$ appear as input on $S$. Bytes written to $S$ appear
 as output on $M$.
 
-The program opens $S$. It sees a tty: it can query terminal attributes, read
+The program, usually a [[shell]], opens $S$. It sees a tty: it can query terminal attributes, read
 lines and receive signals. The process that holds $M$ drives the terminal side.
 It sends keystrokes and reads the output to display.
 
@@ -50,8 +50,5 @@ POSIX calls to create a pty:
 
 ## Links
 
-- Uses [[tty]]
-- Uses [[terminal emulator]]
-- Used by [[shell]]
-- Source: user; see [[Terminal and shell prompt reading list]]
+- see [[Terminal and shell prompt reading list]]
 - Index: [[Terminal and shell prompt]]

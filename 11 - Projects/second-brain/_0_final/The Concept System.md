@@ -74,11 +74,17 @@ $$\sum_{i=1}^{n} \min_{j} \lVert x_i - \mu_j \rVert^2$$
 
 ## Links
 
-- Uses [[scaling]] · measured with [[inertia]] · compared with [[gaussian mixtures]]
-- Source: [[Video - StatQuest kmeans]]
+- [[scaling]], [[inertia]], [[gaussian mixtures]]
+- See [[Video - StatQuest kmeans]]
+- Index: [[Clustering models]]
 ```
 
 - Style: notes of a mathematics or computer science researcher, in ASD-STE100, with LaTeX in Markdown for formulas ([[How I Like My Notes]]).
+- Links live in the text. The first mention of a concept that has a note is a link (`the [[shell]] reads a line`). A relation is never only a bullet in `## Links`.
+- `## Links` holds only what the text does not link: the index or MoC, `see [[...]]` pointers and unresolved notes to write. A link in the text is not repeated there.
+- Links are bare: `[[shell]]` or `see [[shell]]`. No relation labels such as `Uses`, `Used by` or `Compared with`.
+- The Links section can also name the index or MoC that links the concept (`Index: [[...]]`).
+- A source is linked only when it is a note (`see [[Video - StatQuest kmeans]]`). Never write the provenance of a note that has no source note, such as `Source: user`: the note reads as written by me.
 - Summary callout on top. Sections only when they carry meaning (definition, intuition, properties, example, links).
 
 ## Links
