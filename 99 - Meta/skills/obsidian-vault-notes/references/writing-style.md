@@ -20,6 +20,9 @@ rules that apply it to any note an agent writes or edits.
 - One or more callouts directly under the H1. The first is the summary
   (`abstract` or `summary`). Add `info` (rationale), `warning` / `danger`
   (risk), `question` (open point) only when the note has one.
+- Callout format: `> [!type] Title or any text`, then the content on the next
+  line, with no empty `>` line. Prefer bullet points for the content:
+  `> - Point`. Prose only when one short sentence is enough.
 - The summary is concise but explicative: reading only the summary, the user
   understands the note. In a distillation pass, decide actively which form
   fits (summary, abstract, definition, key take-aways) and write it.

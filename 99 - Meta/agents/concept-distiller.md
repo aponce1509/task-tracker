@@ -41,7 +41,7 @@ If any item is missing, return `ERROR: missing <item>` and stop. Do not guess: t
 	```
 3. Body, in this order:
 	- `# [[<concept name>]]`
-	- `> [!abstract]` callout: what it is, what it solves, the key idea or formula, in 2–4 sentences.
+	- `> [!abstract] Title` callout, content as 2–4 bullets: what it is, what it solves, the key idea or formula. No empty `>` line after the title.
 	- `## Definition`: notation first, then the definition; formulas in LaTeX (`$...$` inline, `$$...$$` display).
 	- Optional sections only when they carry content: `## Intuition`, `## Properties`, `## Example`.
 	- `## Links`: one bullet per relation of the graph (`Uses [[scaling]]`, `Compared with [[kmeans]]`) and `Source: [[<source>]]`.

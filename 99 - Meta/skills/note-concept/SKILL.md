@@ -53,7 +53,7 @@ MoC outline: scaling -> pick algorithm (Index) -> inertia, silhouette -> overfit
 
 - Frontmatter as in the spec: `type: "[[Core Knowledge]]"`, subtypes from `concept`, `framework`, `principle`, `culture` (only those that apply), `paras:` the resource or area, `status: done`, `maturity: capture`.
 - Folder `13 - Resources/<resource>/`, `09 - Inbox/` when the PAR is not clear. Title is the concept name, no prefix.
-- `> [!abstract]` on top: what it is, what it solves, the key idea or formula.
+- `> [!abstract] Title` on top, as bullets: what it is, what it solves, the key idea or formula.
 - Style of a mathematics or computer science researcher: definitions, notation, formulas in LaTeX (`$...$`, `$$...$$`), short ASD-STE100 sentences.
 - One idea per note. When the draft holds two ideas, propose a split.
 - At least one outgoing link to a concept or a source. Unresolved links are fine.

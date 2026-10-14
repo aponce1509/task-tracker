@@ -25,6 +25,13 @@ created: 2026-10-13 23:00
 
 - I like callouts at the top of the note. The first callout gives the summary of the note; other top callouts can give the rationale, a warning or the open question.
 - Select the callout type by meaning: `abstract` or `summary` for the summary, `info` for rationale, `warning` / `danger` for risks, `question` for open points, `example` for cases, `tip` for shortcuts.
+- Format of a callout: the first line is `> [!type] Title`, the title is any short text, and the content starts on the next line with no empty `>` line between them.
+	```markdown
+	> [!abstract] Title or any text
+	> - Point one
+	> - Point two
+	```
+- I prefer the content of a callout as bullet points. Prose is allowed only when one short sentence is enough.
 - Callouts in the middle of the note are allowed when a point must stand out. Do not overuse them: a note full of callouts has no focus.
 
 ## Summaries

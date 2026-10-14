@@ -27,7 +27,8 @@ Read the whole note. Separate what was said into: decisions, ideas, comments, to
 ```
 Summary:
 > [!abstract] <title-like line>
-> <2 lines: why the meeting happened, what was decided>
+> - <why the meeting happened>
+> - <what was decided>
 
 Other callouts: <only if raised — warning (risk), question (open point), info (rationale); else "none">
 
