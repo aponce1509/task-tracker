@@ -49,7 +49,7 @@ Folder: `00 - Map of Contents/`, or next to the content. Template: `99 - Meta/Te
 
 ## Write a MoC
 
-- `# [[Title]]`, then a `> [!abstract]` callout: what the reader can do after the MoC.
+- `# [[Title]]`, then `> [!abstract] Title` with bullets on the next line, no empty `>` line: the flow the MoC covers and what it maps, as short impersonal phrases (as in the spec example "Scale, pick the algorithm, measure"). Never first person ("I can name"), never "the reader can".
 - Prose in ASD-STE100 that links concepts. Use the order of the flow when the topic has one.
 - `domain-moc`: link concepts, not issues. `project-moc` / `area-moc`: may link the issues, meetings and journal of the project or area. Unresolved links are allowed for concepts still to write.
 - Link the new MoC from at least one index, in bold.

@@ -13,10 +13,28 @@ created: 2026-10-14 17:49
 # [[prompt renderer]]
 
 > [!abstract] prompt renderer
-> - A prompt renderer is a program that builds the [[shell prompt]] string. The [[shell]] calls it before each prompt.
+>
+> - A prompt renderer is a program that builds the [[shell prompt]] string. The
+>   [[shell]] calls it before each prompt.
 > - It inspects the directory and environment, then prints a colored line.
 > - Starship is a compiled Rust binary. Powerlevel10k is zsh code.
 > - Both run in the shell, not in the [[terminal emulator]].
+
+## Try it
+
+```zsh
+echo $PROMPT                      # what the shell uses as prompt
+which starship                    # the renderer is a separate binary
+starship prompt                   # prints the prompt string it would build
+starship prompt | cat -v          # shows the escape sequences as ^[[...m
+eval "$(starship init zsh)"      # what .zshrc does at start
+```
+
+- `starship prompt` is an ordinary program. It writes the prompt as bytes on
+  [[standard streams|stdout]]. The shell captures them.
+- `cat -v` makes the [[ANSI escape sequence|escape sequences]] visible.
+- Change the terminal and the output stays the same. The renderer runs in the
+  shell, not in the window.
 
 ## Definition
 

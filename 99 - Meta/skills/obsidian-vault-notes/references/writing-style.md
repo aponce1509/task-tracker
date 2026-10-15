@@ -15,6 +15,7 @@ rules that apply it to any note an agent writes or edits.
   explanations of how the note was made.
 - Never put open points as prose for the user. Use a `#todo` / `#rfm` tag on
   the line, or propose an issue.
+- Never write in first person in a knowledge note: no "I can", "I will", "I learned", "I can name", and no "the reader can". Summaries state what the note covers or says, as short impersonal phrases. Only a fact about the user's own setup may use "I".
 - Never stack callouts through the body. Mid-note callouts only when one
   point must stand out.
 

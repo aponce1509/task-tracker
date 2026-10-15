@@ -13,9 +13,28 @@ created: 2026-10-14 17:49
 # [[ANSI escape sequence]]
 
 > [!abstract] ANSI escape sequence
-> - An ANSI escape sequence is a run of plain bytes that starts with the control byte ESC and tells a terminal to do something other than print text.
-> - It solves the problem of styling output and moving the cursor through a text stream.
+>
+> - An ANSI escape sequence is a run of plain bytes that starts with the control
+>   byte ESC and tells a terminal to do something other than print text.
+> - It solves the problem of styling output and moving the cursor through a text
+>   stream.
 > - The program only writes bytes. The [[terminal emulator]] interprets them.
+
+## Try it
+
+```bash
+printf '\033[31mred\033[0m normal\n'   # red word, then reset
+printf '\033[2J\033[H'                 # clear the screen, cursor to top left
+ls -G | cat                            # no colors: output is a pipe, not a tty
+echo $TERM                             # the terminal type the programs read
+```
+
+- The program only writes bytes. The [[terminal emulator]] reads them and draws
+  the color.
+- Programs check [[tty]] with `isatty` before they write color bytes. Into a
+  pipe they write plain text. See [[redirection and pipe]].
+- `TERM` is an [[environment variable]]. It tells programs which sequences the
+  terminal understands.
 
 ## Definition
 
@@ -54,7 +73,8 @@ printf '\033[38;2;255;100;0mtruecolor\033[0m\n'
 ```
 
 The first line prints `fail` in bold red, then resets, then prints `ok`
-unstyled. The [[shell]] never sees a color. It only sees bytes. A [[shell prompt]] uses the same sequences to color its text.
+unstyled. The [[shell]] never sees a color. It only sees bytes. A
+[[shell prompt]] uses the same sequences to color its text.
 
 ## Links
 

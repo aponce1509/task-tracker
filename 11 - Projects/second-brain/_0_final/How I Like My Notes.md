@@ -43,6 +43,7 @@ created: 2026-10-13 23:00
 
 - ASD-STE100 (Simplified Technical English): short sentences, active voice, one idea per sentence, simple and precise words.
 - Same term for the same thing in all the note.
+- No first person in a knowledge note: never "I can", "I will", "I learned", "I can name". A summary states what the note says or covers ("Scale, pick the algorithm, measure"), not what I will be able to do. Only a fact about my own setup may use "I".
 
 ## Form
 

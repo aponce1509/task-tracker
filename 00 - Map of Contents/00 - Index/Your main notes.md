@@ -22,6 +22,7 @@ created: 2026-08-29 11:45
 	- **[[Inspiration Sources for Note Management]]**
 - Computer science
 	- **[[Git]]**
+	- **[[Terminal and shell prompt]]**
 - Developer environments
 	- [[Your Tech Stack]]
 	- **[[neovim]]**

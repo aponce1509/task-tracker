@@ -9,12 +9,32 @@ status: done
 maturity: capture
 created: 2026-10-14 17:49
 ---
+
 # [[shell prompt]]
 
 > [!abstract] shell prompt
-> - The shell prompt is the string the [[shell]] prints before it reads each command.
-> - In zsh, `PROMPT` and `RPROMPT` define it. Prompt escapes and, with `prompt_subst`, command substitution expand it.
+>
+> - The shell prompt is the string the [[shell]] prints before it reads each
+>   command.
+> - In zsh, `PROMPT` and `RPROMPT` define it. Prompt escapes and, with
+>   `prompt_subst`, command substitution expand it.
 > - The shell writes it as text. The [[terminal emulator]] only displays it.
+
+## Example
+
+Try it in zsh. The change lasts until you close the window.
+
+```zsh
+PROMPT='%n in %~ > '     # user name, then the current directory
+PROMPT='%F{green}%~%f $ '  # the directory in green
+echo $PROMPT
+```
+
+- The prompt is an ordinary shell variable. Change the value and the next prompt
+  changes.
+- `%F{green}` becomes an [[ANSI escape sequence]] in the output bytes. The
+  emulator draws the color.
+- `PS1` is the bash name for the same thing.
 
 ## Definition
 
@@ -30,9 +50,10 @@ In zsh, the shell expands $P$ and $R$ before printing:
   a color).
 - Command substitution, only when the `prompt_subst` option is set.
 
-Colors are [[ANSI escape sequence|ANSI escape sequences]]. The line editor must not count them as visible
-characters. Wrap them in `%{ ... %}`, or use the zero-width markers of the
-shell. Then the line editor computes the width of the prompt correctly.
+Colors are [[ANSI escape sequence|ANSI escape sequences]]. They take no space on
+the screen. The line editor must not count them as visible characters. Wrap them
+in `%{ ... %}`, or use the zero-width markers of the shell. Then the line editor
+computes the width of the prompt correctly.
 
 Hooks run around each command:
 

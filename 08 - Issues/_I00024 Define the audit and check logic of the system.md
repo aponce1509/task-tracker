@@ -18,10 +18,13 @@ dependencies:
 # [[_I00024 Define the audit and check logic of the system]]
 
 > [!abstract] Checks exist, nothing runs them
-> The vault has audit scripts for the engines and for two note kinds, but they run only when someone asks. Define which check runs at which trigger, on one file or on the whole system, and at what cost, so drift is caught when it happens and not months later.
+> - The vault has audit scripts for the engines and for two note kinds, but they run only when someone asks. 
+> - Define which check runs at which trigger, on one file or on the whole system, and at what cost, so drift is caught when it happens and not months later.
 
 > [!info] Rationale
-> Rules live in the specs and the skills, but an agent or I can still write a note that breaks them. A check that runs on its own, cheap and at the right moment, is the only guarantee. Expensive checks (LLM, full vault with Obsidian) must run rarely, or nobody keeps them on.
+> - Rules live in the specs and the skills, but an agent or I can still write a note that breaks them.
+> - A check that runs on its own, cheap and at the right moment, is the only guarantee. 
+> - Expensive checks (LLM, full vault with Obsidian) must run rarely, or nobody keeps them on.
 
 ## Description
 
