@@ -58,6 +58,8 @@ Build journal of the second brain project: completed tasks with time taken, meet
   - kind::: done
 - 2026-10-16 02:25: One layout per project in Obsidian through the mise-en-place plugin: leader keys with which-key popup, project slots from bookmark groups that follow active, compact laptop layouts, layout memory of extra notes, explorer keys; the Today dashboard continues in _I00026 [[_I00028 One layout per project, switched with leader hotkeys]]
   - kind::: done
+- 2026-10-16 02:33: Today dashboard in the mise-en-place plugin: panels with tabs (habits, log, learned, plan, projects with bridges), bridge property on PAR notes, ## Plan in the daily template, Start/End Day rewired; documented in The Workplace System and three how-tos [[_I00026 Build an active-projects dashboard in the daily note]]
+  - kind::: done
 
 ## Tech debt
 

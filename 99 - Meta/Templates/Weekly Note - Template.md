@@ -12,10 +12,6 @@ financesUpdated: false
 
 ## Learned
 
-## Active Projects
-
-![[All Paras new.base#Active Projects]]
-
 ## Bases
 
 ![[Issues.base#Urgents]]

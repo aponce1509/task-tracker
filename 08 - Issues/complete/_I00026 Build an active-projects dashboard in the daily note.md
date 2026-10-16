@@ -9,7 +9,7 @@ role:
 priority: 1
 rate:
 tags:
-status: wip
+status: done
 maturity: capture
 created: 2026-10-14 00:35
 dueDate:
@@ -46,22 +46,21 @@ dependencies:
 - [x] Add `## Plan` to the Daily Note template
 - [x] Update [[WORKFLOWS - Start Day]] and [[WORKFLOWS - End Day]]
   - Start Day opens from the dashboard; End Day writes the bridge of each project touched
-- [ ] Repoint the Active Projects embed of the Weekly Note template
-  - It embeds `All Paras new.base`, a retired base; the dashboard may replace the section
-- [ ] Use it for a week, then tune the panels and keys
+- [x] Repoint the Active Projects embed of the Weekly Note template
+  - Done: section dropped; the dashboard's Projects panel replaces it
+- [x] Use it for a week, then tune the panels and keys
+  - Closed before the week; tuning follows [[HOWTO - Tune the dashboard]] and [[HOWTO - Change the dashboard keys]]
 
 
 ## Post-Mortem
 
-- We have added this to the logging? (project journal: `journal.sh log --kind done --link "[[...]]"`)
-- Objective moved:
-- Good things:
-- Bad Things:
-- Rate (1-3):
-- Notes to create?
-	- Ending note: core note/index that builds the final solution
-	- Reusable in other places
-	- Tech debt
-	- Review of the resources & tools used
-	- Additional requirements
-	- Ideas
+- Logged: [[Journal - second-brain]]
+- Objective moved: [[Alejandro's Mise-en-Place]] and [[The Hemingway Bridge]] per project
+- Good things: —
+- Bad Things: —
+- Rate (1-3): —
+- Notes created:
+	- [[The Workplace System]]
+	- [[HOWTO - Tune the dashboard]]
+	- [[HOWTO - Change the dashboard keys]]
+	- [[HOWTO - Change the system hotkeys]]

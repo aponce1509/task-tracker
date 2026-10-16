@@ -61,6 +61,9 @@ created: 2026-10-12 15:10
 		- [[Intermediate and Final Products]]
 		- [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
 	- Workflows: [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] · [[WORKFLOWS - Distillation of a Note]] · [[WORKFLOWS - Contextual Capture Review]]
+- **[[The Workplace System]]**
+	- How-tos: [[HOWTO - Tune the dashboard]] · [[HOWTO - Change the dashboard keys]] · [[HOWTO - Change the system hotkeys]]
+	- `.obsidian/plugins/mise-en-place/` + `99 - Meta/mise-en-place.jsonc`
 - [[The AI Guidance System]]
 	- Skills: `99 - Meta/skills/` · Agents: `99 - Meta/agents/` · Commands: `99 - Meta/commands/`
 	- `scripts/sync-skills.sh`

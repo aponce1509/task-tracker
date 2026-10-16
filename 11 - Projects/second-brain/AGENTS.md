@@ -44,6 +44,7 @@ Entry point: `_0_final/The Second Brain System.md` — a Zettelkasten-style inde
 | `_0_final/How I Like My Notes.md` | Specs | The look of every note: written as me, callouts on top, ASD-STE100, style per kind. |
 | `_0_final/The Concept System.md` · `The Meeting System.md` · `The Index and MoC System.md` | Specs | One spec per kind: definition, metadata, body, links, audit checks. Issue spec gained the body shape. |
 | `_0_final/The AI Guidance System.md` | Specs (wip) | Hierarchy notes → skills → agents → commands → scripts; inventory; guidance checks done by the `vault-auditor` agent, never scripted. |
+| `_0_final/The Workplace System.md` | Specs (design-doc) | The Obsidian workplace (`mise-en-place` plugin): keys, layouts, slots, memory, Today dashboard, rules for changes. How-tos in `_0_final/howtos/`: Tune the dashboard, Change the dashboard keys, Change the system hotkeys. |
 | `_0_final/The Maintenance System.md` | MoC (wip) | Tidy where I walk: the spotlight table (what rots, its signal, the workflow that clears it), the rhythms (day, week, two weeks, events, idle) and the traces. 15 workflows in `_0_final/workflows/`: Start/End Day, Start/End Week, Start Issue, Complete Issue, New/End PAR, Learning Session, New Tags & Types, New Properties + the 4 CODE ones rebuilt from the drafts. |
 
 ### Skeleton (operational, in continuous improvement)

@@ -82,7 +82,7 @@ created: 2026-02-15 20:02
     all keys
   - Obsidian is an app, not a terminal: only L0 (`Cmd`) and L1 (`Opt`) can
     collide (see `~/.dotfiles/AGENTS.md`)
-- Where to change it
+- Where to change it: [[The Workplace System]] and its how-tos
   - Keys and layouts: `99 - Meta/mise-en-place.jsonc` (reloads on save)
   - Vim entry points: `.obsidian.vimrc`
   - Code: `.obsidian/plugins/mise-en-place/main.js`
