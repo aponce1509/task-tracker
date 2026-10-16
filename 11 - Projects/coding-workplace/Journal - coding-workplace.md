@@ -30,6 +30,8 @@ Construct a uniform and multiplatform coding environment in the AI era
 %% extra lines in any format may follow the keys (keep the indent) %%
 - 2026-10-14 17:45: Switched the shell prompt from p10k to starship and removed p10k from stow, keeping its config [[_I00016 Test Startship]]
   - kind::: done
+- 2026-10-16 02:25: One layout per project in Obsidian through the mise-en-place plugin: leader keys with which-key popup, project slots from bookmark groups that follow active, compact laptop layouts, layout memory of extra notes, explorer keys; the Today dashboard continues in _I00026 [[_I00028 One layout per project, switched with leader hotkeys]]
+  - kind::: done
 
 ## Tech debt
 

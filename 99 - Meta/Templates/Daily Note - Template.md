@@ -17,6 +17,8 @@ drinks: 0
 
 [[Rutinas que mantener]]
 
+## Plan
+
 - 
 
 ## Daily Log

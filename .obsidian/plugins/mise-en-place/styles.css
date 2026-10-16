@@ -1,0 +1,253 @@
+.mise-whichkey {
+  position: fixed;
+  left: 50%;
+  bottom: 48px;
+  transform: translateX(-50%);
+  z-index: var(--layer-notice);
+  min-width: 360px;
+  max-width: 90vw;
+  padding: 10px 14px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background: var(--background-primary);
+  box-shadow: var(--shadow-l);
+  font-size: var(--font-ui-small);
+}
+
+.mise-whichkey-title {
+  margin-bottom: 6px;
+  color: var(--text-muted);
+  font-family: var(--font-monospace);
+}
+
+.mise-whichkey-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2px 18px;
+}
+
+.mise-whichkey-row {
+  display: flex;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mise-whichkey-key {
+  min-width: 2.5em;
+  color: var(--text-accent);
+  font-family: var(--font-monospace);
+  font-weight: 600;
+}
+
+.mise-whichkey-group {
+  color: var(--color-blue);
+}
+
+.mise-whichkey-hint {
+  margin-top: 6px;
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+}
+
+/* Dashboard */
+
+.mise-dash {
+  padding: 12px 16px;
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-small);
+}
+
+.mise-dash-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 18px;
+  margin-bottom: 10px;
+}
+
+.mise-dash-date {
+  font-weight: 700;
+  color: var(--text-normal);
+}
+
+.mise-dash-next {
+  flex: 1 1 260px;
+  color: var(--text-accent);
+}
+
+.mise-dash-inbox,
+.mise-dash-help {
+  color: var(--text-muted);
+}
+
+.mise-dash-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.mise-dash-panel.is-wide {
+  grid-column: 1 / -1;
+}
+
+@container (max-width: 560px) {
+  .mise-dash-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.mise-dash {
+  container-type: inline-size;
+}
+
+.mise-dash-panel {
+  padding: 6px 8px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-s);
+}
+
+.mise-dash-panel.is-active {
+  border-color: var(--interactive-accent);
+}
+
+.mise-dash-title {
+  margin-bottom: 4px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.mise-dash-panel.is-active .mise-dash-title {
+  color: var(--text-accent);
+}
+
+.mise-dash-row {
+  display: flex;
+  gap: 10px;
+  padding: 1px 4px;
+  border-radius: var(--radius-s);
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: default;
+}
+
+.mise-dash-row > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mise-dash-row.is-selected {
+  background: var(--background-modifier-hover);
+  box-shadow: inset 2px 0 0 var(--interactive-accent);
+}
+
+.mise-dash-row.is-empty,
+.mise-dash-row.is-more {
+  color: var(--text-faint);
+}
+
+.mise-dash-row.is-issue {
+  padding-left: 24px;
+}
+
+.mise-dash-row.is-project {
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.mise-dash-row.is-done .mise-dash-name {
+  color: var(--text-faint);
+  text-decoration: line-through;
+}
+
+.mise-dash-name {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.mise-dash-row.is-habit .mise-dash-name {
+  flex: 0 0 9em;
+}
+
+.mise-dash-value {
+  flex: 0 0 3.5em;
+  color: var(--text-normal);
+}
+
+.mise-dash-history {
+  display: flex;
+  gap: 6px;
+  color: var(--text-faint);
+}
+
+.mise-dash-history .is-on {
+  color: var(--color-green);
+}
+
+.mise-dash-slot {
+  flex: 0 0 1em;
+  color: var(--text-accent);
+}
+
+.mise-dash-bridge {
+  flex: 1 1 auto;
+  color: var(--text-accent);
+  font-weight: 400;
+}
+
+.mise-dash-row.no-bridge .mise-dash-bridge {
+  color: var(--text-faint);
+}
+
+.mise-dash-status {
+  flex: 0 0 4.5em;
+  color: var(--text-muted);
+}
+
+.mise-dash-status.is-wip {
+  color: var(--color-orange);
+}
+
+.mise-dash-status.is-blocked {
+  color: var(--color-red);
+}
+
+.mise-dash-prio {
+  flex: 0 0 2em;
+  color: var(--text-muted);
+}
+
+.mise-dash-due {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: var(--text-muted);
+}
+
+.mise-dash-due.is-overdue {
+  color: var(--color-red);
+  font-weight: 600;
+}
+
+/* Long text: the selected row wraps and shows everything; the rest stay one line. */
+.mise-dash-row.is-selected {
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
+.mise-dash-row.is-selected > span {
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* Bridges only: each bridge on its own wrapped line under the project. */
+.mise-dash-panel.is-bridges-only .mise-dash-row.is-project {
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
+.mise-dash-panel.is-bridges-only .mise-dash-row.is-project .mise-dash-bridge {
+  flex: 1 1 100%;
+  padding-left: calc(1em + 10px);
+  overflow: visible;
+}

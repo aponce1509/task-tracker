@@ -51,6 +51,8 @@ created: 2026-10-12 18:15
 ```text
 ["paras":"[[second-brain]]"]        every note of a project (the paras engine)
 ["active":true]                     active PAR notes (path="01 - PAR")
+[bridge]                            PAR notes with a bridge (path="01 - PAR")
+["active":true] -[bridge]           active PARs without a bridge (path="01 - PAR")
 ["status":"wip"]                    execution state
 ["priority":0]                      issue priority tier
 ["dueDate":>=2026-10-12]            date comparison on issue deadlines

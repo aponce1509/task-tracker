@@ -6,6 +6,7 @@ paras:
 rate:
 created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 active: false
+bridge:
 ---
 # [[<% tp.file.title %>]]
 <%*

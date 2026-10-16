@@ -11,6 +11,7 @@ extends: commons
 savedViews: []
 favoriteView:
 fieldsOrder:
+  - Bq7rNe
   - 2XbBzS
   - pLQMfz
   - TqUzAP
@@ -29,6 +30,11 @@ fields:
     options: {}
     path: ""
     id: pLQMfz
+  - name: bridge
+    type: Input
+    options: {}
+    path: ""
+    id: Bq7rNe
   - name: img
     type: Media
     options:

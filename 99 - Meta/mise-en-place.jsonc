@@ -1,0 +1,313 @@
+// Mise-en-Place config: the only file to edit for Obsidian keys and layouts.
+// Read by the plugin .obsidian/plugins/mise-en-place/ (reloads on save).
+// JSONC: full-line // comments and trailing commas are allowed.
+//
+// Layer contract: ~/.dotfiles/AGENTS.md. Obsidian is an app, not a terminal:
+// only L0 (macOS, Cmd-*) and L1 (skhd/yabai, Opt-*) can collide with it.
+//
+// Entry points
+//   leader       Space  (editor normal mode via .obsidian.vimrc, and anywhere you are not typing)
+//                Ctrl+Space  (always, also in insert mode and text fields)
+//   localleader  \      (same rules), or <leader> \
+//
+// Node shapes
+//   { "desc": "...", "cmd": "<command id>" }      run an Obsidian command (ids: Settings > Hotkeys, or `obsidian commands`)
+//   { "desc": "...", "layout": "<name>" }         build a layout from "layouts"
+//   { "desc": "...", "open": "<note or path>" }   open a note in the active pane
+//   { "desc": "...", "project": "<PAR name>" }    open that project layout ("@active" = the active note)
+//   { "group": "...", "keys": { ... } }           a prefix, like a which-key group
+//   { "group": "...", "slots": true, "keys": {} } a prefix filled with the project slots (slotKeys)
+//   { "desc": "...", "action": "<plugin action>" } a built-in action (contexts only, e.g. explorer:create)
+{
+  "leader": {
+    "key": "Space",
+    "chord": "Ctrl+Space",
+    "keys": {
+      "Space": { "desc": "find note", "cmd": "switcher:open" },
+      "/": { "desc": "search vault", "cmd": "global-search:open" },
+      ":": { "desc": "command palette", "cmd": "command-palette:open" },
+      "e": { "desc": "explorer / back to the editor", "cmd": "mise-en-place:explorer-toggle" },
+      "t": { "desc": "today (dashboard)", "cmd": "mise-en-place:dashboard" },
+      "\\": { "desc": "localleader", "cmd": "mise-en-place:localleader" },
+
+      "l": {
+        "group": "layouts",
+        "slots": true,
+        "keys": {
+          "l": { "desc": "base (dashboard · today · week)", "layout": "base" },
+          "c": { "desc": "current project", "cmd": "mise-en-place:layout-current" },
+          "m": { "desc": "mode: auto / compact / wide", "cmd": "mise-en-place:layout-mode" },
+          "r": { "desc": "reset this layout to the default", "cmd": "mise-en-place:layout-reset" },
+          "S": { "desc": "sync slots with the active PARs", "cmd": "mise-en-place:sync-slots" }
+        }
+      },
+
+      "p": {
+        "group": "project working set",
+        "keys": {
+          "a": { "desc": "add this note", "cmd": "mise-en-place:working-add" },
+          "d": { "desc": "remove this note", "cmd": "mise-en-place:working-remove" },
+          "s": { "desc": "save open notes", "cmd": "mise-en-place:working-save" },
+          "B": { "desc": "write the bridge (next action)", "cmd": "mise-en-place:bridge-edit" },
+          "b": { "desc": "bookmarks pane", "cmd": "bookmarks:open" }
+        }
+      },
+
+      "f": {
+        "group": "find",
+        "keys": {
+          "f": { "desc": "note", "cmd": "switcher:open" },
+          "w": { "desc": "word (search)", "cmd": "global-search:open" },
+          "t": { "desc": "tags", "cmd": "tag-pane:open" },
+          "b": { "desc": "bookmarks", "cmd": "bookmarks:open" },
+          "g": { "desc": "graph", "cmd": "graph:open" },
+          "c": { "desc": "commands", "cmd": "command-palette:open" }
+        }
+      },
+
+      "n": {
+        "group": "new",
+        "keys": {
+          "n": { "desc": "note from template", "cmd": "templater-obsidian:create-new-note-from-template" },
+          "d": { "desc": "daily note", "cmd": "daily-notes" },
+          "w": { "desc": "weekly note", "cmd": "calendar:open-weekly-note" }
+        }
+      },
+
+      "w": {
+        "group": "windows",
+        "keys": {
+          "v": { "desc": "split right", "cmd": "workspace:split-vertical" },
+          "s": { "desc": "split down", "cmd": "workspace:split-horizontal" },
+          "h": { "desc": "focus left", "cmd": "editor:focus-left" },
+          "j": { "desc": "focus down", "cmd": "editor:focus-bottom" },
+          "k": { "desc": "focus up", "cmd": "editor:focus-top" },
+          "l": { "desc": "focus right", "cmd": "editor:focus-right" },
+          "q": { "desc": "close pane", "cmd": "workspace:close" },
+          "o": { "desc": "close others", "cmd": "workspace:close-others" },
+          "u": { "desc": "reopen closed", "cmd": "workspace:undo-close-pane" }
+        }
+      },
+
+      "b": {
+        "group": "tabs",
+        "keys": {
+          "n": { "desc": "next", "cmd": "workspace:next-tab" },
+          "p": { "desc": "previous", "cmd": "workspace:previous-tab" },
+          "d": { "desc": "close", "cmd": "workspace:close" },
+          "P": { "desc": "pin", "cmd": "workspace:toggle-pin" }
+        }
+      },
+
+      "u": {
+        "group": "ui",
+        "keys": {
+          "e": { "desc": "left sidebar", "cmd": "app:toggle-left-sidebar" },
+          "r": { "desc": "right sidebar", "cmd": "app:toggle-right-sidebar" },
+          "p": { "desc": "reading / editing", "cmd": "markdown:toggle-preview" },
+          "s": { "desc": "source mode", "cmd": "editor:toggle-source" },
+          "t": { "desc": "light / dark", "cmd": "theme:toggle-light-dark" }
+        }
+      },
+
+      "R": { "desc": "reload this config", "cmd": "mise-en-place:reload-config" }
+    }
+  },
+
+  // localleader: actions on the current note. "keys" apply to every note;
+  // "byClass" adds or overrides keys by the note's file_class (issue, par, ...).
+  "localleader": {
+    "key": "\\",
+    "keys": {
+      "b": { "desc": "bold", "cmd": "editor:toggle-bold" },
+      "i": { "desc": "italic", "cmd": "editor:toggle-italics" },
+      "m": { "desc": "highlight", "cmd": "editor:toggle-highlight" },
+      "c": { "desc": "comment %% %%", "cmd": "editor:toggle-comments" },
+      "k": { "desc": "insert wikilink", "cmd": "editor:insert-wikilink" },
+      "x": { "desc": "toggle checkbox", "cmd": "editor:toggle-checklist-status" },
+      "f": { "desc": "metadata fields", "cmd": "metadata-menu:open_fields_modal" },
+      "t": { "desc": "insert template", "cmd": "templater-obsidian:insert-templater" },
+      "r": { "desc": "rename", "cmd": "workspace:edit-file-title" },
+      "M": { "desc": "move file", "cmd": "file-explorer:move-file" },
+      "o": { "desc": "outline", "cmd": "outline:open" },
+      "l": { "desc": "backlinks", "cmd": "backlink:open" },
+      "g": { "desc": "local graph", "cmd": "graph:open-local" },
+      "y": { "desc": "copy path", "cmd": "workspace:copy-path" }
+    },
+    "byClass": {
+      "par": {
+        "p": { "desc": "open this project layout", "project": "@active" }
+      }
+    }
+  },
+
+  // contexts: bare keys (no leader) that apply only while a pane has focus.
+  // explorer = the file explorer; actions use the focused item (like nvim-tree).
+  // A key mapped here replaces the native explorer key (Enter = rename natively).
+  // Native keys that stay: arrows, F2 (rename), Cmd+Backspace. Space stays the leader.
+  "contexts": {
+    "explorer": {
+      "keys": {
+        "a": { "desc": "new file (end with / = folder, a/b/c nests)", "action": "explorer:create" },
+        "A": { "desc": "new folder", "action": "explorer:create-folder" },
+        "r": { "desc": "rename", "action": "explorer:rename" },
+        "d": { "desc": "delete (to trash)", "action": "explorer:delete" },
+        "x": { "desc": "cut", "action": "explorer:cut" },
+        "c": { "desc": "copy", "action": "explorer:copy" },
+        "p": { "desc": "paste into folder (cut = move, links updated)", "action": "explorer:paste" },
+        "y": { "desc": "copy name", "action": "explorer:copy-name" },
+        "Y": { "desc": "copy path", "action": "explorer:copy-path" },
+        "j": { "desc": "down", "action": "explorer:down" },
+        "k": { "desc": "up", "action": "explorer:up" },
+        "h": { "desc": "close folder / go to parent", "action": "explorer:close" },
+        "l": { "desc": "open folder / file", "action": "explorer:expand" },
+        "Enter": { "desc": "open (folder: unfold)", "action": "explorer:open" },
+        "o": { "desc": "open", "action": "explorer:open" },
+        "t": { "desc": "open in new tab", "action": "explorer:open-tab" },
+        "v": { "desc": "open in split right", "action": "explorer:open-vsplit" },
+        "s": { "desc": "open in split down", "action": "explorer:open-hsplit" },
+        "G": { "desc": "last item", "action": "explorer:last" },
+        "g": {
+          "group": "go",
+          "keys": {
+            "g": { "desc": "first item", "action": "explorer:first" }
+          }
+        },
+        "W": { "desc": "collapse all", "action": "explorer:collapse-all" },
+        "R": { "desc": "reveal active note", "action": "explorer:reveal-active" },
+        "?": { "desc": "show these keys", "action": "explorer:help" }
+      }
+    },
+
+    // dashboard = the Today pane (<leader> t). Rows: habits, week, plan tasks,
+    // projects and their open issues. Enter opens the row (a project opens its layout).
+    "dashboard": {
+      "keys": {
+        "j": { "desc": "down", "action": "dashboard:down" },
+        "k": { "desc": "up", "action": "dashboard:up" },
+        "l": { "desc": "next panel", "action": "dashboard:next-panel" },
+        "h": { "desc": "previous panel", "action": "dashboard:prev-panel" },
+        "Tab": { "desc": "next panel", "action": "dashboard:next-panel" },
+        "1": { "desc": "panel 1", "action": "dashboard:panel-1" },
+        "2": { "desc": "panel 2", "action": "dashboard:panel-2" },
+        "3": { "desc": "panel 3", "action": "dashboard:panel-3" },
+        "4": { "desc": "panel 4", "action": "dashboard:panel-4" },
+        "Enter": { "desc": "open (habit: toggle)", "action": "dashboard:open" },
+        "x": { "desc": "toggle habit / task", "action": "dashboard:toggle" },
+        "+": { "desc": "number habit up", "action": "dashboard:increase" },
+        "=": { "desc": "number habit up", "action": "dashboard:increase" },
+        "-": { "desc": "number habit down", "action": "dashboard:decrease" },
+        "e": { "desc": "edit (number, task text, bridge)", "action": "dashboard:edit" },
+        "]": { "desc": "next tab of the panel", "action": "dashboard:next-tab" },
+        "[": { "desc": "previous tab of the panel", "action": "dashboard:prev-tab" },
+        "a": { "desc": "add: a task in a plan tab, a line in a section tab", "action": "dashboard:add-task" },
+        "D": { "desc": "remove the task or line", "action": "dashboard:remove-task" },
+        "p": { "desc": "plan the issue (adds it to today)", "action": "dashboard:plan-issue" },
+        "b": { "desc": "write the project bridge", "action": "dashboard:bridge" },
+        "W": { "desc": "weekly note", "action": "dashboard:weekly" },
+        "r": { "desc": "refresh", "action": "dashboard:refresh" },
+        "?": { "desc": "show these keys", "action": "dashboard:help" }
+      }
+    }
+  },
+
+  // Dashboard: panels in order (the first two side by side, "wide" ones full
+  // width), each with tabs that [ and ] rotate. A tab "shows" one kind of rows:
+  //   habits    the properties of the note's template (daily: last 7 days)
+  //   section   the lines under "section" (a heading, or "@top" = under the title)
+  //   tasks     a plan section: every top-level bullet is a task (p and a write here)
+  //   projects  the slots with their bridge; "issues": false = bridges only
+  // "note" is "daily" or "weekly"; set on the panel or on one tab.
+  "dashboard": {
+    "inboxFolder": "09 - Inbox",
+    "issuesPerProject": 5,
+    "hideHabits": [],
+    "habitSteps": { "bookMinutes": 5, "calorias": 100 },
+    "panels": [
+      {
+        "id": "day",
+        "title": "Day",
+        "note": "daily",
+        "tabs": [
+          { "name": "habits", "show": "habits" },
+          { "name": "log", "show": "section", "section": "## Daily Log" },
+          { "name": "learned", "show": "section", "section": "## Learned" }
+        ]
+      },
+      {
+        "id": "week",
+        "title": "Week {week}",
+        "note": "weekly",
+        "tabs": [
+          { "name": "habits", "show": "habits" },
+          { "name": "notes", "show": "section", "section": "@top" },
+          { "name": "done", "show": "section", "section": "## Completed tasks" },
+          { "name": "learned", "show": "section", "section": "## Learned" }
+        ]
+      },
+      {
+        "id": "plan",
+        "title": "Plan",
+        "note": "daily",
+        "wide": true,
+        "tabs": [{ "name": "plan", "show": "tasks", "section": "## Plan" }]
+      },
+      {
+        "id": "projects",
+        "title": "Projects",
+        "wide": true,
+        "tabs": [
+          { "name": "issues", "show": "projects" },
+          { "name": "bridges", "show": "projects", "issues": false }
+        ]
+      }
+    ]
+  },
+
+  // Project slots: the subgroups of this bookmark group, in order, get these keys
+  // under <leader> l. Subgroup title = PAR note name; its notes = the working set.
+  // Slots follow `active: true` on the PAR note, on their own when the property
+  // changes (or <leader> l S): a PAR that stops being active loses its slot.
+  // Subgroups whose note is not a PAR (added by hand) stay.
+  "bookmarksGroup": "Mise-en-Place",
+  "slotKeys": ["a", "s", "d", "f", ";", "g", "h", "j", "k"],
+
+  // When true, leaving a project layout writes the notes open in its left pane
+  // back to its bookmark group (the workspace remembers where you stopped).
+  "saveOnSwitch": true,
+
+  // Memory: the structure always comes from "layouts". On top of it, each
+  // layout (per project and per mode) remembers the notes I opened beyond the
+  // standard ones, per pane, and the tab in front. Left-pane notes are the
+  // working set (bookmarks); notes in extra splits come back as left tabs.
+  // Old daily and weekly notes are dropped. <leader> l r forgets the extras.
+  "remember": true,
+
+  // Two variants per layout: "<name>" (wide) and "<name>.compact" (laptop).
+  // Compact is used when the window is narrower than compactBelow (px),
+  // unless <leader> l m forces compact or wide. A layout with only "left" is
+  // one pane; its targets open as tabs, the first one in front.
+  "compactBelow": 1700,
+
+  // Pane targets: "@dashboard" (the Today pane), "@daily", "@weekly", "@par" (the project's PAR note),
+  // "@working" (the project's working set, one tab each), a note name or path,
+  // or { "base": "<path>.base", "view": "<view name>" }.
+  "layouts": {
+    "base": {
+      "left": ["@dashboard"],
+      "rightTop": ["@daily"],
+      "rightBottom": ["@weekly"]
+    },
+    "project": {
+      "left": ["@working"],
+      "rightTop": ["@par"],
+      "rightBottom": ["@daily"]
+    },
+    "base.compact": {
+      "left": ["@dashboard", "@daily", "@weekly"]
+    },
+    "project.compact": {
+      "left": ["@working", "@par", "@daily"]
+    }
+  }
+}

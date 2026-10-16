@@ -1,4 +1,3 @@
-unmap <Space>
 nmap j gj
 nmap k gk
 
@@ -18,29 +17,15 @@ map <A-p> :pasteinto
 
 set clipboard=unnamed
 
-" --- Links & Hyperlinks ---
-" Convert word under cursor to a standard link [[word]]
-exmap toggleLink obcommand editor:toggle-link
-nmap <Space>lk :toggleLink<CR>
-
-" Convert selected text to a Markdown link/hyperlink [text](url)
-vmap <Space>ln :toggleLink<CR>
-
-" --- Formatting ---
-" Bold (Blod) text
-exmap toggleBold obcommand editor:toggle-bold
-vmap <Space>b :toggleBold<CR>
-nmap <Space>b :toggleBold<CR>
-
-" Highlighting text (==highlight==)
-exmap toggleHighlight obcommand editor:toggle-highlight
-vmap <Space>m :toggleHighlight<CR>
-nmap <Space>m :toggleHighlight<CR>
-
-" --- Annotations / Comments ---
-" Toggle comment/annotation (%% comment %%)
-exmap toggleComment obcommand editor:toggle-comment
-vmap <Space>c :toggleComment<CR>
+" --- Leaders (Mise-en-Place plugin) ---
+" <Space> and \ open the which-key popup; the keys live in
+" 99 - Meta/mise-en-place.jsonc (formatting moved to \ b, \ m, \ c, \ k).
+exmap leader obcommand mise-en-place:leader
+exmap localleader obcommand mise-en-place:localleader
+nmap <Space> :leader<CR>
+vmap <Space> :leader<CR>
+nmap \ :localleader<CR>
+vmap \ :localleader<CR>
 
 " Emulate Folding https://vimhelp.org/fold.txt.html#fold-commands
 exmap togglefold obcommand editor:toggle-fold

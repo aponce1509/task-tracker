@@ -10,7 +10,7 @@ role:
 priority: 1
 rate:
 tags:
-status: inbox
+status: done
 maturity: capture
 created: 2026-10-14 00:45
 dueDate:
@@ -35,36 +35,36 @@ dependencies:
 	- PAR notes (for example [[second-brain]]) already hold an Index and the embedded bases of the project.
 - Related: [[_I00026 Build an active-projects dashboard in the daily note]] is the other entry point of [[WORKFLOWS - Start Day]].
 - Done when the hotkeys open each active PAR and the daily view in the standard layout, and a new PAR gets its slot in one step.
+- Grew beyond the scope: file explorer keys, compact layouts for the laptop, layout memory of the extra notes, slots that follow `active`; the Today dashboard continues in [[_I00026 Build an active-projects dashboard in the daily note]].
 
 ## Tasks
 
-- [ ] Design the standard project layout
+- [x] Design the standard project layout
+  - Done: project = working notes (left) · PAR (right-top) · today (right-bottom); base = today · active projects · week
   - Panes: PAR note, top `wip` issue, journal, project MoC; which side and which size
   - The daily layout: daily note and weekly note
-- [ ] Choose the mechanism
+- [x] Choose the mechanism
+  - Done: own plugin `mise-en-place`; slots and working notes are bookmark groups; keys and layouts in `99 - Meta/mise-en-place.jsonc`
   - `workspaces-plus` with one saved workspace per project, or a script that builds the layout from the PAR note (Advanced URI, local REST API or a Templater user script)
   - A generated layout keeps one definition for all projects
-- [ ] Map the keys in `leader-hotkeys-obsidian`
+- [x] Map the keys (in `mise-en-place`, not `leader-hotkeys-obsidian`)
+  - Done: `Space` / `Ctrl+Space` leader, `\` localleader, which-key popup
   - `<leader>+l` as the prefix; `a`/`s`/`d`/`f`/`;` to the project slots; `l` again to the daily view
   - Slot per PAR: a property on the PAR note (for example `hotkey: a`, through [[WORKFLOWS - New Properties]]) or a fixed list
-- [ ] Command or script to give a new PAR a slot
+- [x] Command or script to give a new PAR a slot
+  - Slots follow `active` on the PAR note on their own (sync on change, or `<leader> l S`); named in New PAR and End PAR
   - Called from [[WORKFLOWS - New PAR]]; [[WORKFLOWS - End PAR]] frees the slot
-- [ ] Check the OS side: `alt+3` lands on the Obsidian desktop
+- [x] Check the OS side: `alt+3` lands on the Obsidian desktop
+  - Done: macOS (L0) owns `Opt+1..8` for the desktops
   - Window manager config, outside the vault
-- [ ] Update [[WORKFLOWS - Start Day]]: the day opens with `<leader>+l+l`
+- [x] Update [[WORKFLOWS - Start Day]]: the day opens with `<leader>+l+l`
 
 
 ## Post-Mortem
 
-- We have added this to the logging? (project journal: `journal.sh log --kind done --link "[[...]]"`)
-- Objective moved:
-- Good things:
-- Bad Things:
-- Rate (1-3):
-- Notes to create?
-	- Ending note: core note/index that builds the final solution
-	- Reusable in other places
-	- Tech debt
-	- Review of the resources & tools used
-	- Additional requirements
-	- Ideas
+- Logged: [[Journal - second-brain]] and [[Journal - coding-workplace]]
+- Objective moved: [[Alejandro's Mise-en-Place]], the Obsidian layer of [[_I00001 Multiple workspaces & tasks Workflow]]
+- Good things: —
+- Bad Things: —
+- Rate (1-3): —
+- Notes created: none

@@ -26,7 +26,8 @@ Reference]] · [[Task Management]].
 
 - **PAR notes** live in `01 - PAR/` (class `par`): `paraType` Project | Area |
   Resource, `active: true` when live. `archive/` and `wip_paras/` are not
-  candidates.
+  candidates. `bridge` (text, may hold links) is where I stopped: the next
+  concrete action ([[The Hemingway Bridge]]). Empty = no bridge.
 - **Issues** live in `08 - Issues/` (class `issue`), archived under
   `08 - Issues/complete/`. Frontmatter that matters here:
 	- `status`: `inbox` | `feed` | `wip` | `blocked` | `done` — done needs
@@ -110,8 +111,12 @@ their nearest open `dueDate` (overdue first), projects without deadlines last.
 ASCII box-drawing only, one line per task, annotation trail
 `· P<tier> · <status> · due <date|—>`:
 
+The project header carries its `bridge` on the next line; when the bridge
+links an issue, that issue goes first in the tree.
+
 ```text
 second-brain · deadline: —
+│   ⤷ write the dashboard spec in _I00026
 ├── OVERDUE
 │   └── _I00018 personal vps · P2 · inbox · due 2026-10-01
 ├── WIP
@@ -130,11 +135,18 @@ Keep it honest: empty sections are simply omitted, never padded.
 
 ## Handoff
 
-Ask the user which tasks to take. If asked to put them in the day's todo:
+Ask the user which tasks to take. If asked to put them in the day's plan,
+add them under `## Plan` of today's daily note (`obsidian daily:path`, then an
+edit under that heading; `daily:append` writes at the end of the note, the
+wrong section):
 
-```bash
-obsidian daily:append content="- [ ] [[_I00014 Finish Second-Brain final document]]"
+```text
+## Plan
+
+- [ ] [[_I00014 Finish Second-Brain final document]]
 ```
+
+In Obsidian the same is `p` on an issue in the Today dashboard.
 
 (or their own daily workflow — the planner stops at the proposal unless told
 otherwise).

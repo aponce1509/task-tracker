@@ -51,7 +51,7 @@ created: YYYY-MM-DD HH:mm
 | Class | Adds | Excludes | Used for |
 | --- | --- | --- | --- |
 | `note` | — | — | default note |
-| `par` | `paraType` (Project/Area/Resource), `active`, `img` | `tags` | PAR index notes in `01 - PAR/` |
+| `par` | `paraType` (Project/Area/Resource), `active`, `bridge` (Input: the next concrete action when I come back, may hold `[[links]]`), `img` | `tags` | PAR index notes in `01 - PAR/` |
 | `issue` | `dueDate`, `priority` (0=high, 1, 2), `role` (core/milestone/pattern/debt), `dependencies` | — | work items in `08 - Issues/` |
 | `learning` | `learning_status` (to_learn/learning/learned/abandoned), `winstreak` | — | study notes |
 | `media` | `consumption_status` (to_consume/consuming/completed/abandoned/pending_new_content) | `status`, `maturity` | books, films, podcasts… |
@@ -80,6 +80,7 @@ maturity: evergreen
 created: YYYY-MM-DD HH:mm
 paraType: Project      # Project | Area | Resource
 active: true
+bridge:              # next concrete action ([[The Hemingway Bridge]])
 img:
 ---
 ```

@@ -26,7 +26,10 @@ created: 2026-10-14 00:20
 	- Done in two minutes → do it now, and the tag goes.
 	- No longer true → delete the line.
 - Learned: the concepts of the day are linked under `## Learned`. When there are some and I have energy, run `/recall today`.
-- Bridge: write `Next:` at the end of the Daily Log with the concrete first action for tomorrow ([[The Hemingway Bridge]]).
+- Bridges ([[The Hemingway Bridge]]):
+	- Project: for each project I touched, write its `bridge` with the next concrete action (`b` in the dashboard, or `<leader> p B`).
+	- Day: write `Next:` at the end of the Daily Log with the project to start tomorrow.
+- Habits: tick the habits of the day in the dashboard (`x`, `+` / `-`).
 - Close the tabs.
 
 ## Tidies

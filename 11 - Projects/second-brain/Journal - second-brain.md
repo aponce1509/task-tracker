@@ -56,6 +56,8 @@ Build journal of the second brain project: completed tasks with time taken, meet
   - kind::: done
 - 2026-10-14 01:02: Script to move complete issues: not needed, covered by the post-mortem flow [[_I00003 Create a script to move complete issues to complete]]
   - kind::: done
+- 2026-10-16 02:25: One layout per project in Obsidian through the mise-en-place plugin: leader keys with which-key popup, project slots from bookmark groups that follow active, compact laptop layouts, layout memory of extra notes, explorer keys; the Today dashboard continues in _I00026 [[_I00028 One layout per project, switched with leader hotkeys]]
+  - kind::: done
 
 ## Tech debt
 
