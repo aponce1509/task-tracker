@@ -13,7 +13,8 @@ created: 2026-10-12 18:15
 # [[Search & Base Queries Reference]]
 
 > [!abstract] One-file reference of the implemented retrieval queries
-> What each base in `04 - Bases/final-bases/` implements, which fields each class shows, and the search operators verified against the Obsidian CLI. Companion of [[The Retrieval system]].
+> - What each base in `04 - Bases/final-bases/` implements, which fields each class shows, and the search operators verified against the Obsidian CLI.
+> - Companion of [[The Retrieval system]].
 
 > [!info] This note is maintained
 > Any change to a base, view or recipe must land here too — the `system-reference-maintance` audit enforces cheatsheet ↔ final-bases sync; procedure in [[System Maintenance & Review]].

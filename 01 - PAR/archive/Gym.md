@@ -5,7 +5,7 @@ paraType: Area
 paras:
 rate:
 created: 2026-02-08 13:19
-active: true
+active: false
 type:
 ---
 # [[Gym]]

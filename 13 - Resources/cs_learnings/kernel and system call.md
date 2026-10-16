@@ -13,15 +13,10 @@ created: 2026-10-14 18:50
 # [[kernel and system call]]
 
 > [!abstract] kernel and system call
->
-> - The kernel is the privileged core of the operating system. It owns the
->   hardware, the memory, the processes and the files.
-> - A user program, run as a [[program and process|process]], has no direct
->   access to these. It asks the kernel through a system call.
-> - A system call is a controlled jump into the kernel and back. Examples:
->   `open`, `read`, `write`, `close`, `fork`, `execve`, `wait`, `ioctl`.
-> - Everything a [[shell]] does is a system call. The [[tty]] driver lives in
->   the kernel.
+> - The kernel is the privileged core of the operating system. It owns the hardware, the memory, the processes and the files.
+> - A user program, run as a [[program and process|process]], has no direct access to these. It asks the kernel through a system call.
+> - A system call is a controlled jump into the kernel and back. Examples: `open`, `read`, `write`, `close`, `fork`, `execve`, `wait`, `ioctl`.
+> - Everything a [[shell]] does is a system call. The [[tty]] driver lives in the kernel.
 
 ## Example
 

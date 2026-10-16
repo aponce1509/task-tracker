@@ -13,14 +13,10 @@ created: 2026-10-14 18:50
 # [[terminal multiplexer]]
 
 > [!abstract] terminal multiplexer
->
-> - A terminal multiplexer (tmux, screen, zellij) is a program between the
->   [[terminal emulator]] and the [[shell]]s.
-> - It is a server process. It owns one [[pseudoterminal]] per pane and runs the
->   shells on them.
+> - A terminal multiplexer (tmux, screen, zellij) is a program between the [[terminal emulator]] and the [[shell]]s.
+> - It is a server process. It owns one [[pseudoterminal]] per pane and runs the shells on them.
 > - The tmux client in your window only draws the panes.
-> - Sessions survive a closed window or an ssh drop. One window shows many
->   panes.
+> - Sessions survive a closed window or an ssh drop. One window shows many panes.
 > - The emulator draws. The multiplexer keeps state.
 
 ## Example

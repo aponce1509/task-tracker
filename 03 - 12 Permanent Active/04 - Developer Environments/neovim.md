@@ -11,7 +11,7 @@ created: 2026-08-29 11:16
 # [[neovim]]
 
 > [!abstract] Neovim
-> Which notes explain my Neovim setup.
+> - Which notes explain my Neovim setup.
 
 - [[runtimepath]]
 	- [[lua require resolution]]

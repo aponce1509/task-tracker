@@ -26,7 +26,7 @@ Read the whole note. Separate what was said into: decisions, ideas, comments, to
 
 ```
 Summary:
-> [!abstract] <title-like line>
+> [!abstract] <optional short title>
 > - <why the meeting happened>
 > - <what was decided>
 

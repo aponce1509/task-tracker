@@ -13,15 +13,10 @@ created: 2026-10-14 17:49
 # [[tty]]
 
 > [!abstract] tty
->
-> - A tty is a Unix terminal device. The name comes from
->   [[teletype and video terminal|teletype]].
-> - It is a [[device file]] served by the kernel tty driver. A process reads
->   typed bytes from it and writes output bytes to it.
-> - The driver applies a line discipline: it echoes characters, edits the input
->   line and turns keys such as Ctrl+C into signals.
-> - A program can ask whether a [[file descriptor]] is a tty. Many programs
->   change their output when it is not.
+> - A tty is a Unix terminal device. The name comes from [[teletype and video terminal|teletype]].
+> - It is a [[device file]] served by the kernel tty driver. A process reads typed bytes from it and writes output bytes to it.
+> - The driver applies a line discipline: it echoes characters, edits the input line and turns keys such as Ctrl+C into signals.
+> - A program can ask whether a [[file descriptor]] is a tty. Many programs change their output when it is not.
 
 ## Example
 

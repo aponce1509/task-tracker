@@ -57,8 +57,8 @@ await tp.file.move(`${folder}/${filename}`);
 tR += `# [[${filename}]]`;
 %>
 
-> [!abstract] Summary
-> 
+> [!abstract]
+> - 
 
 ## Take aways
 

@@ -13,17 +13,14 @@ created: 2026-10-16 18:00
 
 # [[HOWTO - Change the dashboard keys]]
 
-> [!abstract] The dashboard keys are a map from key to action Every key of the
-> Today dashboard is one line in `contexts.dashboard.keys` of
-> `99 - Meta/mise-en-place.jsonc`. Changing a key is moving a line; a new key
-> reuses an existing action; only a new action needs code.
+> [!abstract] The dashboard keys are a map from key to action
+> - Every key of the Today dashboard is one line in `contexts.dashboard.keys` of `99 - Meta/mise-en-place.jsonc`.
+> - Changing a key is moving a line; a new key reuses an existing action.
+> - Only a new action needs code.
 
 > [!warning] Keys the dashboard must not take
->
-> - `Space` is the leader everywhere, also in the dashboard. Map it and the
->   leader is gone there.
-> - `Ctrl+Space` is the leader chord; context keys ignore keys with `Ctrl`,
->   `Opt` or `Cmd`.
+> - `Space` is the leader everywhere, also in the dashboard. Map it and the leader is gone there.
+> - `Ctrl+Space` is the leader chord; context keys ignore keys with `Ctrl`, `Opt` or `Cmd`.
 
 Part of [[The Workplace System]]. The explorer keys (`contexts.explorer`) work
 the same way.

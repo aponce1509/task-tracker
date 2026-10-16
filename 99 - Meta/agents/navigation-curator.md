@@ -33,9 +33,9 @@ Use it when the prompt has no approved plan.
 Apply exactly the approved Navigation plan, nothing else:
 
 - Index, extend: add each concept by title under its group; keep all existing entries.
-- Index, new: frontmatter per the skill, `# [[Title]]`, one `> [!abstract]` callout, bullets only; link it in bold from its parent index.
+- Index, new: frontmatter per the skill, `# [[Title]]`, one `> [!abstract]` callout (optional short title) with bullets, no empty `>` line, bullets only; link it in bold from its parent index.
 - MoC, extend: add the concept only where it changes the flow; rewrite that sentence, not the MoC.
-- MoC, new: `> [!abstract] Title` callout with bullets (the flow it covers, impersonal, never first person such as "I can"), then prose that links the concepts in the order of the outline; link it in bold from an index.
+- MoC, new: `> [!abstract]` callout (optional short title) with bullets, no empty `>` line (the flow it covers, impersonal, never first person such as "I can"), then prose that links the concepts in the order of the outline; link it in bold from an index.
 
 Then run the index and MoC audit again and return:
 

@@ -13,7 +13,10 @@ created: 2026-10-13 23:15
 # [[The Index and MoC System]]
 
 > [!abstract] The molecules of the knowledge
-> Indexes and MoCs are navigation points that gather notes by their meaning. An index is only bullets: its value is the grouping and the nesting. A MoC is prose that describes a topic with the notes that exist (or must exist). Concepts are the atoms; indexes and MoCs are the molecules, and they carry the real value.
+> - Indexes and MoCs are navigation points that gather notes by their meaning.
+> - An index is only bullets: its value is the grouping and the nesting.
+> - A MoC is prose that describes a topic with the notes that exist (or must exist).
+> - Concepts are the atoms; indexes and MoCs are the molecules, and they carry the real value.
 
 > [!example] Clustering
 > The index `Clustering models` lists the algorithms by family and answers "which models exist". The MoC `Clustering model training` describes the flow (scaling, choice of algorithm, metrics, overfitting) and answers "how do I train one". The index leads to the MoC.
@@ -42,7 +45,8 @@ created: 2026-10-13 23:15
 # [[Clustering models]]
 
 > [!abstract] Clustering algorithms by family
-> Entry point to the clustering concepts and to how to train a model.
+> - Entry point to the clustering concepts.
+> - Leads to how to train a model.
 
 - **[[Clustering model training]]**
 - Centroid
@@ -66,7 +70,7 @@ created: 2026-10-13 23:15
 # [[Clustering model training]]
 
 > [!abstract] From raw data to a validated clustering model
-> Scale, pick the algorithm, measure, and check overfitting.
+> - Scale, pick the algorithm, measure, and check overfitting.
 
 First apply [[scaling]], because distance-based models depend on the units. Then pick the algorithm from [[Clustering models]]. Measure the result with [[inertia]] and the [[silhouette score]]. Last, check [[overfitting]] with a validation split.
 ```

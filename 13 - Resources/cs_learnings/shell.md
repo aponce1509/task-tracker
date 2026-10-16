@@ -13,13 +13,9 @@ created: 2026-10-14 17:49
 # [[shell]]
 
 > [!abstract] shell
->
-> - A shell is a program that reads commands from a terminal, parses them and
->   runs other programs.
-> - It is a program, not a language. It interprets a language (zsh, bash) that
->   you type.
-> - Key idea: draw the prompt, read a line, parse it,
->   [[fork and exec|fork, exec]], wait. Then repeat.
+> - A shell is a program that reads commands from a terminal, parses them and runs other programs.
+> - It is a program, not a language. It interprets a language (zsh, bash) that you type.
+> - Key idea: draw the prompt, read a line, parse it, [[fork and exec|fork, exec]], wait. Then repeat.
 
 ## Example
 

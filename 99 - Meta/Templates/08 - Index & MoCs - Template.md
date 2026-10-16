@@ -11,7 +11,7 @@ created: <% tp.date.now("YYYY-MM-DD HH:mm") %>
 ---
 # [[<% tp.file.title %>]]
 
-> [!abstract] 
-> 
+> [!abstract]
+> - 
 
 - 

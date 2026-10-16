@@ -12,7 +12,9 @@ created: 2026-10-14 10:00
 # [[lazy.nvim plugin spec]]
 
 > [!abstract]
-> A plugin spec is a Lua table that declares one plugin for lazy.nvim: its source, its options and when it loads. lazy.nvim collects the specs, clones each plugin into `stdpath("data")/lazy/` and adds it to the runtimepath. With `{ import = "plugins" }`, each module in `lua/plugins/` returns its specs, so the plugin list is split over files.
+> - A plugin spec is a Lua table that declares one plugin for lazy.nvim: its source, its options and when it loads.
+> - lazy.nvim collects the specs, clones each plugin into `stdpath("data")/lazy/` and adds it to the runtimepath.
+> - With `{ import = "plugins" }`, each module in `lua/plugins/` returns its specs, so the plugin list is split over files.
 
 ## Definition
 

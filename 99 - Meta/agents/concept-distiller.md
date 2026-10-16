@@ -41,7 +41,7 @@ If any item is missing, return `ERROR: missing <item>` and stop. Do not guess: t
 	```
 3. Body, in this order:
 	- `# [[<concept name>]]`
-	- `> [!abstract] Title` callout, content as 2–4 bullets: what it is, what it solves, the key idea or formula. No empty `>` line after the title. Impersonal phrases, never first person ("I can", "I will").
+	- `> [!abstract]` callout (optional short title, never the first sentence), content as 2–4 bullets, one line each, no prose: what it is, what it solves, the key idea or formula. No empty `>` line after the title. Impersonal phrases, never first person ("I can", "I will").
 	- `## Definition`: notation first, then the definition; formulas in LaTeX (`$...$` inline, `$$...$$` display).
 	- Optional sections only when they carry content: `## Intuition`, `## Properties`, `## Example`.
 	- Links: every relation of the graph is linked inline, at its first mention in the abstract or the body (`the [[shell]] reads a line`). `## Links` keeps only what the text does not link, as bare links (`see [[kmeans]]`), no labels such as `Uses` or `Compared with`. Add `Index: [[<index or MoC>]]` when the caller names one. Link the source only when it is a note (`see [[<source>]]`); never write `Source: user` or any provenance line.

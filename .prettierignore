@@ -1,0 +1,3 @@
+# Notes are formatted by hand (see How I Like My Notes): prettier breaks
+# Obsidian callouts (empty `>` line before lists, reflowed titles).
+*.md

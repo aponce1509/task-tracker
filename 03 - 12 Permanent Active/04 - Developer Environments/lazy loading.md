@@ -12,7 +12,10 @@ created: 2026-10-14 10:00
 # [[lazy loading]]
 
 > [!abstract]
-> Lazy loading defers the load cost of a component until its first use. In lazy.nvim, a lazy plugin stays on disk until a trigger of its spec fires (`event`, `cmd`, `ft`, `keys`). Then lazy.nvim adds the plugin directory to the runtimepath and runs `config`. Startup time counts only the eager plugins.
+> - Lazy loading defers the load cost of a component until its first use.
+> - In lazy.nvim, a lazy plugin stays on disk until a trigger of its spec fires (`event`, `cmd`, `ft`, `keys`).
+> - Then lazy.nvim adds the plugin directory to the runtimepath and runs `config`.
+> - Startup time counts only the eager plugins.
 
 ## Definition
 

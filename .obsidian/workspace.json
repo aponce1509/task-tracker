@@ -4,125 +4,49 @@
     "type": "split",
     "children": [
       {
-        "id": "9c6447a579504b00",
+        "id": "7c3ccee6cc38447c",
         "type": "tabs",
         "children": [
           {
-            "id": "9e119e00ba98128e",
-            "type": "leaf",
-            "pinned": true,
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "00 - Map of Contents/00 - Index/Your main notes.md",
-                "mode": "source",
-                "source": false
-              },
-              "pinned": true,
-              "icon": "lucide-file",
-              "title": "Your main notes"
-            }
-          },
-          {
-            "id": "5ba4f2c711a73f2f",
-            "type": "leaf",
-            "pinned": true,
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "11 - Projects/second-brain/_0_real_inbox/Tags & Types - The Searching Engine.md",
-                "mode": "source",
-                "source": false
-              },
-              "pinned": true,
-              "icon": "lucide-file",
-              "title": "Tags & Types - The Searching Engine"
-            }
-          },
-          {
-            "id": "b4f2565d406f0284",
-            "type": "leaf",
-            "pinned": true,
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01 - PAR/second-brain.md",
-                "mode": "source",
-                "source": false
-              },
-              "pinned": true,
-              "icon": "lucide-file",
-              "title": "second-brain"
-            }
-          },
-          {
-            "id": "d82851ed86af9e25",
-            "type": "leaf",
-            "pinned": true,
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "09 - Inbox/Second Brain MoC.md",
-                "mode": "source",
-                "source": false
-              },
-              "pinned": true,
-              "icon": "lucide-file",
-              "title": "Second Brain MoC"
-            }
-          },
-          {
-            "id": "436478591c1596cd",
-            "type": "leaf",
-            "pinned": true,
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "09 - Inbox/Second Brain MoC.md",
-                "mode": "source",
-                "source": false
-              },
-              "pinned": true,
-              "icon": "lucide-file",
-              "title": "Second Brain MoC"
-            }
-          },
-          {
-            "id": "380e48c2e326e491",
+            "id": "feded33178276073",
             "type": "leaf",
             "state": {
-              "type": "FileClassView__permanent",
+              "type": "mise-dashboard",
               "state": {},
-              "icon": "lucide-file",
-              "title": "permanent"
+              "icon": "layout-dashboard",
+              "title": "Today"
             }
           },
           {
-            "id": "aa1d8898a6c2a10a",
-            "type": "leaf",
-            "state": {
-              "type": "FileClassView__task",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "task"
-            }
-          },
-          {
-            "id": "c0528e482cee4bf9",
+            "id": "fab999110bcb3836",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02 - Categories/_types/Journals.md",
+                "file": "07 - Daily/2026-10-16.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Journals"
+              "title": "2026-10-16"
+            }
+          },
+          {
+            "id": "c2ab231a06108800",
+            "type": "leaf",
+            "dimension": 50,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "11 - Projects/second-brain/_0_final/howtos/HOWTO - Change the dashboard keys.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "HOWTO - Change the dashboard keys"
             }
           }
-        ],
-        "currentTab": 6
+        ]
       }
     ],
     "direction": "vertical"
@@ -293,6 +217,7 @@
             "state": {
               "type": "localgraph",
               "state": {
+                "file": "07 - Daily/2026-10-16.md",
                 "options": {
                   "collapse-filter": false,
                   "search": "-path:\"02 - Categories\"  ",
@@ -328,8 +253,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 368.5,
-    "collapsed": true
+    "width": 368.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -356,44 +280,44 @@
       "zotlit:Open Zotero annotations": false
     }
   },
-  "active": "aa1d8898a6c2a10a",
+  "active": "feded33178276073",
   "lastOpenFiles": [
+    "11 - Projects/second-brain/_0_final/howtos/HOWTO - Change the dashboard keys.md",
+    "07 - Daily/2026-10-16.md",
+    "11 - Projects/second-brain/_0_final/howtos/HOWTO - Change the system hotkeys.md",
+    "07 - Daily/Weeks/2026-W42.md",
+    "08 - Issues/_I00026 Build an active-projects dashboard in the daily note.md",
+    "08 - Issues/complete/_I00026 Build an active-projects dashboard in the daily note.md",
+    "11 - Projects/second-brain/_0_final/howtos/HOWTO - Tune the dashboard.md",
+    "11 - Projects/second-brain/_0_final/howtos",
+    "11 - Projects/second-brain/_0_final/The Workplace System.md",
+    "08 - Issues/complete/_I00028 One layout per project, switched with leader hotkeys.md",
+    "01 - PAR/second-brain.md",
+    "11 - Projects/second-brain/_0_final/The Second Brain System.md",
+    "01 - PAR/cs_learnings.md",
+    "All Paras.base",
+    "11 - Projects/second-brain/_0_final/The Retrieval system.md",
+    "11 - Projects/second-brain/_0_final/Task Management.md",
+    "09 - Inbox/holaaa.md",
+    "01 - PAR/archive/Gym.md",
+    "11 - Projects/second-brain/_0_real_inbox/Alejandro's Mise-en-Place.md",
+    "03 - 12 Permanent Active/04 - Developer Environments/lazy.nvim bootstrap.md",
+    "08 - Issues/_I00028 One layout per project, switched with leader hotkeys.md",
+    "zz-mise-test/folderx/note1.md",
+    "zz-mise-test/fold2/note1.md",
+    "zz-mise-test/fold2",
+    "zz-mise-test/folderx",
+    "zz-mise-test/sub",
+    "zz-mise-test",
+    "zz-mise-test.md",
+    "08 - Issues/_I00025 Map the capture devices and define their importers.md",
+    "99 - Meta/mise-en-place.jsonc",
+    "08 - Issues/_I00014 Finish Second-Brain final document.md",
+    "08 - Issues/_I00013 The mise-en-place note must to be completed and cleaned.md",
+    "08 - Issues/_I00012 Implement all the queries and make the templates.md",
+    "11 - Projects/coding-workplace",
     "opencode.json",
-    "99 - Meta/skills/obsidian-vault-notes/references/writing-style.md",
-    "99 - Meta/skills/note-meeting/SKILL.md",
-    "99 - Meta/skills/note-meeting",
-    "99 - Meta/skills/note-issue/SKILL.md",
-    "99 - Meta/skills/note-issue",
-    "99 - Meta/skills/note-index-moc/scripts/audit.sh",
-    "99 - Meta/skills/note-index-moc/SKILL.md",
-    "99 - Meta/skills/note-index-moc/scripts",
-    "99 - Meta/skills/note-index-moc",
-    "99 - Meta/skills/note-concept/scripts/audit.sh",
-    "99 - Meta/skills/note-concept/scripts",
-    "99 - Meta/skills/note-concept/SKILL.md",
-    "99 - Meta/skills/note-concept",
-    "99 - Meta/commands/recall.md",
-    "99 - Meta/commands/parse-meeting.md",
-    "99 - Meta/commands/new-concept.md",
-    "99 - Meta/commands/guide-inbox-clean.md",
-    "99 - Meta/commands/guide-distillation.md",
-    "99 - Meta/commands/create-issue.md",
-    "99 - Meta/agents/vault-auditor.md",
-    "99 - Meta/agents/navigation-curator.md",
-    "99 - Meta/agents/meeting-extractor.md",
-    "99 - Meta/agents/inbox-triager.md",
-    "99 - Meta/agents/concept-distiller.md",
-    "99 - Meta/agents",
-    "99 - Meta/Templates/Concept - Template.md",
-    "13 - Resources/product_management/specification.md",
-    "13 - Resources/product_management/product requirements document.md",
-    "13 - Resources/product_management/design doc.md",
-    "13 - Resources/product_management/architecture decision record.md",
     "13 - Resources/product_management",
-    "13 - Resources/cs_learnings/tty.md",
-    "13 - Resources/cs_learnings/terminal multiplexer.md",
-    "13 - Resources/cs_learnings/terminal emulator.md",
-    "13 - Resources/cs_learnings/teletype and video terminal.md",
     "99 - Meta/Attachments/Domenico Ghirlandaio (Domenico Bigordi).jpg",
     "09 - Inbox/Inbox/Notes Hierarchy.svg",
     "09 - Inbox/Inbox/Notes Components by situations.svg",

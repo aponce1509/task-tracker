@@ -12,7 +12,10 @@ created: 2026-10-14 10:00
 # [[git object model]]
 
 > [!abstract] Summary
-> Git stores a repository as a content-addressed store of immutable objects: blobs, trees, commits and annotated tags. The id of an object is the hash of its type and content, $\text{id} = H(\text{type} \,\|\, \text{content})$. Commits point to their parents and form a DAG. Refs are mutable names that point to objects, and they give the history its entry points.
+> - Git stores a repository as a content-addressed store of immutable objects: blobs, trees, commits and annotated tags.
+> - The id of an object is the hash of its type and content, $\text{id} = H(\text{type} \,\|\, \text{content})$.
+> - Commits point to their parents and form a DAG.
+> - Refs are mutable names that point to objects, and they give the history its entry points.
 
 ## Definition
 

@@ -13,7 +13,8 @@ created: 2026-10-13 23:05
 # [[The Concept System]]
 
 > [!abstract] The atoms of the knowledge
-> A concept is a knowledge item: a thing that I learned or must learn, small enough to learn in one day (k-means, the strategy pattern). Concepts are atomic, they link to other concepts and sources, indexes and MoCs gather them, and the daily note records the day I learned them.
+> - A concept is a knowledge item: a thing that I learned or must learn, small enough to learn in one day (k-means, the strategy pattern).
+> - Concepts are atomic, they link to other concepts and sources, indexes and MoCs gather them, and the daily note records the day I learned them.
 
 > [!info] Why atoms
 > Indexes and MoCs carry the real value, and they are built from concepts. Hypotheses, specs and syntheses are built from concepts too. A concept written once is reused by every note that needs it.
@@ -64,8 +65,10 @@ created: YYYY-MM-DD HH:mm
 ```markdown
 # [[kmeans]]
 
-> [!abstract] One-paragraph summary
-> What it is, what it solves, the key formula or idea.
+> [!abstract] Optional title
+> - What it is
+> - What it solves
+> - The key formula or idea
 
 ## Definition
 

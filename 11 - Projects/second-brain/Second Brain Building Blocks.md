@@ -11,8 +11,8 @@ created: 2026-02-17 08:37
 ---
 # [[Second Brain Building Blocks]]
 
-> [!abstract] 
-> This note describe the whole system and how I think about note taking
+> [!abstract]
+> - This note describe the whole system and how I think about note taking
 
 This system is build from:
 

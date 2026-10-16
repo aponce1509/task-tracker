@@ -12,7 +12,9 @@ created: 2026-10-14 10:00
 # [[design doc]]
 
 > [!abstract] The plan of the implementation
-> A design doc (technical design document, TDD) describes how a feature or a component will be built, before the build starts. It answers "how", where the specification answers "what". It covers algorithms, data structures, interfaces, flows, error handling, testing and the alternatives that were rejected.
+> - A design doc (technical design document, TDD) describes how a feature or a component will be built, before the build starts.
+> - It answers "how", where the specification answers "what".
+> - It covers algorithms, data structures, interfaces, flows, error handling, testing and the alternatives that were rejected.
 
 ## Definition
 

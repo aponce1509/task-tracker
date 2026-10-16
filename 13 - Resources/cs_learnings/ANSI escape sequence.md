@@ -13,11 +13,8 @@ created: 2026-10-14 17:49
 # [[ANSI escape sequence]]
 
 > [!abstract] ANSI escape sequence
->
-> - An ANSI escape sequence is a run of plain bytes that starts with the control
->   byte ESC and tells a terminal to do something other than print text.
-> - It solves the problem of styling output and moving the cursor through a text
->   stream.
+> - An ANSI escape sequence is a run of plain bytes that starts with the control byte ESC and tells a terminal to do something other than print text.
+> - It solves the problem of styling output and moving the cursor through a text stream.
 > - The program only writes bytes. The [[terminal emulator]] interprets them.
 
 ## Try it

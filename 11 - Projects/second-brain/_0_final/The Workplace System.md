@@ -14,11 +14,9 @@ created: 2026-10-16 18:00
 
 # [[The Workplace System]]
 
-> [!abstract] Obsidian as a keyboard-driven workplace One small plugin,
-> `mise-en-place`, turns Obsidian into the same kind of workplace as my
-> terminal: nvim-style leader keys, one layout per project, and a Today
-> dashboard that holds the day. Every key, layout and panel lives in one config
-> file; the data stays in my notes.
+> [!abstract] Obsidian as a keyboard-driven workplace
+> - One small plugin, `mise-en-place`, turns Obsidian into the same kind of workplace as my terminal: nvim-style leader keys, one layout per project, and a Today dashboard that holds the day.
+> - Every key, layout and panel lives in one config file; the data stays in my notes.
 
 > [!info] Where to change what
 >

@@ -12,7 +12,9 @@ created: 2026-10-14 10:00
 # [[runtimepath]]
 
 > [!abstract]
-> The `'runtimepath'` (`rtp`) is the ordered list of directories where Neovim searches for runtime files. It decides which plugins, Lua modules and filetype scripts Neovim can find. A plugin "exists" for Neovim only when its root directory is in `rtp`: to install a plugin is, in the end, `vim.opt.rtp:prepend(dir)`.
+> - The `'runtimepath'` (`rtp`) is the ordered list of directories where Neovim searches for runtime files.
+> - It decides which plugins, Lua modules and filetype scripts Neovim can find.
+> - A plugin "exists" for Neovim only when its root directory is in `rtp`: to install a plugin is, in the end, `vim.opt.rtp:prepend(dir)`.
 
 ## Definition
 

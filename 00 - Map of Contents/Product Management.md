@@ -13,7 +13,7 @@ created: 2026-10-14 09:00
 # [[Product Management]]
 
 > [!abstract] Product management
-> Which notes define how a product is specified and documented.
+> - Which notes define how a product is specified and documented.
 
 - Requirements
 	- [[product requirements document]]

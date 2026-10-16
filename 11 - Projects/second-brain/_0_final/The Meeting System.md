@@ -13,7 +13,8 @@ created: 2026-10-13 23:10
 # [[The Meeting System]]
 
 > [!abstract] What was said, and what comes out of it
-> A meeting note keeps the record of what was said. It starts as a raw dump and is parsed later: take-aways go on top, todos become issues that link back to the meeting, and the project journal gets one entry with the meeting note linked.
+> - A meeting note keeps the record of what was said.
+> - It starts as a raw dump and is parsed later: take-aways go on top, todos become issues that link back to the meeting, and the project journal gets one entry with the meeting note linked.
 
 ## Definition
 
@@ -56,8 +57,9 @@ created: YYYY-MM-DD HH:mm
 ```markdown
 # [[_M00001 Sprint planning]]
 
-> [!abstract] Summary
-> Two lines: why we met and what we decided.
+> [!abstract] Optional title
+> - Why we met
+> - What we decided
 
 > [!warning] Risk raised
 > Only when the meeting raised one.

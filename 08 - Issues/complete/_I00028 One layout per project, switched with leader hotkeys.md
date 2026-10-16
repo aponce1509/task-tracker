@@ -19,7 +19,8 @@ dependencies:
 # [[_I00028 One layout per project, switched with leader hotkeys]]
 
 > [!abstract] Summary
-> Moving between projects in Obsidian is slow, and the panes never look the same. Every project gets the same layout, built from its PAR note, and a leader hotkey on the home row opens it in one keystroke.
+> - Moving between projects in Obsidian is slow, and the panes never look the same.
+> - Every project gets the same layout, built from its PAR note, and a leader hotkey on the home row opens it in one keystroke.
 
 ## Description
 

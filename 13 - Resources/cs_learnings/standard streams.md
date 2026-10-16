@@ -13,15 +13,10 @@ created: 2026-10-14 18:50
 # [[standard streams]]
 
 > [!abstract] Standard streams
->
-> - Three [[file descriptor]]s that every [[program and process|process]] starts
->   with: stdin (0), stdout (1), stderr (2).
-> - A program reads input from 0, writes results to 1 and writes errors to 2. It
->   does not know what they point to.
-> - The process inherits them from its parent ([[fork and exec]]). In an
->   interactive shell all three point to the terminal ([[tty]]).
-> - Two output streams let a user pipe the results while the errors still show
->   on screen.
+> - Three [[file descriptor]]s that every [[program and process|process]] starts with: stdin (0), stdout (1), stderr (2).
+> - A program reads input from 0, writes results to 1 and writes errors to 2. It does not know what they point to.
+> - The process inherits them from its parent ([[fork and exec]]). In an interactive shell all three point to the terminal ([[tty]]).
+> - Two output streams let a user pipe the results while the errors still show on screen.
 
 ## Example
 

@@ -13,11 +13,8 @@ created: 2026-10-14 17:49
 # [[shell prompt]]
 
 > [!abstract] shell prompt
->
-> - The shell prompt is the string the [[shell]] prints before it reads each
->   command.
-> - In zsh, `PROMPT` and `RPROMPT` define it. Prompt escapes and, with
->   `prompt_subst`, command substitution expand it.
+> - The shell prompt is the string the [[shell]] prints before it reads each command.
+> - In zsh, `PROMPT` and `RPROMPT` define it. Prompt escapes and, with `prompt_subst`, command substitution expand it.
 > - The shell writes it as text. The [[terminal emulator]] only displays it.
 
 ## Example

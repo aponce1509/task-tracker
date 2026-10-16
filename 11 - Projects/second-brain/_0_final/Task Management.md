@@ -16,7 +16,7 @@ created: 2026-10-12 17:05
 > Skeleton with candidate links — sections fill in as the system converges.
 
 > [!abstract] Purpose
-> How things to be done are captured, executed and closed in this vault: the issue system end to end.
+> - How things to be done are captured, executed and closed in this vault: the issue system end to end.
 
 - Definition & rules — [[The Issue System]]
 - Create

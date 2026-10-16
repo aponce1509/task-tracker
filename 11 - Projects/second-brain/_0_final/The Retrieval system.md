@@ -13,7 +13,8 @@ created: 2026-10-12 18:15
 # [[The Retrieval system]]
 
 > [!abstract] The searching engine of the vault
-> Capture is cheap, retrieval is the point. Built on top of the three engines of [[The Metadata system]]: a note is retrieved by identity (`type`/`subtypes`), by state (properties) and by context (`paras`).
+> - Capture is cheap, retrieval is the point.
+> - Built on top of the three engines of [[The Metadata system]]: a note is retrieved by identity (`type`/`subtypes`), by state (properties) and by context (`paras`).
 
 ## The searching idea
 

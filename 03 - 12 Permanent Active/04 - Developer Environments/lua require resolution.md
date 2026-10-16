@@ -12,7 +12,9 @@ created: 2026-10-14 10:00
 # [[lua require resolution]]
 
 > [!abstract]
-> In Neovim, `require(name)` finds a Lua module through the `lua/` subdirectory of each directory of the [[runtimepath]]. The dots of the name become path separators: `require("a.b")` loads `lua/a/b.lua` or `lua/a/b/init.lua`. The first match wins, and the result is cached in `package.loaded`, so a second call does not run the file again.
+> - In Neovim, `require(name)` finds a Lua module through the `lua/` subdirectory of each directory of the [[runtimepath]].
+> - The dots of the name become path separators: `require("a.b")` loads `lua/a/b.lua` or `lua/a/b/init.lua`.
+> - The first match wins, and the result is cached in `package.loaded`, so a second call does not run the file again.
 
 ## Definition
 

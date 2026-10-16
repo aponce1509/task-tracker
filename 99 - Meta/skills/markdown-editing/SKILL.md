@@ -23,5 +23,16 @@ short prose or bullet lists over decorative separators and numbered outlines.
 
   Do: `## Good section naming`
 
+- Never hard-wrap lines. One paragraph or one bullet is one line. Never run
+  prettier or another formatter on Markdown notes: it breaks Obsidian callouts.
+- Obsidian callouts: `> [!type]` with an optional short title, then `> - bullet`
+  lines right after, with no empty `>` line between them.
+
+  ```markdown
+  > [!abstract] Optional title
+  > - Whatever 1
+  > - Whatever 2
+  ```
+
 - Keep headings minimal and descriptive. Do not add a heading for a single line
   of content.

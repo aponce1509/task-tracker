@@ -12,7 +12,9 @@ created: 2026-10-14 10:00
 # [[lazy.nvim bootstrap]]
 
 > [!abstract]
-> The bootstrap is the code at the top of `init.lua` that installs lazy.nvim on first start and makes it loadable. It solves the "who installs the plugin manager" problem. Key idea: clone the repo to a fixed path $P$ if $P$ does not exist, then prepend $P$ to the runtimepath, so `require("lazy")` resolves.
+> - The bootstrap is the code at the top of `init.lua` that installs lazy.nvim on first start and makes it loadable.
+> - It solves the "who installs the plugin manager" problem.
+> - Key idea: clone the repo to a fixed path $P$ if $P$ does not exist, then prepend $P$ to the runtimepath, so `require("lazy")` resolves.
 
 ## Definition
 

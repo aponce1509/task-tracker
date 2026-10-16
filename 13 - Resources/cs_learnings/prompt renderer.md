@@ -13,9 +13,7 @@ created: 2026-10-14 17:49
 # [[prompt renderer]]
 
 > [!abstract] prompt renderer
->
-> - A prompt renderer is a program that builds the [[shell prompt]] string. The
->   [[shell]] calls it before each prompt.
+> - A prompt renderer is a program that builds the [[shell prompt]] string. The [[shell]] calls it before each prompt.
 > - It inspects the directory and environment, then prints a colored line.
 > - Starship is a compiled Rust binary. Powerlevel10k is zsh code.
 > - Both run in the shell, not in the [[terminal emulator]].

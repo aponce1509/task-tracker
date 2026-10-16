@@ -13,7 +13,8 @@ created: 2026-10-12 23:40
 # [[System Maintenance & Review]]
 
 > [!abstract] Two loops keep the engines honest
-> What to do right after any system modification, and the periodic review that checks everything is still well. Both loops are executed by the `system-reference-maintance` skill — no tracking issues, the audit itself is the tracker.
+> - What to do right after any system modification, and the periodic review that checks everything is still well.
+> - Both loops are executed by the `system-reference-maintance` skill — no tracking issues, the audit itself is the tracker.
 
 > [!info] Place in the system
 > This runbook is the engine part of [[The Maintenance System]], the map of every maintenance workflow.

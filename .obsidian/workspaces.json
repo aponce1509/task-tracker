@@ -948,6 +948,392 @@
           "11 - Projects"
         ]
       }
+    },
+    "before-mise": {
+      "main": {
+        "id": "44e09dcde3285402",
+        "type": "split",
+        "children": [
+          {
+            "id": "9c6447a579504b00",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "9e119e00ba98128e",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "00 - Map of Contents/00 - Index/Your main notes.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "Your main notes"
+                }
+              },
+              {
+                "id": "5ba4f2c711a73f2f",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "11 - Projects/second-brain/_0_real_inbox/Tags & Types - The Searching Engine.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "Tags & Types - The Searching Engine"
+                }
+              },
+              {
+                "id": "b4f2565d406f0284",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "01 - PAR/second-brain.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "second-brain"
+                }
+              },
+              {
+                "id": "d82851ed86af9e25",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/Second Brain MoC.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "Second Brain MoC"
+                }
+              },
+              {
+                "id": "436478591c1596cd",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "09 - Inbox/Second Brain MoC.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "Second Brain MoC"
+                }
+              },
+              {
+                "id": "c0528e482cee4bf9",
+                "type": "leaf",
+                "pinned": true,
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "11 - Projects/second-brain/_0_final/The Second Brain System.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "pinned": true,
+                  "icon": "lucide-file",
+                  "title": "The Second Brain System"
+                }
+              },
+              {
+                "id": "e3f6be956ada3506",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "08 - Issues/_I00025 Map the capture devices and define their importers.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "_I00025 Map the capture devices and define their importers"
+                }
+              }
+            ],
+            "currentTab": 6
+          }
+        ],
+        "direction": "vertical"
+      },
+      "left": {
+        "id": "ff64e9515fb17803",
+        "type": "split",
+        "children": [
+          {
+            "id": "ebb5218388b8fbc9",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "27fb606cc30be678",
+                "type": "leaf",
+                "state": {
+                  "type": "file-explorer",
+                  "state": {
+                    "sortOrder": "alphabetical",
+                    "autoReveal": false,
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-folder-closed",
+                  "title": "Files"
+                }
+              },
+              {
+                "id": "b36dc10ace7bf7f5",
+                "type": "leaf",
+                "state": {
+                  "type": "search",
+                  "state": {
+                    "query": "",
+                    "matchingCase": false,
+                    "explainSearch": false,
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical"
+                  },
+                  "icon": "lucide-search",
+                  "title": "Search"
+                }
+              },
+              {
+                "id": "1a3b77f5ce611ae3",
+                "type": "leaf",
+                "state": {
+                  "type": "bookmarks",
+                  "state": {
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-bookmark",
+                  "title": "Bookmarks"
+                }
+              },
+              {
+                "id": "a5b1b60c27e2e3b3",
+                "type": "leaf",
+                "state": {
+                  "type": "tag",
+                  "state": {
+                    "sortOrder": "alphabetical",
+                    "useHierarchy": true,
+                    "showSearch": true,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-tags",
+                  "title": "Tags"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "horizontal",
+        "width": 269.375
+      },
+      "right": {
+        "id": "b88f3851fe9ea667",
+        "type": "split",
+        "children": [
+          {
+            "id": "d3a908bc050dfac3",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "bbd24887ec2a00eb",
+                "type": "leaf",
+                "state": {
+                  "type": "calendar",
+                  "state": {},
+                  "icon": "calendar-with-checkmark",
+                  "title": "Calendar"
+                }
+              }
+            ]
+          },
+          {
+            "id": "3935b185d9f4360b",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "346b9dbb1ff56c4a",
+                "type": "leaf",
+                "state": {
+                  "type": "backlink",
+                  "state": {
+                    "file": "07 - Daily/Weeks/2026-W21.md",
+                    "collapseAll": false,
+                    "extraContext": false,
+                    "sortOrder": "alphabetical",
+                    "showSearch": false,
+                    "searchQuery": "",
+                    "backlinkCollapsed": false,
+                    "unlinkedCollapsed": true
+                  },
+                  "icon": "links-coming-in",
+                  "title": "Backlinks for 2026-W21"
+                }
+              },
+              {
+                "id": "dc5b0bb8c0cd5ea9",
+                "type": "leaf",
+                "state": {
+                  "type": "outgoing-link",
+                  "state": {
+                    "file": "09 - Inbox/Alejandro's Mise-en-Place.md",
+                    "linksCollapsed": false,
+                    "unlinkedCollapsed": true
+                  },
+                  "icon": "links-going-out",
+                  "title": "Outgoing links from Alejandro's Mise-en-Place"
+                }
+              },
+              {
+                "id": "7863f78523e3a85b",
+                "type": "leaf",
+                "state": {
+                  "type": "outline",
+                  "state": {
+                    "file": "07 - Daily/2026-02-23.md",
+                    "followCursor": false,
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-list",
+                  "title": "Outline of Alejandro's Mise-en-Place"
+                }
+              },
+              {
+                "id": "27df1efa0cb537d6",
+                "type": "leaf",
+                "state": {
+                  "type": "all-properties",
+                  "state": {
+                    "sortOrder": "frequency",
+                    "showSearch": false,
+                    "searchQuery": ""
+                  },
+                  "icon": "lucide-archive",
+                  "title": "All properties"
+                }
+              },
+              {
+                "id": "5953fd517ea36192",
+                "type": "leaf",
+                "state": {
+                  "type": "localgraph",
+                  "state": {
+                    "file": "08 - Issues/_I00025 Map the capture devices and define their importers.md",
+                    "options": {
+                      "collapse-filter": false,
+                      "search": "-path:\"02 - Categories\"  ",
+                      "localJumps": 1,
+                      "localBacklinks": true,
+                      "localForelinks": true,
+                      "localInterlinks": false,
+                      "showTags": false,
+                      "showAttachments": false,
+                      "hideUnresolved": false,
+                      "collapse-color-groups": true,
+                      "colorGroups": [],
+                      "collapse-display": true,
+                      "showArrow": false,
+                      "textFadeMultiplier": 0,
+                      "nodeSizeMultiplier": 1,
+                      "lineSizeMultiplier": 1,
+                      "collapse-forces": true,
+                      "centerStrength": 0.518713248970312,
+                      "repelStrength": 10,
+                      "linkStrength": 1,
+                      "linkDistance": 250,
+                      "scale": 0.4735560269140746,
+                      "close": true
+                    }
+                  },
+                  "icon": "lucide-git-fork",
+                  "title": "Local graph"
+                }
+              }
+            ],
+            "currentTab": 4
+          }
+        ],
+        "direction": "horizontal",
+        "width": 368.5,
+        "collapsed": true
+      },
+      "left-ribbon": {
+        "hiddenItems": {
+          "workspaces:Manage workspace layouts": false,
+          "bases:Create new base": false,
+          "zk-prefixer:Create new unique note": false,
+          "switcher:Open quick switcher": false,
+          "graph:Open graph view": false,
+          "canvas:Create new canvas": false,
+          "templates:Insert template": false,
+          "daily-notes:Open today's daily note": false,
+          "command-palette:Open command palette": false,
+          "templater-obsidian:Templater": false,
+          "vantage-obsidian:Vantage - Advanced search builder": false,
+          "obsidian-excalidraw-plugin:New drawing": false,
+          "media-extended:Open media library": false,
+          "media-extended:Open media quick switcher": false,
+          "obsidian-book-search-plugin:Create new book note": false,
+          "obsidian-statusbar-pomo:Start pomodoro": false,
+          "obsidian-full-calendar:Open Full Calendar": false,
+          "callout-manager:Insert Callout": false,
+          "css-editor:Open CSS editor quick switcher": false,
+          "rss-dashboard:RSS dashboard": false,
+          "zotlit:Open Zotero annotations": false
+        }
+      },
+      "active": "e3f6be956ada3506",
+      "mtime": "2026-10-16T00:03:07+02:00",
+      "workspaces-plus:settings-v1": {
+        "trackedFiles": {
+          "9e119e00ba98128e": "00 - Map of Contents/00 - Index/Your main notes.md",
+          "5ba4f2c711a73f2f": "11 - Projects/second-brain/_0_real_inbox/Tags & Types - The Searching Engine.md",
+          "b4f2565d406f0284": "01 - PAR/second-brain.md",
+          "d82851ed86af9e25": "09 - Inbox/Second Brain MoC.md",
+          "436478591c1596cd": "09 - Inbox/Second Brain MoC.md",
+          "c0528e482cee4bf9": "11 - Projects/second-brain/_0_final/The Second Brain System.md",
+          "e3f6be956ada3506": "08 - Issues/_I00025 Map the capture devices and define their importers.md"
+        },
+        "explorerFoldState": [
+          "00 - Map of Contents",
+          "00 - Map of Contents/00 - Index",
+          "02 - Categories/_types",
+          "03 - 12 Permanent Active/05 - Data Science",
+          "03 - 12 Permanent Active/06 - Artificial Inteligence",
+          "04 - Bases/final-bases",
+          "05 - --",
+          "06 - Inputs/Highlights/Zotero",
+          "06 - Inputs/References/Films",
+          "08 - Issues",
+          "09 - Inbox",
+          "11 - Projects",
+          "13 - Resources",
+          "13 - Resources/obsidian",
+          "99 - Meta"
+        ]
+      }
     }
   },
   "active": "Clean"

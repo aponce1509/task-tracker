@@ -1,0 +1,73 @@
+{
+  "current": null,
+  "context": "@base|compact",
+  "memory": {
+    "second-brain|wide": {
+      "panes": {
+        "left": {
+          "extra": [],
+          "active": "11 - Projects/second-brain/_0_final/The Second Brain System.md"
+        },
+        "rightTop": {
+          "extra": [],
+          "active": "01 - PAR/second-brain.md"
+        },
+        "rightBottom": {
+          "extra": [],
+          "active": null
+        }
+      }
+    },
+    "@base|wide": {
+      "panes": {
+        "left": {
+          "extra": [],
+          "active": null
+        },
+        "rightTop": {
+          "extra": [],
+          "active": null
+        },
+        "rightBottom": {
+          "extra": [],
+          "active": null
+        }
+      }
+    },
+    "@base|compact": {
+      "panes": {
+        "left": {
+          "extra": [],
+          "active": "11 - Projects/second-brain/_0_final/howtos/HOWTO - Change the dashboard keys.md"
+        }
+      }
+    },
+    "cs_learnings|compact": {
+      "panes": {
+        "left": {
+          "extra": [],
+          "active": "01 - PAR/cs_learnings.md"
+        }
+      }
+    },
+    "second-brain|compact": {
+      "panes": {
+        "left": {
+          "extra": [],
+          "active": "01 - PAR/second-brain.md"
+        }
+      }
+    }
+  },
+  "mode": "auto",
+  "dashIssues": true,
+  "dashViews": {
+    "day": 1,
+    "week": 0
+  },
+  "dashTabs": {
+    "day": 2,
+    "week": 0,
+    "projects": 0
+  }
+}

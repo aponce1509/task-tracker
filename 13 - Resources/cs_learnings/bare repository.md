@@ -12,7 +12,9 @@ created: 2026-10-14 10:00
 # [[bare repository]]
 
 > [!abstract]
-> A bare repository is a Git repository without a working tree. Its directory holds only what a normal repository keeps in `.git`: the object store, the refs and the config. It is the usual form for remotes on a server, and the hub of a [[git worktrees]] setup with one worktree per branch.
+> - A bare repository is a Git repository without a working tree.
+> - Its directory holds only what a normal repository keeps in `.git`: the object store, the refs and the config.
+> - It is the usual form for remotes on a server, and the hub of a [[git worktrees]] setup with one worktree per branch.
 
 > [!warning] VS Code
 > VS Code does not work with a bare repository. Open a worktree in VS Code, not the bare directory.

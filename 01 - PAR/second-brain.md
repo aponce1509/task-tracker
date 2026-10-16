@@ -7,6 +7,7 @@ rate:
 created: 2026-02-08 11:48
 img: "[[second-brain-icon.png]]"
 active: true
+bridge: ""
 ---
 # [[second-brain]]
  

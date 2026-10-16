@@ -13,7 +13,9 @@ created: 2026-10-13 23:00
 # [[How I Like My Notes]]
 
 > [!abstract] The look of every note in the vault
-> A note looks like I wrote it by hand. It opens with callouts that tell me what the note is, uses short ASD-STE100 sentences and keeps only the structure that carries meaning. Each note kind adds its own style on top.
+> - A note looks like I wrote it by hand.
+> - It opens with callouts that tell me what the note is, uses short ASD-STE100 sentences and keeps only the structure that carries meaning.
+> - Each note kind adds its own style on top.
 
 ## Written by me
 
@@ -25,13 +27,14 @@ created: 2026-10-13 23:00
 
 - I like callouts at the top of the note. The first callout gives the summary of the note; other top callouts can give the rationale, a warning or the open question.
 - Select the callout type by meaning: `abstract` or `summary` for the summary, `info` for rationale, `warning` / `danger` for risks, `question` for open points, `example` for cases, `tip` for shortcuts.
-- Format of a callout: the first line is `> [!type] Title`, the title is any short text, and the content starts on the next line with no empty `>` line between them.
+- Format of a callout: the first line is `> [!type]` with an optional short title, and the bullets start on the next line with no empty `>` line between them.
 	```markdown
-	> [!abstract] Title or any text
+	> [!abstract] Optional title
 	> - Point one
 	> - Point two
 	```
-- I prefer the content of a callout as bullet points. Prose is allowed only when one short sentence is enough.
+- The title is optional. When present, it is a short headline, never the first sentence of the content and never a placeholder such as `Title`.
+- The content of a callout is bullet points, one line per bullet. No prose paragraphs, no hard-wrapped lines.
 - Callouts in the middle of the note are allowed when a point must stand out. Do not overuse them: a note full of callouts has no focus.
 
 ## Summaries

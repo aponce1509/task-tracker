@@ -13,14 +13,10 @@ created: 2026-10-14 18:50
 # [[program and process]]
 
 > [!abstract] Program and process
->
 > - A program is a file on disk. A process is one running instance of that file.
-> - One program can have many processes at the same time. Each process has its
->   own PID, memory and state.
-> - A process is not tied to a terminal. A terminal is only the usual place
->   where a process gets its [[standard streams]].
-> - New processes come from [[fork and exec]]. The
->   [[kernel and system call|kernel]] schedules them.
+> - One program can have many processes at the same time. Each process has its own PID, memory and state.
+> - A process is not tied to a terminal. A terminal is only the usual place where a process gets its [[standard streams]].
+> - New processes come from [[fork and exec]]. The [[kernel and system call|kernel]] schedules them.
 
 ## Example
 

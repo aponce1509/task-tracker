@@ -38,7 +38,7 @@ bash .obsidian/personal_scripts/create-issue.sh --title "Short description" \
 
 After the script returns the note path, fill the body with the Edit tool:
 
-- `> [!abstract] Title` on top: what and why, as two bullets.
+- `> [!abstract]` on top (optional short title), then two bullets on the next lines, no empty `>` line: what and why.
 - Description: enough context to understand and follow the problem without this conversation. State the problem, where it shows, and what done means.
 - Tasks: concise `- [ ] Task title`, sub-bullets (two spaces) for comments and suggestions. No long prose inside a task.
 - Created from a meeting: link the meeting note in the description (`From [[_M00003 Sprint planning]].`) and add the issue to the meeting `## Todos`.

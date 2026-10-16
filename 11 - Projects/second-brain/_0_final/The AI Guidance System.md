@@ -13,7 +13,10 @@ created: 2026-10-13 23:25
 # [[The AI Guidance System]]
 
 > [!abstract] Notes define, guidance applies
-> The notes in `_0_final/` are the source of truth: they say what each thing is and how I want it. Skills, agents and commands are the AI guidance: they hold the writing rules, the guardrails and the procedures that apply the notes. Scripts do the mechanical part. When guidance and a note disagree, the note wins and the guidance is fixed.
+> - The notes in `_0_final/` are the source of truth: they say what each thing is and how I want it.
+> - Skills, agents and commands are the AI guidance: they hold the writing rules, the guardrails and the procedures that apply the notes.
+> - Scripts do the mechanical part.
+> - When guidance and a note disagree, the note wins and the guidance is fixed.
 
 > [!warning] First versions
 > Skills, agents and commands are first versions, not tuned on real use yet.

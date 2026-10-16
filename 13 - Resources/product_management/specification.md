@@ -12,7 +12,9 @@ created: 2026-10-14 10:00
 # [[specification]]
 
 > [!abstract] What the system must do
-> A specification (spec) defines the expected behaviour of a system or feature: inputs, outputs, edge cases, constraints and acceptance criteria. It removes ambiguity about *what* to build before anyone decides *how*. Key idea: a spec is a contract on observable behaviour, and its acceptance criteria make it testable.
+> - A specification (spec) defines the expected behaviour of a system or feature: inputs, outputs, edge cases, constraints and acceptance criteria.
+> - It removes ambiguity about *what* to build before anyone decides *how*.
+> - Key idea: a spec is a contract on observable behaviour, and its acceptance criteria make it testable.
 
 ## Definition
 

@@ -13,16 +13,10 @@ created: 2026-10-14 18:50
 # [[device file]]
 
 > [!abstract] device file
->
-> - A device file is a name under `/dev` that stands for a piece of hardware or
->   a driver. It holds no data.
-> - It solves one problem: a program uses the same calls (`open`, `read`,
->   `write`, `close`) for a disk file, a keyboard, a terminal or a random number
->   source. This idea is "everything is a file".
-> - The first letter of `ls -l` shows the kind: `-` regular file, `d` directory,
->   `c` character device, `b` block device.
-> - The [[kernel and system call|kernel]] reads the file number pair (major,
->   minor) and sends the call to the right driver.
+> - A device file is a name under `/dev` that stands for a piece of hardware or a driver. It holds no data.
+> - It solves one problem: a program uses the same calls (`open`, `read`, `write`, `close`) for a disk file, a keyboard, a terminal or a random number source. This idea is "everything is a file".
+> - The first letter of `ls -l` shows the kind: `-` regular file, `d` directory, `c` character device, `b` block device.
+> - The [[kernel and system call|kernel]] reads the file number pair (major, minor) and sends the call to the right driver.
 
 ## Example
 

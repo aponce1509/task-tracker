@@ -10,8 +10,8 @@ type:
 ---
 # [[MediaConsumtion]]
 
-> [!abstract] 
-> I love watching, reading content here we want to track what do you like, tip and any related with media consumption for entertainment. 
+> [!abstract]
+> - I love watching, reading content here we want to track what do you like, tip and any related with media consumption for entertainment.
 ## Quick-Access
 
 - [[Books.base]]

@@ -18,7 +18,8 @@ dependencies:
 # [[_I00023 Rebuild the legacy workflows from the drafts]]
 
 > [!abstract] Summary
-> The four workflows in `_0_final/workflows/` still describe the process before the commands existed. Rebuild each one from its draft so the canonical workflows match `/guide-inbox-clean`, `/guide-distillation` and the `vault-auditor` agent.
+> - The four workflows in `_0_final/workflows/` still describe the process before the commands existed.
+> - Rebuild each one from its draft so the canonical workflows match `/guide-inbox-clean`, `/guide-distillation` and the `vault-auditor` agent.
 
 ## Description
 

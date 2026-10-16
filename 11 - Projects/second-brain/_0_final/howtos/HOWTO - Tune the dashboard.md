@@ -13,18 +13,13 @@ created: 2026-10-16 18:00
 
 # [[HOWTO - Tune the dashboard]]
 
-> [!abstract] Change what the Today dashboard shows, only in the config Panels,
-> tabs, habits and limits of the dashboard all live in the `dashboard` block of
-> `99 - Meta/mise-en-place.jsonc`. Edit, save, and the dashboard reloads; no
-> code.
+> [!abstract] Change what the Today dashboard shows, only in the config
+> - Panels, tabs, habits and limits of the dashboard all live in the `dashboard` block of `99 - Meta/mise-en-place.jsonc`.
+> - Edit, save, and the dashboard reloads; no code.
 
 > [!info] The model in one look
->
-> - A panel has an `id`, a `title`, a `note` (`daily` or `weekly`), `wide` for
->   full width, and `tabs`. `{week}` in a title becomes the week name.
-> - A tab has a `name` and what it `show`s: `habits`, `section` (with
->   `section: "## Heading"` or `"@top"`), `tasks` (with `section`) or `projects`
->   (`issues: false` = bridges only). A tab can set its own `note`.
+> - A panel has an `id`, a `title`, a `note` (`daily` or `weekly`), `wide` for full width, and `tabs`. `{week}` in a title becomes the week name.
+> - A tab has a `name` and what it `show`s: `habits`, `section` (with `section: "## Heading"` or `"@top"`), `tasks` (with `section`) or `projects` (`issues: false` = bridges only). A tab can set its own `note`.
 > - Panels show in order: the first two side by side, `wide` ones on a full row.
 
 Part of [[The Workplace System]].

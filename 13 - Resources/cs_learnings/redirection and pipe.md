@@ -13,13 +13,9 @@ created: 2026-10-14 18:50
 # [[redirection and pipe]]
 
 > [!abstract] Redirection and pipe
->
-> - The [[shell]] can rebind the [[standard streams]] of a program to a file
->   (redirection) or to another program (pipe).
-> - It solves the wiring problem: a program only reads fd 0 and writes fd 1 and
->   fd 2, so it works with a screen, a file or a pipe without change.
-> - Redirection replaces a [[file descriptor]] before the program starts. A pipe
->   is a kernel buffer with a write end and a read end.
+> - The [[shell]] can rebind the [[standard streams]] of a program to a file (redirection) or to another program (pipe).
+> - It solves the wiring problem: a program only reads fd 0 and writes fd 1 and fd 2, so it works with a screen, a file or a pipe without change.
+> - Redirection replaces a [[file descriptor]] before the program starts. A pipe is a kernel buffer with a write end and a read end.
 > - Key rule: the shell reads redirections left to right, so order matters.
 
 ## Example

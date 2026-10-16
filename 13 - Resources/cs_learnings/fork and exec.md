@@ -13,11 +13,8 @@ created: 2026-10-14 18:50
 # [[fork and exec]]
 
 > [!abstract] fork and exec
->
-> - `fork` and `exec` are the two [[kernel and system call|system calls]] that
->   start a new [[program and process|process]] on Unix.
-> - `fork` copies the calling process. `exec` replaces the program inside a
->   process. `wait` collects the exit status.
+> - `fork` and `exec` are the two [[kernel and system call|system calls]] that start a new [[program and process|process]] on Unix.
+> - `fork` copies the calling process. `exec` replaces the program inside a process. `wait` collects the exit status.
 > - They solve one problem: how a [[shell]] runs a program without dying itself.
 > - Key idea: fork, then exec in the child, then wait in the parent.
 

@@ -13,13 +13,9 @@ created: 2026-10-14 17:49
 # [[terminal emulator]]
 
 > [!abstract] terminal emulator
->
-> - A terminal emulator is a program that imitates a hardware video terminal
->   inside a window.
-> - It draws a grid of character cells, turns keystrokes into bytes, and parses
->   escape sequences from the program it hosts.
-> - It talks to that program through a [[pseudoterminal]]. It does not run
->   commands and it does not own the prompt.
+> - A terminal emulator is a program that imitates a hardware video terminal inside a window.
+> - It draws a grid of character cells, turns keystrokes into bytes, and parses escape sequences from the program it hosts.
+> - It talks to that program through a [[pseudoterminal]]. It does not run commands and it does not own the prompt.
 > - Examples: kitty, wezterm, alacritty, Terminal.app, iTerm2, Ghostty.
 
 ## Example

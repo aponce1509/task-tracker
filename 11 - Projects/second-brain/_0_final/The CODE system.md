@@ -13,7 +13,8 @@ created: 2026-10-13 10:36
 # [[The CODE system]]
 
 > [!abstract] The notes lifecycle of the vault: capture → organise → distill → express
-> Every note is captured raw, organised to its place, distilled revisit after revisit, and finally expressed as products. This MoC is the map to follow how we do each phase; the other system wings live in [[The Second Brain System]].
+> - Every note is captured raw, organised to its place, distilled revisit after revisit, and finally expressed as products.
+> - This MoC is the map to follow how we do each phase; the other system wings live in [[The Second Brain System]].
 
 ## The loop
 

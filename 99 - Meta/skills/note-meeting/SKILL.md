@@ -26,7 +26,7 @@ Before writing, know: the PAR, the date, who was there and why the meeting happe
 ## Parse
 
 1. Take-aways: key points, decisions, ideas and comments, as short bullets. Ideas and comments stay here unless the user asks for their own note.
-2. Callouts on top: `> [!abstract]` with why we met and what we decided; add `warning`, `question` or `info` only when the meeting raised a risk, an open point or a rationale.
+2. Callouts on top: `> [!abstract]` (optional short title) with bullets, no empty `>` line: why we met and what we decided; add `warning`, `question` or `info` only when the meeting raised a risk, an open point or a rationale.
 3. Todos: propose each one as an issue (title, subtype, priority). After approval, create them with the `note-issue` skill; each issue links back to the meeting, and `## Todos` links each issue.
 4. Journal: log the meeting without a separate request, `journal.sh log --kind meeting --what "<one line>" --link "[[<meeting note>]]"` (the `project-journaling` skill gives the flow).
 5. Set `status: done` and `maturity: distilled`.

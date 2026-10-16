@@ -12,7 +12,10 @@ created: 2026-10-14 10:00
 # [[git branch]]
 
 > [!abstract] A named, movable pointer to a commit
-> A Git branch is a ref: a name that points to one commit of the object graph. It lets several lines of work exist in parallel at no cost, because a branch stores only one hash. A new commit on the checked-out branch moves the branch to that commit. `HEAD` tells Git which branch is checked out.
+> - A Git branch is a ref: a name that points to one commit of the object graph.
+> - It lets several lines of work exist in parallel at no cost, because a branch stores only one hash.
+> - A new commit on the checked-out branch moves the branch to that commit.
+> - `HEAD` tells Git which branch is checked out.
 
 ## Definition
 

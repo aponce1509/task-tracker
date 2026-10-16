@@ -5,9 +5,9 @@ tags:
 # Learning Situations
 
 > [!abstract]
->
-> Exists different situations where you will learn something. Each heading here
-> is on situation. We must capture only
+> - Exists different situations where you will learn something.
+> - Each heading here is on situation.
+> - We must capture only
 
 > [!IMPORTANT]
 >

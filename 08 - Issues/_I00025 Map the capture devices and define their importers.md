@@ -18,7 +18,8 @@ dependencies:
 # [[_I00025 Map the capture devices and define their importers]]
 
 > [!abstract] Summary
-> I capture in many places, but the vault knows none of them by name. List every capture device, decide what each one takes, and give each one an importer that lands notes in the inbox, so the sweep can empty them one by one.
+> - I capture in many places, but the vault knows none of them by name.
+> - List every capture device, decide what each one takes, and give each one an importer that lands notes in the inbox, so the sweep can empty them one by one.
 
 ## Description
 

@@ -12,7 +12,9 @@ created: 2026-10-14 10:00
 # [[product requirements document]]
 
 > [!abstract] Summary
-> A product requirements document (PRD) defines what a product must do and why. It fixes the goals, the user needs, the requirements, their priorities and the success metrics. It is the product-level contract before any design: the PRD gives the what and the why, and the specification of each feature gives the how.
+> - A product requirements document (PRD) defines what a product must do and why.
+> - It fixes the goals, the user needs, the requirements, their priorities and the success metrics.
+> - It is the product-level contract before any design: the PRD gives the what and the why, and the specification of each feature gives the how.
 
 ## Definition
 

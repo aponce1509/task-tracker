@@ -13,13 +13,9 @@ created: 2026-10-14 18:50
 # [[environment variable]]
 
 > [!abstract] Environment variable
->
-> - An environment variable is a `name=value` string stored in the memory of a
->   process ([[program and process]]).
-> - It passes settings to programs without arguments: where to find programs
->   (`PATH`), the home folder (`HOME`), the terminal type (`TERM`).
-> - A child process gets a copy of the environment at [[fork and exec]]. A
->   change in the child never reaches the parent.
+> - An environment variable is a `name=value` string stored in the memory of a process ([[program and process]]).
+> - It passes settings to programs without arguments: where to find programs (`PATH`), the home folder (`HOME`), the terminal type (`TERM`).
+> - A child process gets a copy of the environment at [[fork and exec]]. A change in the child never reaches the parent.
 > - A [[shell]] variable becomes part of the environment only after `export`.
 
 ## Example

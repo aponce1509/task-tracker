@@ -15,7 +15,7 @@ created: 2026-10-12 17:05
 An **issue** is just a description of something to be done.
 
 > [!abstract] In one line
-> A free-form note that describes something to be done: it lives in `08 - Issues/`, is executed through task checklists and is closed with a post-mortem.
+> - A free-form note that describes something to be done: it lives in `08 - Issues/`, is executed through task checklists and is closed with a post-mortem.
 
 ## Definition
 
@@ -53,7 +53,7 @@ Free form, with this shape:
 
 When there is information worth flagging, prefer callouts:
 
-- `> [!abstract]` — summary: what and why in two lines.
+- `> [!abstract]` — summary: what and why as two bullets; the title is optional.
 - `> [!info]` (or `> [!warning]` / `> [!danger]`) — rationale: the reasoning behind a decision or trade-off inside the issue.
 
 ## Creation

@@ -18,7 +18,9 @@ dependencies:
 # [[_I00027 Cut the verbosity of the journal and the project AGENTS.md]]
 
 > [!abstract] Summary
-> Agents write the project journal and the project memory as long paragraphs. Both files get hard to read for me and expensive to load for agents. Set a length rule in the guidance and rewrite both files to it.
+> - Agents write the project journal and the project memory as long paragraphs.
+> - Both files get hard to read for me and expensive to load for agents.
+> - Set a length rule in the guidance and rewrite both files to it.
 
 > [!info] Append-only exception
 > The old journal entries get rewritten once to the new rule. This is a single, approved exception to the append-only rule of the journal.

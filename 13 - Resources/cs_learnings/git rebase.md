@@ -12,7 +12,9 @@ created: 2026-10-14 10:00
 # [[git rebase]]
 
 > [!abstract] Replay commits onto a new base
-> `git rebase` takes the commits of a branch that are not on a base, and applies them again, one by one, on top of a new base. The result is a linear history without a merge commit. Each replayed commit is a new commit with a new id, so rebase rewrites history.
+> - `git rebase` takes the commits of a branch that are not on a base, and applies them again, one by one, on top of a new base.
+> - The result is a linear history without a merge commit.
+> - Each replayed commit is a new commit with a new id, so rebase rewrites history.
 
 ## Definition
 

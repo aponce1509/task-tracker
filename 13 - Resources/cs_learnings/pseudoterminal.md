@@ -13,14 +13,10 @@ created: 2026-10-14 17:49
 # [[pseudoterminal]]
 
 > [!abstract] pseudoterminal
->
-> - A pseudoterminal (pty) is a pair of connected character devices: a master
->   side and a slave side.
+> - A pseudoterminal (pty) is a pair of connected character devices: a master side and a slave side.
 > - The slave side behaves like a [[tty]] for the program.
-> - The master side is held by a process that plays the terminal, such as a
->   [[terminal emulator]], ssh, tmux or script.
-> - A pty lets a program run as if a real terminal were attached, without
->   hardware.
+> - The master side is held by a process that plays the terminal, such as a [[terminal emulator]], ssh, tmux or script.
+> - A pty lets a program run as if a real terminal were attached, without hardware.
 
 ## Example
 

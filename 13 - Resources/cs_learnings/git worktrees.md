@@ -12,7 +12,9 @@ created: 2026-03-11 21:12
 # [[git worktrees]]
 
 > [!abstract] Many checkouts, one repository
-> A git worktree is an extra working tree attached to one repository. Each worktree checks out its own [[git branch]], so I can work on several branches at once without stash or a second clone. All worktrees share one object store and one set of refs.
+> - A git worktree is an extra working tree attached to one repository.
+> - Each worktree checks out its own [[git branch]], so I can work on several branches at once without stash or a second clone.
+> - All worktrees share one object store and one set of refs.
 
 ## Definition
 

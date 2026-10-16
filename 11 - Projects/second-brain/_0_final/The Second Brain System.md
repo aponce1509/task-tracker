@@ -13,7 +13,8 @@ created: 2026-10-12 15:10
 # [[The Second Brain System]]
 
 > [!abstract] Canonical notes of the second brain
-> Index of `_0_final/`: every note that defines the system. New notes are added here; entries are pruned only when a new index replaces this one.
+> - Index of `_0_final/`: every note that defines the system.
+> - New notes are added here; entries are pruned only when a new index replaces this one.
 
 - **[[The Metadata system]]**
 	- [[Information Architecture & Taxonomy Model]]

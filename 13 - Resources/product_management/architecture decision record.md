@@ -12,7 +12,10 @@ created: 2026-10-14 10:00
 # [[architecture decision record]]
 
 > [!abstract] Summary
-> An architecture decision record (ADR) is a short document that records one important technical decision. It keeps the context, the alternatives, the decision, the rationale, the consequences and the status. It solves the loss of the "why" behind a system. An accepted ADR is immutable: a new ADR supersedes it.
+> - An architecture decision record (ADR) is a short document that records one important technical decision.
+> - It keeps the context, the alternatives, the decision, the rationale, the consequences and the status.
+> - It solves the loss of the "why" behind a system.
+> - An accepted ADR is immutable: a new ADR supersedes it.
 
 ## Definition
 

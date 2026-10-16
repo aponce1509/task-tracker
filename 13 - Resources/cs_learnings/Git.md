@@ -11,7 +11,7 @@ created: 2026-08-29 11:09
 # [[Git]]
 
 > [!abstract] Git
-> Which notes explain how I use Git.
+> - Which notes explain how I use Git.
 
 - [[git object model]]
 	- [[git branch]]

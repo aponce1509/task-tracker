@@ -13,7 +13,9 @@ created: 2026-10-13 23:20
 # [[The Note Kinds]]
 
 > [!abstract] Special notes with their own rules
-> Most notes only follow the metadata framework. Some kinds have their own rules for content, links and lifecycle: issues, meetings, concepts, indexes and MoCs. Each kind has one spec note, and all notes share one look.
+> - Most notes only follow the metadata framework.
+> - Some kinds have their own rules for content, links and lifecycle: issues, meetings, concepts, indexes and MoCs.
+> - Each kind has one spec note, and all notes share one look.
 
 All notes share the look of [[How I Like My Notes]] and the metadata of [[The Metadata system]]: one type, properties for the state, `paras:` for the context, the four tags for the actions. A note that is not a special kind needs nothing more.
 

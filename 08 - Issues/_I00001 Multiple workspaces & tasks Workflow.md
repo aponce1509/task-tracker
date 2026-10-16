@@ -16,12 +16,10 @@ status:
 
 ## Description
 
-- Tienes que estar basado en windsurf y devin
 - Need to analyze our current dotfiles
 	- Define the layers
 	- Extract the abstractions of the system
 - Fix any gaps
-- Configure devin accordingly
 - with this we complete [[_I00004 AI Integration in your note system]] create some notes describing your system
 - We can use this oportunity to
 	- archive non used configs

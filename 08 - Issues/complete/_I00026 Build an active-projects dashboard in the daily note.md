@@ -18,7 +18,8 @@ dependencies:
 # [[_I00026 Build an active-projects dashboard in the daily note]]
 
 > [!abstract] Summary
-> Each active project needs its own Hemingway bridge: the point where I stopped and the next action. A keyboard-driven Today dashboard shows the habits, the week, the plan of the day and every active project with its bridge and open issues, and becomes the entry point of the day.
+> - Each active project needs its own Hemingway bridge: the point where I stopped and the next action.
+> - A keyboard-driven Today dashboard shows the habits, the week, the plan of the day and every active project with its bridge and open issues, and becomes the entry point of the day.
 
 > [!info] Decisions
 > - The bridge lives in a `bridge` property on the PAR note (`par` class, Input). No date property: staleness is not tracked.

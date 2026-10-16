@@ -14,13 +14,12 @@ created: 2026-10-16 18:00
 
 # [[HOWTO - Change the system hotkeys]]
 
-> [!abstract] First the layer, then the file A hotkey belongs to exactly one
-> layer of the machine. Pick the layer, check the chord is free there, then edit
-> the one file of that layer. For Obsidian the answer is almost always a leader
-> chain in `99 - Meta/mise-en-place.jsonc`.
+> [!abstract] First the layer, then the file
+> - A hotkey belongs to exactly one layer of the machine.
+> - Pick the layer, check the chord is free there, then edit the one file of that layer.
+> - For Obsidian the answer is almost always a leader chain in `99 - Meta/mise-en-place.jsonc`.
 
 > [!warning] Chords that are never free
->
 > - `Cmd` alone: macOS (L0). `Opt`: skhd and yabai (L1), always active.
 > - `Ctrl+a`, `Ctrl+b`, `Ctrl+\`: terminal leaders (mux, herdr, harness).
 > - In Obsidian: `Space`, `Ctrl+Space` and `\` (the leaders).

@@ -13,16 +13,10 @@ created: 2026-10-14 18:50
 # [[file descriptor]]
 
 > [!abstract] file descriptor
->
-> - A file descriptor (fd) is a small non-negative integer. A
->   [[program and process|process]] uses it to refer to an open file.
-> - It is an index into a table that the [[kernel and system call|kernel]] keeps
->   for each process. The open file can be a regular file, a [[device file]], a
->   pipe or a socket.
-> - `open` returns the lowest unused number. `read`, `write` and `close` take
->   it.
-> - fds are inherited across fork and survive exec ([[fork and exec]]). This is
->   how [[redirection and pipe|redirection]] works.
+> - A file descriptor (fd) is a small non-negative integer. A [[program and process|process]] uses it to refer to an open file.
+> - It is an index into a table that the [[kernel and system call|kernel]] keeps for each process. The open file can be a regular file, a [[device file]], a pipe or a socket.
+> - `open` returns the lowest unused number. `read`, `write` and `close` take it.
+> - fds are inherited across fork and survive exec ([[fork and exec]]). This is how [[redirection and pipe|redirection]] works.
 
 ## Example
 
