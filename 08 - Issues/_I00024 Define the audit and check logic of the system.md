@@ -1,19 +1,19 @@
 ---
+tags: []
+created: 2026-10-13 23:51
+dependencies:
+dueDate:
 file_class: issue
+maturity: capture
 paras:
   - "[[second-brain]]"
-type: "[[Issues]]"
-subtypes:
-  - "[[Operational - Issues - improvement|improvement]]"
-role: core
 priority: 1
 rate:
-tags:
+role: core
 status: inbox
-maturity: capture
-created: 2026-10-13 23:51
-dueDate:
-dependencies:
+subtypes:
+  - "[[Operational - Issues - improvement|improvement]]"
+type: "[[Issues]]"
 ---
 # [[_I00024 Define the audit and check logic of the system]]
 

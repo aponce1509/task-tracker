@@ -1,5 +1,5 @@
 ---
-paras: "[[08_health]]"
+paras: ["[[08_health]]"]
 type:
 subtypes:
 rate:
