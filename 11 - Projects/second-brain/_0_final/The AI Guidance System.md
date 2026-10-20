@@ -52,6 +52,7 @@ created: 2026-10-13 23:25
 | `project-journaling` | Journal entries through `journal.sh` | [[Journal - second-brain]] |
 | `system-reference-maintance` | Audit of the engines | [[System Maintenance & Review]] |
 | `task-planner` | What to do next | [[Task Management]] |
+| `vault-bridge` | Reach the vault from a code repo outside it: read issues and PAR notes, write back through the scripts | [[The Issue System]] · [[Task Management]] |
 
 ## Agents
 
@@ -82,6 +83,8 @@ The workflows in `_0_final/workflows/` run these commands; [[The Maintenance Sys
 - The canonical folders are `99 - Meta/skills/`, `99 - Meta/agents/` and `99 - Meta/commands/`.
 - `.claude/` and `.opencode/` hold committed symlinks to them, so every harness reads the same files.
 - `scripts/sync-skills.sh` repairs the views (`status` / `sync` / `clean`).
+- `vault-bridge` is the only global skill: `~/.agents/skills/vault-bridge` links to the canonical folder and `~/.claude/skills/vault-bridge` links to that link. Code repos stay without vault notes.
+- `scripts/vault_mcp.py` is a read-only MCP server (`vault`) over the PAR notes and the issues. It is registered at user level in Claude Code (`claude mcp add -s user`) and in `~/.config/opencode/opencode.json`, so every project sees it.
 
 ## Audit of the guidance
 
