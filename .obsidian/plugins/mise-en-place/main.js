@@ -723,16 +723,20 @@ module.exports = class MiseEnPlace extends Plugin {
   saveWorking(verbose) {
     const name = this.state.current;
     // After a restart the reference is gone; the layout always puts the working set first.
-    const first = this.app.workspace.rootSplit.children[0];
-    const group = this.leftGroup?.parent ? this.leftGroup : first?.type === "tabs" ? first : null;
-    if (!name || !group?.children?.length) {
+    const cols = this.app.workspace.rootSplit.children;
+    const live = this.leftGroup && this.tabGroups().includes(this.leftGroup);
+    const group = live ? this.leftGroup : !this.leftGroup && cols[0]?.type === "tabs" ? cols[0] : null;
+    // Closing the last tab of the left pane removes the pane: the working set is empty.
+    const closed = this.leftGroup ? !live : cols.length === 1 && cols[0]?.type !== "tabs";
+    if (!name || (!group?.children?.length && !closed)) {
       if (verbose) new Notice("Mise-en-Place: no project layout is open");
       return;
     }
     // The PAR, daily and weekly notes are layout furniture, not working notes.
+    // leafTarget reads the view state, so tabs not loaded yet (deferred) count too.
     const par = this.app.metadataCache.getFirstLinkpathDest(name, "")?.path;
     const furniture = new Set([par, this.dailyPath(), this.weeklyPath()]);
-    const paths = group.children.map((l) => l.view?.file?.path).filter((p) => p && !furniture.has(p));
+    const paths = (group?.children || []).map((l) => this.leafTarget(l)).filter((p) => typeof p === "string" && !furniture.has(p));
     const g = this.projectGroup(name, true);
     const keep = g.items.filter((i) => i.type !== "file");
     g.items = [...keep, ...[...new Set(paths)].map((path) => ({ type: "file", path, ctime: Date.now() }))];

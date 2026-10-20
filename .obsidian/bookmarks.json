@@ -118,13 +118,7 @@
           "type": "group",
           "title": "second-brain",
           "ctime": 1792101804746,
-          "items": [
-            {
-              "type": "file",
-              "path": "11 - Projects/second-brain/_0_final/The Second Brain System.md",
-              "ctime": 1792110138394
-            }
-          ]
+          "items": []
         },
         {
           "type": "group",
@@ -142,6 +136,18 @@
           "type": "group",
           "title": "PersonalDevelopment",
           "ctime": 1792101804746,
+          "items": []
+        },
+        {
+          "type": "group",
+          "title": "create-a-feed",
+          "ctime": 1792309081436,
+          "items": []
+        },
+        {
+          "type": "group",
+          "title": "skills-system",
+          "ctime": 1792489796317,
           "items": []
         }
       ]
