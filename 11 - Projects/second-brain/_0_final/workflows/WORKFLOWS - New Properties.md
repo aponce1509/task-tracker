@@ -24,7 +24,7 @@ created: 2026-10-14 00:30
 - Class: commons only by exception. Otherwise the class of the notes that need it, in `99 - Meta/Class/`.
 - Metadata Menu: restrict the input type (file, select, boolean, number) so typos cannot enter.
 - Update [[Common Frontmatter Schemas & Specific Note Templates]] and the templates of the class.
-- Run the after-mod checklist of [[System Maintenance & Review]].
+- Run the after-change checklist of [[System Maintenance & Review]].
 
 ## Tidies
 

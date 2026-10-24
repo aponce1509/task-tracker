@@ -103,7 +103,7 @@ itself changes.
 
 ## When to run
 
-- Right after ANY mod (base, template, class, taxonomy, tag, property) —
+- Right after ANY change (base, template, class, taxonomy, tag, property) —
   before calling the change done.
 - Periodic review: bi-monthly rhythm, guided by [[System Maintenance & Review]]
   (the full procedure, checklists and escalation rules).

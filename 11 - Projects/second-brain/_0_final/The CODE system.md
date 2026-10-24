@@ -81,4 +81,4 @@ These run next to the maintenance loops of [[System Maintenance & Review]] and t
 - Notes are born in the inbox: minimal metadata, `status: inbox`, `maturity: capture` — never polish a capture. The `.<harness-folder>/skills/obsidian-vault-notes/SKILL.md` enforces the defaults when agents write notes.
 - Phase changes are property changes (`status` / `maturity`), never inline tags.
 - Respect the phase boundaries: capture stays low-friction, organising does no cleaning, distillation climbs one maturity level per revisit.
-- Any change to these notes → [[System Maintenance & Review]] after-mod checklist.
+- Any change to these notes → [[System Maintenance & Review]] after-change checklist.

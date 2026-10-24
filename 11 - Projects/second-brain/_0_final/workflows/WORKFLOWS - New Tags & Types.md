@@ -29,7 +29,7 @@ created: 2026-10-14 00:30
 	- Type, subtype or cluster → `taxonomy.sh`, then regenerate. Never hand-edit the generated notes.
 	- Tag → register it in [[Tag System & Ontology]].
 - Bases: a new type gets a base, a new subtype a view or a groupBy. Update [[Search & Base Queries Reference]].
-- Run the after-mod checklist of [[System Maintenance & Review]].
+- Run the after-change checklist of [[System Maintenance & Review]].
 
 ## Tidies
 

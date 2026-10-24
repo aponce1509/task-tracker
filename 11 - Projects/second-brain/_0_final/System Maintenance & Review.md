@@ -24,16 +24,16 @@ created: 2026-10-12 23:40
 > `python3 "99 - Meta/skills/system-reference-maintance/scripts/audit.py"`
 > (`99 - Meta/skills/system-reference-maintance/SKILL.md` documents markers, verdicts and escalation).
 
-## After any mod
+## After any change
 
-A "mod" is any change to the system: a base or view, a template, a Metadata Menu class, a taxonomy entry, a search recipe, a canonical note.
+A change to the system is any of these: a base or view, a template, a Metadata Menu class, a taxonomy entry, a search recipe, a canonical note.
 
 - Searching engine changed (base/view/recipe) → update [[Search & Base Queries Reference]]: inventory table + verified recipes — enforced by the audit's `bases` check (cheatsheet ↔ final-bases drift)
 - Properties or classes changed → update [[Common Frontmatter Schemas & Specific Note Templates]] and the class in `99 - Meta/Class/`
 - Taxonomy changed → through the CLI only (`taxonomy.sh`), generated notes regenerate; [[Information Architecture & Taxonomy Model]] stays the spec
 - Tag changed → register it in [[Tag System & Ontology]]
 - New canonical note landed in `_0_final/` → append to [[The Second Brain System]] index + the AGENTS.md File Inventory
-- Any mod → append the AGENTS.md status log (append-only; never rewrite history)
+- Any change → append the AGENTS.md status log (append-only; never rewrite history)
 - Close the loop → run the review checklist below before calling it done
 
 ## Periodic review (all is well)

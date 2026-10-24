@@ -45,7 +45,7 @@ property.
 
 - [[WORKFLOWS - New Tags & Types]] — meditate before adding any type/tag: not
   redundant, consistent, enables a real query.
-- [[System Maintenance & Review]] — after-mod checklist + periodic all-is-well
+- [[System Maintenance & Review]] — after-change checklist + periodic all-is-well
   review for these engines.
 
 ## Agent Rules

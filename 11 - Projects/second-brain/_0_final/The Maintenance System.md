@@ -89,7 +89,7 @@ The loop of [[The CODE system]] has its own workflows. [[WORKFLOWS - Out of the 
 
 ### System changes
 
-A change to the engines passes a gate first: [[WORKFLOWS - New Tags & Types]] or [[WORKFLOWS - New Properties]]. After any change, the after-mod checklist of [[System Maintenance & Review]] runs, and its periodic review runs next to the sweep.
+A change to the engines passes a gate first: [[WORKFLOWS - New Tags & Types]] or [[WORKFLOWS - New Properties]]. After any change, the after-change checklist of [[System Maintenance & Review]] runs, and its periodic review runs next to the sweep.
 
 ## Traces
 
