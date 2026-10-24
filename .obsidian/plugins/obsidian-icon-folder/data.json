@@ -48,7 +48,6 @@
   "01 - PAR": "LiAreaChart",
   "00 - Map of Contents": "LiMap",
   "02 - Categories": "LiCreateGroup",
-  "05 - --": "CoPaperPlane",
   "04 - Bases": "LiInfinity",
   "08 - Issues": "LiListChecks"
 }

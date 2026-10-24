@@ -361,7 +361,7 @@ These elements constitute the different Categories, each of this should be thoug
 	- Tomar notas de un libro
 		- lo más parecido a tomarlas directamente en un cuaderno -> BookNote -> BookIndex
 		- Esquemas del tema
-		- [[The Topic - The minimum learning magnitude]]
+		- [[The Module - The minimum learning magnitude]]
 	- Algo propio
 		- código
 		- pensamiento, opinion

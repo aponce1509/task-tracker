@@ -118,7 +118,13 @@
           "type": "group",
           "title": "second-brain",
           "ctime": 1792101804746,
-          "items": []
+          "items": [
+            {
+              "type": "file",
+              "path": "11 - Projects/second-brain/_0_final/The Second Brain System.md",
+              "ctime": 1792877400721
+            }
+          ]
         },
         {
           "type": "group",
@@ -148,6 +154,23 @@
           "type": "group",
           "title": "skills-system",
           "ctime": 1792489796317,
+          "items": [
+            {
+              "type": "file",
+              "path": "09 - Inbox/Skilling.md",
+              "ctime": 1792877280880
+            },
+            {
+              "type": "file",
+              "path": "09 - Inbox/Rules for ai developing.md",
+              "ctime": 1792877280880
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "title": "design_theory",
+          "ctime": 1792835128014,
           "items": []
         }
       ]

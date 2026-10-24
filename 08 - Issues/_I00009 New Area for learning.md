@@ -20,7 +20,7 @@ status:
 - This area is meant to be to include rules and workflows related to learning
 - Some current ideas
 	- Syllabus: AI + some college syllabus
-	- [[The Topic - The minimum learning magnitude]]
+	- [[The Module - The minimum learning magnitude]]
 	- Think about AI integration
 	- Rules like read until ended. Close notes and material is mandatory. Need to study it later.
 	- Create cards app? Mobil compatible

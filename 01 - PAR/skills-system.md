@@ -8,7 +8,7 @@ created: 2026-10-20 11:49
 active: true
 bridge:
 ---
-# [[skills-system]]
+.  [[skills-system]]
 
 > [!note] Description
 > How I store, package, distribute and develop agent skills: personal skills in dotfiles, repo skills as repo assets, standalone skills installed per team with `npx skills`, and both dotfiles and the second brain packaged as standard plugins.

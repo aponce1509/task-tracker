@@ -159,7 +159,7 @@ Aquí va todo link con info y todo pdf, lo tienes en el curro y me la suda.
 
 - Subrayas y tomas notas siguiendo el [[Notes Colours Rules]]
 - Tienes notas en paralelo de log del aprendizaje y del syllabus sigue
-  [[The Topic - The minimum learning magnitude]]
+  [[The Module - The minimum learning magnitude]]
 - Los syllabus no son solo para aprender, también te puede servir para listar tu
   planteamiento de un modelo/proyecto
 
@@ -194,4 +194,4 @@ Otros
 
 - [[Three Notebooks]]
 - [[_T00 Issue 1]]: es un ejemplo de la nota de un issue.
-- [[The Topic - The minimum learning magnitude]]
+- [[The Module - The minimum learning magnitude]]

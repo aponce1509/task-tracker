@@ -1,7 +1,6 @@
 ---
 tags:
 ---
-
 # How to be an effective self-learner
 
 La referencia [2] da con el clavo en como creo que debo de progresar. Lo más

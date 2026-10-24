@@ -8,34 +8,80 @@
         "type": "tabs",
         "children": [
           {
-            "id": "faaeb4ba9a1412d6",
+            "id": "45a4a332325e8d63",
             "type": "leaf",
+            "pinned": true,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01 - PAR/coding-workplace.md",
+                "file": "11 - Projects/second-brain/_0_final/The Maintenance System.md",
                 "mode": "source",
                 "source": false
               },
+              "pinned": true,
               "icon": "lucide-file",
-              "title": "coding-workplace"
+              "title": "The Maintenance System"
             }
           },
           {
-            "id": "afcc37df4a97bf33",
+            "id": "dee6fe9a92ae622f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "07 - Daily/2026-10-20.md",
+                "file": "09 - Inbox/wip in maintance system.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-10-20"
+              "title": "wip in maintance system"
+            }
+          },
+          {
+            "id": "eb2a39af57f2f80d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "01 - PAR/second-brain.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "second-brain"
+            }
+          },
+          {
+            "id": "9cc21ca720ed0e62",
+            "type": "leaf",
+            "dimension": 50,
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "07 - Daily/2026-10-24.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-10-24"
+            }
+          },
+          {
+            "id": "a63944efabebdc07",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "11 - Projects/second-brain/_0_final/System Maintenance & Review.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "System Maintenance & Review"
             }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -108,8 +154,7 @@
               "title": "Tags"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -120,7 +165,7 @@
     "type": "split",
     "children": [
       {
-        "id": "d3a908bc050dfac3",
+        "id": "3935b185d9f4360b",
         "type": "tabs",
         "children": [
           {
@@ -132,21 +177,25 @@
               "icon": "calendar-with-checkmark",
               "title": "Calendar"
             }
-          }
-        ]
-      },
-      {
-        "id": "3935b185d9f4360b",
-        "type": "tabs",
-        "children": [
+          },
+          {
+            "id": "a4dc37ec09ab05e5",
+            "type": "leaf",
+            "state": {
+              "type": "copilot-agent-chat-view",
+              "state": {},
+              "icon": "copilot-agent",
+              "title": "Copilot Agent Chat"
+            }
+          },
           {
             "id": "346b9dbb1ff56c4a",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "07 - Daily/Weeks/2026-W21.md",
-                "collapseAll": false,
+                "file": "05 - Diagrams/strata/strata-elements-plugin.md",
+                "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
                 "showSearch": false,
@@ -155,7 +204,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for 2026-W21"
+              "title": "Backlinks"
             }
           },
           {
@@ -164,12 +213,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "09 - Inbox/Alejandro's Mise-en-Place.md",
+                "file": "05 - Diagrams/strata/strata-elements-plugin.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Alejandro's Mise-en-Place"
+              "title": "Outgoing links"
             }
           },
           {
@@ -207,7 +256,7 @@
             "state": {
               "type": "localgraph",
               "state": {
-                "file": "01 - PAR/coding-workplace.md",
+                "file": "05 - Diagrams/strata/strata-elements-plugin.md",
                 "options": {
                   "collapse-filter": false,
                   "search": "-path:\"02 - Categories\" -path:\"08 - Issues\" -path:\"04 - Bases\"  ",
@@ -237,9 +286,19 @@
               "icon": "lucide-git-fork",
               "title": "Local graph"
             }
+          },
+          {
+            "id": "8125a3fab60f5f5a",
+            "type": "leaf",
+            "state": {
+              "type": "strata-tree",
+              "state": {},
+              "icon": "network",
+              "title": "Diagrams"
+            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 7
       }
     ],
     "direction": "horizontal",
@@ -267,47 +326,49 @@
       "callout-manager:Insert Callout": false,
       "css-editor:Open CSS editor quick switcher": false,
       "rss-dashboard:RSS dashboard": false,
-      "zotlit:Open Zotero annotations": false
+      "zotlit:Open Zotero annotations": false,
+      "copilot:Open Copilot Agent Chat": false,
+      "strata:Strata diagrams": false
     }
   },
-  "active": "faaeb4ba9a1412d6",
+  "active": "a63944efabebdc07",
   "lastOpenFiles": [
-    "07 - Daily/2026-10-20.md",
-    "01 - PAR/coding-workplace.md",
-    "01 - PAR/second-brain.md",
-    "07 - Daily/Weeks/2026-W43.md",
+    "11 - Projects/second-brain/_0_final/The Maintenance System.md",
+    "09 - Inbox/wip in maintance system.md",
     "11 - Projects/second-brain/_0_final/The Second Brain System.md",
-    "01 - PAR/skills-system.md",
-    "08 - Issues/_I00029 Create an index with the inventory of skills.md",
+    "07 - Daily/2026-10-24.md",
+    "01 - PAR/second-brain.md",
+    "01 - PAR/coding-workplace.md",
+    "11 - Projects/second-brain/_0_final/The Syllabus System.md",
+    "05 - Diagrams/strata/strata-elements-model.md",
+    "05 - Diagrams/strata/strata-elements.md",
+    "05 - Diagrams/strata/strata-elements-plugin.md",
+    "05 - Diagrams/strata/strata.md",
+    "09 - Inbox/Rules for ai developing.md",
     "09 - Inbox/Skilling.md",
-    "08 - Issues/_I00027 Cut the verbosity of the journal and the project AGENTS.md.md",
-    "11 - Projects/second-brain/AGENTS.md",
-    "08 - Issues/_I00041 Define the skill system for software and model repos.md",
-    "08 - Issues/_I00040 Define the skill workflows.md",
-    "08 - Issues/_I00039 Design patterns for skills.md",
-    "08 - Issues/_I00038 Reference note of well-known skills and skill systems.md",
-    "08 - Issues/_I00037 Write the architecture notes of the dotfiles and second-brain systems.md",
-    "08 - Issues/_I00036 Package the second brain as a plugin.md",
-    "08 - Issues/_I00035 Move vault-bridge to the dotfiles repo.md",
-    "08 - Issues/_I00034 Package the dotfiles personal skills as a plugin with a harness list.md",
-    "07 - Daily/2026-10-18.md",
-    "11 - Projects/second-brain/Journal - second-brain.md",
-    "07 - Daily/2026-10-14.md",
-    "07 - Daily/2026-10-16.md",
-    "99 - Meta/scripts/feeds/__pycache__/x_bookmarks.cpython-313.pyc",
-    "99 - Meta/scripts/feeds/__pycache__",
-    "99 - Meta/scripts/feeds/x_bookmarks.py",
-    "99 - Meta/scripts/feeds/feeds_mcp.py",
-    "99 - Meta/scripts/feeds",
-    "99 - Meta/scripts",
-    "08 - Issues/_I00033 Integration of the feed with Obsidian.md",
-    "08 - Issues/_I00032 Design of the feed.md",
-    "08 - Issues/_I00031 List of feeds to support.md",
-    "08 - Issues/_I00030 Proper setup of the feed (X API access, auth, secrets).md",
-    "99 - Meta/skills/vault-bridge",
-    "scripts/vault_mcp.py",
-    "11 - Projects/second-brain/_0_final/howtos",
-    "All Paras.base",
+    "01 - PAR/skills-system.md",
+    "07 - Daily/2026-10-20.md",
+    "08 - Issues/complete/_I00043 Strata node colors follow note status changes.md",
+    "08 - Issues/complete/_I00042 Strata pane refits when the diagram grows.md",
+    "05 - Diagrams/strata/strata-elements-plugin-panel.md",
+    "copilot/copilot-conversations/agent__this_means_that_there_is_always_an_idle_process_Is@20261024_231915.md",
+    "05 - Diagrams/strata/strata-elements-skill.md",
+    "zz-strata-pane-test.md",
+    "05 - Diagrams/strata/strata-elements-plugin-pane.md",
+    "99 - Meta/agents/diagram-reviewer.md",
+    "AGENTS.md",
+    "05 - Diagrams/strata/strata-features.md",
+    "99 - Meta/agents/diagram-writer.md",
+    "99 - Meta/skills/note-syllabus/scripts/audit.sh",
+    "99 - Meta/skills/note-syllabus/scripts",
+    "99 - Meta/skills/note-syllabus",
+    "99 - Meta/skills/note-diagram/references",
+    "99 - Meta/skills/note-diagram",
+    "05 - Diagrams/strata",
+    "05 - Diagrams",
+    "copilot/copilot-conversations",
+    "copilot",
+    "11 - Projects/skills-system",
     "99 - Meta/Attachments/Domenico Ghirlandaio (Domenico Bigordi).jpg",
     "09 - Inbox/Inbox/Notes Hierarchy.svg",
     "09 - Inbox/Inbox/Notes Components by situations.svg",

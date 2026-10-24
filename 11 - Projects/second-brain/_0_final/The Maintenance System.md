@@ -46,6 +46,7 @@ These are the things that rot when nobody looks. Each one has a signal I can que
 | References | Notes in `06 - Inputs` without source, commentary or a PAR that uses them | `path:"06 - Inputs" ["maturity":capture]` | [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Distillation of a Note]] |
 | Orphans | Concepts that no index or MoC links, notes without `paras` | Concept audit `orphan` · index audit `unreachable`, `moc-unlinked` | [[WORKFLOWS - Learning Session]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] |
 | Thin indexes | Topic indexes with no concept or a single entry | Index audit `no-concept`, `single` | [[WORKFLOWS - Learning Session]] |
+| Syllabi | Learning stalled, more than one open module, modules closed without concepts | Syllabus audit `stale`, `multi-active`, `no-active`, `no-concepts` | [[WORKFLOWS - Start Module]] · [[WORKFLOWS - End Module]] |
 | Unrecalled concepts | Concepts that no daily note links | Concept audit `unrecalled` | [[WORKFLOWS - End Day]] · [[WORKFLOWS - End Week]] |
 | Open flags | `#todo` lines never extracted, `#rfm` questions never answered | `tag:#todo` · `tag:#rfm` | [[WORKFLOWS - End Day]] · [[WORKFLOWS - End Week]] |
 | Issues | Stale `wip`, done issues outside `complete/`, resolved dependencies still blocking | `task-planner` · issue bases · audit done-rule | [[WORKFLOWS - Start Issue]] · [[WORKFLOWS - Complete Issue]] · [[WORKFLOWS - End Week]] |
@@ -62,7 +63,7 @@ These are the things that rot when nobody looks. Each one has a signal I can que
 DAY       Start Day ─▶ work: issues, meetings, learning ─▶ End Day
 WEEK      Start Week ─▶ the days ─▶ End Week
 2 WEEKS   Bi-Monthly Inbox Sweep + periodic review
-EVENT     New PAR · Start Issue · Complete Issue · End PAR · meeting · learning · new tag or property
+EVENT     New PAR · Start Issue · Complete Issue · End PAR · meeting · Start/End Module · learning · new tag or property
 IDLE      Contextual Capture Review · Out of the Inbox (one batch)
 ```
 
@@ -80,7 +81,7 @@ An issue opens with [[WORKFLOWS - Start Issue]]: context, short tasks, dependenc
 
 ### Learning and recall
 
-[[WORKFLOWS - Learning Session]] is where the vault tidies itself while I learn. A new concept never lands alone: it enters an index or a MoC, so no orphan is born. The recall extends the concept, finds the thin indexes around it and climbs the `maturity` of the notes that pass it. The rules come from [[The Concept System]] and [[The Index and MoC System]].
+[[WORKFLOWS - Learning Session]] is where the vault tidies itself while I learn. A new concept never lands alone: it enters an index or a MoC, so no orphan is born. The recall extends the concept, finds the thin indexes around it and climbs the `maturity` of the notes that pass it. Around the sessions, a syllabus gives the order: [[WORKFLOWS - Start Module]] opens one module and [[WORKFLOWS - End Module]] closes it with its concepts and a recall ([[The Learning System]]). The rules come from [[The Syllabus System]], [[The Concept System]] and [[The Index and MoC System]].
 
 ### The notes lifecycle
 

@@ -63,6 +63,7 @@ shared rules. Specs live in `11 - Projects/second-brain/_0_final/`
 | Meeting | `note-meeting` | [[The Meeting System]] |
 | Concept (Core Knowledge) | `note-concept` | [[The Concept System]] |
 | Index, MoC | `note-index-moc` | [[The Index and MoC System]] |
+| Syllabus (Roadmaps course) | `note-syllabus` | [[The Syllabus System]] |
 | Diagram | `note-diagram` | [[The Diagram System]] |
 | Project journal | `project-journaling` | `references/note-journal.md` |
 

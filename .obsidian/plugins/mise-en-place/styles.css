@@ -251,3 +251,25 @@
   padding-left: calc(1em + 10px);
   overflow: visible;
 }
+
+.mise-issue-line {
+  display: flex;
+  gap: 0.5em;
+  align-items: baseline;
+}
+
+.mise-issue-name {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mise-issue-projects {
+  margin-left: 7em;
+  font-size: var(--font-ui-smaller);
+  color: var(--text-faint);
+}
+
+.mise-issue-suggestion.is-done .mise-issue-name {
+  color: var(--text-faint);
+  text-decoration: line-through;
+}

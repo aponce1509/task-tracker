@@ -21,7 +21,7 @@ All notes share the look of [[How I Like My Notes]] and the metadata of [[The Me
 
 The work side has two kinds. An [[The Issue System|issue]] describes a thing to do. A [[The Meeting System|meeting]] records what was said; its todos become issues that link back to it, and the project journal records it. Both live under [[Task Management]].
 
-The knowledge side starts with the [[The Concept System|concept]], the atom: one thing that I can learn in one day, linked to its sources and to other concepts, and recorded in the daily note. Concepts alone do not give much value. [[The Index and MoC System|Indexes and MoCs]] are the molecules: an index groups concepts in bullets, a MoC explains in prose how they connect. A new concept always comes with the change to the index or MoC that gathers it.
+The knowledge side starts with the [[The Concept System|concept]], the atom: one thing that I can learn in one day, linked to its sources and to other concepts, and recorded in the daily note. Concepts alone do not give much value. [[The Index and MoC System|Indexes and MoCs]] are the molecules: an index groups concepts in bullets, a MoC explains in prose how they connect. A new concept always comes with the change to the index or MoC that gathers it. A [[The Syllabus System|syllabus]] plans a learning project: its modules, one week each, produce the concepts.
 
 The design side has one kind. A [[The Diagram System|diagram]] holds one diagram of a system; its name places it in a tree of diagrams, from the context down to the classes, in the C4 levels, and the tree is the build plan.
 

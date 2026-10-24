@@ -2,7 +2,7 @@
 // Plain CommonJS, no build step. Every key and layout lives in the config
 // file (CONFIG_PATH); this file only implements the actions.
 
-const { Plugin, ItemView, Notice, Modal, Setting, debounce } = require("obsidian");
+const { Plugin, ItemView, Notice, Modal, Setting, SuggestModal, prepareFuzzySearch, debounce } = require("obsidian");
 
 const CONFIG_PATH = "99 - Meta/mise-en-place.jsonc";
 
@@ -110,6 +110,7 @@ module.exports = class MiseEnPlace extends Plugin {
     this.addCommand({ id: "layout-reset", name: "Layout: reset to the default", callback: () => this.resetLayout() });
     this.addCommand({ id: "layout-mode", name: "Layout: cycle mode (auto, compact, wide)", callback: () => this.cycleMode() });
     this.addCommand({ id: "sync-slots", name: "Project slots: sync with the active PARs", callback: () => this.syncSlots() });
+    this.addCommand({ id: "issue-search", name: "Issues: search", callback: () => new IssueSearch(this.app).open() });
     for (let i = 1; i <= 9; i++) {
       this.addCommand({ id: `layout-slot-${i}`, name: `Layout: project slot ${i}`, callback: () => this.openSlot(i - 1) });
     }
@@ -1570,5 +1571,72 @@ class Dashboard extends ItemView {
     const name = row?.kind === "project" ? row.name : row?.project;
     if (!name) return new Notice("Select a project or one of its issues");
     await this.plugin.editBridge(name);
+  }
+}
+
+// Issue finder: every issue note, fuzzy matched on its name, projects and
+// status. Open issues first (dashboard order), done ones last.
+// Enter opens in the active pane, Cmd+Enter in a new tab.
+class IssueSearch extends SuggestModal {
+  constructor(app) {
+    super(app);
+    this.setPlaceholder("Search issues (name, project, status)");
+    this.setInstructions([
+      { command: "↵", purpose: "open" },
+      { command: "⌘ ↵", purpose: "open in new tab" },
+      { command: "esc", purpose: "close" },
+    ]);
+    this.scope.register(["Mod"], "Enter", (evt) => {
+      evt.preventDefault();
+      this.newTab = true;
+      this.selectActiveSuggestion(evt);
+      return false;
+    });
+    const linkName = (l) => String(l).replace(/^\[\[|\]\]$/g, "").split("|")[0].split("#")[0];
+    this.issues = app.vault
+      .getMarkdownFiles()
+      .map((file) => ({ file, fm: app.metadataCache.getFileCache(file)?.frontmatter || {} }))
+      .filter(({ file, fm }) => [].concat(fm.file_class || []).includes("issue") && !file.basename.includes("Template"))
+      .map(({ file, fm }) => {
+        const done = fm.status === "done" || file.path.includes("/complete/");
+        const status = done ? "done" : fm.status || "—";
+        const projects = [].concat(fm.paras || []).map(linkName).join(", ");
+        return { file, status, done, projects, priority: fm.priority, due: fm.dueDate, text: `${file.basename} ${projects} ${status}` };
+      })
+      .sort(
+        (a, b) =>
+          a.done - b.done ||
+          (STATUS_ORDER[a.status] ?? 4) - (STATUS_ORDER[b.status] ?? 4) ||
+          (a.priority ?? 9) - (b.priority ?? 9) ||
+          b.file.basename.localeCompare(a.file.basename)
+      );
+  }
+
+  getSuggestions(query) {
+    if (!query.trim()) return this.issues;
+    const match = prepareFuzzySearch(query.trim());
+    return this.issues
+      .map((i) => ({ i, m: match(i.text) }))
+      .filter((x) => x.m)
+      .sort((a, b) => a.i.done - b.i.done || b.m.score - a.m.score)
+      .map((x) => x.i);
+  }
+
+  renderSuggestion(issue, el) {
+    el.addClass("mise-issue-suggestion");
+    if (issue.done) el.addClass("is-done");
+    const top = el.createDiv({ cls: "mise-issue-line" });
+    top.createSpan({ cls: `mise-dash-status is-${issue.status}`, text: issue.status });
+    top.createSpan({ cls: "mise-dash-prio", text: issue.priority != null ? `P${issue.priority}` : "" });
+    top.createSpan({ cls: "mise-issue-name", text: issue.file.basename });
+    if (issue.due) {
+      const overdue = !issue.done && window.moment(String(issue.due)).isBefore(window.moment(), "day");
+      top.createSpan({ cls: `mise-dash-due${overdue ? " is-overdue" : ""}`, text: String(issue.due) });
+    }
+    if (issue.projects) el.createDiv({ cls: "mise-issue-projects", text: issue.projects });
+  }
+
+  onChooseSuggestion(issue) {
+    this.app.workspace.getLeaf(this.newTab ? "tab" : false).openFile(issue.file);
   }
 }

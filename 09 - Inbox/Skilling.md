@@ -20,6 +20,12 @@ created: 2026-10-20 11:51
 
 ## Designing
 
+- we have to define standard docs so we can visualice properly and make changes
+	- Skills archs
+	- Infra arch
+	- Code arch
+- Maybe a viz tool
+
 ## Modeling
 
 ## Generic

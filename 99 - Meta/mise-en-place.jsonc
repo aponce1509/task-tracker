@@ -57,6 +57,7 @@
         "group": "find",
         "keys": {
           "f": { "desc": "note", "cmd": "switcher:open" },
+          "i": { "desc": "issue (open first, done last)", "cmd": "mise-en-place:issue-search" },
           "w": { "desc": "word (search)", "cmd": "global-search:open" },
           "t": { "desc": "tags", "cmd": "tag-pane:open" },
           "b": { "desc": "bookmarks", "cmd": "bookmarks:open" },

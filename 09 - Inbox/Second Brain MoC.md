@@ -117,7 +117,7 @@ Reflexions
 Others:
 - [[Managing online References]]
 - [[Notes Colours Rules]]
-- [[The Topic - The minimum learning magnitude]]
+- [[The Module - The minimum learning magnitude]]
 - [[the bare minimum note system]]
 - [[Zotero - The ultimate reference manager]]
 

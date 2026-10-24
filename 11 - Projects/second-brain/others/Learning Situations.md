@@ -1,5 +1,14 @@
 ---
-tags:
+paras:
+  - "[[second-brain]]"
+type: "[[Core Knowledge]]"
+subtypes:
+  - "[[Knowledge - Core Knowledge - framework|framework]]"
+rate:
+tags: []
+status: wip
+maturity: capture
+created: 2026-02-03 18:53
 ---
 
 # Learning Situations

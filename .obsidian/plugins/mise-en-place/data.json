@@ -1,6 +1,6 @@
 {
-  "current": "coding-workplace",
-  "context": "coding-workplace|compact",
+  "current": "second-brain",
+  "context": "second-brain|compact",
   "memory": {
     "second-brain|wide": {
       "panes": {
@@ -54,7 +54,7 @@
       "panes": {
         "left": {
           "extra": [],
-          "active": "01 - PAR/second-brain.md"
+          "active": "11 - Projects/second-brain/_0_final/System Maintenance & Review.md"
         }
       }
     },
@@ -62,7 +62,7 @@
       "panes": {
         "left": {
           "extra": [],
-          "active": null
+          "active": "09 - Inbox/Rules for ai developing.md"
         }
       }
     },
@@ -71,6 +71,14 @@
         "left": {
           "extra": [],
           "active": "01 - PAR/coding-workplace.md"
+        }
+      }
+    },
+    "design_theory|compact": {
+      "panes": {
+        "left": {
+          "extra": [],
+          "active": "01 - PAR/design_theory.md"
         }
       }
     }

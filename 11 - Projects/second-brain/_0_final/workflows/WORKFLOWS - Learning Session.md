@@ -18,7 +18,7 @@ created: 2026-10-14 00:25
 > [!info] Why here
 > Curation follows use. When I learn, I already read the indexes, the MoCs and the old concepts of the topic. That is the cheapest moment to fix them.
 
-**Trigger:** I learn something: a course, a paper, a solved issue · **Timecap:** none for the learning, 15 minutes for the recall · **Driven by:** `/new-concept`, `/recall`
+**Trigger:** I learn something: a module of a syllabus ([[WORKFLOWS - Start Module]]), a course, a paper, a solved issue · **Timecap:** none for the learning, 15 minutes for the recall · **Driven by:** `/new-concept`, `/recall`
 
 ## Steps
 

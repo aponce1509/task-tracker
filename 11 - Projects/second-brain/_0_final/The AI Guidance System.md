@@ -48,6 +48,7 @@ created: 2026-10-13 23:25
 | `note-meeting` | Create or parse a meeting note, its issues and its journal entry | [[The Meeting System]] |
 | `note-concept` | Create concepts from the creation graph | [[The Concept System]] |
 | `note-index-moc` | Create indexes and MoCs and do the linking | [[The Index and MoC System]] |
+| `note-syllabus` | Create a syllabus and run its modules (start, end, winstreak) | [[The Syllabus System]] |
 | `note-diagram` | Create and iterate diagram notes through `diagram-writer` and `diagram-reviewer`, check them with the strata CLI, plan from the tree | [[The Diagram System]] |
 | `markdown-editing` | Minimal Markdown | [[How I Like My Notes]] |
 | `project-journaling` | Journal entries through `journal.sh` | [[Journal - second-brain]] |
@@ -76,6 +77,7 @@ created: 2026-10-13 23:25
 | `/new-concept` | `note-concept`, `concept-distiller`, `navigation-curator` |
 | `/guide-distillation` | `obsidian-vault-notes` and the skill of the note kind |
 | `/guide-inbox-clean` | `inbox-triager`, then the skills of the kinds, `note-issue` |
+| `/new-syllabus` | `note-syllabus`, `obsidian-vault-notes` |
 | `/recall` | Recall of the day's or week's concepts: questions, extensions, open questions (`#rfm`), topics to read, facts to memorize (`#learnable`) |
 | `/postmortem` | The post-mortem of an issue |
 

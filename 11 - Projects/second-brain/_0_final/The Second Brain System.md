@@ -31,6 +31,7 @@ created: 2026-10-12 15:10
 	- [[The Meeting System]]
 	- [[The Concept System]]
 	- [[The Index and MoC System]]
+	- [[The Syllabus System]]
 - **[[The Retrieval system]]**
 	- [[Search & Base Queries Reference]]
 	- `99 - Meta/skills/task-planner/SKILL.md`
@@ -41,7 +42,7 @@ created: 2026-10-12 15:10
 	- Day: [[WORKFLOWS - Start Day]] · [[WORKFLOWS - End Day]]
 	- Week: [[WORKFLOWS - Start Week]] · [[WORKFLOWS - End Week]]
 	- Work events: [[WORKFLOWS - Start Issue]] · [[WORKFLOWS - Complete Issue]] · [[WORKFLOWS - New PAR]] · [[WORKFLOWS - End PAR]]
-	- Learning: [[WORKFLOWS - Learning Session]]
+	- Learning: [[WORKFLOWS - Start Module]] · [[WORKFLOWS - Learning Session]] · [[WORKFLOWS - End Module]]
 	- System changes: [[WORKFLOWS - New Tags & Types]] · [[WORKFLOWS - New Properties]]
 - **[[Task Management]]**
 	- [[The Issue System]]
@@ -62,6 +63,12 @@ created: 2026-10-12 15:10
 		- [[Intermediate and Final Products]]
 		- [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
 	- Workflows: [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] · [[WORKFLOWS - Distillation of a Note]] · [[WORKFLOWS - Contextual Capture Review]]
+- **[[The Learning System]]**
+	- Units: [[The Syllabus System]] · [[The Module - The minimum learning magnitude]] · [[The Concept System]] · [[Roadmaps]]
+	- Kick-off: [[How to be an effective self-learner]] · [[Cuando aprendas define fase de divergencia y convergencia]]
+	- Sources: [[Zotero - The ultimate reference manager]] · [[Notes Colours Rules]] · [[Learning Situations]] · [[Capture Example - Rust Crates]]
+	- Workflows: [[WORKFLOWS - Start Module]] · [[WORKFLOWS - Learning Session]] · [[WORKFLOWS - End Module]] · `/new-syllabus` · `/new-concept` · `/recall`
+	- Future: [[The Learning App]]
 - **[[The Workplace System]]**
 	- How-tos: [[HOWTO - Tune the dashboard]] · [[HOWTO - Change the dashboard keys]] · [[HOWTO - Change the system hotkeys]]
 	- `.obsidian/plugins/mise-en-place/` + `99 - Meta/mise-en-place.jsonc`

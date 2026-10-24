@@ -15,7 +15,7 @@ status: inbox
 - [[How to be an effective self-learner]]
 - [[Capture Example - Rust Crates]]
 - [[Capture Example - Lazy Video]]
-- [[The Topic - The minimum learning magnitude]]
+- [[The Module - The minimum learning magnitude]]
 
 ## References
 
