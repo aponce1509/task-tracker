@@ -48,6 +48,7 @@
           "a": { "desc": "add this note", "cmd": "mise-en-place:working-add" },
           "d": { "desc": "remove this note", "cmd": "mise-en-place:working-remove" },
           "s": { "desc": "save open notes", "cmd": "mise-en-place:working-save" },
+          "o": { "desc": "project dashboard", "cmd": "mise-en-place:project-dashboard" },
           "B": { "desc": "write the bridge (next action)", "cmd": "mise-en-place:bridge-edit" },
           "b": { "desc": "bookmarks pane", "cmd": "bookmarks:open" }
         }
@@ -209,7 +210,62 @@
         "r": { "desc": "refresh", "action": "dashboard:refresh" },
         "?": { "desc": "show these keys", "action": "dashboard:help" }
       }
+    },
+
+    // project = the project dashboard (@project in the project layout). Links
+    // open beside it, in the working pane; Cmd-click opens a new tab.
+    "project": {
+      "keys": {
+        "]": { "desc": "next tab", "action": "project:next-tab" },
+        "[": { "desc": "previous tab", "action": "project:prev-tab" },
+        "Tab": { "desc": "next tab", "action": "project:next-tab" },
+        "1": { "desc": "tab 1", "action": "project:tab-1" },
+        "2": { "desc": "tab 2", "action": "project:tab-2" },
+        "3": { "desc": "tab 3", "action": "project:tab-3" },
+        "4": { "desc": "tab 4", "action": "project:tab-4" },
+        "5": { "desc": "tab 5", "action": "project:tab-5" },
+        "6": { "desc": "tab 6", "action": "project:tab-6" },
+        "7": { "desc": "tab 7", "action": "project:tab-7" },
+        "8": { "desc": "tab 8", "action": "project:tab-8" },
+        "9": { "desc": "tab 9", "action": "project:tab-9" },
+        "l": { "desc": "next view of the base", "action": "project:next-view" },
+        "h": { "desc": "previous view of the base", "action": "project:prev-view" },
+        "/": { "desc": "filter by name (every tab)", "action": "project:filter" },
+        "Escape": { "desc": "clear the filter", "action": "project:clear-filter" },
+        "o": { "desc": "open the PAR note", "action": "project:par" },
+        "b": { "desc": "write the bridge", "action": "project:bridge" },
+        "r": { "desc": "refresh", "action": "project:refresh" },
+        "?": { "desc": "show these keys", "action": "project:help" }
+      }
     }
+  },
+
+  // Project dashboard: one tab per base, the same .base files the PAR notes
+  // embed, rendered with the PAR as `this`. A tab is { "name", "base" } (a
+  // file in basesFolder, or a path) or { "name", "show": "overview" }. The
+  // overview shows the PAR's indexSection, the working set and one card per
+  // entry of "overview" ({ "title", "base", "view" }).
+  "projectDashboard": {
+    "basesFolder": "04 - Bases/final-bases",
+    "indexSection": "## Index",
+    "tabs": [
+      { "name": "overview", "show": "overview" },
+      { "name": "issues", "base": "issues-project.base" },
+      { "name": "all notes", "base": "project-notes.base" },
+      { "name": "navigation", "base": "navigation.base" },
+      { "name": "knowledge", "base": "knowledge.base" },
+      { "name": "normative", "base": "normative.base" },
+      { "name": "descriptive", "base": "descriptive.base" },
+      { "name": "operational", "base": "operational.base" },
+      { "name": "brain", "base": "your-brain.base" },
+      { "name": "resources", "base": "external-resources.base" },
+      { "name": "assets", "base": "assets.base" },
+      { "name": "logging", "base": "logging.base" }
+    ],
+    "overview": [
+      { "title": "Open issues", "base": "issues-project.base", "view": "Issues" },
+      { "title": "Recently edited", "base": "project-notes.base", "view": "Recent" }
+    ]
   },
 
   // Dashboard: panels in order (the first two side by side, "wide" ones full
@@ -290,7 +346,8 @@
   // one pane; its targets open as tabs, the first one in front.
   "compactBelow": 1700,
 
-  // Pane targets: "@dashboard" (the Today pane), "@daily", "@weekly", "@par" (the project's PAR note),
+  // Pane targets: "@dashboard" (the Today pane), "@project" (the project dashboard),
+  // "@daily", "@weekly", "@par" (the project's PAR note),
   // "@working" (the project's working set, one tab each), a note name or path,
   // or { "base": "<path>.base", "view": "<view name>" }.
   "layouts": {
@@ -301,14 +358,14 @@
     },
     "project": {
       "left": ["@working"],
-      "rightTop": ["@par"],
+      "rightTop": ["@project"],
       "rightBottom": ["@daily"]
     },
     "base.compact": {
       "left": ["@dashboard", "@daily", "@weekly"]
     },
     "project.compact": {
-      "left": ["@working", "@par", "@daily"]
+      "left": ["@working", "@project", "@daily"]
     }
   }
 }

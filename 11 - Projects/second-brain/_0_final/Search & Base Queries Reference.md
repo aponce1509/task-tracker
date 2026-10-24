@@ -32,6 +32,7 @@ created: 2026-10-12 18:15
 | `assets.base` | Assets | maturity, status | scoped |
 | `logging.base` | Journals | maturity, status | scoped |
 | `navigation.base` | Indexes (list) · MoCs | maturity, status | scoped |
+| `project-notes.base` | All notes (by type) · Recent · To distill · Untyped | subtypes, maturity, status, modified time | scoped, no Issues — the all-notes tab of the mise-en-place project dashboard |
 | `issues-project.base` | Issues · Inbox · Backlog · WIP · Blocked | status, priority, dueDate | scoped + status |
 | `issues-all.base` | Complete View · Complete Backlog/Inbox/WIP/Blocked | status, priority, dueDate | vault-wide, grouped by `paras` |
 | `issues-subtypes.base` | By Subtype · Bug · Task · Improvement · Incident · Open Problem · Recurring | status, priority, dueDate | scoped + `subtypes.contains(link(...))` |

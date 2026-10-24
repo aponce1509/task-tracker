@@ -273,3 +273,240 @@
   color: var(--text-faint);
   text-decoration: line-through;
 }
+
+/* Project dashboard */
+
+.mise-proj {
+  padding: 14px 18px 24px;
+  container-type: inline-size;
+  outline: none;
+}
+
+.mise-proj-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mise-proj-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: 1 1 auto;
+  font-size: var(--h2-size);
+  font-weight: 700;
+  color: var(--text-normal);
+}
+
+.mise-proj-chip {
+  padding: 1px 8px;
+  border-radius: var(--radius-l);
+  background: var(--background-modifier-hover);
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  font-weight: 500;
+}
+
+.mise-proj-chip.is-muted {
+  color: var(--text-faint);
+}
+
+.mise-proj-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.mise-proj-btn {
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+}
+
+.mise-proj-bridge {
+  margin: 6px 0 10px;
+  color: var(--text-accent);
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-small);
+  cursor: pointer;
+}
+
+.mise-proj-bridge.is-empty {
+  color: var(--text-faint);
+}
+
+.mise-proj-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-bottom: 12px;
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+}
+
+.mise-proj-stat {
+  cursor: pointer;
+}
+
+.mise-proj-stat:hover {
+  color: var(--text-normal);
+}
+
+.mise-proj-stat-n {
+  font-family: var(--font-monospace);
+  font-weight: 700;
+  color: var(--text-normal);
+}
+
+.mise-proj-stat.is-wip .mise-proj-stat-n {
+  color: var(--color-orange);
+}
+
+.mise-proj-stat.is-blocked .mise-proj-stat-n,
+.mise-proj-stat.is-warn .mise-proj-stat-n {
+  color: var(--color-red);
+}
+
+.mise-proj-stat.is-zero,
+.mise-proj-stat.is-zero .mise-proj-stat-n {
+  color: var(--text-faint);
+}
+
+.mise-proj-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.mise-proj-tab {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 10px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.mise-proj-tab:hover {
+  color: var(--text-normal);
+}
+
+.mise-proj-tab.is-active {
+  border-bottom-color: var(--interactive-accent);
+  color: var(--text-normal);
+  font-weight: 600;
+}
+
+.mise-proj-tab.is-zero {
+  color: var(--text-faint);
+}
+
+.mise-proj-tab-key {
+  color: var(--text-faint);
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+}
+
+.mise-proj-tab-n {
+  padding: 0 6px;
+  border-radius: var(--radius-l);
+  background: var(--background-modifier-hover);
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+  font-weight: 400;
+}
+
+.mise-proj-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.mise-proj-views {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.mise-proj-view {
+  padding: 2px 10px;
+  border-radius: var(--radius-l);
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  cursor: pointer;
+}
+
+.mise-proj-view:hover {
+  background: var(--background-modifier-hover);
+}
+
+.mise-proj-view.is-active {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.mise-proj-hint {
+  margin-left: 6px;
+  color: var(--text-faint);
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+}
+
+.mise-proj-filter {
+  flex: 0 1 220px;
+  min-width: 120px;
+}
+
+.mise-proj-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+@container (max-width: 640px) {
+  .mise-proj-overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.mise-proj-card {
+  padding: 8px 12px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  min-width: 0;
+}
+
+.mise-proj-card.is-wide {
+  grid-column: 1 / -1;
+}
+
+.mise-proj-card-title {
+  margin-bottom: 4px;
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mise-proj-card-body > ul,
+.mise-proj-card-body > p {
+  margin: 0;
+}
+
+.mise-proj-card-body ul {
+  padding-left: 1.2em;
+}
+
+.mise-proj-empty {
+  padding: 6px 0;
+  color: var(--text-faint);
+  font-size: var(--font-ui-small);
+}

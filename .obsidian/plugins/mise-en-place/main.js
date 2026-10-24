@@ -2,7 +2,7 @@
 // Plain CommonJS, no build step. Every key and layout lives in the config
 // file (CONFIG_PATH); this file only implements the actions.
 
-const { Plugin, ItemView, Notice, Modal, Setting, SuggestModal, prepareFuzzySearch, debounce } = require("obsidian");
+const { Plugin, ItemView, Notice, Modal, Setting, SuggestModal, Component, MarkdownRenderer, prepareFuzzySearch, debounce, parseYaml, stringifyYaml } = require("obsidian");
 
 const CONFIG_PATH = "99 - Meta/mise-en-place.jsonc";
 
@@ -105,6 +105,8 @@ module.exports = class MiseEnPlace extends Plugin {
     this.addCommand({ id: "working-save", name: "Working set: save open notes", callback: () => this.saveWorking(true) });
     this.registerView(DASHBOARD_VIEW, (leaf) => new Dashboard(leaf, this));
     this.addCommand({ id: "dashboard", name: "Dashboard: focus (opens the base layout when closed)", callback: () => this.focusDashboard() });
+    this.registerView(PROJECT_VIEW, (leaf) => new ProjectDashboard(leaf, this));
+    this.addCommand({ id: "project-dashboard", name: "Project dashboard: focus (opens the current project layout when closed)", callback: () => this.focusProjectDashboard() });
     this.addCommand({ id: "bridge-edit", name: "Bridge: write the bridge of the current project", callback: () => this.editBridge() });
     this.addCommand({ id: "explorer-toggle", name: "Explorer: focus, or back to the editor", callback: () => this.toggleExplorer() });
     this.addCommand({ id: "layout-reset", name: "Layout: reset to the default", callback: () => this.resetLayout() });
@@ -222,6 +224,7 @@ module.exports = class MiseEnPlace extends Plugin {
     // The explorer never holds DOM focus (it stays on <body>); the active leaf tells.
     const active = this.app.workspace.activeLeaf?.view?.getViewType();
     if (this.cfg.contexts?.dashboard && active === DASHBOARD_VIEW) return "dashboard";
+    if (this.cfg.contexts?.project && active === PROJECT_VIEW) return "project";
     if (!this.cfg.contexts?.explorer) return null;
     if (active === "file-explorer" || el.closest(".workspace-leaf-content[data-type='file-explorer']")) return "explorer";
     return null;
@@ -592,6 +595,7 @@ module.exports = class MiseEnPlace extends Plugin {
 
   async build(spec, ctx, memory) {
     const ws = this.app.workspace;
+    this.currentBuild = ctx;
     const leaves = [];
     ws.iterateRootLeaves((l) => { leaves.push(l); }); // a truthy return stops the walk
     const left = leaves.shift() || ws.getLeaf(false);
@@ -666,6 +670,7 @@ module.exports = class MiseEnPlace extends Plugin {
   async openTarget(leaf, target) {
     const vault = this.app.vault;
     if (target === "@dashboard") return leaf.setViewState({ type: DASHBOARD_VIEW });
+    if (target === "@project") return this.currentBuild?.project ? leaf.setViewState({ type: PROJECT_VIEW, state: { project: this.currentBuild.project } }) : null;
     if (target === "@daily" || target === "@weekly") {
       const path = target === "@daily" ? this.dailyPath() : this.weeklyPath();
       const file = vault.getFileByPath(path);
@@ -769,6 +774,40 @@ module.exports = class MiseEnPlace extends Plugin {
     const active = this.app.workspace.activeLeaf?.view;
     if (active instanceof Dashboard) return active;
     return this.app.workspace.getLeavesOfType(DASHBOARD_VIEW)[0]?.view || null;
+  }
+
+  async focusProjectDashboard() {
+    const leaf = this.app.workspace.getLeavesOfType(PROJECT_VIEW)[0];
+    if (leaf) return this.app.workspace.setActiveLeaf(leaf, { focus: true });
+    if (!this.state.current) return new Notice("Open a project layout first (<leader> l)");
+    await this.openProject(this.state.current);
+  }
+
+  projectView() {
+    const active = this.app.workspace.activeLeaf?.view;
+    if (active instanceof ProjectDashboard) return active;
+    return this.app.workspace.getLeavesOfType(PROJECT_VIEW)[0]?.view || null;
+  }
+
+  projectActions() {
+    const d = (fn) => () => {
+      const view = this.projectView();
+      if (!view) throw new Error("the project dashboard is closed");
+      return fn(view);
+    };
+    return {
+      "project:next-tab": d((v) => v.rotateTab(1)),
+      "project:prev-tab": d((v) => v.rotateTab(-1)),
+      ...Object.fromEntries([1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => [`project:tab-${n}`, d((v) => v.selectTab(n - 1))])),
+      "project:next-view": d((v) => v.rotateView(1)),
+      "project:prev-view": d((v) => v.rotateView(-1)),
+      "project:filter": d((v) => v.focusFilter()),
+      "project:clear-filter": d((v) => v.setFilter("")),
+      "project:par": d((v) => v.openPar()),
+      "project:bridge": d((v) => this.editBridge(v.project)),
+      "project:refresh": d((v) => v.render()),
+      "project:help": () => this.openNode({ group: "project", keys: this.cfg.contexts.project.keys }, ["project"], { keys: this.cfg.contexts.project.keys }),
+    };
   }
 
   async focusDashboard() {
@@ -925,6 +964,7 @@ module.exports = class MiseEnPlace extends Plugin {
       "explorer:copy-path": () => this.copyText(this.focused().path),
       "explorer:copy-name": () => this.copyText(this.focused().name),
       ...this.dashboardActions(),
+      ...this.projectActions(),
       "explorer:help": () => this.openNode({ group: "explorer", keys: this.cfg.contexts.explorer.keys }, ["explorer"], { keys: this.cfg.contexts.explorer.keys }),
     };
   }
@@ -1572,6 +1612,437 @@ class Dashboard extends ItemView {
     if (!name) return new Notice("Select a project or one of its issues");
     await this.plugin.editBridge(name);
   }
+}
+
+// Project dashboard: one PAR as a board, in place of the PAR note in the
+// project layout. A header (bridge, counts), one tab per base of the PAR
+// (the same .base files the PAR note embeds, rendered with this PAR as
+// `this`), view chips per base and a name filter shared by every tab. All
+// the queries are Bases; links open next to the board, in the working pane.
+
+const PROJECT_VIEW = "mise-project";
+
+// Used when the config has no projectDashboard.tabs.
+const DEFAULT_PROJECT_TABS = [
+  { name: "overview", show: "overview" },
+  { name: "issues", base: "issues-project.base" },
+  { name: "notes", base: "project-notes.base" },
+];
+
+const DEFAULT_OVERVIEW = [
+  { title: "Open issues", base: "issues-project.base", view: "Issues" },
+  { title: "Recently edited", base: "project-notes.base", view: "Recent" },
+];
+
+class ProjectDashboard extends ItemView {
+  constructor(leaf, plugin) {
+    super(leaf);
+    this.plugin = plugin;
+    this.project = null;
+    this.filter = "";
+    this.body = null; // Component that owns the rendered bases
+  }
+
+  getViewType() {
+    return PROJECT_VIEW;
+  }
+
+  getDisplayText() {
+    return this.project || "Project";
+  }
+
+  getIcon() {
+    return "folder-kanban";
+  }
+
+  getState() {
+    return { project: this.project };
+  }
+
+  async setState(state, result) {
+    if (state?.project && state.project !== this.project) {
+      this.project = state.project;
+      this.filter = "";
+      if (this.ready) await this.render();
+    }
+    return super.setState(state, result);
+  }
+
+  async onOpen() {
+    this.contentEl.addClass("mise-proj");
+    this.project = this.project || this.plugin.state.current;
+    // Bases update themselves; only the header and the tab counts follow the vault.
+    const refresh = debounce(() => this.renderHead(), 400, true);
+    this.registerEvent(this.app.metadataCache.on("changed", refresh));
+    this.registerEvent(this.app.vault.on("delete", refresh));
+    this.registerEvent(this.app.vault.on("rename", refresh));
+    // Links inside the bases open beside the board, never in its own pane.
+    this.contentEl.addEventListener("click", (e) => this.onLinkClick(e), { capture: true });
+    this.ready = true;
+    await this.render();
+  }
+
+  async onClose() {
+    this.body?.unload();
+  }
+
+  // Data
+
+  cfg() {
+    return this.plugin.cfg.projectDashboard || {};
+  }
+
+  tabs() {
+    const list = this.cfg().tabs;
+    return list && list.length ? list : DEFAULT_PROJECT_TABS;
+  }
+
+  par() {
+    return this.project ? this.app.metadataCache.getFirstLinkpathDest(this.project, "") : null;
+  }
+
+  fm(file) {
+    return (file && this.app.metadataCache.getFileCache(file)?.frontmatter) || {};
+  }
+
+  basePath(name) {
+    if (name.includes("/")) return name;
+    return `${this.cfg().basesFolder || "04 - Bases/final-bases"}/${name}`;
+  }
+
+  // Notes whose `paras` links to this PAR.
+  notes() {
+    const par = this.par();
+    if (!par) return [];
+    const cache = this.app.metadataCache;
+    const linkName = (l) => String(l).replace(/^\[\[|\]\]$/g, "").split("|")[0].split("#")[0];
+    return this.app.vault.getMarkdownFiles().filter((f) => {
+      if (f.basename.includes("Template")) return false;
+      const paras = [].concat(this.fm(f).paras || []).map(linkName);
+      return paras.some((l) => l === par.basename || cache.getFirstLinkpathDest(l, f.path) === par);
+    });
+  }
+
+  typeOf(file) {
+    const t = this.fm(file).type;
+    return t ? linkName(t) : "";
+  }
+
+  stats(notes) {
+    const issues = notes.filter((f) => this.typeOf(f) === "Issues");
+    const open = issues.filter((f) => this.fm(f).status !== "done" && !f.path.includes("/complete/"));
+    const rest = notes.filter((f) => this.typeOf(f) !== "Issues");
+    const by = (s) => open.filter((f) => this.fm(f).status === s).length;
+    return {
+      open: open.length,
+      wip: by("wip"),
+      blocked: by("blocked"),
+      notes: rest.length,
+      capture: rest.filter((f) => !this.fm(f).maturity || this.fm(f).maturity === "capture").length,
+      untyped: rest.filter((f) => !this.typeOf(f)).length,
+      byType: rest.reduce((m, f) => ((m[this.typeOf(f)] = (m[this.typeOf(f)] || 0) + 1), m), {}),
+    };
+  }
+
+  // The parsed .base file, cached by mtime.
+  async readBase(name) {
+    const file = this.app.vault.getFileByPath(this.basePath(name));
+    if (!file) return null;
+    this.baseCache = this.baseCache || {};
+    const hit = this.baseCache[file.path];
+    if (hit && hit.mtime === file.stat.mtime) return hit.data;
+    const data = parseYaml(await this.app.vault.cachedRead(file)) || {};
+    this.baseCache[file.path] = { mtime: file.stat.mtime, data };
+    return data;
+  }
+
+  // How many notes a tab shows: the types its views filter on, else every
+  // note that is not an issue. Issues count only the open ones.
+  async tabCount(tab, st) {
+    if (tab.show === "overview") return null;
+    if (!tab.base) return null;
+    const data = await this.readBase(tab.base);
+    if (!data) return null;
+    const types = [...JSON.stringify(data).matchAll(/type == link\(\\"([^\\]+)\\"\)/g)].map((m) => m[1]);
+    if (!types.length) return st.notes;
+    if (types.includes("Issues")) return st.open;
+    return [...new Set(types)].reduce((n, t) => n + (st.byType[t] || 0), 0);
+  }
+
+  // State: active tab and the view chosen per base, kept in data.json.
+
+  tabState() {
+    return (this.plugin.state.projectTabs = this.plugin.state.projectTabs || { tab: 0, views: {} });
+  }
+
+  tabIndex() {
+    const n = this.tabs().length;
+    const i = this.tabState().tab ?? 0;
+    return ((i % n) + n) % n;
+  }
+
+  async selectTab(i) {
+    if (i < 0 || i >= this.tabs().length) return;
+    this.tabState().tab = i;
+    await this.plugin.saveData(this.plugin.state);
+    await this.render();
+  }
+
+  rotateTab(delta) {
+    return this.selectTab((this.tabIndex() + delta + this.tabs().length) % this.tabs().length);
+  }
+
+  async rotateView(delta) {
+    const tab = this.tabs()[this.tabIndex()];
+    const data = tab.base && (await this.readBase(tab.base));
+    const names = (data?.views || []).map((v) => v.name);
+    if (names.length < 2) return;
+    const st = this.tabState();
+    const i = Math.max(0, names.indexOf(st.views[tab.base]));
+    st.views[tab.base] = names[(i + delta + names.length) % names.length];
+    await this.plugin.saveData(this.plugin.state);
+    await this.renderBody();
+  }
+
+  async setFilter(q) {
+    this.filter = q;
+    if (this.filterEl && this.filterEl.value !== q) this.filterEl.value = q;
+    await this.renderBody();
+  }
+
+  focusFilter() {
+    this.filterEl?.focus();
+    this.filterEl?.select();
+  }
+
+  // Render
+
+  async render() {
+    const el = this.contentEl;
+    el.empty();
+    this.head = el.createDiv({ cls: "mise-proj-head" });
+    this.tabsEl = el.createDiv({ cls: "mise-proj-tabs" });
+    const bar = el.createDiv({ cls: "mise-proj-bar" });
+    this.viewsEl = bar.createDiv({ cls: "mise-proj-views" });
+    this.filterEl = bar.createEl("input", { cls: "mise-proj-filter", attr: { type: "search", placeholder: "filter by name  /" } });
+    this.filterEl.value = this.filter;
+    const onInput = debounce(() => this.setFilter(this.filterEl.value.trim()), 300, true);
+    this.filterEl.addEventListener("input", onInput);
+    this.filterEl.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        this.filterEl.blur();
+        this.contentEl.focus();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        this.setFilter(this.filterEl.value.trim());
+        this.filterEl.blur();
+        this.contentEl.focus();
+      }
+    });
+    el.setAttr("tabindex", "-1");
+    this.bodyEl = el.createDiv({ cls: "mise-proj-body" });
+    this.titleEl?.setText(this.getDisplayText());
+    this.leaf.updateHeader?.();
+    await this.renderHead();
+    await this.renderBody();
+  }
+
+  async renderHead() {
+    if (!this.head) return;
+    const par = this.par();
+    this.head.empty();
+    this.tabsEl.empty();
+    if (!par) {
+      this.head.createDiv({ cls: "mise-proj-title", text: this.project ? `No PAR note named "${this.project}"` : "No project · open one with <leader> l" });
+      return;
+    }
+    const fm = this.fm(par);
+    const st = this.stats(this.notes());
+
+    const top = this.head.createDiv({ cls: "mise-proj-top" });
+    const title = top.createDiv({ cls: "mise-proj-title" });
+    title.createSpan({ text: par.basename });
+    if (fm.paraType) title.createSpan({ cls: "mise-proj-chip", text: String(fm.paraType) });
+    if (fm.active !== true) title.createSpan({ cls: "mise-proj-chip is-muted", text: "inactive" });
+    const actions = top.createDiv({ cls: "mise-proj-actions" });
+    const action = (text, fn) => actions.createEl("button", { cls: "mise-proj-btn", text }).addEventListener("click", fn);
+    action("PAR note  o", () => this.openPar());
+    action("bridge  b", () => this.plugin.editBridge(this.project));
+    action("?", () => this.plugin.projectActions()["project:help"]());
+
+    const bridge = this.head.createDiv({ cls: "mise-proj-bridge", text: fm.bridge ? `⤷ ${plainLinks(fm.bridge)}` : "⤷ no bridge · b writes it" });
+    if (!fm.bridge) bridge.addClass("is-empty");
+    bridge.addEventListener("click", () => this.plugin.editBridge(this.project));
+
+    // Counts; each one jumps to the tab and view that lists those notes.
+    const stats = this.head.createDiv({ cls: "mise-proj-stats" });
+    const stat = (n, label, cls, base, view) => {
+      const s = stats.createSpan({ cls: `mise-proj-stat ${cls || ""}` });
+      s.createSpan({ cls: "mise-proj-stat-n", text: String(n) });
+      s.createSpan({ text: ` ${label}` });
+      if (!n) s.addClass("is-zero");
+      if (base) s.addEventListener("click", () => this.jump(base, view));
+    };
+    stat(st.open, "open issues", "", "issues-project.base", "Issues");
+    stat(st.wip, "wip", "is-wip", "issues-project.base", "WIP");
+    stat(st.blocked, "blocked", "is-blocked", "issues-project.base", "Blocked");
+    stat(st.notes, "notes", "", "project-notes.base", "All notes");
+    stat(st.capture, "to distill", "", "project-notes.base", "To distill");
+    stat(st.untyped, "untyped", st.untyped ? "is-warn" : "", "project-notes.base", "Untyped");
+
+    const current = this.tabIndex();
+    const tabs = this.tabs();
+    for (let i = 0; i < tabs.length; i++) {
+      const tab = tabs[i];
+      const n = await this.tabCount(tab, st);
+      const t = this.tabsEl.createDiv({ cls: "mise-proj-tab" });
+      if (i === current) t.addClass("is-active");
+      if (n === 0) t.addClass("is-zero");
+      t.createSpan({ cls: "mise-proj-tab-key", text: i < 9 ? String(i + 1) : "" });
+      t.createSpan({ text: tab.name });
+      if (n != null) t.createSpan({ cls: "mise-proj-tab-n", text: String(n) });
+      t.addEventListener("click", () => this.selectTab(i));
+    }
+  }
+
+  async jump(base, view) {
+    const i = this.tabs().findIndex((t) => t.base === base);
+    if (i < 0) return;
+    if (view) this.tabState().views[base] = view;
+    await this.selectTab(i);
+  }
+
+  async renderBody() {
+    if (!this.bodyEl) return;
+    if (this.body) this.removeChild(this.body);
+    this.body = this.addChild(new Component());
+    this.bodyEl.empty();
+    this.viewsEl.empty();
+    const par = this.par();
+    if (!par) return;
+    const tab = this.tabs()[this.tabIndex()];
+    if (tab.show === "overview") return this.renderOverview(par);
+    if (!tab.base) return this.bodyEl.createDiv({ cls: "mise-proj-empty", text: `Tab "${tab.name}" has no base` });
+    const data = await this.readBase(tab.base);
+    if (!data) return this.bodyEl.createDiv({ cls: "mise-proj-empty", text: `Missing ${this.basePath(tab.base)}` });
+    const names = (data.views || []).map((v) => v.name);
+    const st = this.tabState();
+    const view = names.includes(st.views[tab.base]) ? st.views[tab.base] : names[0];
+    names.forEach((name) => {
+      const chip = this.viewsEl.createSpan({ cls: "mise-proj-view", text: name });
+      if (name === view) chip.addClass("is-active");
+      chip.addEventListener("click", async () => {
+        st.views[tab.base] = name;
+        await this.plugin.saveData(this.plugin.state);
+        await this.renderBody();
+      });
+    });
+    if (names.length > 1) this.viewsEl.createSpan({ cls: "mise-proj-hint", text: "h l" });
+    await this.renderBase(this.bodyEl.createDiv({ cls: "mise-proj-base" }), data, view, par);
+  }
+
+  // Overview: the PAR's own index and working set, then one card per base view.
+  async renderOverview(par) {
+    const grid = this.bodyEl.createDiv({ cls: "mise-proj-overview" });
+    const card = (title, wide) => {
+      const c = grid.createDiv({ cls: `mise-proj-card${wide ? " is-wide" : ""}` });
+      c.createDiv({ cls: "mise-proj-card-title", text: title });
+      return c.createDiv({ cls: "mise-proj-card-body" });
+    };
+
+    const section = this.cfg().indexSection || "## Index";
+    const text = await this.app.vault.cachedRead(par);
+    const idx = this.sectionOf(text, section);
+    const indexEl = card("Index");
+    if (idx) await MarkdownRenderer.render(this.app, idx, indexEl, par.path, this.body);
+    else indexEl.createDiv({ cls: "mise-proj-empty", text: `No "${section}" in the PAR note` });
+
+    const working = (this.plugin.projectGroup(par.basename)?.items || []).filter((i) => i.type === "file");
+    const workEl = card("Working set");
+    if (working.length) {
+      const md = working.map((i) => `- [[${i.path.replace(/\.md$/, "")}|${i.path.split("/").pop().replace(/\.md$/, "")}]]`).join("\n");
+      await MarkdownRenderer.render(this.app, md, workEl, par.path, this.body);
+    } else workEl.createDiv({ cls: "mise-proj-empty", text: "Empty · <leader> p a adds the active note" });
+
+    const cards = this.cfg().overview?.length ? this.cfg().overview : DEFAULT_OVERVIEW;
+    for (const spec of cards) {
+      const el = card(spec.title || spec.view || spec.base, true);
+      const data = await this.readBase(spec.base);
+      if (!data) el.createDiv({ cls: "mise-proj-empty", text: `Missing ${this.basePath(spec.base)}` });
+      else await this.renderBase(el, data, spec.view, par);
+    }
+  }
+
+  // The lines under a heading, until the next heading of the same or a higher level.
+  sectionOf(text, heading) {
+    const lines = text.split("\n");
+    const start = lines.findIndex((l) => l.trim() === heading.trim());
+    if (start < 0) return "";
+    const level = heading.match(/^#+/)?.[0].length || 2;
+    const out = [];
+    for (let i = start + 1; i < lines.length; i++) {
+      const h = lines[i].match(/^(#{1,6})\s/);
+      if (h && h[1].length <= level) break;
+      out.push(lines[i]);
+    }
+    return out.join("\n").trim();
+  }
+
+  // One view of a base as a base code block, with the PAR as `this` and the
+  // name filter added to the base filters.
+  async renderBase(el, data, view, par) {
+    const base = JSON.parse(JSON.stringify(data));
+    if (view) base.views = (base.views || []).filter((v) => v.name === view);
+    if (this.filter) {
+      const q = this.filter.toLowerCase().replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+      const extra = `file.name.lower().contains("${q}")`;
+      base.filters = base.filters ? { and: [base.filters, extra] } : { and: [extra] };
+    }
+    const md = "```base\n" + stringifyYaml(base) + "```";
+    await MarkdownRenderer.render(this.app, md, el, par.path, this.body);
+  }
+
+  // Actions
+
+  openPar() {
+    const par = this.par();
+    if (par) return this.openBeside(par, false);
+  }
+
+  onLinkClick(e) {
+    const a = e.target.closest?.(".internal-link");
+    if (!a || e.button !== 0) return;
+    const href = a.dataset.href || a.getAttribute("href");
+    const file = href && this.app.metadataCache.getFirstLinkpathDest(href.split("#")[0], this.par()?.path || "");
+    if (!file) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this.openBeside(file, e.metaKey || e.ctrlKey);
+  }
+
+  // Open a note beside the board: reuse a tab that shows it, else a new tab in
+  // the working pane (the left pane of the layout), else in the pane next to it.
+  async openBeside(file, newTab) {
+    const ws = this.app.workspace;
+    let existing = null;
+    ws.iterateRootLeaves((l) => {
+      if (!existing && l !== this.leaf && l.view?.file === file) existing = l;
+    });
+    if (existing && !newTab) return ws.setActiveLeaf(existing, { focus: true });
+    const groups = this.plugin.tabGroups();
+    const left = this.plugin.leftGroup && groups.includes(this.plugin.leftGroup) ? this.plugin.leftGroup : null;
+    const target = left || groups.find((g) => g !== this.leaf.parent) || this.leaf.parent;
+    const leaf = target === this.leaf.parent && groups.length === 1 && !left
+      ? ws.getLeaf("split", "vertical")
+      : ws.createLeafInParent(target, target.children.length);
+    await leaf.openFile(file);
+    ws.setActiveLeaf(leaf, { focus: true });
+  }
+}
+
+function linkName(l) {
+  return String(l).replace(/^\[\[|\]\]$/g, "").split("|")[0].split("#")[0];
 }
 
 // Issue finder: every issue note, fuzzy matched on its name, projects and

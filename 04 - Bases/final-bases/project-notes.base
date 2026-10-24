@@ -1,0 +1,68 @@
+filters:
+  and:
+    - paras.contains(this.file)
+    - type != link("Issues")
+    - '!file.name.contains("Template")'
+views:
+  - type: table
+    name: All notes
+    groupBy:
+      property: type
+      direction: ASC
+    order:
+      - file.name
+      - subtypes
+      - maturity
+      - status
+      - file.mtime
+    sort:
+      - property: file.name
+        direction: ASC
+    columnSize:
+      file.name: 360
+  - type: table
+    name: Recent
+    order:
+      - file.name
+      - type
+      - maturity
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    limit: 12
+    columnSize:
+      file.name: 360
+  - type: table
+    name: To distill
+    filters:
+      or:
+        - maturity == "capture"
+        - maturity.isEmpty()
+    groupBy:
+      property: type
+      direction: ASC
+    order:
+      - file.name
+      - maturity
+      - status
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 360
+  - type: table
+    name: Untyped
+    filters:
+      and:
+        - type.isEmpty()
+    order:
+      - file.name
+      - file.folder
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 360
