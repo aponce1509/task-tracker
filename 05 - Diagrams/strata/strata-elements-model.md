@@ -20,6 +20,8 @@ created: 2026-10-24 12:00
 > - `levels` is the note name split on `-`, so `strata-elements-cli` has the levels `strata`, `elements`, `cli`; the parent is the name without its last level.
 > - `subtypes` holds the one Architectures subtype of the note; `allowedSubtypes(levels)` gives the subtypes that fit its depth.
 > - `Block` is one `pele` block of a note; its `click` lines link to a diagram note, or to any other note.
+> - `buildTree` makes the Tree from the Entries.
+> - `Builders` is not a real class either: it is the three module functions that make a `Tree`, the `Block` objects and a new note text.
 > - `Rules` is not a real class: it is the module constants and helper functions, drawn as a class. It holds the fixed values: the root has the two views of `VIEWS`, and `status` takes one value of `STATUSES`.
 
 ```pele
@@ -57,9 +59,15 @@ classDiagram
     ancestorsOf(name) names
     validLevel(level) boolean
   }
+  class Builders {
+    buildTree(entries) Tree
+    extractBlocks(text) Block[]
+    noteTemplate(name, paras, created) string
+  }
   Tree "1" *-- "many" Node : nodes
   Entry <|-- Node
-  Entry ..> Block : extractBlocks
+  Builders ..> Tree : buildTree makes the Tree from the Entries
+  Builders ..> Block : extractBlocks makes the Blocks from the note text
   Block "1" ..> "many" Node : click links to any note name, a Node when it is a diagram note
   Node ..> Rules : checked against
 ```
