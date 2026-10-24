@@ -21345,6 +21345,8 @@ var HOVER_SOURCE = "strata";
 var StrataPlugin = class extends import_obsidian.Plugin {
   settings = { root: DEFAULT_ROOT };
   tree = { nodes: /* @__PURE__ */ new Map(), projects: [] };
+  // Rendered diagrams and their source note, recolored when a note changes.
+  canvases = /* @__PURE__ */ new Map();
   async onload() {
     this.settings = Object.assign({ root: DEFAULT_ROOT }, await this.loadData());
     this.registerHoverLinkSource(HOVER_SOURCE, { display: "Strata diagrams", defaultMod: true });
@@ -21385,6 +21387,7 @@ var StrataPlugin = class extends import_obsidian.Plugin {
     }
     this.tree = buildTree(entries);
     this.refreshViews();
+    for (const [canvas, sourcePath] of this.canvases) this.colorLinks(canvas, sourcePath);
   }
   refreshViews() {
     for (const leaf of this.app.workspace.getLeavesOfType(VIEW_TYPE)) {
@@ -21442,10 +21445,11 @@ var StrataPlugin = class extends import_obsidian.Plugin {
   }
   // Pele emits <a href> for `click` directives and <a data-href> for `class x internal-link`.
   wireLinks(canvas, sourcePath) {
+    this.canvases.set(canvas, sourcePath);
     canvas.querySelectorAll("a").forEach((a) => {
       if (a.dataset.strata) return;
       a.dataset.strata = "1";
-      const href = a.getAttribute("data-href") ?? a.getAttribute("href") ?? a.getAttribute("xlink:href");
+      const href = linkHref(a);
       if (!href) return;
       if (hasScheme(href)) {
         a.addEventListener("click", (evt) => {
@@ -21455,13 +21459,29 @@ var StrataPlugin = class extends import_obsidian.Plugin {
         });
         return;
       }
-      const resolved = this.app.metadataCache.getFirstLinkpathDest(href.split("#")[0], sourcePath);
       a.classList.add("strata-link");
-      if (!resolved) a.classList.add("is-unresolved");
-      const node = a.closest(".pele-node");
-      const status = resolved && this.app.metadataCache.getFileCache(resolved)?.frontmatter?.status;
-      if (node && STATUSES.includes(status) && !STATUSES.some((s) => node.classList.contains(s))) node.classList.add(status);
       this.linkTo(a, href, sourcePath, canvas);
+    });
+    this.colorLinks(canvas, sourcePath);
+  }
+  // A linked node shows the status of its note, unless the diagram sets one. It runs after
+  // each render and on every rebuild, so a status change in the linked note shows at once.
+  colorLinks(canvas, sourcePath) {
+    canvas.querySelectorAll("a.strata-link").forEach((a) => {
+      const href = linkHref(a);
+      if (!href) return;
+      const resolved = this.app.metadataCache.getFirstLinkpathDest(href.split("#")[0], sourcePath);
+      a.classList.toggle("is-unresolved", !resolved);
+      const node = a.closest(".pele-node");
+      if (!node) return;
+      const own = node.getAttribute("data-strata-status");
+      if (own) node.classList.remove(own);
+      node.removeAttribute("data-strata-status");
+      if (STATUSES.some((s) => node.classList.contains(s))) return;
+      const status = resolved && this.app.metadataCache.getFileCache(resolved)?.frontmatter?.status;
+      if (!STATUSES.includes(status)) return;
+      node.classList.add(status);
+      node.setAttribute("data-strata-status", status);
     });
   }
   async openTreeView() {
@@ -21563,9 +21583,13 @@ var DiagramChild = class extends import_obsidian.MarkdownRenderChild {
     });
   }
   onunload() {
+    this.plugin.canvases.delete(this.containerEl);
     this.mounted?.destroy();
   }
 };
+function linkHref(a) {
+  return a.getAttribute("data-href") ?? a.getAttribute("href") ?? a.getAttribute("xlink:href");
+}
 function peleBlocksBefore(text, line) {
   return text.split("\n").slice(0, line).filter((l) => /^\s*(`{3,}|~{3,})\s*pele\b/.test(l)).length;
 }
@@ -21594,7 +21618,8 @@ var DiagramView = class extends import_obsidian.ItemView {
   scale = 1;
   x = 0;
   y = 0;
-  fitted = false;
+  // True once I zoom or pan; until then a render or a resize fits the diagram again.
+  moved = false;
   dragged = false;
   getViewType() {
     return DIAGRAM_VIEW_TYPE;
@@ -21612,7 +21637,7 @@ var DiagramView = class extends import_obsidian.ItemView {
     const file = state.file ? this.app.vault.getAbstractFileByPath(state.file) : null;
     this.file = file instanceof import_obsidian.TFile ? file : null;
     this.index = state.index ?? 0;
-    this.fitted = false;
+    this.moved = false;
     await this.load_();
     await super.setState(state, result);
   }
@@ -21639,7 +21664,10 @@ var DiagramView = class extends import_obsidian.ItemView {
         if (f === this.file) this.leaf.detach();
       })
     );
-    this.register(() => this.mounted?.destroy());
+    this.register(() => {
+      this.plugin.canvases.delete(this.canvas);
+      this.mounted?.destroy();
+    });
   }
   async load_() {
     if (!this.canvas) return;
@@ -21661,7 +21689,7 @@ var DiagramView = class extends import_obsidian.ItemView {
     const sourcePath = this.file.path;
     const onRender = () => {
       this.plugin.wireLinks(this.canvas, sourcePath);
-      if (!this.fitted) this.fit();
+      if (!this.moved) this.fit();
       else this.apply();
     };
     if (this.mounted) this.mounted.update(source, { zoom: false, onRender });
@@ -21704,7 +21732,7 @@ var DiagramView = class extends import_obsidian.ItemView {
     this.scale = Math.max(this.scale, MIN_SCALE);
     this.x = (box.width - width * this.scale) / 2;
     this.y = (box.height - height * this.scale) / 2;
-    this.fitted = true;
+    this.moved = false;
     this.apply();
   }
   // Zoom keeping the stage point (px, py) still; defaults to the centre.
@@ -21716,11 +21744,13 @@ var DiagramView = class extends import_obsidian.ItemView {
     this.x = cx2 - (cx2 - this.x) * scale / this.scale;
     this.y = cy2 - (cy2 - this.y) * scale / this.scale;
     this.scale = scale;
+    this.moved = true;
     this.apply();
   }
   pan(dx2, dy2) {
     this.x += dx2;
     this.y += dy2;
+    this.moved = true;
     this.apply();
   }
   renderControls(el2) {
@@ -21819,7 +21849,7 @@ var DiagramView = class extends import_obsidian.ItemView {
     });
   }
   onResize() {
-    if (!this.fitted) this.fit();
+    if (!this.moved) this.fit();
   }
 };
 var TreeView = class extends import_obsidian.ItemView {

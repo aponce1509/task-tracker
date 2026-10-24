@@ -9,7 +9,7 @@ role:
 priority: 2
 rate:
 tags:
-status: inbox
+status: done
 maturity: capture
 created: 2026-10-24 20:59
 dueDate:
@@ -30,11 +30,11 @@ dependencies:
 
 ## Tasks
 
-- [ ] Track "moved by me" apart from "fitted once"
+- [x] Track "moved by me" apart from "fitted once"
   - set it on zoom, pan and keys; clear it on `fit()`
-- [ ] Refit on render and on resize while the view is not moved
-- [ ] Test with an agent adding nodes to an open diagram
-- [ ] Update [[strata-elements-plugin-pane]]: drop the Known limit, rename `FitAtOpen` if the state means fit again
+- [x] Refit on render and on resize while the view is not moved
+- [x] Test with an agent adding nodes to an open diagram
+- [x] Update [[strata-elements-plugin-pane]]: drop the Known limit, rename `FitAtOpen` if the state means fit again
 
 
 ## Post-Mortem

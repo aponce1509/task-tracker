@@ -9,7 +9,7 @@ role:
 priority: 2
 rate:
 tags:
-status: inbox
+status: done
 maturity: capture
 created: 2026-10-24 21:00
 dueDate:
@@ -31,13 +31,13 @@ dependencies:
 
 ## Tasks
 
-- [ ] Keep, per rendered block, the linked node elements and their target notes
+- [x] Keep, per rendered block, the linked node elements and their target notes
   - `wireLinks` already resolves each target; store the pair there
-- [ ] On metadata change of a note, re-apply the status class on the nodes that link to it
+- [x] On metadata change of a note, re-apply the status class on the nodes that link to it
   - only nodes without a class in the diagram; a class in the diagram wins
-- [ ] Do the same in the Diagram pane, which uses the same `wireLinks`
-- [ ] Test: change the `status` of `strata-elements-cli` with [[strata-elements]] open
-- [ ] Update the Details of [[strata-elements-plugin-render]]
+- [x] Do the same in the Diagram pane, which uses the same `wireLinks`
+- [x] Test: change the `status` of `strata-elements-cli` with [[strata-elements]] open
+- [x] Update the Details of [[strata-elements-plugin-render]]
 
 
 ## Post-Mortem

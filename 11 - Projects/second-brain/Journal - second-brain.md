@@ -60,6 +60,10 @@ Build journal of the second brain project: completed tasks with time taken, meet
   - kind::: done
 - 2026-10-16 02:33: Today dashboard in the mise-en-place plugin: panels with tabs (habits, log, learned, plan, projects with bridges), bridge property on PAR notes, ## Plan in the daily template, Start/End Day rewired; documented in The Workplace System and three how-tos [[_I00026 Build an active-projects dashboard in the daily note]]
   - kind::: done
+- 2026-10-24 23:16: Strata Diagram pane fits again on render and resize until I zoom or pan [[_I00042 Strata pane refits when the diagram grows]]
+  - kind::: done
+- 2026-10-24 23:16: Strata node colors follow the status of linked notes without a re-render [[_I00043 Strata node colors follow note status changes]]
+  - kind::: done
 
 ## Tech debt
 

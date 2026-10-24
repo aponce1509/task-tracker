@@ -44,6 +44,8 @@ interface Settings {
 export default class StrataPlugin extends Plugin {
 	settings: Settings = { root: DEFAULT_ROOT };
 	tree: Tree = { nodes: new Map(), projects: [] };
+	// Rendered diagrams and their source note, recolored when a note changes.
+	canvases = new Map<HTMLElement, string>();
 
 	async onload() {
 		this.settings = Object.assign({ root: DEFAULT_ROOT }, await this.loadData());
@@ -89,6 +91,7 @@ export default class StrataPlugin extends Plugin {
 		}
 		this.tree = buildTree(entries);
 		this.refreshViews();
+		for (const [canvas, sourcePath] of this.canvases) this.colorLinks(canvas, sourcePath);
 	}
 
 	refreshViews() {
@@ -153,10 +156,11 @@ export default class StrataPlugin extends Plugin {
 
 	// Pele emits <a href> for `click` directives and <a data-href> for `class x internal-link`.
 	wireLinks(canvas: HTMLElement, sourcePath: string) {
+		this.canvases.set(canvas, sourcePath);
 		canvas.querySelectorAll("a").forEach((a) => {
 			if (a.dataset.strata) return;
 			a.dataset.strata = "1";
-			const href = a.getAttribute("data-href") ?? a.getAttribute("href") ?? a.getAttribute("xlink:href");
+			const href = linkHref(a);
 			if (!href) return;
 			if (hasScheme(href)) {
 				a.addEventListener("click", (evt) => {
@@ -166,14 +170,30 @@ export default class StrataPlugin extends Plugin {
 				});
 				return;
 			}
-			const resolved = this.app.metadataCache.getFirstLinkpathDest(href.split("#")[0], sourcePath);
 			a.classList.add("strata-link");
-			if (!resolved) a.classList.add("is-unresolved");
-			// A linked node shows the status of its note, unless the diagram sets one.
-			const node = a.closest(".pele-node");
-			const status = resolved && this.app.metadataCache.getFileCache(resolved)?.frontmatter?.status;
-			if (node && STATUSES.includes(status) && !STATUSES.some((s) => node.classList.contains(s))) node.classList.add(status);
 			this.linkTo(a as unknown as HTMLElement, href, sourcePath, canvas);
+		});
+		this.colorLinks(canvas, sourcePath);
+	}
+
+	// A linked node shows the status of its note, unless the diagram sets one. It runs after
+	// each render and on every rebuild, so a status change in the linked note shows at once.
+	colorLinks(canvas: HTMLElement, sourcePath: string) {
+		canvas.querySelectorAll("a.strata-link").forEach((a) => {
+			const href = linkHref(a);
+			if (!href) return;
+			const resolved = this.app.metadataCache.getFirstLinkpathDest(href.split("#")[0], sourcePath);
+			a.classList.toggle("is-unresolved", !resolved);
+			const node = a.closest(".pele-node");
+			if (!node) return;
+			const own = node.getAttribute("data-strata-status");
+			if (own) node.classList.remove(own);
+			node.removeAttribute("data-strata-status");
+			if (STATUSES.some((s) => node.classList.contains(s))) return;
+			const status = resolved && this.app.metadataCache.getFileCache(resolved)?.frontmatter?.status;
+			if (!STATUSES.includes(status)) return;
+			node.classList.add(status);
+			node.setAttribute("data-strata-status", status);
 		});
 	}
 
@@ -282,8 +302,13 @@ class DiagramChild extends MarkdownRenderChild {
 	}
 
 	onunload() {
+		this.plugin.canvases.delete(this.containerEl);
 		this.mounted?.destroy();
 	}
+}
+
+function linkHref(a: Element): string | null {
+	return a.getAttribute("data-href") ?? a.getAttribute("href") ?? a.getAttribute("xlink:href");
 }
 
 // Index of the pele block that starts at `line`: the number of pele fences above it.
@@ -314,7 +339,8 @@ class DiagramView extends ItemView {
 	scale = 1;
 	x = 0;
 	y = 0;
-	fitted = false;
+	// True once I zoom or pan; until then a render or a resize fits the diagram again.
+	moved = false;
 	dragged = false;
 
 	constructor(
@@ -345,7 +371,7 @@ class DiagramView extends ItemView {
 		const file = state.file ? this.app.vault.getAbstractFileByPath(state.file) : null;
 		this.file = file instanceof TFile ? file : null;
 		this.index = state.index ?? 0;
-		this.fitted = false;
+		this.moved = false;
 		await this.load_();
 		await super.setState(state, result);
 	}
@@ -373,7 +399,10 @@ class DiagramView extends ItemView {
 				if (f === this.file) this.leaf.detach();
 			}),
 		);
-		this.register(() => this.mounted?.destroy());
+		this.register(() => {
+			this.plugin.canvases.delete(this.canvas);
+			this.mounted?.destroy();
+		});
 	}
 
 	async load_() {
@@ -396,7 +425,7 @@ class DiagramView extends ItemView {
 		const sourcePath = this.file.path;
 		const onRender = () => {
 			this.plugin.wireLinks(this.canvas, sourcePath);
-			if (!this.fitted) this.fit();
+			if (!this.moved) this.fit();
 			else this.apply();
 		};
 		if (this.mounted) this.mounted.update(source, { zoom: false, onRender });
@@ -444,7 +473,7 @@ class DiagramView extends ItemView {
 		this.scale = Math.max(this.scale, MIN_SCALE);
 		this.x = (box.width - width * this.scale) / 2;
 		this.y = (box.height - height * this.scale) / 2;
-		this.fitted = true;
+		this.moved = false;
 		this.apply();
 	}
 
@@ -457,12 +486,14 @@ class DiagramView extends ItemView {
 		this.x = cx - ((cx - this.x) * scale) / this.scale;
 		this.y = cy - ((cy - this.y) * scale) / this.scale;
 		this.scale = scale;
+		this.moved = true;
 		this.apply();
 	}
 
 	pan(dx: number, dy: number) {
 		this.x += dx;
 		this.y += dy;
+		this.moved = true;
 		this.apply();
 	}
 
@@ -569,7 +600,7 @@ class DiagramView extends ItemView {
 	}
 
 	onResize() {
-		if (!this.fitted) this.fit();
+		if (!this.moved) this.fit();
 	}
 }
 
