@@ -13,7 +13,7 @@ The skill sources live in `99 - Meta/skills/<name>/SKILL.md` — one folder per 
 Read before touching notes:
 
 - `obsidian-vault-notes` — MANDATORY before creating, writing, editing or refactoring any `.md` note in this vault. It is the router and owns the shared rules: metadata framework (properties / type+subtypes / tags / PARA context), the writing style (`references/writing-style.md`), journals and any note without a kind skill.
-- Note-kind skills (creation only), loaded on top of `obsidian-vault-notes`: `note-issue`, `note-meeting`, `note-concept`, `note-index-moc`.
+- Note-kind skills (creation only), loaded on top of `obsidian-vault-notes`: `note-issue`, `note-meeting`, `note-concept`, `note-index-moc`, `note-diagram`.
 - `markdown-editing` — MANDATORY when writing any Markdown file: minimal style, no `---` section separators, no numbered headings.
 
 System work:
@@ -23,11 +23,13 @@ System work:
 - `vault-bridge` — the only global skill: agents in other repos read issues and PAR notes through the read-only `vault` MCP server (`scripts/vault_mcp.py`, registered at user level) or the obsidian CLI, and write back only through `create-issue.sh` / `journal.sh`.
 - `project-journaling` — log completed issues and parsed meetings, and anything else only when the user explicitly asks (milestones, tech debt, close), to project journals, always through `journal.sh`.
 
-Subagents: `99 - Meta/agents/<name>.md` — `meeting-extractor`, `concept-distiller`, `navigation-curator`, `inbox-triager` (read-only), `vault-auditor` (read-only). Writer agents write only an approved plan passed in the prompt. Agent models are set per harness: `model: sonnet` in the frontmatter is for Claude Code, and `opencode.json` (`agent.<name>.model`) overrides it for OpenCode. A new agent needs both.
+Subagents: `99 - Meta/agents/<name>.md` — `meeting-extractor`, `concept-distiller`, `navigation-curator`, `inbox-triager` (read-only), `vault-auditor` (read-only), `diagram-writer`, `diagram-reviewer` (read-only, `note-diagram` orchestrates both). Writer agents write only an approved plan passed in the prompt. Agent models are set per harness: `model: sonnet` (or `opus` for the diagram agents) in the frontmatter is for Claude Code, and `opencode.json` (`agent.<name>.model`) overrides it for OpenCode. A new agent needs both.
 
 Slash commands: `99 - Meta/commands/<name>.md` — `/postmortem` (guided post-mortem for an issue), `/create-issue`, `/parse-meeting`, `/new-concept`, `/guide-distillation`, `/guide-inbox-clean`, `/recall`.
 
 `.opencode/` and `.claude/` hold `skills`, `commands` and `agents` as dir symlinks to the canonical `99 - Meta/` folders. Keep the six views aligned with `scripts/sync-skills.sh` (`status` / `sync` / `clean`).
+
+Diagrams: `05 - Diagrams/<project>/`, rendered by the Strata plugin (`.obsidian/plugins/strata/`, Pele). Agents check them with `node .obsidian/plugins/strata/strata.mjs check`; rebuild the plugin with `npm run build` in that folder after changing `src/`.
 
 External dependency: the `obsidian` CLI, used by the skills for search, bases and daily notes. Its usage is documented by the globally installed `obsidian-cli` skill (`~/.agents/skills/obsidian-cli/`), available to any project on this machine.
 

@@ -1,0 +1,176 @@
+/* Pele theme mapped to the Obsidian theme */
+.strata {
+	--pele-bg: transparent;
+	--pele-fg: var(--text-normal);
+	--pele-muted: var(--text-muted);
+	--pele-line: var(--text-muted);
+	--pele-surface: var(--background-secondary);
+	--pele-surface-alt: var(--background-modifier-hover);
+	--pele-border: var(--background-modifier-border-hover);
+	--pele-accent: var(--interactive-accent);
+	--pele-error: var(--text-error);
+	--pele-font: var(--font-interface);
+	--pele-radius: var(--radius-s);
+	--pele-series-1: var(--color-blue);
+	--pele-series-2: var(--color-orange);
+	--pele-series-3: var(--color-green);
+	--pele-series-4: var(--color-purple);
+	--pele-series-5: var(--color-red);
+	--pele-series-6: var(--color-cyan);
+	--pele-series-7: var(--color-yellow);
+	--pele-series-8: var(--color-pink);
+	margin: var(--size-4-2) 0;
+}
+
+.strata-canvas {
+	position: relative;
+	padding: var(--size-4-3);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	background: var(--background-primary);
+}
+
+.strata-canvas a.strata-link { cursor: pointer; }
+.strata-canvas a.strata-link:hover :is(rect, path, polygon, circle, ellipse) { stroke: var(--interactive-accent); }
+.strata-canvas a.strata-link.is-unresolved { opacity: 0.6; }
+
+.strata-crumbs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-2-2);
+	align-items: center;
+	margin-bottom: var(--size-4-2);
+	font-size: var(--font-ui-small);
+	color: var(--text-muted);
+}
+.strata-crumb { color: var(--text-muted); text-decoration: none; cursor: pointer; }
+.strata-crumb:hover { color: var(--text-accent); }
+.strata-here { color: var(--text-normal); font-weight: var(--font-semibold); }
+.strata-sep { color: var(--text-faint); }
+
+.strata-children {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--size-4-2);
+	margin-top: var(--size-4-2);
+}
+.strata-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--size-2-3);
+	padding: var(--size-2-1) var(--size-4-2);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-l);
+	color: var(--text-normal);
+	font-size: var(--font-ui-small);
+	text-decoration: none;
+	cursor: pointer;
+}
+.strata-chip:hover { border-color: var(--interactive-accent); }
+.strata-kind { color: var(--text-faint); font-size: var(--font-ui-smaller); }
+
+/* status dots follow the commons `status` property */
+.strata-dot {
+	width: 8px;
+	height: 8px;
+	flex: none;
+	border-radius: 50%;
+	border: 1px solid var(--text-faint);
+}
+.strata-dot.is-inbox { border-color: var(--text-muted); }
+.strata-dot.is-feed { background: var(--color-cyan); border-color: var(--color-cyan); }
+.strata-dot.is-wip { background: var(--color-yellow); border-color: var(--color-yellow); }
+.strata-dot.is-blocked { background: var(--color-red); border-color: var(--color-red); }
+.strata-dot.is-done { background: var(--color-green); border-color: var(--color-green); }
+
+.strata-tree { font-size: var(--font-ui-small); }
+.strata-tree ul { list-style: none; margin: 0; padding-left: var(--size-4-4); }
+.strata-tree .strata-project > ul { padding-left: 0; }
+.strata-tree summary { font-weight: var(--font-semibold); padding: var(--size-2-2) 0; cursor: pointer; }
+.strata-row {
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-3);
+	padding: var(--size-2-1) var(--size-2-3);
+	border-radius: var(--radius-s);
+	cursor: pointer;
+}
+.strata-row:hover { background: var(--background-modifier-hover); }
+.strata-row.is-active { background: var(--background-modifier-active-hover); }
+.strata-problem { color: var(--text-error); font-weight: var(--font-bold); }
+.strata-empty { color: var(--text-muted); padding: var(--size-4-2); }
+
+/* edge labels: Pele backs them with --pele-bg, transparent here, so the line shows through the text */
+.strata svg .pele-edge-label > rect { fill: var(--background-primary); }
+
+/* linked nodes: accent label instead of the default underline */
+.strata-canvas a.strata-link text { text-decoration: none; fill: var(--text-accent); }
+
+/* expand button on rendered blocks */
+.strata-frame { position: relative; }
+.strata-expand {
+	position: absolute;
+	right: var(--size-4-1);
+	bottom: var(--size-4-1);
+	z-index: 1;
+	opacity: 0;
+	transition: opacity 120ms;
+}
+.strata-frame:hover .strata-expand,
+.strata-expand:focus-visible { opacity: 1; }
+
+/* diagram pane */
+.workspace-leaf-content[data-type="strata-diagram"] .view-content.strata-pane {
+	position: relative;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+.strata-stage {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	cursor: grab;
+	touch-action: none;
+	outline: none;
+	background:
+		radial-gradient(circle, var(--background-modifier-border) 1px, transparent 1px) 0 0 / 20px 20px,
+		var(--background-primary);
+}
+.strata-stage.is-dragging { cursor: grabbing; user-select: none; }
+.strata-pane-canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform-origin: 0 0;
+	will-change: transform;
+}
+.strata-pane-canvas svg { display: block; }
+.strata-pane-controls {
+	position: absolute;
+	right: var(--size-4-3);
+	bottom: var(--size-4-3);
+	display: flex;
+	align-items: center;
+	gap: var(--size-2-1);
+	padding: var(--size-2-1);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	background: var(--background-secondary);
+	box-shadow: var(--shadow-s);
+}
+.strata-zoom-label {
+	min-width: 3.5em;
+	text-align: center;
+	font-size: var(--font-ui-smaller);
+	font-variant-numeric: tabular-nums;
+	color: var(--text-muted);
+	cursor: pointer;
+}
+
+/* status of a node: `a:::done` in the diagram, or the status of the note it links */
+.strata svg .pele-node:is(.inbox, .wip, .blocked, .done) :is(rect, path, polygon, circle, ellipse) { stroke-width: 1.5px; }
+.strata svg .pele-node.inbox :is(rect, path, polygon, circle, ellipse) { stroke: var(--text-muted); stroke-dasharray: 4 3; }
+.strata svg .pele-node.wip :is(rect, path, polygon, circle, ellipse) { fill: rgba(var(--color-yellow-rgb), 0.18); stroke: var(--color-yellow); }
+.strata svg .pele-node.blocked :is(rect, path, polygon, circle, ellipse) { fill: rgba(var(--color-red-rgb), 0.18); stroke: var(--color-red); }
+.strata svg .pele-node.done :is(rect, path, polygon, circle, ellipse) { fill: rgba(var(--color-green-rgb), 0.18); stroke: var(--color-green); }

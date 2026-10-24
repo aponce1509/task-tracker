@@ -48,6 +48,7 @@ created: 2026-10-13 23:25
 | `note-meeting` | Create or parse a meeting note, its issues and its journal entry | [[The Meeting System]] |
 | `note-concept` | Create concepts from the creation graph | [[The Concept System]] |
 | `note-index-moc` | Create indexes and MoCs and do the linking | [[The Index and MoC System]] |
+| `note-diagram` | Create and iterate diagram notes through `diagram-writer` and `diagram-reviewer`, check them with the strata CLI, plan from the tree | [[The Diagram System]] |
 | `markdown-editing` | Minimal Markdown | [[How I Like My Notes]] |
 | `project-journaling` | Journal entries through `journal.sh` | [[Journal - second-brain]] |
 | `system-reference-maintance` | Audit of the engines | [[System Maintenance & Review]] |
@@ -63,6 +64,8 @@ created: 2026-10-13 23:25
 | `navigation-curator` | Creates or extends indexes and MoCs; finds orphan concepts | Index and MoC notes, after approval |
 | `inbox-triager` | Reviews a batch of inbox notes: metadata, format, place, issues | Nothing, it proposes |
 | `vault-auditor` | Runs the audit scripts and the guidance checks, explains the drift | Nothing |
+| `diagram-writer` | Writes one diagram note from a brief with the whole context | One diagram note |
+| `diagram-reviewer` | Reads a diagram tree cold: understandability and coherence | Nothing, it proposes |
 
 ## Commands
 

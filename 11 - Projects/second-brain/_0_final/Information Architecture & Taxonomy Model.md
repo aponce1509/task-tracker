@@ -77,7 +77,7 @@ Mirror of `taxonomy.json` (the JSON prevails on any mismatch).
 
 ### Descriptive (What Is True)
 
-- **Architectures**: structural representation of systems → `database`, `domain-model`, `service`, `infrastructure`, `api`, `data-flow`
+- **Architectures**: structural representation of systems → C4 levels `context`, `features`, `container`, `component`, `classes`, and aspects `dynamic`, `data`, `interface`, `deployment` (see [[The Diagram System]])
 - **Project Contexts**: current state of systems → `migration`, `legacy`, `technical-debt`, `status`, `risk`
 
 ### Operational

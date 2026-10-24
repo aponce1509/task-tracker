@@ -69,12 +69,15 @@
   },
   "Descriptive": {
     "Architectures": {
-      "database": "Schemas, ER diagrams, data models, and storage engine designs.",
-      "domain-model": "Core business logic models, entities, and aggregates.",
-      "service": "Microservice descriptions, system boundaries, and service APIs.",
-      "infrastructure": "Cloud topology, hardware configurations, and network setups.",
-      "api": "REST/GraphQL contracts, endpoints, and interface specifications.",
-      "data-flow": "Pipelines, ETL processes, streaming architectures, and message flows."
+      "context": "C4 level 1, the root of a diagram tree. The system, its users and the external systems it talks to.",
+      "features": "The features view of a diagram tree. What a user can do, grouped by area, each feature with its status.",
+      "container": "C4 level 2. The parts that run or ship (apps, plugins, CLIs, stores) and how they talk.",
+      "component": "C4 level 3. The modules inside one container and their responsibilities.",
+      "classes": "C4 level 4. The classes, types and interfaces of one component.",
+      "dynamic": "Runtime behavior of an element. A sequence, a state machine or a pipeline.",
+      "data": "Stores, schemas, tables and keys of an element.",
+      "interface": "Contracts of an element. Commands, endpoints, events and their payloads.",
+      "deployment": "Where an element runs and how it is built and shipped. Hosts, network, build."
     },
     "Project Contexts": {
       "migration": "Data, infrastructure, or code migration plans and progress tracking.",

@@ -63,6 +63,7 @@ shared rules. Specs live in `11 - Projects/second-brain/_0_final/`
 | Meeting | `note-meeting` | [[The Meeting System]] |
 | Concept (Core Knowledge) | `note-concept` | [[The Concept System]] |
 | Index, MoC | `note-index-moc` | [[The Index and MoC System]] |
+| Diagram | `note-diagram` | [[The Diagram System]] |
 | Project journal | `project-journaling` | `references/note-journal.md` |
 
 ## Processing raw material
@@ -73,7 +74,7 @@ shared rules. Specs live in `11 - Projects/second-brain/_0_final/`
    skill (table above); otherwise fill the commons schema and pick
    type/subtypes from the taxonomy.
 3. **Place**: work items → `08 - Issues/`; PAR notes → `01 - PAR/`; project
-   material → `11 - Projects/<project>/`; areas → `12 - Areas/`; resources →
+   material → `11 - Projects/<project>/`; diagrams → `05 - Diagrams/<project>/`; areas → `12 - Areas/`; resources →
    `13 - Resources/`; indexes → `00 - Map of Contents/`; anything not yet
    classifiable → `09 - Inbox/`.
 4. **Link**: set `paras:` to the relevant project/area/resource and add body
