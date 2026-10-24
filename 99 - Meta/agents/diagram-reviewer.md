@@ -2,7 +2,7 @@
 name: diagram-reviewer
 description: Reads the diagram tree of one project of this vault (05 - Diagrams) cold, the way the user will, and reports what a reader cannot understand and where the tree is not coherent across levels. Read-only, it never writes.
 mode: subagent
-model: opus
+model: sonnet
 disallowedTools: Write, Edit, NotebookEdit
 permission:
   edit: deny

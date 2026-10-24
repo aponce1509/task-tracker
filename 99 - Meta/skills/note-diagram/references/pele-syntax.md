@@ -27,6 +27,7 @@ flowchart TD
 - Direction: `LR`, `TB`/`TD`, `RL`, `BT`. Line breaks in labels: `<br/>`.
 - Edges: `-->`, `-.->` (async, optional), `==>` (main path), `-- text -->` or `-->|text|`. `a --> b & c` fans out.
 - Status classes: `a:::done` or `class a,b wip`, with `inbox`, `wip`, `blocked`, `done`. No `classDef`: the plugin colors them, and a linked node without a class takes the `status` of its note.
+- A `direction` inside a subgraph works only when no node of the subgraph has an edge to a node outside it (the features view). Otherwise Pele ignores it, lines the nodes up in the parent direction, and an edge can pass behind a neighbour node, so the reader sees a chain that is not in the source. Check such a layout with `render`.
 
 ## C4 - systems and containers
 
