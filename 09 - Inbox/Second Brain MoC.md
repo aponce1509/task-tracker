@@ -29,14 +29,14 @@ Note taking
 		- [[Convergence and Divergence]]
 		- [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
 		- [[Dial Down the Scope]]
-		- [[Intermediate Products]]
+		- [[Intermediate and Final Products]]
 		- [[Note-Taking Tag System & Taxonomy]]: TO BE REMOVED
 		- [[Properties & Bases]]
 
 Core Second Brain principles
 - PARA
 	- Annotations: [[PARA Methodology]]
-	- Need review of the implementation: [[PARA Note]]
+	- Need review of the implementation: [[The PARA System]]
 	- [[Second Brain Folder Structure]]
 - Maintenance workflows: [[The Maintenance System]]
 	- [[WORKFLOWS - Bi-Monthly Inbox Sweep]]
@@ -69,7 +69,6 @@ Project Management
 - [[TODO - How to track actual implementation]]
 - Ending a project
 	- [[Postmortem Content]]
-	- [[Ending Index]]
 	- [[How do we organise the note that build the final project]]
 
 Task Management
@@ -97,7 +96,7 @@ Task Management
 
 Random External Source Consumption & Management
 - [[Input sources]]
-- [[Que ganas manteniendo bases de datos]]
+- [[References Database]]
 - [[References Database]]: NEED Complete remake
 
 System Elements

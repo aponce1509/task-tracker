@@ -15,7 +15,7 @@ created: 2026-05-16 15:02
 > [!summary]
 > Use dead time or a project switch to distill only the captures that the current project needs. High relevance, low effort, no need to clear the list.
 
-**Trigger:** dead time, or when I open a project · **Timecap:** 10 to 15 minutes · **Driven by:** a query and `/guide-distillation`
+**Trigger:** dead time, or when I open a project · **Timecap:** 10 to 15 minutes · **Driven by:** `/review-captures`, which runs `/guide-distillation`
 
 ## Steps
 

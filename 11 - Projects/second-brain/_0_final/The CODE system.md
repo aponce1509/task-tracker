@@ -66,7 +66,7 @@ These run next to the maintenance loops of [[System Maintenance & Review]] and t
 - Capture criteria — save only what is surprising, useful, inspiring or personal; saving everything drowns the future self: [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
 - Progressive summarisation — layer 0 raw → 1 bold → 2 highlight → 3 executive summary, one layer only on each revisit: [[Progressive Summarisation]]
 - Delayed polishing — organising never cleans, capturing never polishes; low friction wins: [[Organise - CODE]] · [[Distill - CODE]]
-- Every note has its place — placement plus PARA context: [[Second Brain Folder Structure]] · [[PARA Note]]
+- Every note has its place — placement plus PARA context: [[Second Brain Folder Structure]] · **[[The PARA System]]**
 - External notes stay objective, with source and commentary: [[External Notes]]
 - Capture metadata only pays off through the engines — searching: [[The Retrieval system]], metadata: [[The Metadata system]]
 
@@ -74,7 +74,6 @@ These run next to the maintenance loops of [[System Maintenance & Review]] and t
 
 - The capture granularity (whole source / link / highlight) is decided per connector, not globally yet — see [[Second Brain MoC]] ("none of that, YET to be defined") and [[Input sources]]; the unified contract (raw + metadata + inbox) holds meanwhile.
 - The reference stack awaits its remake: [[References Database]], [[Zotero - The ultimate reference manager]], [[Managing online References]].
-- [[Intermediate and Final Products]] must be linked with the types, tags and special searches (WIP).
 
 ## Agent rules
 

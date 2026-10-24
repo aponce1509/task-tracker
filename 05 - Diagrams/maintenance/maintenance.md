@@ -53,7 +53,7 @@ flowchart LR
 - The AI agent never tidies the vault alone. The workflow I follow, or a safety net, decides what it touches.
 - Workflow notes: 17 notes in `11 - Projects/second-brain/_0_final/workflows/`, all done. Detail in [[maintenance-elements-rhythms|rhythms]].
 - Signals: the Spotlight MoC is wip, the engine and kind audits are done. Detail in [[maintenance-elements-spotlight|spotlight]].
-- AI assets: wip, because the command drafts and `spotlight.sh` are still in the inbox. Detail in [[maintenance-elements-ai|AI assets]].
-- Status: only the runbook (periodic review) is wip, so the Workflow notes node stays done.
+- AI assets: wip, because 8 skill files are still drafts and the workflow commands have not passed [[HOWTO - Test the AI tools]] yet. Detail in [[maintenance-elements-ai|AI assets]].
+- Status: the 17 workflow notes are done, so the Workflow notes node carries `done`. The rhythms note it opens is wip only because it also draws the periodic review of the Runbook (System Maintenance & Review), which is wip.
 - Features and Elements are navigation, not parts of the system: they have no edge.
 - Limit: the Capture devices importers are wip (issue `_I00025`). Today I look at the devices by hand.

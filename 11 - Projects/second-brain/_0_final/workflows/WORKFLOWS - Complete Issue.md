@@ -15,12 +15,12 @@ created: 2026-10-14 00:25
 > [!summary]
 > Closing an issue keeps its lessons and its spin-offs. The post-mortem fills the issue, new work becomes new issues, what I learned becomes concepts, and the journal logs the completion.
 
-**Trigger:** the last task of an issue is done · **Timecap:** 15 minutes · **Driven by:** `/postmortem`, the `project-journaling` skill
+**Trigger:** the last task of an issue is done · **Timecap:** 15 minutes · **Driven by:** `/complete-issue`, the `project-journaling` skill
 
 ## Steps
 
 - Tasks: all checked. Open tasks that still matter move to a new issue with `/create-issue`.
-- Post-mortem: run `/postmortem`. It fills the Post-Mortem section: objective moved, good things, bad things, rate, notes to create.
+- Post-mortem: `/complete-issue` guides it. It fills the Post-Mortem section: objective moved, good things, bad things, rate, notes to create.
 - Spin-offs:
 	- A quick fix or a new bug → `/create-issue`, with `--role debt` for tech debt.
 	- Something I learned → [[WORKFLOWS - Learning Session]].

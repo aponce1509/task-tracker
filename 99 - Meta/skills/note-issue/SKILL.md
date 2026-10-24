@@ -43,7 +43,7 @@ After the script returns the note path, fill the body with the Edit tool:
 - Tasks: concise `- [ ] Task title`, sub-bullets (two spaces) for comments and suggestions. No long prose inside a task.
 - Created from a meeting: link the meeting note in the description (`From [[_M00003 Sprint planning]].`) and add the issue to the meeting `## Todos`.
 - Dependencies: `--depends` flag, never only in prose.
-- Leave the `## Post-Mortem` helper points untouched at the end (they are inspiration for the notes to create); `/postmortem` fills them and cleans the list.
+- Leave the `## Post-Mortem` helper points untouched at the end (they are inspiration for the notes to create); `/complete-issue` fills them and cleans the list.
 
 ## Guardrails
 

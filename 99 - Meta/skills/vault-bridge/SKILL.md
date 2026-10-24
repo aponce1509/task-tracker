@@ -54,4 +54,4 @@ Say why in one line. Then the vault's own `AGENTS.md` and skills apply to any no
 "/Users/aponce1509/repos/new_second_brain/.obsidian/personal_scripts/journal.sh" log --project <par> --kind done --what "..." --link "[[_I00031 ...]]"
 ```
 
-- Status changes, closing issues, post-mortems: tell the user to do them from the vault (`/postmortem`), or suggest `--add-dir`.
+- Status changes, closing issues, post-mortems: tell the user to do them from the vault (`/complete-issue`), or suggest `--add-dir`.

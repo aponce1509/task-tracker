@@ -33,7 +33,7 @@ An issue in this vault is read weeks later, without this conversation. Its value
 4. Create with the script (Obsidian must be running):
 	`bash .obsidian/personal_scripts/create-issue.sh --title "..." --project <par> --subtype <s> --priority <p> [--role <core|milestone|pattern|debt>] [--depends _I0000N]`
 	Read the path it prints. If it fails, report the error and stop; never create the file by hand.
-5. Write the body with the Edit tool, under the template's H1: the `> [!abstract]` callout (optional short title, two bullets, no empty `>` line), the context, the tasks. If the source is a meeting, link it in the context and add the issue under the meeting's `## Todos`. Leave the `## Post-Mortem` helper points as they are; `/postmortem` cleans them when closing.
+5. Write the body with the Edit tool, under the template's H1: the `> [!abstract]` callout (optional short title, two bullets, no empty `>` line), the context, the tasks. If the source is a meeting, link it in the context and add the issue under the meeting's `## Todos`. Leave the `## Post-Mortem` helper points as they are; `/complete-issue` cleans them when closing.
 
 ## Output
 

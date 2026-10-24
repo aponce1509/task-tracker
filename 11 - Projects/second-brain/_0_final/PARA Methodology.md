@@ -1,42 +1,50 @@
 ---
 paras:
   - "[[second-brain]]"
-type: "[[Annotations]]"
+type: "[[Core Knowledge]]"
 subtypes:
+  - "[[Knowledge - Core Knowledge - framework|framework]]"
 rate:
 tags:
-status:
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-02-08 17:17
 ---
 # [[PARA Methodology]]
 
+> [!abstract] Sort by when I need it, not by what it is
+> - Four categories: Projects, Areas, Resources, Archives.
+> - The criterion is actionability: what I see is what I work on now.
+> - Items move between categories when their use changes.
+
 ## Overview
 
-The PARA method is a universal system for organising digital information developed by Tiago Forte. It prioritises **actionability** over subject matter, ensuring that the information you see is relevant to what you are currently doing.
+PARA is a universal system to organise digital information, by Tiago Forte. It sorts by **actionability**, not by subject, so the information I see is relevant to what I do now.
 
-## The Four Categories
+## The four categories
 
-1. **Projects**: Short-term efforts with a specific goal and a deadline (e.g., "Write Q4 Report").
-2. **Areas**: Ongoing responsibilities that require maintaining a standard over time (e.g., "Finances").
-3. **Resources**: Topics of ongoing interest or useful assets for the future (e.g., "Web Design").
-4. **Archives**: Inactive items from the previous three categories that are no longer actionable.
+- **Projects**: short-term efforts with a specific goal and a deadline (for example "Write Q4 Report").
+- **Areas**: ongoing responsibilities with a standard to keep over time (for example "Finances").
+- **Resources**: topics of ongoing interest or useful assets for the future (for example "Web Design").
+- **Archives**: inactive items of the other three categories. They are no longer actionable.
 
-## Common Pitfalls
+## Common pitfalls
 
-1. **Confusing Projects and Areas**: Forgetting that projects must have a concrete "done" state.
-2. **Over-organising Resources**: Creating deep folder hierarchies that make retrieving information difficult.
-3. **Fear of Archiving**: Letting completed tasks clutter your active workspace.
-4. **Subject-Based Sorting**: Organising by "what it is" rather than "when I need it."
-5. **Static Categories**: Failing to move items between folders as their utility changes.
+- Confusing projects and areas: a project must have a concrete "done" state.
+- Over-organising resources: deep folder hierarchies make retrieval difficult.
+- Fear of archiving: completed work clutters the active workspace.
+- Subject-based sorting: "what it is" instead of "when I need it".
+- Static categories: items do not move when their use changes.
 
-## Implementation Steps
+## Implementation steps
 
-1. Define your active **Projects** first to gain immediate clarity.
-2. Identify your **Areas** of responsibility to capture ongoing work.
-3. Categorise remaining useful files into **Resources**.
-4. Move everything else into **Archives** to reduce cognitive load.
-5. Review folders weekly to ensure items are in the correct category based on current goals.
+1. Define the active projects first, for immediate clarity.
+2. Identify the areas of responsibility, for the ongoing work.
+3. Put the remaining useful material into resources.
+4. Move everything else into archives, to reduce the cognitive load.
+5. Review weekly that each item sits in the right category for the current goals.
+
+How this vault applies it: [[The PARA System]].
 
 ## References
 

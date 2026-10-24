@@ -1,35 +1,43 @@
 ---
 paras:
   - "[[second-brain]]"
-type:
+type: "[[Core Knowledge]]"
 subtypes:
+  - "[[Knowledge - Core Knowledge - principle|principle]]"
 rate:
 tags:
-status:
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-02-15 19:07
 ---
 # [[The Archipelago of Ideas]]
 
-## Concept Overview
+> [!abstract] Never start from a blank page
+> - Fill the document with the source material first: quotes, notes, sources are the islands.
+> - Then the work is only to build bridges between them.
+> - It turns a sea of nothing into a series of small tasks.
 
-1.  **Definition**: A writing and planning technique that involves pre-populating a document with source material to avoid the "blank page" syndrome.
-2.  **Origin**: Named by author Steven Johnson and popularized by Tiago Forte [[Building a Second Brain - Tiago Forte]]
-3.  **The Metaphor**: Collected quotes, notes, and sources act as "islands" in an archipelago; the writer's job is simply to "build bridges" between them.
+## Definition
 
-## Implementation Steps
+1. **Technique**: a writing and planning technique. Fill the document with source material before writing, to avoid the blank page.
+2. **Origin**: named by Steven Johnson, popularised by Tiago Forte.
+3. **Metaphor**: the collected quotes, notes and sources are islands of an archipelago. The writer builds bridges between them.
 
-1.  **Gather Materials**: Collect relevant quotes, primary sources, scholarly papers, or personal notes into a single document.
-2.  **Create Stepping-Stones**: Arrange these fragments in a rough logical order to form the backbone of the project.
-3.  **Connect the Dots**: Write transitions and original thoughts to link the existing fragments together.
+## Steps
+
+1. **Gather**: collect the relevant quotes, sources, papers and notes into one document. The distilled notes of [[The CODE system]] are the islands.
+2. **Arrange**: put the fragments in a rough logical order. This is the backbone of the project.
+3. **Connect**: write the transitions and own thoughts that link the fragments.
 
 ## Benefits
 
-1.  **Combats Procrastination**: Reduces the intimidation of starting from zero.
-2.  **Structure**: Provides a visible path for progress even in unpredictable creative tasks.
-3.  **Efficiency**: Transforms a daunting "sea of nothingness" into a manageable series of small tasks.
+1. **Against procrastination**: starting is never from zero.
+2. **Structure**: a visible path of progress, even in unpredictable creative tasks.
+3. **Efficiency**: one large task becomes many small ones.
+
+It is one of the tools of [[Keeping the Focus]], next to [[The Hemingway Bridge]] and [[Dial Down the Scope]].
 
 ## References
 
-- Forte, Tiago. *Building a Second Brain*.
-- Johnson, Steven. Quotes on creativity and innovation.
+- [[Building a Second Brain - Tiago Forte]]
+- Steven Johnson, quotes on creativity and innovation.

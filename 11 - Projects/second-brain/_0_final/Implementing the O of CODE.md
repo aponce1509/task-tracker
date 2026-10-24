@@ -24,13 +24,13 @@ created: 2026-02-15 20:54
 - Searchability
 	- [[Properties & Bases]]
 	- [[Tags & Types - The Searching Engine]]
-	- [[PARA Note]]
+	- [[The PARA System]]
 - Rules:
 	- A note in the inbox is not organised: [[WORKFLOWS - Out of the Inbox]]
 	- Don't waste time cleaning or formatting the note when organising
 	- Questions:
 		- Is this note useful? If not, remove
-		- Where it belongs? Assign [[PARA Note]]
+		- Where it belongs? Assign [[The PARA System]]
 		- Is the note name interesting? Note names should generate emotions
 - When we do this
 	- Every Week for content and ideas that arrive to your mind/life

@@ -18,7 +18,7 @@ created: 2026-10-14 00:25
 > does not become clutter.
 
 **Trigger:** I start a project, take a new area or follow a new resource ·
-**Timecap:** 15 minutes · **Driven by:** the PARA Note template, `/create-issue`
+**Timecap:** 15 minutes · **Driven by:** `/new-par`, the PARA Note template, `/create-issue`
 
 ## Steps
 

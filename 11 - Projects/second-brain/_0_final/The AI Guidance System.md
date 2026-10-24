@@ -79,9 +79,20 @@ created: 2026-10-13 23:25
 | `/guide-inbox-clean` | `inbox-triager`, then the skills of the kinds, `note-issue` |
 | `/new-syllabus` | `note-syllabus`, `obsidian-vault-notes` |
 | `/recall` | Recall of the day's or week's concepts: questions, extensions, open questions (`#rfm`), topics to read, facts to memorize (`#learnable`) |
-| `/postmortem` | The post-mortem of an issue |
+| `/day start\|end` | Start Day and End Day: `task-planner`, `note-issue`, `/todo-sweep`, `/complete-issue`, `/recall` |
+| `/weekly-review start\|end` | Start Week and End Week: `task-planner`, `spotlight.sh`, `/recall week` |
+| `/spotlight` | Read-only board of the spotlight rows: `scripts/spotlight.sh` |
+| `/sweep` | Bi-Monthly Inbox Sweep: `inbox-triager`, `/guide-inbox-clean`, `vault-auditor`, `/create-issue` |
+| `/review-captures` | Contextual Capture Review: `/guide-distillation` |
+| `/todo-sweep` | `#todo` lines to issues, done or deleted: `note-issue` |
+| `/start-issue` | Start Issue: `note-issue` |
+| `/complete-issue` | Complete Issue with the post-mortem: `note-issue`, `project-journaling` |
+| `/new-par` | New PAR: `obsidian-vault-notes`, `note-issue`, `project-journaling` |
+| `/close-par` | End PAR: `project-journaling`, `note-issue`, `note-index-moc` |
+| `/link-orphans` | Orphans and thin indexes: `navigation-curator` (find, then apply) |
+| `/new-system-element` | New Tags & Types, New Properties: `obsidian-vault-notes`, `system-reference-maintance` |
 
-The workflows in `_0_final/workflows/` run these commands; [[The Maintenance System]] maps them. Command drafts for the workflows without one wait in `_0_real_inbox/commands - tmp/`.
+The workflows in `_0_final/workflows/` run these commands; [[The Maintenance System]] maps them. [[HOWTO - Test the AI tools]] checks each one by hand.
 
 ## Distribution
 

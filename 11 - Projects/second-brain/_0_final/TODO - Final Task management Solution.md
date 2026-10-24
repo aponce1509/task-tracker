@@ -1,40 +1,41 @@
 ---
 paras:
   - "[[second-brain]]"
-type:
+type: "[[Decisions]]"
 subtypes:
+  - "[[Normative - Decisions - product|product]]"
 rate:
 tags:
-status:
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-03-08 12:13
 ---
 # [[TODO - Final Task management Solution]]
 
+> [!abstract] One plain `.md` file with properties serves three uses
+> - Quick notes and ideas, the second brain (PAR management), product and task management.
+> - The properties make one file multifunctional.
+> - The open points of this note are now answered by the canonical notes.
 
-- Lo primero que tienes que definir es que es una .md aqui dentro
-- Define luego la experiencia de usuario ideal
-- Que entendemos por Task - Issue
-	- Cual es su vida util
-	- Como podemos recogerla para mostrar evidencias de performance
-		- Logging
-- Luego va donde esta la utilidad mas a nivel teorica
+## The basic element
 
-## Second brain .md the more basic element
+Everything in this system is a plain text file with properties. The properties ([[The Metadata system]]) make the system multifunctional:
 
-Todo en este sistema es una fichero de texto plano que tienen el complemento de las properties. Estas properties ([[Properties & Bases]]) son fundamentales para el sistema ya que nos permite hacer este sistema multifuncional:
+- Quick notes and ideas: one single place for everything that comes to my mind.
+- Second brain: the notes grouped by project, area and resource, for an efficient management of knowledge — [[The PARA System]].
+- Product and task management: in a project I need rules and processes to be productive and efficient. The system manages resources, requirements and issues:
+	- Resources: the inputs, intermediate products and outputs of the project. They are not isolated in one project.
+	- Requirements: the needs of the product. A roadmap.
+	- Issues: the things I must do.
 
-- Notas rápidas e ideas: 
-	- Un único sitio donde poder incluir todo lo que se me vaya ocurriendo.
-- Second brain: the whole system with Project/areas/resources management
-	- Una metodologia donde poder agrupar estas notas por PAR y hacer una gestion eficiente del conocimiento.
-- Product & Task management
-	- Cuando estas en un proyecto, para ser productivo a y eficiente, hay tener una serie de normas y proceso. Este sistema nos permite la gestión de recursos, requerimientos e Issues.
-		- Recursos: inputs, intermediate y outputs del proyecto no están aislados a un proyecto
-		- Requerimientos: definir que necesidades tenemos para el producto. Una hoja de ruta
-		- Issues: cosas necesarias que tenemos que aplicar
+## The open points and where they landed
 
-## Pass discussions
+- What a `.md` is in this vault: [[The Note Kinds]] · [[The Metadata system]].
+- The ideal user experience: [[The Workplace System]] · [[The Maintenance System]].
+- What a task or issue is and its life: [[The Issue System]] · [[This is really a Task]].
+- How to collect evidence of performance (logging): the project journal and the post-mortem — [[Task Management]] · [[Postmortem Content]].
+
+## Past discussions
 
 - [[This is really a Task]]
 - [[Keeping the Focus]]

@@ -1,25 +1,33 @@
 ---
 paras:
   - "[[second-brain]]"
-type: "[[Annotations]]"
+type: "[[Core Knowledge]]"
 subtypes:
+  - "[[Knowledge - Core Knowledge - principle|principle]]"
 rate:
 tags:
-status:
-maturity: capture
+status: done
+maturity: distilled
 created: 2026-02-15 19:21
 ---
 # [[Dial Down the Scope]]
 
-## Strategy for Convergence
+> [!abstract] Ship something small instead of nothing big
+> - Scope is the full set of features or requirements of a project.
+> - Ambitious visions grow into complexity: UI, backend, operations.
+> - Reduce the breadth and ship something small, concrete and working.
 
-1. **Define the Concept**: "Scope" represents the full set of features or requirements in a project.
-2. **Identify the Problem**: Ambitious visions (e.g., a comprehensive fitness app) often lead to overwhelming complexity in UI design, backend systems, and operational overhead.
-3. **The Technique**: Reduce the project's breadth to ship something small, concrete, and functional rather than getting bogged down in "feature creep."
-4. **Benefits of Scaling Back**:
-    - Manageable implementation.
-    - Reduced operational complexity (support, finance, legal).
-    - Faster delivery of value.
+## Strategy for convergence
+
+1. **Scope**: the full set of features or requirements of a project.
+2. **Problem**: ambitious visions (for example a complete fitness app) lead to complexity in UI design, backend systems and operations.
+3. **Technique**: reduce the breadth of the project. Ship something small, concrete and working, and avoid feature creep.
+4. **Benefits**:
+	- Manageable implementation.
+	- Less operational complexity (support, finance, legal).
+	- Faster delivery of value.
+
+The small units that come out are [[Intermediate and Final Products]]. It is the convergence side of [[Convergence and Divergence]] and one of the tools of [[Keeping the Focus]].
 
 ## References
 

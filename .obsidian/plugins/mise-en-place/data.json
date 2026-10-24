@@ -10,7 +10,7 @@
         },
         "rightTop": {
           "extra": [],
-          "active": "01 - PAR/second-brain.md"
+          "active": null
         },
         "rightBottom": {
           "extra": [],
@@ -54,7 +54,7 @@
       "panes": {
         "left": {
           "extra": [],
-          "active": "11 - Projects/second-brain/_0_final/System Maintenance & Review.md"
+          "active": "11 - Projects/second-brain/Journal - second-brain.md"
         }
       }
     },
@@ -93,5 +93,12 @@
     "day": 1,
     "week": 0,
     "projects": 0
+  },
+  "projectTabs": {
+    "tab": 11,
+    "views": {
+      "project-notes.base": "All notes",
+      "issues-project.base": "Blocked"
+    }
   }
 }

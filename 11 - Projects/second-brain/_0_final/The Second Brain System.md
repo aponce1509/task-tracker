@@ -47,7 +47,17 @@ created: 2026-10-12 15:10
 - **[[Task Management]]**
 	- [[The Issue System]]
 	- [[The Meeting System]]
+	- Principles: [[This is really a Task]] · [[RULE - Create notes for the issues]] · [[TODO list for your daily work]] · [[Being productive at home - Task Blocks]]
+	- Close: [[Postmortem Content]]
+	- History: [[How to manage Task management]] · [[TODO - Final Task management Solution]]
 	- Project journal (performance tracking + logbook; CLI-only edits): `.obsidian/personal_scripts/journal.sh` · `99 - Meta/Templates/Project Journal - Template.md`
+- **[[The PARA System]]**
+	- [[PARA Methodology]] · [[Types of Projects - Reference]] · [[Postmortem Content]]
+	- Workflows: [[WORKFLOWS - New PAR]] · [[WORKFLOWS - End PAR]] · `/new-par` · `/close-par`
+	- `01 - PAR/` · `99 - Meta/Templates/09 - PARA Note - Template.md`
+- **[[Keeping the Focus]]**
+	- [[The Archipelago of Ideas]] · [[Dial Down the Scope]] · [[The Hemingway Bridge]]
+	- Implemented by [[The Workplace System]] and the day workflows
 - **[[The CODE system]]**
 	- [[How I see the CODE Process]]
 	- [[Capturing - CODE]]
@@ -57,22 +67,25 @@ created: 2026-10-12 15:10
 	- [[Express - CODE]]
 		- [[Intermediate and Final Products]]
 	- [[Progressive Summarisation]]
-	- #todo: Missing - still in the inbox:
-		- [[External Notes]]
-		- [[Convergence and Divergence]]
-		- [[Intermediate and Final Products]]
-		- [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
+	- [[Convergence and Divergence]]
+	- [[Capture Criteria How to Avoid Keeping Too Much (or Too Little)]]
+	- [[External Notes]]
 	- Workflows: [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] · [[WORKFLOWS - Distillation of a Note]] · [[WORKFLOWS - Contextual Capture Review]]
 - **[[The Learning System]]**
 	- Units: [[The Syllabus System]] · [[The Module - The minimum learning magnitude]] · [[The Concept System]] · [[Roadmaps]]
 	- Kick-off: [[How to be an effective self-learner]] · [[Cuando aprendas define fase de divergencia y convergencia]]
-	- Sources: [[Zotero - The ultimate reference manager]] · [[Notes Colours Rules]] · [[Learning Situations]] · [[Capture Example - Rust Crates]]
+	- Sources: **[[The Sources System]]** · [[Zotero - The ultimate reference manager]] · [[Notes Colours Rules]] · [[Learning Situations]] · [[Capture Example - Rust Crates]]
 	- Workflows: [[WORKFLOWS - Start Module]] · [[WORKFLOWS - Learning Session]] · [[WORKFLOWS - End Module]] · `/new-syllabus` · `/new-concept` · `/recall`
 	- Future: [[The Learning App]]
+- **[[The Sources System]]**
+	- Inputs: [[Input sources]] · **[[Inspiration Sources for Note Management]]**
+	- Classify and store: [[Managing online References]] · [[Zotero - The ultimate reference manager]] · [[References Database]]
+	- Read: [[Notes Colours Rules]] · [[External Notes]]
 - **[[The Workplace System]]**
 	- How-tos: [[HOWTO - Tune the dashboard]] · [[HOWTO - Change the dashboard keys]] · [[HOWTO - Change the system hotkeys]]
 	- `.obsidian/plugins/mise-en-place/` + `99 - Meta/mise-en-place.jsonc`
 - [[The AI Guidance System]]
 	- Skills: `99 - Meta/skills/` · Agents: `99 - Meta/agents/` · Commands: `99 - Meta/commands/`
-	- `scripts/sync-skills.sh`
+	- `scripts/sync-skills.sh` · `scripts/spotlight.sh`
+	- Test book: [[HOWTO - Test the AI tools]]
 - [[All Obsidian commands]]

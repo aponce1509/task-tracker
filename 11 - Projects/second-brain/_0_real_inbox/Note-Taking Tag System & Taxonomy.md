@@ -34,7 +34,7 @@ With this system we want to solve the following question:
     - Derived from outside sources (quotes, ideas, annotations).
     - Usually includes a reference to the origin.
     - Tag: `#_external`
-3. [[Intermediate Products]]
+3. [[Intermediate and Final Products]]
     - Artifacts or drafts created during a project.
     - Stored because they may provide future value.
     - Tag: `#_intermediate`

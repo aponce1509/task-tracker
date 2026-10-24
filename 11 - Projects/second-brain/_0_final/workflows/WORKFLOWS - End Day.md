@@ -15,7 +15,7 @@ created: 2026-10-14 00:20
 > [!summary]
 > A ten-minute shutdown: log the day, close what finished, sweep the flags of the notes I touched, offer the day's concepts to recall, and leave a bridge for tomorrow.
 
-**Trigger:** before I close the vault for the day · **Timecap:** 10 minutes · **Driven by:** `/recall`, `/create-issue`
+**Trigger:** before I close the vault for the day · **Timecap:** 10 minutes · **Driven by:** `/day end`, which offers `/complete-issue`, `/todo-sweep` and `/recall`
 
 ## Steps
 

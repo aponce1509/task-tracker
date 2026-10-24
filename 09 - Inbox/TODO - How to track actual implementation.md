@@ -14,7 +14,7 @@ created: 2026-03-08 12:10
 
 ## Pass discussions
 
-- [[Ending Index]]
+- [[Postmortem Content#The ending note|Ending note]]
 - [[How do we organise the note that build the final project]]
 - [[Note Categorisation]]
 

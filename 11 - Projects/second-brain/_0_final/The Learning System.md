@@ -36,7 +36,7 @@ A syllabus is not only for learning: it can also list the plan of a model or a p
 
 ## Sources
 
-Important references for learning go to Zotero, my own internet ([[Zotero - The ultimate reference manager]]). I highlight by colour, red and blue first, then yellow, then green for the cards to learn ([[Notes Colours Rules]]). Reader only stores links for consumption.
+Important references for learning go to Zotero, my own internet ([[Zotero - The ultimate reference manager]]). I highlight by colour, red and blue first, then yellow, then green for the cards to learn ([[Notes Colours Rules]]). Reader only stores links for consumption. The whole pipeline, from the feeds to the external notes, is **[[The Sources System]]**.
 
 ## Learning situations
 
@@ -53,5 +53,4 @@ The agent-driven version (curriculum creator, student evaluator, note, card and 
 ## Gaps
 
 - #todo The `06 - Knowledge` template carries the `learning` class to every knowledge note; the syllabus is its only user.
-- #todo Sources pipeline in backlog: Zotero, highlight colours and Reader notes are legacy, in Spanish, with legacy tags.
 - #todo Spaced repetition: recall is a record, not spaced repetition; cards stay in [[The Learning App]] until decided.

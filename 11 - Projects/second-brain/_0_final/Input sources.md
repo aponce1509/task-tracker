@@ -6,33 +6,39 @@ subtypes: ["[[Your Brain - Ideas - project-idea|project-idea]]"]
 rate:
 tags:
   - rfm
-status:
+status: wip
 maturity: capture
 created: 2026-03-26 09:26
 ---
 # [[Input sources]]
 
-> [!todo] rfm
-> Necesito identificar que mas fuentes quiero y como puedo consumirlas
+> [!abstract] The feeds I consume and what I take from each
+> - YouTube, Twitter, Instagram, Pinterest and the news.
+> - The list is open: which other sources I want and how to consume them.
 
-- Youtube
-	- CS (theprimegean, code heaven, ...)
+- #rfm Which other sources do I want, and how do I consume them?
+- YouTube
+	- CS (ThePrimeagen, Code Heaven, ...)
 	- Productivity
-	- Home Servers
+	- Home servers
 	- Cultural
 - Twitter
 	- Opinions
 	- News
 	- Ideas
 	- Knowledge
-- Insta
+- Instagram
 	- Outfits
 	- Recipes
-	- Interior Designs
+	- Interior design
 	- Other
 - Pinterest
 	- Art
 	- Outfits
-	- Interior Designs
-- Other Feed
+	- Interior design
+- Other feeds
 	- News
+
+## References
+
+- [[The Sources System]]

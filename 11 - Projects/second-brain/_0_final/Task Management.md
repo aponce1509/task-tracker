@@ -31,24 +31,23 @@ created: 2026-10-12 17:05
 	- [[WORKFLOWS - Start Issue]] · [[WORKFLOWS - Complete Issue]]
 	- [[WORKFLOWS - Start Day]] · [[WORKFLOWS - End Day]] · [[WORKFLOWS - Start Week]] · [[WORKFLOWS - End Week]]
 - Close
-	- Post-mortem at the end of the issue, with the notes-to-create list cleaned to the notes created — `/postmortem`
+	- Post-mortem at the end of the issue, with the notes-to-create list cleaned to the notes created — `/complete-issue`
 	- Project journal — `journal.sh`, the `project-journaling` skill · [[Journal - second-brain]]
 - Meetings — [[The Meeting System]]: todos become issues, every meeting is logged in the journal
-	- Derived notes: ending note · reusables · tech debt · resources & tools · additional requirements · ideas
+	- Derived notes: ending note · reusables · tech debt · resources & tools · additional requirements · ideas — [[Postmortem Content]]
 - Open threads
 	- Move completed issues to `08 - Issues/complete/` — [[_I00003 Create a script to move complete issues to complete]]
 	- TODO extraction — the todo sweep of [[WORKFLOWS - End Day]] and [[WORKFLOWS - Complete Issue]] ([[_I00019 add to any workflow clean of todo tags]])
-- Other notes
-	- Task Management
-		- [[How to manage Task management]]
-		- [[TODO list for your daily work]]
-		- [[TODO - Final Task management Solution]]
-		- How to focus & Productivity
-			- [[The Archipelago of Ideas]]
-			- [[Dial Down the Scope]]
-			- [[The Hemingway Bridge]]
-			- [[Alejandro's Mise-en-Place]]
-			- [[Being productive at home - Task Blocks]]
-			- [[Keeping the Focus]]
-				- Music [[00_pensamientos-1]]
-			- [[RULE - Create notes for the issues]]
+- Principles
+	- Think in issues and their tasks — [[This is really a Task]]
+	- Spend time on the issue creation — [[RULE - Create notes for the issues]]
+	- One small packet at a time — [[TODO list for your daily work]]
+- Focus & productivity — **[[Keeping the Focus]]**
+	- [[The Archipelago of Ideas]] · [[Dial Down the Scope]] · [[The Hemingway Bridge]]
+	- [[Being productive at home - Task Blocks]]
+	- [[Alejandro's Mise-en-Place]]
+	- Music [[00_pensamientos-1]]
+- Post-mortem questions and the ending note — [[Postmortem Content]]
+- Decisions history
+	- [[How to manage Task management]] — central note first, one note per issue now
+	- [[TODO - Final Task management Solution]] — one `.md` with properties, three uses

@@ -33,7 +33,7 @@ Moving the note is the minimal exit; before closing the note you may already sta
 
 ## The PARA Method
 
-The most common framework for organising for actionability [[PARA Methodology]]:
+The most common framework for organising for actionability [[PARA Methodology]] (how I apply it: [[The PARA System]]):
 
 1. **Projects**: Active efforts with a specific deadline (e.g., "Write Q1 Report").
 2. **Areas**: Ongoing responsibilities that require a standard over time (e.g., "Health," "Finances").

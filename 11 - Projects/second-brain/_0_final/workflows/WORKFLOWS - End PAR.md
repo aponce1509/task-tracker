@@ -18,7 +18,7 @@ created: 2026-10-14 00:25
 > parts get a note, and the PAR freezes in the archive.
 
 **Trigger:** a PAR is finished, paused or abandoned · **Timecap:** 30 minutes ·
-**Driven by:** the `project-journaling` skill (close protocol)
+**Driven by:** `/close-par`, the `project-journaling` skill (close protocol)
 
 ## Steps
 

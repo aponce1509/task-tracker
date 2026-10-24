@@ -15,7 +15,7 @@ created: 2026-10-14 00:25
 > [!summary]
 > Slow down to speed up. Before I touch the problem, the issue has its context, short tasks, its dependencies and the notes I will need.
 
-**Trigger:** an issue goes from `inbox` or `feed` to `wip` · **Timecap:** 10 minutes · **Driven by:** the `note-issue` skill
+**Trigger:** an issue goes from `inbox` or `feed` to `wip` · **Timecap:** 10 minutes · **Driven by:** `/start-issue`, the `note-issue` skill
 
 ## Steps
 

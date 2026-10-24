@@ -16,7 +16,7 @@ created: 2026-02-15 23:55
 > See: [[Intermediate and Final Products]]
 ## Definition
 
-Expressing is the act of sharing your work and ideas with the world (or your team). In the context of a developer in a large organization, it is the shift from private consumption to the creation of [[Intermediate Products]] or final deliverables. It represents the ultimate phase of [[Convergence and Divergence|Convergence]].
+Expressing is the act of sharing your work and ideas with the world (or your team). In the context of a developer in a large organization, it is the shift from private consumption to the creation of [[Intermediate and Final Products|intermediate products]] or final deliverables. It represents the ultimate phase of [[Convergence and Divergence|Convergence]].
 
 ## The Express Mindset for Developers
 
@@ -28,6 +28,6 @@ Expressing is the act of sharing your work and ideas with the world (or your tea
 
 - [[The CODE system]]
 - [[How I see the CODE Process|The CODE Process]]
-- [[Intermediate and Final Products]] · [[Intermediate Products]]
+- [[Intermediate and Final Products]]
 - [[Building a Second Brain - Tiago Forte]]
 

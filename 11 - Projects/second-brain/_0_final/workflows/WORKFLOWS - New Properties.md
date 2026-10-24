@@ -15,7 +15,7 @@ created: 2026-10-14 00:30
 > [!summary]
 > Properties hold all the state of a note. A new property must enable a real query, belong to one class, and have a restricted input in Metadata Menu.
 
-**Trigger:** a note needs state that no property holds · **Driven by:** the `obsidian-vault-notes` skill
+**Trigger:** a note needs state that no property holds · **Driven by:** `/new-system-element`, the `obsidian-vault-notes` skill
 
 ## Steps
 

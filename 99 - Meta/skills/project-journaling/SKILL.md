@@ -128,4 +128,4 @@ the project or a journal's workstream is done:
 4. It sets `status: done`; suggest `journal.sh export --out "<stem>.csv"`.
 
 Closing is the moment the journal's post-mortem duties are fulfilled; issue
-post-mortems ([[The Issue System]], `/postmortem`) feed these same entries.
+post-mortems ([[The Issue System]], `/complete-issue`) feed these same entries.

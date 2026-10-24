@@ -15,7 +15,7 @@ created: 2026-10-14 00:20
 > [!summary]
 > The weekly spotlight in fifteen minutes: what got done, what rolled, the recall of the week, old open questions, stale issues and silent projects. It is the only weekly moment that looks at the system.
 
-**Trigger:** Friday afternoon, or Sunday evening · **Timecap:** 15 minutes · **Driven by:** `/recall week`, the `task-planner` skill
+**Trigger:** Friday afternoon, or Sunday evening · **Timecap:** 15 minutes · **Driven by:** `/weekly-review end`, which runs `/spotlight` and offers `/recall week`
 
 ## Steps
 

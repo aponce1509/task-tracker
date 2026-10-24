@@ -18,7 +18,7 @@ created: 2026-05-16 15:02
 > [!info] Why not inbox zero
 > The vault is untidy by design. A note captured this week can wait for its use. A note untouched for two weeks has no use coming, and the sweep decides on it.
 
-**Trigger:** every second week, next to the periodic review of [[System Maintenance & Review]] · **Timecap:** 15 minutes for the inbox, the audits apart · **Driven by:** `/guide-inbox-clean`, the `vault-auditor` agent
+**Trigger:** every second week, next to the periodic review of [[System Maintenance & Review]] · **Timecap:** 15 minutes for the inbox, the audits apart · **Driven by:** `/sweep`, which runs `/guide-inbox-clean` and the `vault-auditor` agent
 
 ## Steps
 

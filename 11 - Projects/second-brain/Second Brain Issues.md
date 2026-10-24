@@ -20,7 +20,7 @@ created: 2026-02-28 16:53
 	- [[Being productive at home - Task Blocks]]
 - [[TODO - How to track actual implementation]] -> All the categorisation system
 	- Tienes un issue para este tema
-	- [[Ending Index]]
+	- [[Postmortem Content#The ending note|Ending note]]
 	- [[How do we organise the note that build the final project]]
 	- [[Implementing the O of CODE]]
 - Outlines

@@ -18,7 +18,7 @@ created: 2026-10-14 00:20
 > note does not exist today.
 
 **Trigger:** the first time I open the vault in the day · **Timecap:** 5 minutes
-· **Driven by:** the `task-planner` skill
+· **Driven by:** `/day start`, the `task-planner` skill
 
 ## Steps
 

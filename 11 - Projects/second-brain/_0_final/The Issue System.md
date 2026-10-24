@@ -74,7 +74,7 @@ Closing an issue includes a post-mortem at the end of the issue. The template's 
 - Objective it moved · good things · bad things · rate 1-3.
 - Entries feed the **project journal** (`journal.sh log --kind done --link "[[<issue>]]"`), for example [[Journal - second-brain]].
 - Notes to create from it (taxonomy check): ending note — core note/index that builds the final solution —, reusable pieces, tech debt (Descriptive → Project Contexts → technical-debt), review of resources & tools used (External Knowledge → Resources), additional requirements (Normative → Requirements), ideas (Your Brain → Ideas), decisions or solutions when a pattern emerges.
-- The `/postmortem` command (`99 - Meta/commands/postmortem.md`) guides the session and leaves only the created notes linked.
+- The `/complete-issue` command (`99 - Meta/commands/complete-issue.md`) guides the session, leaves only the created notes linked, then applies the done-rule and logs the journal.
 
 ## Related
 

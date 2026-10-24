@@ -67,5 +67,5 @@ flowchart LR
 - References: notes in `06 - Inputs` without source, commentary or a PAR that uses them. Signal `path:"06 - Inputs" ["maturity":capture]`.
 - Legacy marks: `#_*` tags, forbidden keys and untyped notes. The Engine audit is `99 - Meta/skills/system-reference-maintance/scripts/audit.py`. I migrate a mark on sight in any workflow, and the Sweep catches the rest.
 - Links: unresolved and dead links. Signal `obsidian unresolved`.
-- The counts of all rows are planned in spotlight.sh (draft, see [[maintenance-elements-spotlight]]).
+- `scripts/spotlight.sh` prints the counts of all rows (see [[maintenance-elements-spotlight]]); `/spotlight` shows them.
 - Real work found by a signal becomes an issue.

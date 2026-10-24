@@ -25,7 +25,7 @@ System work:
 
 Subagents: `99 - Meta/agents/<name>.md` — `meeting-extractor`, `concept-distiller`, `navigation-curator`, `inbox-triager` (read-only), `vault-auditor` (read-only), `diagram-writer`, `diagram-reviewer` (read-only, `note-diagram` orchestrates both). Writer agents write only an approved plan passed in the prompt. Agent models are set per harness: `model: sonnet` in the frontmatter is for Claude Code, and `opencode.json` (`agent.<name>.model`) overrides it for OpenCode. A new agent needs both.
 
-Slash commands: `99 - Meta/commands/<name>.md` — `/postmortem` (guided post-mortem for an issue), `/create-issue`, `/parse-meeting`, `/new-concept`, `/new-syllabus`, `/guide-distillation`, `/guide-inbox-clean`, `/recall`.
+Slash commands: `99 - Meta/commands/<name>.md` — notes: `/create-issue`, `/parse-meeting`, `/new-concept`, `/new-syllabus`, `/guide-distillation`, `/guide-inbox-clean`, `/recall`; rhythms: `/day start|end`, `/weekly-review start|end`, `/sweep`, `/spotlight` (read-only board, runs `scripts/spotlight.sh`); events: `/start-issue`, `/complete-issue` (includes the post-mortem), `/new-par`, `/close-par`, `/review-captures`, `/todo-sweep`, `/link-orphans`, `/new-system-element`. Test book: `11 - Projects/second-brain/_0_final/howtos/HOWTO - Test the AI tools.md`.
 
 `.opencode/` and `.claude/` hold `skills`, `commands` and `agents` as dir symlinks to the canonical `99 - Meta/` folders. Keep the six views aligned with `scripts/sync-skills.sh` (`status` / `sync` / `clean`).
 

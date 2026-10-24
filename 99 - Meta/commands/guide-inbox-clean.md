@@ -17,6 +17,7 @@ Inbox processing is about giving each note a home, not about perfection. Small b
 2. Triage. Delegate to the `inbox-triager` subagent (Claude Code: Agent tool; OpenCode: task tool) with the list of paths. It is read-only and returns one proposal per note and a summary table.
 3. Show the table. Then go note by note: show the proposal for one note and wait for the user's decision (accept, change, skip, delete).
 4. Apply the decision for that note:
+	- Kind command: a meeting goes to `/parse-meeting`, learning material to `/new-concept`; run that command on the note and go to the next one.
 	- Delete: move the file to `.trash/`; never `rm`.
 	- Metadata: fix the frontmatter (`paras`, `type`, `subtypes`, `status` leaves `inbox`).
 	- Format and typos: per the skill of its kind.

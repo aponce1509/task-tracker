@@ -15,7 +15,7 @@ created: 2026-10-14 00:20
 > [!summary]
 > A ten-minute plan for the next seven days: one focus from the active projects, a short backlog of issues, and one project that gets a capture review this week.
 
-**Trigger:** Monday morning, or Sunday evening · **Timecap:** 10 minutes · **Driven by:** the `task-planner` skill
+**Trigger:** Monday morning, or Sunday evening · **Timecap:** 10 minutes · **Driven by:** `/weekly-review start`, the `task-planner` skill
 
 ## Steps
 

@@ -14,74 +14,59 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "11 - Projects/second-brain/_0_final/The Maintenance System.md",
+                "file": "11 - Projects/second-brain/_0_final/The Second Brain System.md",
                 "mode": "source",
                 "source": false
               },
               "pinned": true,
               "icon": "lucide-file",
-              "title": "The Maintenance System"
+              "title": "The Second Brain System"
             }
           },
           {
-            "id": "dee6fe9a92ae622f",
+            "id": "1ed5bf1154ac159d",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "mise-project",
               "state": {
-                "file": "09 - Inbox/wip in maintance system.md",
-                "mode": "source",
-                "source": false
+                "project": "second-brain"
               },
-              "icon": "lucide-file",
-              "title": "wip in maintance system"
-            }
-          },
-          {
-            "id": "eb2a39af57f2f80d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "01 - PAR/second-brain.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
+              "icon": "folder-kanban",
               "title": "second-brain"
             }
           },
           {
-            "id": "9cc21ca720ed0e62",
+            "id": "75e07a19e36e981c",
             "type": "leaf",
             "dimension": 50,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "07 - Daily/2026-10-24.md",
+                "file": "07 - Daily/2026-10-25.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-10-24"
+              "title": "2026-10-25"
             }
           },
           {
-            "id": "a63944efabebdc07",
+            "id": "4f7be1126012aa57",
             "type": "leaf",
+            "dimension": 33.333333333333336,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "11 - Projects/second-brain/_0_final/System Maintenance & Review.md",
+                "file": "11 - Projects/second-brain/Journal - second-brain.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "System Maintenance & Review"
+              "title": "Journal - second-brain"
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -115,7 +100,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "spotlight.sh",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -189,51 +174,18 @@
             }
           },
           {
-            "id": "346b9dbb1ff56c4a",
-            "type": "leaf",
-            "state": {
-              "type": "backlink",
-              "state": {
-                "file": "05 - Diagrams/strata/strata-elements-plugin.md",
-                "collapseAll": true,
-                "extraContext": false,
-                "sortOrder": "alphabetical",
-                "showSearch": false,
-                "searchQuery": "",
-                "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
-              },
-              "icon": "links-coming-in",
-              "title": "Backlinks"
-            }
-          },
-          {
-            "id": "dc5b0bb8c0cd5ea9",
-            "type": "leaf",
-            "state": {
-              "type": "outgoing-link",
-              "state": {
-                "file": "05 - Diagrams/strata/strata-elements-plugin.md",
-                "linksCollapsed": false,
-                "unlinkedCollapsed": true
-              },
-              "icon": "links-going-out",
-              "title": "Outgoing links"
-            }
-          },
-          {
             "id": "7863f78523e3a85b",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "07 - Daily/2026-02-23.md",
+                "file": "11 - Projects/second-brain/Journal - second-brain.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Alejandro's Mise-en-Place"
+              "title": "Outline"
             }
           },
           {
@@ -298,7 +250,46 @@
             }
           }
         ],
-        "currentTab": 7
+        "currentTab": 5
+      },
+      {
+        "id": "cc65cc4c821af813",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "346b9dbb1ff56c4a",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "11 - Projects/second-brain/Journal - second-brain.md",
+                "collapseAll": true,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "dc5b0bb8c0cd5ea9",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "11 - Projects/second-brain/Journal - second-brain.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          }
+        ]
       }
     ],
     "direction": "horizontal",
@@ -331,34 +322,37 @@
       "strata:Strata diagrams": false
     }
   },
-  "active": "a63944efabebdc07",
+  "active": "4f7be1126012aa57",
   "lastOpenFiles": [
-    "11 - Projects/second-brain/_0_final/The Maintenance System.md",
-    "09 - Inbox/wip in maintance system.md",
     "11 - Projects/second-brain/_0_final/The Second Brain System.md",
-    "07 - Daily/2026-10-24.md",
-    "01 - PAR/second-brain.md",
-    "01 - PAR/coding-workplace.md",
-    "11 - Projects/second-brain/_0_final/The Syllabus System.md",
-    "05 - Diagrams/strata/strata-elements-model.md",
-    "05 - Diagrams/strata/strata-elements.md",
-    "05 - Diagrams/strata/strata-elements-plugin.md",
-    "05 - Diagrams/strata/strata.md",
-    "09 - Inbox/Rules for ai developing.md",
-    "09 - Inbox/Skilling.md",
-    "01 - PAR/skills-system.md",
-    "07 - Daily/2026-10-20.md",
-    "08 - Issues/complete/_I00043 Strata node colors follow note status changes.md",
-    "08 - Issues/complete/_I00042 Strata pane refits when the diagram grows.md",
-    "05 - Diagrams/strata/strata-elements-plugin-panel.md",
-    "copilot/copilot-conversations/agent__this_means_that_there_is_always_an_idle_process_Is@20261024_231915.md",
-    "05 - Diagrams/strata/strata-elements-skill.md",
-    "zz-strata-pane-test.md",
-    "05 - Diagrams/strata/strata-elements-plugin-pane.md",
-    "99 - Meta/agents/diagram-reviewer.md",
-    "AGENTS.md",
-    "05 - Diagrams/strata/strata-features.md",
-    "99 - Meta/agents/diagram-writer.md",
+    "07 - Daily/2026-10-25.md",
+    "11 - Projects/second-brain/_0_real_inbox/Index.md",
+    "05 - Diagrams/maintenance/maintenance-elements-ai-commands.md",
+    "02 - Categories/_types/Annotations.md",
+    "04 - Bases/final-bases/project-notes.base",
+    "11 - Projects/second-brain/_0_real_inbox/How do we organise the note that build the final project.md",
+    "11 - Projects/second-brain/_0_real_inbox/Do Not miss incomplete notes - Note Status.md",
+    "11 - Projects/second-brain/_0_real_inbox/Efecto Cafeteria.md",
+    "11 - Projects/second-brain/_0_real_inbox/Cuando aprendas define fase de divergencia y convergencia.md",
+    "11 - Projects/second-brain/_0_real_inbox/Como usar el arte en tu día a día.md",
+    "11 - Projects/second-brain/_0_real_inbox/Como aprender siendo un mortal.md",
+    "11 - Projects/second-brain/_0_real_inbox/Alejandro's Mise-en-Place.md",
+    "05 - Diagrams/maintenance/maintenance-elements-testflow.md",
+    "09 - Inbox/wip in maintance system.md",
+    "11 - Projects/second-brain/_0_final/The PARA System.md",
+    "11 - Projects/second-brain/_0_final/TODO list for your daily work.md",
+    "11 - Projects/second-brain/_0_final/TODO - Final Task management Solution.md",
+    "11 - Projects/second-brain/_0_final/How to manage Task management.md",
+    "11 - Projects/second-brain/_0_final/Being productive at home - Task Blocks.md",
+    "11 - Projects/second-brain/_0_final/RULE - Create notes for the issues.md",
+    "11 - Projects/second-brain/_0_final/This is really a Task.md",
+    "11 - Projects/second-brain/_0_final/Postmortem Content.md",
+    "11 - Projects/second-brain/_0_final/Types of Projects - Reference.md",
+    "11 - Projects/second-brain/_0_final/PARA Methodology.md",
+    "11 - Projects/second-brain/_0_final/howtos/HOWTO - Test the AI tools.md",
+    "05 - Diagrams/maintenance/maintenance-elements-spotlight-notes.md",
+    "scripts/spotlight.sh",
+    "05 - Diagrams/maintenance",
     "99 - Meta/skills/note-syllabus/scripts/audit.sh",
     "99 - Meta/skills/note-syllabus/scripts",
     "99 - Meta/skills/note-syllabus",
@@ -366,9 +360,6 @@
     "99 - Meta/skills/note-diagram",
     "05 - Diagrams/strata",
     "05 - Diagrams",
-    "copilot/copilot-conversations",
-    "copilot",
-    "11 - Projects/skills-system",
     "99 - Meta/Attachments/Domenico Ghirlandaio (Domenico Bigordi).jpg",
     "09 - Inbox/Inbox/Notes Hierarchy.svg",
     "09 - Inbox/Inbox/Notes Components by situations.svg",

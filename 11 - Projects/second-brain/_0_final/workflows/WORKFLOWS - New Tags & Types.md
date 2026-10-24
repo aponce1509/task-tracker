@@ -15,7 +15,7 @@ created: 2026-10-14 00:30
 > [!summary]
 > Tags and types are the core of retrieval. A new tag, type, subtype or cluster passes a gate first: it must enable a query that nothing else gives, and I approve it explicitly.
 
-**Trigger:** a note does not fit the taxonomy, or a search needs a mark that does not exist · **Driven by:** the `obsidian-vault-notes` skill, `taxonomy.sh`
+**Trigger:** a note does not fit the taxonomy, or a search needs a mark that does not exist · **Driven by:** `/new-system-element`, the `obsidian-vault-notes` skill, `taxonomy.sh`
 
 ## Steps
 
