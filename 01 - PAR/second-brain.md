@@ -17,6 +17,11 @@ bridge: ""
 - [[The Retrieval system]]
 - [[Second Brain Outline]]
 
+## Comments
+
+- 2026-10-25 hola
+- 2026-10-25 que tal
+
 ## Operative Searches
 
 ![[issues-project.base]]

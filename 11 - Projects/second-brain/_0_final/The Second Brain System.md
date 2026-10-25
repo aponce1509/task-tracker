@@ -35,7 +35,6 @@ created: 2026-10-12 15:10
 - **[[The Retrieval system]]**
 	- [[Search & Base Queries Reference]]
 	- `99 - Meta/skills/task-planner/SKILL.md`
-	- #todo Common questions that I make over a project
 - **[[The Maintenance System]]**
 	- [[System Maintenance & Review]]
 		- `99 - Meta/skills/system-reference-maintance/` — the audit executor

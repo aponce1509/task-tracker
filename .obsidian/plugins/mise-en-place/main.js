@@ -106,6 +106,10 @@ module.exports = class MiseEnPlace extends Plugin {
     this.registerView(DASHBOARD_VIEW, (leaf) => new Dashboard(leaf, this));
     this.addCommand({ id: "dashboard", name: "Dashboard: focus (opens the base layout when closed)", callback: () => this.focusDashboard() });
     this.registerView(PROJECT_VIEW, (leaf) => new ProjectDashboard(leaf, this));
+    this.registerView(SPOTLIGHT_VIEW, (leaf) => new Spotlight(leaf, this));
+    this.registerView(WEEK_VIEW, (leaf) => new WeekBoard(leaf, this));
+    this.addCommand({ id: "week", name: "Week: open the week board", callback: () => this.openSingle(WEEK_VIEW) });
+    this.addCommand({ id: "spotlight", name: "Spotlight: open the maintenance board", callback: () => this.openSpotlight() });
     this.addCommand({ id: "project-dashboard", name: "Project dashboard: focus (opens the current project layout when closed)", callback: () => this.focusProjectDashboard() });
     this.addCommand({ id: "bridge-edit", name: "Bridge: write the bridge of the current project", callback: () => this.editBridge() });
     this.addCommand({ id: "explorer-toggle", name: "Explorer: focus, or back to the editor", callback: () => this.toggleExplorer() });
@@ -225,6 +229,7 @@ module.exports = class MiseEnPlace extends Plugin {
     const active = this.app.workspace.activeLeaf?.view?.getViewType();
     if (this.cfg.contexts?.dashboard && active === DASHBOARD_VIEW) return "dashboard";
     if (this.cfg.contexts?.project && active === PROJECT_VIEW) return "project";
+    if (this.cfg.contexts?.spotlight && active === SPOTLIGHT_VIEW) return "spotlight";
     if (!this.cfg.contexts?.explorer) return null;
     if (active === "file-explorer" || el.closest(".workspace-leaf-content[data-type='file-explorer']")) return "explorer";
     return null;
@@ -670,6 +675,8 @@ module.exports = class MiseEnPlace extends Plugin {
   async openTarget(leaf, target) {
     const vault = this.app.vault;
     if (target === "@dashboard") return leaf.setViewState({ type: DASHBOARD_VIEW });
+    if (target === "@spotlight") return leaf.setViewState({ type: SPOTLIGHT_VIEW });
+    if (target === "@week") return leaf.setViewState({ type: WEEK_VIEW });
     if (target === "@project") return this.currentBuild?.project ? leaf.setViewState({ type: PROJECT_VIEW, state: { project: this.currentBuild.project } }) : null;
     if (target === "@daily" || target === "@weekly") {
       const path = target === "@daily" ? this.dailyPath() : this.weeklyPath();
@@ -776,6 +783,19 @@ module.exports = class MiseEnPlace extends Plugin {
     return this.app.workspace.getLeavesOfType(DASHBOARD_VIEW)[0]?.view || null;
   }
 
+  openSpotlight() {
+    return this.openSingle(SPOTLIGHT_VIEW);
+  }
+
+  // Focus the one leaf of a view type, or open it in a new tab.
+  async openSingle(type) {
+    const ws = this.app.workspace;
+    const leaf = ws.getLeavesOfType(type)[0] || ws.getLeaf("tab");
+    if (leaf.view?.getViewType() !== type) await leaf.setViewState({ type });
+    ws.revealLeaf(leaf);
+    ws.setActiveLeaf(leaf, { focus: true });
+  }
+
   async focusProjectDashboard() {
     const leaf = this.app.workspace.getLeavesOfType(PROJECT_VIEW)[0];
     if (leaf) return this.app.workspace.setActiveLeaf(leaf, { focus: true });
@@ -804,6 +824,8 @@ module.exports = class MiseEnPlace extends Plugin {
       "project:filter": d((v) => v.focusFilter()),
       "project:clear-filter": d((v) => v.setFilter("")),
       "project:par": d((v) => v.openPar()),
+      "project:comment": d((v) => v.comment()),
+      "project:index-add": d((v) => v.pickIndexNote()),
       "project:bridge": d((v) => this.editBridge(v.project)),
       "project:refresh": d((v) => v.render()),
       "project:help": () => this.openNode({ group: "project", keys: this.cfg.contexts.project.keys }, ["project"], { keys: this.cfg.contexts.project.keys }),
@@ -965,6 +987,7 @@ module.exports = class MiseEnPlace extends Plugin {
       "explorer:copy-name": () => this.copyText(this.focused().name),
       ...this.dashboardActions(),
       ...this.projectActions(),
+      "spotlight:refresh": () => this.app.workspace.getLeavesOfType(SPOTLIGHT_VIEW)[0]?.view.refresh(),
       "explorer:help": () => this.openNode({ group: "explorer", keys: this.cfg.contexts.explorer.keys }, ["explorer"], { keys: this.cfg.contexts.explorer.keys }),
     };
   }
@@ -1629,9 +1652,14 @@ const DEFAULT_PROJECT_TABS = [
   { name: "notes", base: "project-notes.base" },
 ];
 
-const DEFAULT_OVERVIEW = [
-  { title: "Open issues", base: "issues-project.base", view: "Issues" },
-  { title: "Recently edited", base: "project-notes.base", view: "Recent" },
+const DEFAULT_OVERVIEW = [{ title: "Waiting to be distilled", base: "project-notes.base", view: "To distill" }];
+
+// Issue flow columns of the overview: status values in reading order.
+const FLOW = [
+  { label: "Inbox", status: ["inbox"], view: "Inbox" },
+  { label: "Backlog", status: ["", "draft"], view: "Backlog" },
+  { label: "In progress", status: ["wip"], view: "WIP" },
+  { label: "Blocked", status: ["blocked"], view: "Blocked" },
 ];
 
 class ProjectDashboard extends ItemView {
@@ -1641,6 +1669,7 @@ class ProjectDashboard extends ItemView {
     this.project = null;
     this.filter = "";
     this.body = null; // Component that owns the rendered bases
+    this.grown = false; // the shelf grows in once per open
   }
 
   getViewType() {
@@ -1663,6 +1692,7 @@ class ProjectDashboard extends ItemView {
     if (state?.project && state.project !== this.project) {
       this.project = state.project;
       this.filter = "";
+      this.grown = false;
       if (this.ready) await this.render();
     }
     return super.setState(state, result);
@@ -1671,8 +1701,9 @@ class ProjectDashboard extends ItemView {
   async onOpen() {
     this.contentEl.addClass("mise-proj");
     this.project = this.project || this.plugin.state.current;
-    // Bases update themselves; only the header and the tab counts follow the vault.
-    const refresh = debounce(() => this.renderHead(), 400, true);
+    // Bases update themselves; the header, the shelf and the overview
+    // summaries follow the vault on their own.
+    const refresh = debounce(() => this.renderLive(), 400, true);
     this.registerEvent(this.app.metadataCache.on("changed", refresh));
     this.registerEvent(this.app.vault.on("delete", refresh));
     this.registerEvent(this.app.vault.on("rename", refresh));
@@ -1715,7 +1746,6 @@ class ProjectDashboard extends ItemView {
     const par = this.par();
     if (!par) return [];
     const cache = this.app.metadataCache;
-    const linkName = (l) => String(l).replace(/^\[\[|\]\]$/g, "").split("|")[0].split("#")[0];
     return this.app.vault.getMarkdownFiles().filter((f) => {
       if (f.basename.includes("Template")) return false;
       const paras = [].concat(this.fm(f).paras || []).map(linkName);
@@ -1728,20 +1758,12 @@ class ProjectDashboard extends ItemView {
     return t ? linkName(t) : "";
   }
 
-  stats(notes) {
-    const issues = notes.filter((f) => this.typeOf(f) === "Issues");
-    const open = issues.filter((f) => this.fm(f).status !== "done" && !f.path.includes("/complete/"));
-    const rest = notes.filter((f) => this.typeOf(f) !== "Issues");
-    const by = (s) => open.filter((f) => this.fm(f).status === s).length;
-    return {
-      open: open.length,
-      wip: by("wip"),
-      blocked: by("blocked"),
-      notes: rest.length,
-      capture: rest.filter((f) => !this.fm(f).maturity || this.fm(f).maturity === "capture").length,
-      untyped: rest.filter((f) => !this.typeOf(f)).length,
-      byType: rest.reduce((m, f) => ((m[this.typeOf(f)] = (m[this.typeOf(f)] || 0) + 1), m), {}),
-    };
+  isIssue(file) {
+    return this.typeOf(file) === "Issues";
+  }
+
+  isOpen(file) {
+    return this.fm(file).status !== "done" && !file.path.includes("/complete/");
   }
 
   // The parsed .base file, cached by mtime.
@@ -1756,17 +1778,23 @@ class ProjectDashboard extends ItemView {
     return data;
   }
 
-  // How many notes a tab shows: the types its views filter on, else every
-  // note that is not an issue. Issues count only the open ones.
-  async tabCount(tab, st) {
-    if (tab.show === "overview") return null;
-    if (!tab.base) return null;
-    const data = await this.readBase(tab.base);
-    if (!data) return null;
-    const types = [...JSON.stringify(data).matchAll(/type == link\(\\"([^\\]+)\\"\)/g)].map((m) => m[1]);
-    if (!types.length) return st.notes;
-    if (types.includes("Issues")) return st.open;
-    return [...new Set(types)].reduce((n, t) => n + (st.byType[t] || 0), 0);
+  // The note types a base lists (its `type == link("…")` filters).
+  async baseTypes(name) {
+    const data = name && (await this.readBase(name));
+    if (!data) return [];
+    return [...new Set([...JSON.stringify(data).matchAll(/type == link\(\\"([^\\]+)\\"\)/g)].map((m) => m[1]))];
+  }
+
+  // A tab is a shelf segment when its base lists note types (not issues);
+  // overview, issues and all notes stay plain tabs.
+  async shelfTabs() {
+    const out = [];
+    for (const [i, tab] of this.tabs().entries()) {
+      if (!tab.base) continue;
+      const types = await this.baseTypes(tab.base);
+      if (types.length && !types.includes("Issues")) out.push({ i, tab, types });
+    }
+    return out;
   }
 
   // State: active tab and the view chosen per base, kept in data.json.
@@ -1785,7 +1813,8 @@ class ProjectDashboard extends ItemView {
     if (i < 0 || i >= this.tabs().length) return;
     this.tabState().tab = i;
     await this.plugin.saveData(this.plugin.state);
-    await this.render();
+    await this.renderLive();
+    await this.renderBody();
   }
 
   rotateTab(delta) {
@@ -1804,6 +1833,13 @@ class ProjectDashboard extends ItemView {
     await this.renderBody();
   }
 
+  async jump(base, view) {
+    const i = this.tabs().findIndex((t) => t.base === base);
+    if (i < 0) return;
+    if (view) this.tabState().views[base] = view;
+    await this.selectTab(i);
+  }
+
   async setFilter(q) {
     this.filter = q;
     if (this.filterEl && this.filterEl.value !== q) this.filterEl.value = q;
@@ -1815,102 +1851,191 @@ class ProjectDashboard extends ItemView {
     this.filterEl?.select();
   }
 
-  // Render
+  // Render: head (title, bridge), shelf, tabs + filter, view chips, body.
+  // renderLive redraws everything but the bases.
 
   async render() {
     const el = this.contentEl;
     el.empty();
-    this.head = el.createDiv({ cls: "mise-proj-head" });
-    this.tabsEl = el.createDiv({ cls: "mise-proj-tabs" });
+    el.setAttr("tabindex", "-1");
+    this.headEl = el.createDiv({ cls: "mise-proj-head" });
+    this.shelfEl = el.createDiv({ cls: "mise-proj-shelf-wrap" });
     const bar = el.createDiv({ cls: "mise-proj-bar" });
-    this.viewsEl = bar.createDiv({ cls: "mise-proj-views" });
-    this.filterEl = bar.createEl("input", { cls: "mise-proj-filter", attr: { type: "search", placeholder: "filter by name  /" } });
+    this.tabsEl = bar.createDiv({ cls: "mise-proj-tabs" });
+    const find = bar.createDiv({ cls: "mise-proj-find" });
+    this.filterEl = find.createEl("input", { cls: "mise-proj-filter", attr: { type: "search", placeholder: "Find a note in this project", spellcheck: "false" } });
+    find.createSpan({ cls: "mise-proj-kbd", text: "/" });
     this.filterEl.value = this.filter;
     const onInput = debounce(() => this.setFilter(this.filterEl.value.trim()), 300, true);
     this.filterEl.addEventListener("input", onInput);
     this.filterEl.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        this.filterEl.blur();
-        this.contentEl.focus();
-      } else if (e.key === "Enter") {
-        e.preventDefault();
-        this.setFilter(this.filterEl.value.trim());
-        this.filterEl.blur();
-        this.contentEl.focus();
-      }
+      if (e.key !== "Escape" && e.key !== "Enter") return;
+      e.preventDefault();
+      if (e.key === "Enter") this.setFilter(this.filterEl.value.trim());
+      this.filterEl.blur();
+      this.contentEl.focus();
     });
-    el.setAttr("tabindex", "-1");
+    this.viewsEl = el.createDiv({ cls: "mise-proj-views" });
     this.bodyEl = el.createDiv({ cls: "mise-proj-body" });
     this.titleEl?.setText(this.getDisplayText());
     this.leaf.updateHeader?.();
-    await this.renderHead();
+    await this.renderLive();
     await this.renderBody();
   }
 
-  async renderHead() {
-    if (!this.head) return;
+  async renderLive() {
+    if (!this.headEl) return;
     const par = this.par();
-    this.head.empty();
-    this.tabsEl.empty();
+    const notes = par ? this.notes() : [];
+    this.renderHead(par);
+    await this.renderShelf(par, notes);
+    this.renderTabs(par, notes);
+    if (this.flowEl?.isConnected) this.renderSummaries(notes);
+    if (this.indexEl?.isConnected) await this.renderDesk();
+  }
+
+  renderHead(par) {
+    const el = this.headEl;
+    el.empty();
     if (!par) {
-      this.head.createDiv({ cls: "mise-proj-title", text: this.project ? `No PAR note named "${this.project}"` : "No project · open one with <leader> l" });
+      el.createDiv({ cls: "mise-proj-name", text: this.project ? `No PAR note named “${this.project}”` : "No project open" });
+      el.createDiv({ cls: "mise-proj-bridge is-empty", text: "Pick a project with <leader> l and its slot key." });
       return;
     }
     const fm = this.fm(par);
-    const st = this.stats(this.notes());
-
-    const top = this.head.createDiv({ cls: "mise-proj-top" });
-    const title = top.createDiv({ cls: "mise-proj-title" });
-    title.createSpan({ text: par.basename });
-    if (fm.paraType) title.createSpan({ cls: "mise-proj-chip", text: String(fm.paraType) });
-    if (fm.active !== true) title.createSpan({ cls: "mise-proj-chip is-muted", text: "inactive" });
-    const actions = top.createDiv({ cls: "mise-proj-actions" });
-    const action = (text, fn) => actions.createEl("button", { cls: "mise-proj-btn", text }).addEventListener("click", fn);
-    action("PAR note  o", () => this.openPar());
-    action("bridge  b", () => this.plugin.editBridge(this.project));
-    action("?", () => this.plugin.projectActions()["project:help"]());
-
-    const bridge = this.head.createDiv({ cls: "mise-proj-bridge", text: fm.bridge ? `⤷ ${plainLinks(fm.bridge)}` : "⤷ no bridge · b writes it" });
-    if (!fm.bridge) bridge.addClass("is-empty");
-    bridge.addEventListener("click", () => this.plugin.editBridge(this.project));
-
-    // Counts; each one jumps to the tab and view that lists those notes.
-    const stats = this.head.createDiv({ cls: "mise-proj-stats" });
-    const stat = (n, label, cls, base, view) => {
-      const s = stats.createSpan({ cls: `mise-proj-stat ${cls || ""}` });
-      s.createSpan({ cls: "mise-proj-stat-n", text: String(n) });
-      s.createSpan({ text: ` ${label}` });
-      if (!n) s.addClass("is-zero");
-      if (base) s.addEventListener("click", () => this.jump(base, view));
+    const top = el.createDiv({ cls: "mise-proj-top" });
+    const name = top.createDiv({ cls: "mise-proj-name" });
+    if (fm.img) {
+      const img = this.app.metadataCache.getFirstLinkpathDest(linkName(fm.img), par.path);
+      if (img) name.createEl("img", { cls: "mise-proj-icon", attr: { src: this.app.vault.getResourcePath(img), alt: "" } });
+    }
+    name.createSpan({ text: par.basename });
+    const meta = top.createDiv({ cls: "mise-proj-meta" });
+    if (fm.paraType) meta.createSpan({ cls: "mise-proj-kind", text: String(fm.paraType) });
+    if (fm.active !== true) meta.createSpan({ cls: "mise-proj-kind is-paused", text: "paused" });
+    const btn = (text, key, fn) => {
+      const b = meta.createEl("button", { cls: "mise-proj-btn" });
+      b.createSpan({ text });
+      if (key) b.createSpan({ cls: "mise-proj-kbd", text: key });
+      b.addEventListener("click", fn);
     };
-    stat(st.open, "open issues", "", "issues-project.base", "Issues");
-    stat(st.wip, "wip", "is-wip", "issues-project.base", "WIP");
-    stat(st.blocked, "blocked", "is-blocked", "issues-project.base", "Blocked");
-    stat(st.notes, "notes", "", "project-notes.base", "All notes");
-    stat(st.capture, "to distill", "", "project-notes.base", "To distill");
-    stat(st.untyped, "untyped", st.untyped ? "is-warn" : "", "project-notes.base", "Untyped");
+    btn("PAR note", "o", () => this.openPar());
+    btn("Keys", "?", () => this.plugin.projectActions()["project:help"]());
 
+    // The bridge is the headline: where to pick the project up.
+    const bridge = el.createDiv({ cls: "mise-proj-bridge", attr: { role: "button", tabindex: "0" } });
+    if (fm.bridge) {
+      bridge.createSpan({ cls: "mise-proj-bridge-mark", text: "⤷" });
+      bridge.createSpan({ cls: "mise-proj-bridge-text", text: plainLinks(fm.bridge) });
+    } else {
+      bridge.addClass("is-empty");
+      bridge.createSpan({ cls: "mise-proj-bridge-text", text: "Where do you pick this up next time? Write the bridge" });
+    }
+    bridge.createSpan({ cls: "mise-proj-kbd", text: "b" });
+    bridge.addEventListener("click", () => this.plugin.editBridge(this.project));
+  }
+
+  // The shelf: one segment per category, as wide as its share of the notes,
+  // with a strip that shows how far its notes are worked out (evergreen,
+  // distilled, capture). Clicking a segment opens its base.
+  async renderShelf(par, notes) {
+    const wrap = this.shelfEl;
+    wrap.empty();
+    if (!par) return;
+    const rest = notes.filter((f) => !this.isIssue(f));
+    const segs = (await this.shelfTabs()).map((s) => {
+      const own = rest.filter((f) => s.types.includes(this.typeOf(f)));
+      const m = (v) => own.filter((f) => (this.fm(f).maturity || "capture") === v).length;
+      return { ...s, n: own.length, evergreen: m("evergreen"), distilled: m("distilled"), capture: m("capture") };
+    });
+    const untyped = rest.filter((f) => !this.typeOf(f)).length;
+    const shelf = wrap.createDiv({ cls: "mise-proj-shelf" });
+    if (!this.grown) {
+      shelf.addClass("is-growing");
+      this.grown = true;
+      window.setTimeout(() => shelf.removeClass("is-growing"), 30);
+    }
     const current = this.tabIndex();
-    const tabs = this.tabs();
-    for (let i = 0; i < tabs.length; i++) {
-      const tab = tabs[i];
-      const n = await this.tabCount(tab, st);
-      const t = this.tabsEl.createDiv({ cls: "mise-proj-tab" });
-      if (i === current) t.addClass("is-active");
-      if (n === 0) t.addClass("is-zero");
-      t.createSpan({ cls: "mise-proj-tab-key", text: i < 9 ? String(i + 1) : "" });
-      t.createSpan({ text: tab.name });
-      if (n != null) t.createSpan({ cls: "mise-proj-tab-n", text: String(n) });
-      t.addEventListener("click", () => this.selectTab(i));
+    const full = segs.filter((s) => s.n);
+    const empty = segs.filter((s) => !s.n);
+    const rows = this.shelfRows(full, Math.max(1, this.cfg().shelfRows ?? 2)).map(() => shelf.createDiv({ cls: "mise-proj-shelf-row" }));
+    const rowOf = new Map(this.shelfRows(full, rows.length).flatMap((r, ri) => r.map((s) => [s, rows[ri]])));
+    for (const s of full) {
+      const seg = rowOf.get(s).createDiv({ cls: "mise-proj-seg", attr: { title: `${s.tab.name}: ${s.evergreen} evergreen, ${s.distilled} distilled, ${s.capture} capture` } });
+      seg.style.flexGrow = String(s.n);
+      // Never narrower than its name: the shelf is also the navigation.
+      seg.style.minWidth = `calc(${s.tab.name.length + 1}ch + 18px)`;
+      if (s.i === current) seg.addClass("is-active");
+      const label = seg.createDiv({ cls: "mise-proj-seg-label" });
+      label.createSpan({ cls: "mise-proj-seg-n", text: String(s.n) });
+      if (s.i < 9) label.createSpan({ cls: "mise-proj-seg-key", text: String(s.i + 1) });
+      seg.createDiv({ cls: "mise-proj-seg-name", text: s.tab.name });
+      const strip = seg.createDiv({ cls: "mise-proj-strip" });
+      for (const k of ["evergreen", "distilled", "capture"]) {
+        if (s[k]) strip.createDiv({ cls: `mise-proj-strip-${k}` }).style.flexGrow = String(s[k]);
+      }
+      seg.addEventListener("click", () => this.selectTab(s.i));
+    }
+    // Empty categories fold into one quiet slot at the end.
+    if (empty.length) {
+      const e = (rows[rows.length - 1] || shelf).createDiv({ cls: "mise-proj-seg is-empty", attr: { title: "No notes yet in these categories" } });
+      e.createDiv({ cls: "mise-proj-seg-label" }).createSpan({ cls: "mise-proj-seg-n", text: "0" });
+      e.createDiv({ cls: "mise-proj-seg-name", text: empty.map((s) => s.tab.name).join(", ") });
+      e.createDiv({ cls: "mise-proj-strip" });
+      e.addEventListener("click", () => this.selectTab(empty[0].i));
+    }
+
+    const legend = wrap.createDiv({ cls: "mise-proj-legend" });
+    for (const [k, text] of [["evergreen", "evergreen"], ["distilled", "distilled"], ["capture", "capture"]]) {
+      const l = legend.createSpan({ cls: "mise-proj-legend-item" });
+      l.createSpan({ cls: `mise-proj-swatch mise-proj-strip-${k}` });
+      l.createSpan({ text });
+    }
+    if (untyped) {
+      const u = legend.createSpan({ cls: "mise-proj-untyped", attr: { role: "button" } });
+      u.setText(`${untyped} note${untyped > 1 ? "s" : ""} without a type, not on the shelf`);
+      u.addEventListener("click", () => this.jump("project-notes.base", "Untyped"));
     }
   }
 
-  async jump(base, view) {
-    const i = this.tabs().findIndex((t) => t.base === base);
-    if (i < 0) return;
-    if (view) this.tabState().views[base] = view;
-    await this.selectTab(i);
+  // Split the segments, in config order, into rows of about the same weight.
+  // A small base weight per segment keeps tiny categories from piling up.
+  shelfRows(segs, n) {
+    if (n <= 1 || segs.length < 2) return [segs];
+    const total = segs.reduce((t, s) => t + s.n, 0);
+    const base = total / segs.length / 2;
+    const w = segs.map((s) => s.n + base);
+    const target = w.reduce((a, b) => a + b, 0) / n;
+    const out = [[]];
+    let acc = 0;
+    segs.forEach((s, i) => {
+      const row = out[out.length - 1];
+      if (row.length && out.length < n && acc + w[i] / 2 > target * out.length) out.push([]);
+      out[out.length - 1].push(s);
+      acc += w[i];
+    });
+    return out;
+  }
+
+  renderTabs(par, notes) {
+    const el = this.tabsEl;
+    el.empty();
+    if (!par) return;
+    const current = this.tabIndex();
+    const open = notes.filter((f) => this.isIssue(f) && this.isOpen(f)).length;
+    const all = notes.filter((f) => !this.isIssue(f)).length;
+    this.tabs().forEach((tab, i) => {
+      // Shelf categories are reached from the shelf.
+      const plain = tab.show === "overview" || tab.base === "issues-project.base" || tab.base === "project-notes.base" || !tab.base;
+      if (!plain) return;
+      const n = tab.show === "overview" ? null : tab.base === "issues-project.base" ? open : tab.base === "project-notes.base" ? all : null;
+      const t = el.createDiv({ cls: "mise-proj-tab", attr: { role: "tab" } });
+      if (i === current) t.addClass("is-active");
+      t.createSpan({ text: tab.name });
+      if (n != null) t.createSpan({ cls: "mise-proj-tab-n", text: String(n) });
+      if (i < 9) t.createSpan({ cls: "mise-proj-kbd", text: String(i + 1) });
+      t.addEventListener("click", () => this.selectTab(i));
+    });
   }
 
   async renderBody() {
@@ -1919,18 +2044,21 @@ class ProjectDashboard extends ItemView {
     this.body = this.addChild(new Component());
     this.bodyEl.empty();
     this.viewsEl.empty();
+    this.flowEl = null;
     const par = this.par();
     if (!par) return;
     const tab = this.tabs()[this.tabIndex()];
     if (tab.show === "overview") return this.renderOverview(par);
-    if (!tab.base) return this.bodyEl.createDiv({ cls: "mise-proj-empty", text: `Tab "${tab.name}" has no base` });
+    if (tab.show === "journal") return this.renderJournal(par);
+    if (!tab.base) return this.bodyEl.createDiv({ cls: "mise-proj-empty", text: `The tab “${tab.name}” names no base. Add "base" to it in the config.` });
     const data = await this.readBase(tab.base);
-    if (!data) return this.bodyEl.createDiv({ cls: "mise-proj-empty", text: `Missing ${this.basePath(tab.base)}` });
+    if (!data) return this.bodyEl.createDiv({ cls: "mise-proj-empty", text: `${this.basePath(tab.base)} does not exist. Fix the path in the config.` });
     const names = (data.views || []).map((v) => v.name);
     const st = this.tabState();
     const view = names.includes(st.views[tab.base]) ? st.views[tab.base] : names[0];
+    this.viewsEl.createSpan({ cls: "mise-proj-views-title", text: tab.name });
     names.forEach((name) => {
-      const chip = this.viewsEl.createSpan({ cls: "mise-proj-view", text: name });
+      const chip = this.viewsEl.createEl("button", { cls: "mise-proj-view", text: name });
       if (name === view) chip.addClass("is-active");
       chip.addEventListener("click", async () => {
         st.views[tab.base] = name;
@@ -1938,55 +2066,482 @@ class ProjectDashboard extends ItemView {
         await this.renderBody();
       });
     });
-    if (names.length > 1) this.viewsEl.createSpan({ cls: "mise-proj-hint", text: "h l" });
+    if (names.length > 1) this.viewsEl.createSpan({ cls: "mise-proj-kbd", text: "h l" });
     await this.renderBase(this.bodyEl.createDiv({ cls: "mise-proj-base" }), data, view, par);
   }
 
-  // Overview: the PAR's own index and working set, then one card per base view.
+  // Overview: issue flow and the trail of recent notes (live), the PAR
+  // index and the working set, then one base card per "overview" entry.
   async renderOverview(par) {
-    const grid = this.bodyEl.createDiv({ cls: "mise-proj-overview" });
-    const card = (title, wide) => {
-      const c = grid.createDiv({ cls: `mise-proj-card${wide ? " is-wide" : ""}` });
-      c.createDiv({ cls: "mise-proj-card-title", text: title });
-      return c.createDiv({ cls: "mise-proj-card-body" });
+    this.flowEl = this.bodyEl.createDiv({ cls: "mise-proj-flow" });
+
+    // The desk: the hand-made index and the comments, written from here.
+    const desk = this.bodyEl.createDiv({ cls: "mise-proj-desk" });
+    const idxBox = desk.createDiv({ cls: "mise-proj-desk-box mise-proj-index" });
+    const idxHead = idxBox.createDiv({ cls: "mise-proj-desk-head" });
+    idxHead.createEl("h4", { cls: "mise-proj-h", text: "Index" });
+    const idxBtn = (text, key, fn) => {
+      const b = idxHead.createEl("button", { cls: "mise-proj-link-btn" });
+      b.createSpan({ text });
+      if (key) b.createSpan({ cls: "mise-proj-kbd", text: key });
+      b.addEventListener("click", fn);
     };
+    idxBtn("Add a note", "i", () => this.pickIndexNote());
+    idxBtn("Edit in the note", null, () => this.openSection(this.indexHeading()));
+    this.indexEl = idxBox.createDiv({ cls: "mise-proj-index-list" });
 
-    const section = this.cfg().indexSection || "## Index";
-    const text = await this.app.vault.cachedRead(par);
-    const idx = this.sectionOf(text, section);
-    const indexEl = card("Index");
-    if (idx) await MarkdownRenderer.render(this.app, idx, indexEl, par.path, this.body);
-    else indexEl.createDiv({ cls: "mise-proj-empty", text: `No "${section}" in the PAR note` });
+    const cBox = desk.createDiv({ cls: "mise-proj-desk-box mise-proj-comments" });
+    cBox.createDiv({ cls: "mise-proj-desk-head" }).createEl("h4", { cls: "mise-proj-h", text: "Comments" });
+    const field = cBox.createDiv({ cls: "mise-proj-comment-field" });
+    this.commentInput = field.createEl("input", { attr: { type: "text", placeholder: "Write a comment and press Enter", spellcheck: "true" } });
+    field.createSpan({ cls: "mise-proj-kbd", text: "c" });
+    this.commentInput.addEventListener("keydown", async (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        this.commentInput.blur();
+        this.contentEl.focus();
+      }
+      if (e.key !== "Enter" || e.isComposing) return;
+      e.preventDefault();
+      const v = this.commentInput.value.trim();
+      if (!v) return;
+      this.commentInput.value = "";
+      await this.addComment(v);
+    });
+    this.commentsListEl = cBox.createDiv({ cls: "mise-proj-comment-list" });
+    await this.renderDesk();
 
+    const refs = this.bodyEl.createDiv({ cls: "mise-proj-refs" });
+    this.trailEl = refs.createDiv({ cls: "mise-proj-trail" });
+    this.renderSummaries(this.notes());
+    const block = (title) => {
+      const b = refs.createDiv({ cls: "mise-proj-ref" });
+      b.createEl("h4", { cls: "mise-proj-h", text: title });
+      return b.createDiv({ cls: "mise-proj-ref-body" });
+    };
     const working = (this.plugin.projectGroup(par.basename)?.items || []).filter((i) => i.type === "file");
-    const workEl = card("Working set");
+    const workEl = block("Working set");
     if (working.length) {
       const md = working.map((i) => `- [[${i.path.replace(/\.md$/, "")}|${i.path.split("/").pop().replace(/\.md$/, "")}]]`).join("\n");
       await MarkdownRenderer.render(this.app, md, workEl, par.path, this.body);
-    } else workEl.createDiv({ cls: "mise-proj-empty", text: "Empty · <leader> p a adds the active note" });
+    } else workEl.createDiv({ cls: "mise-proj-empty", text: "Nothing here yet. Open a note and press <leader> p a to add it." });
 
     const cards = this.cfg().overview?.length ? this.cfg().overview : DEFAULT_OVERVIEW;
     for (const spec of cards) {
-      const el = card(spec.title || spec.view || spec.base, true);
+      const sec = this.bodyEl.createDiv({ cls: "mise-proj-ov-base" });
+      sec.createEl("h4", { cls: "mise-proj-h", text: spec.title || spec.view || spec.base });
       const data = await this.readBase(spec.base);
-      if (!data) el.createDiv({ cls: "mise-proj-empty", text: `Missing ${this.basePath(spec.base)}` });
-      else await this.renderBase(el, data, spec.view, par);
+      if (!data) sec.createDiv({ cls: "mise-proj-empty", text: `${this.basePath(spec.base)} does not exist.` });
+      else await this.renderBase(sec.createDiv(), data, spec.view, par);
     }
   }
 
-  // The lines under a heading, until the next heading of the same or a higher level.
-  sectionOf(text, heading) {
+  renderSummaries(notes) {
+    this.renderFlow(notes.filter((f) => this.isIssue(f) && this.isOpen(f)));
+    this.renderTrail(notes.filter((f) => !this.isIssue(f)));
+  }
+
+  // Open issues as a flow from inbox to blocked; the column title opens the
+  // matching view of the issues base.
+  renderFlow(issues) {
+    const el = this.flowEl;
+    el.empty();
+    const max = this.cfg().issuesPerColumn ?? 4;
+    const today = window.moment().startOf("day");
+    for (const col of FLOW) {
+      const own = issues
+        .filter((f) => col.status.includes(String(this.fm(f).status ?? "")))
+        .sort((a, b) => (this.fm(a).priority ?? 9) - (this.fm(b).priority ?? 9) || String(this.fm(a).dueDate || "9").localeCompare(String(this.fm(b).dueDate || "9")));
+      const c = el.createDiv({ cls: `mise-proj-col is-${col.view.toLowerCase()}` });
+      if (!own.length) c.addClass("is-zero");
+      const h = c.createDiv({ cls: "mise-proj-col-head", attr: { role: "button" } });
+      h.createSpan({ cls: "mise-proj-col-n", text: String(own.length) });
+      h.createSpan({ text: col.label });
+      h.addEventListener("click", () => this.jump("issues-project.base", col.view));
+      for (const f of own.slice(0, max)) {
+        const fm = this.fm(f);
+        const m = f.basename.match(/^(_I\d+)\s+(.*)$/);
+        const card = c.createDiv({ cls: "mise-proj-issue", attr: { role: "button", title: f.basename } });
+        if (fm.priority != null) card.dataset.prio = String(fm.priority);
+        card.createDiv({ cls: "mise-proj-issue-name", text: m ? m[2] : f.basename });
+        const meta = card.createDiv({ cls: "mise-proj-issue-meta" });
+        if (m) meta.createSpan({ text: m[1].replace(/^_I0*/, "#") });
+        if (fm.priority != null) meta.createSpan({ text: `P${fm.priority}` });
+        if (fm.dueDate) {
+          const due = window.moment(String(fm.dueDate));
+          const d = meta.createSpan({ cls: "mise-proj-due", text: due.isValid() ? due.format("D MMM") : String(fm.dueDate) });
+          if (due.isBefore(today)) d.addClass("is-overdue");
+        }
+        card.addEventListener("click", (e) => this.openBeside(f, e.metaKey || e.ctrlKey));
+      }
+      if (own.length > max) {
+        const more = c.createDiv({ cls: "mise-proj-more", attr: { role: "button" }, text: `${own.length - max} more` });
+        more.addEventListener("click", () => this.jump("issues-project.base", col.view));
+      }
+    }
+  }
+
+  // The notes touched last, newest first, with how long ago.
+  renderTrail(notes) {
+    const el = this.trailEl;
+    el.empty();
+    el.createEl("h4", { cls: "mise-proj-h", text: "Touched lately" });
+    const list = el.createDiv({ cls: "mise-proj-trail-list" });
+    const recent = [...notes].sort((a, b) => b.stat.mtime - a.stat.mtime).slice(0, this.cfg().trail ?? 8);
+    if (!recent.length) list.createDiv({ cls: "mise-proj-empty", text: "No notes link this project in paras yet." });
+    for (const f of recent) {
+      const row = list.createDiv({ cls: "mise-proj-trail-row", attr: { role: "button" } });
+      row.createSpan({ cls: "mise-proj-trail-when", text: window.moment(f.stat.mtime).fromNow(true) });
+      row.createSpan({ cls: "mise-proj-trail-name", text: f.basename });
+      row.createSpan({ cls: "mise-proj-trail-type", text: this.typeOf(f) || "no type" });
+      row.addEventListener("click", (e) => this.openBeside(f, e.metaKey || e.ctrlKey));
+    }
+  }
+
+  // Journal: the project log as a timeline, newest first, grouped by week.
+  // Read-only: journal.sh is the only editor of journal files.
+
+  journalFile() {
+    return this.notes().find((f) => [].concat(this.fm(f).file_class || []).includes("journal")) || null;
+  }
+
+  // "- YYYY-MM-DD HH:mm: text" entries with "  - key::: value" lines under them.
+  parseJournal(text) {
+    const lines = text.split("\n");
+    const sec = (h) => this.sectionBlocks(text, h).items.filter((it) => !/^%%/.test(it.text.trim())).map((it) => it.text);
+    const log = this.sectionBlocks(text, "## Log");
+    const entries = [];
+    for (const it of log.items) {
+      const m = lines[it.from].match(/^[-*]\s+(\d{4}-\d{2}-\d{2})(?:\s+(\d{1,2}:\d{2}))?:\s*(.*)$/);
+      if (!m) continue;
+      const e = { date: m[1], time: m[2] || "", text: m[3], kind: "note", dur: 0, notes: [] };
+      for (const l of lines.slice(it.from + 1, it.to)) {
+        const k = l.match(/^\s*[-*]\s+(\w+):::\s*(.*)$/);
+        if (!k) {
+          if (l.trim()) e.notes.push({ key: "extra", value: l.trim().replace(/^[-*]\s+/, "") });
+        } else if (k[1] === "kind") e.kind = k[2].trim() || "note";
+        else if (k[1] === "dur") e.dur = parseInt(k[2], 10) || 0;
+        else if (k[2].trim()) e.notes.push({ key: k[1], value: k[2].trim() });
+      }
+      entries.push(e);
+    }
+    return { entries: entries.reverse(), debt: sec("## Tech debt"), products: sec("## Intermediate products"), reflect: sec("## How it went") };
+  }
+
+  async renderJournal(par) {
+    const file = this.journalFile();
+    if (!file) return this.bodyEl.createDiv({ cls: "mise-proj-empty", text: "This project has no journal. A project gets one from /new-par, through journal.sh." });
+    const j = this.parseJournal(await this.app.vault.read(file));
+    const kinds = ["done", "milestone", "meeting", "product", "note"];
+    const q = this.filter.toLowerCase();
+    const shown = j.entries.filter((e) => (!this.journalKind || e.kind === this.journalKind) && (!q || e.text.toLowerCase().includes(q)));
+    const fmtDur = (m) => (m >= 60 ? `${Math.floor(m / 60)} h${m % 60 ? ` ${m % 60} min` : ""}` : `${m} min`);
+
+    // Header: the kinds as filters, with their counts.
+    this.viewsEl.createSpan({ cls: "mise-proj-views-title", text: "journal" });
+    const chip = (label, kind, n) => {
+      const c = this.viewsEl.createEl("button", { cls: `mise-proj-view${kind ? ` is-kind-${kind}` : ""}` });
+      if (kind) c.createSpan({ cls: `mise-jr-dot is-${kind}` });
+      c.createSpan({ text: n != null ? `${label} ${n}` : label });
+      if ((this.journalKind || null) === kind) c.addClass("is-active");
+      c.addEventListener("click", () => {
+        this.journalKind = kind;
+        this.renderBody();
+      });
+    };
+    chip("all", null, j.entries.length);
+    for (const k of kinds) {
+      const n = j.entries.filter((e) => e.kind === k).length;
+      if (n) chip(k, k, n);
+    }
+    const open = this.viewsEl.createEl("button", { cls: "mise-proj-link-btn mise-jr-open", text: "Open the journal" });
+    open.addEventListener("click", () => this.openBeside(file, false));
+
+    const wrap = this.bodyEl.createDiv({ cls: "mise-jr" });
+    const timeline = wrap.createDiv({ cls: "mise-jr-timeline" });
+    if (!shown.length) timeline.createDiv({ cls: "mise-proj-empty", text: "No entries match. Clear the filter or pick another kind." });
+
+    // Weeks, then days.
+    const weeks = [];
+    for (const e of shown) {
+      const d = window.moment(e.date);
+      const key = d.format("GGGG-[W]WW");
+      let w = weeks[weeks.length - 1];
+      if (!w || w.key !== key) weeks.push((w = { key, start: d.clone().startOf("isoWeek"), days: [] }));
+      let day = w.days[w.days.length - 1];
+      if (!day || day.date !== e.date) w.days.push((day = { date: e.date, entries: [] }));
+      day.entries.push(e);
+    }
+    for (const w of weeks) {
+      const all = w.days.flatMap((d) => d.entries);
+      const mins = all.reduce((t, e) => t + e.dur, 0);
+      const wk = timeline.createDiv({ cls: "mise-jr-week" });
+      const head = wk.createDiv({ cls: "mise-jr-week-head" });
+      head.createSpan({ cls: "mise-jr-week-name", text: `Week ${w.start.format("W")}` });
+      head.createSpan({ cls: "mise-jr-week-range", text: `${w.start.format("D MMM")} to ${w.start.clone().add(6, "days").format("D MMM")}` });
+      const done = all.filter((e) => e.kind === "done").length;
+      head.createSpan({ cls: "mise-jr-week-sum", text: `${done} done${mins ? `, ${fmtDur(mins)} logged` : ""}` });
+      for (const day of w.days) {
+        const row = wk.createDiv({ cls: "mise-jr-day" });
+        const d = window.moment(day.date);
+        const gut = row.createDiv({ cls: "mise-jr-gutter" });
+        gut.createDiv({ cls: "mise-jr-dow", text: d.format("ddd") });
+        gut.createDiv({ cls: "mise-jr-dom", text: d.format("D") });
+        const list = row.createDiv({ cls: "mise-jr-entries" });
+        for (const e of day.entries) {
+          const it = list.createDiv({ cls: `mise-jr-entry is-${e.kind}` });
+          const top = it.createDiv({ cls: "mise-jr-top" });
+          top.createSpan({ cls: `mise-jr-kind is-${e.kind}`, text: e.kind });
+          if (e.time) top.createSpan({ cls: "mise-jr-time", text: e.time });
+          if (e.dur) top.createSpan({ cls: "mise-jr-dur", text: fmtDur(e.dur) });
+          // Title: the text before the first colon when that reads as a title.
+          const cut = e.text.search(/:\s/);
+          const title = cut > 0 && cut < 110 ? e.text.slice(0, cut) : e.text;
+          const rest = title === e.text ? "" : e.text.slice(cut + 1).trim();
+          const t = it.createDiv({ cls: "mise-jr-title" });
+          await MarkdownRenderer.render(this.app, title, t, file.path, this.body);
+          if (rest) {
+            const r = it.createDiv({ cls: "mise-jr-rest", attr: { title: "Click to expand" } });
+            await MarkdownRenderer.render(this.app, rest, r, file.path, this.body);
+            r.addEventListener("click", (ev) => {
+              if (!ev.target.closest(".internal-link")) r.toggleClass("is-open", !r.hasClass("is-open"));
+            });
+          }
+          for (const n of e.notes) {
+            const nl = it.createDiv({ cls: `mise-jr-note is-${n.key}` });
+            nl.createSpan({ cls: "mise-jr-note-key", text: n.key === "extra" ? "" : n.key });
+            await MarkdownRenderer.render(this.app, n.value, nl.createSpan({ cls: "mise-jr-note-text" }), file.path, this.body);
+          }
+        }
+      }
+    }
+
+    // Side: what the log does not hold.
+    const side = wrap.createDiv({ cls: "mise-jr-side" });
+    const total = j.entries.reduce((t, e) => t + e.dur, 0);
+    const stats = side.createDiv({ cls: "mise-jr-stats" });
+    const stat = (n, label) => {
+      const s = stats.createDiv();
+      s.createSpan({ cls: "mise-jr-stat-n", text: n });
+      s.createSpan({ cls: "mise-jr-stat-l", text: label });
+    };
+    stat(String(j.entries.length), "entries");
+    stat(String(j.entries.filter((e) => e.kind === "done").length), "done");
+    stat(total ? fmtDur(total) : "none", "time logged");
+    for (const [title, items, cmd] of [["Tech debt", j.debt, "journal.sh debt"], ["Intermediate products", j.products, "journal.sh product"], ["How it went", j.reflect, "journal.sh reflect"]]) {
+      const box = side.createDiv({ cls: "mise-jr-box" });
+      box.createEl("h4", { cls: "mise-proj-h", text: title });
+      if (!items.length) box.createDiv({ cls: "mise-proj-empty", text: `Nothing yet. ${cmd} adds it.` });
+      else await MarkdownRenderer.render(this.app, items.join("\n"), box.createDiv({ cls: "mise-proj-ref-body" }), file.path, this.body);
+    }
+  }
+
+  // Desk: the hand-made parts of the PAR note. The index section lists the
+  // entry notes in my order; the comments section keeps dated lines. Both
+  // stay plain Markdown in the PAR note; the dashboard only edits them.
+
+  indexHeading() {
+    return this.cfg().indexSection || "## Index";
+  }
+
+  commentsHeading() {
+    return this.cfg().commentsSection || "## Comments";
+  }
+
+  // A section as items: a top-level line plus the indented lines under it.
+  // `end` is the next heading of the same or a higher level.
+  sectionBlocks(text, heading) {
     const lines = text.split("\n");
     const start = lines.findIndex((l) => l.trim() === heading.trim());
-    if (start < 0) return "";
+    if (start < 0) return { lines, start, end: -1, items: [] };
     const level = heading.match(/^#+/)?.[0].length || 2;
-    const out = [];
-    for (let i = start + 1; i < lines.length; i++) {
-      const h = lines[i].match(/^(#{1,6})\s/);
-      if (h && h[1].length <= level) break;
-      out.push(lines[i]);
+    const isEnd = (l) => {
+      const h = l.match(/^(#{1,6})\s/);
+      return !!h && h[1].length <= level;
+    };
+    let end = start + 1;
+    while (end < lines.length && !isEnd(lines[end])) end++;
+    const items = [];
+    for (let i = start + 1; i < end; i++) {
+      if (!lines[i].trim()) continue;
+      if (/^\s/.test(lines[i]) && items.length) items[items.length - 1].to = i + 1;
+      else items.push({ from: i, to: i + 1 });
     }
-    return out.join("\n").trim();
+    items.forEach((it) => (it.text = lines.slice(it.from, it.to).join("\n")));
+    return { lines, start, end, items };
+  }
+
+  async renderDesk() {
+    const par = this.par();
+    if (!par || !this.indexEl?.isConnected) return;
+    const text = await this.app.vault.read(par);
+    const comp = new Component();
+    this.addChild(comp);
+    const idx = this.sectionBlocks(text, this.indexHeading());
+    const com = this.sectionBlocks(text, this.commentsHeading());
+    const indexEl = createDiv();
+    const commentsEl = createDiv();
+    await this.renderIndex(indexEl, par, idx, comp);
+    await this.renderComments(commentsEl, par, com, comp);
+    // Swap only when both are ready, so a refresh never flickers.
+    this.indexEl.empty();
+    this.indexEl.append(...indexEl.childNodes);
+    this.commentsListEl.empty();
+    this.commentsListEl.append(...commentsEl.childNodes);
+    if (this.deskComp) this.removeChild(this.deskComp);
+    this.deskComp = comp;
+  }
+
+  async renderIndex(el, par, sec, comp) {
+    if (!sec.items.length) {
+      el.createDiv({ cls: "mise-proj-empty", text: "No entry notes yet. Press i to add the notes you start from." });
+      return;
+    }
+    for (const [i, it] of sec.items.entries()) {
+      const row = el.createDiv({ cls: "mise-proj-idx-row", attr: { draggable: "true" } });
+      row.createSpan({ cls: "mise-proj-grip", text: "⠿", attr: { "aria-hidden": "true", title: "Drag to reorder" } });
+      const md = row.createDiv({ cls: "mise-proj-idx-md" });
+      await MarkdownRenderer.render(this.app, it.text, md, par.path, comp);
+      const x = row.createEl("button", { cls: "mise-proj-x", text: "×", attr: { "aria-label": "Remove from the index", title: "Remove from the index" } });
+      x.addEventListener("click", () => this.removeItem(it));
+      row.addEventListener("dragstart", (e) => {
+        this.dragFrom = i;
+        e.dataTransfer.effectAllowed = "move";
+        row.addClass("is-dragging");
+      });
+      row.addEventListener("dragend", () => row.removeClass("is-dragging"));
+      row.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        row.addClass("is-over");
+      });
+      row.addEventListener("dragleave", () => row.removeClass("is-over"));
+      row.addEventListener("drop", (e) => {
+        e.preventDefault();
+        row.removeClass("is-over");
+        if (this.dragFrom != null && this.dragFrom !== i) this.moveItem(this.indexHeading(), this.dragFrom, i);
+        this.dragFrom = null;
+      });
+    }
+  }
+
+  async renderComments(el, par, sec, comp) {
+    const items = [...sec.items].reverse();
+    if (!items.length) {
+      el.createDiv({ cls: "mise-proj-empty", text: "Nothing noted yet. Doubts, ideas and things to remember about this project go here." });
+      return;
+    }
+    const max = this.cfg().comments ?? 10;
+    const today = window.moment().startOf("day");
+    for (const it of items.slice(0, max)) {
+      const m = it.text.match(/^[-*]\s+(\d{4}-\d{2}-\d{2})\s+([\s\S]*)$/);
+      const row = el.createDiv({ cls: "mise-proj-comment" });
+      const when = row.createSpan({ cls: "mise-proj-comment-when" });
+      if (m) {
+        const d = window.moment(m[1]);
+        const days = today.diff(d.clone().startOf("day"), "days");
+        when.setText(days === 0 ? "today" : days === 1 ? "yesterday" : days < 7 ? d.format("ddd") : d.format("D MMM"));
+        when.setAttr("title", m[1]);
+      }
+      const body = row.createDiv({ cls: "mise-proj-comment-text" });
+      await MarkdownRenderer.render(this.app, m ? m[2] : it.text.replace(/^[-*]\s+/, ""), body, par.path, comp);
+      const x = row.createEl("button", { cls: "mise-proj-x", text: "×", attr: { "aria-label": "Delete the comment", title: "Delete the comment" } });
+      x.addEventListener("click", () => this.removeItem(it));
+    }
+    if (items.length > max) {
+      const more = el.createDiv({ cls: "mise-proj-more", attr: { role: "button" }, text: `${items.length - max} older comments in the PAR note` });
+      more.addEventListener("click", () => this.openSection(this.commentsHeading()));
+    }
+  }
+
+  // Add a line at the end of a section; a missing section is created after
+  // `after` (or at the end of the note).
+  async appendItem(heading, line, after) {
+    const par = this.par();
+    if (!par) return;
+    await this.app.vault.process(par, (body) => {
+      const sec = this.sectionBlocks(body, heading);
+      const lines = sec.lines;
+      if (sec.start < 0) {
+        const prev = after ? this.sectionBlocks(body, after) : null;
+        const at = prev && prev.start >= 0 ? prev.end : lines.length;
+        const block = [heading, "", line, ""];
+        if (at > 0 && lines[at - 1].trim()) block.unshift("");
+        lines.splice(at, 0, ...block);
+        return lines.join("\n");
+      }
+      const last = sec.items.length ? sec.items[sec.items.length - 1].from : -1;
+      return Dashboard.prototype.insertInSection.call(this, lines, sec.start, last, line).join("\n");
+    });
+  }
+
+  // Remove one item, only if the note still has it where it was read.
+  async removeItem(it) {
+    const par = this.par();
+    if (!par) return;
+    await this.app.vault.process(par, (body) => {
+      const lines = body.split("\n");
+      if (lines.slice(it.from, it.to).join("\n") !== it.text) {
+        new Notice("The PAR note changed; try again");
+        return body;
+      }
+      lines.splice(it.from, it.to - it.from);
+      return lines.join("\n");
+    });
+  }
+
+  async moveItem(heading, from, to) {
+    const par = this.par();
+    if (!par) return;
+    await this.app.vault.process(par, (body) => {
+      const sec = this.sectionBlocks(body, heading);
+      const n = sec.items.length;
+      if (from >= n || to >= n) return body;
+      const blocks = sec.items.map((it) => sec.lines.slice(it.from, it.to));
+      const [moved] = blocks.splice(from, 1);
+      blocks.splice(to, 0, moved);
+      const start = sec.items[0].from;
+      sec.lines.splice(start, sec.items[n - 1].to - start, ...blocks.flat());
+      return sec.lines.join("\n");
+    });
+  }
+
+  async addComment(text) {
+    const line = `- ${window.moment().format("YYYY-MM-DD")} ${text.replace(/\s*\n\s*/g, " ")}`;
+    await this.appendItem(this.commentsHeading(), line, this.indexHeading());
+  }
+
+  // c: the comment field on the overview, else a prompt.
+  async comment() {
+    if (this.commentInput?.isConnected) {
+      this.commentInput.focus();
+      return;
+    }
+    const v = await prompt(this.app, `Comment on ${this.project}`);
+    if (v) await this.addComment(v);
+  }
+
+  // i: pick a note (this project's first, newest first) and add it to the index.
+  pickIndexNote() {
+    const par = this.par();
+    if (!par) return;
+    const own = new Set(this.notes());
+    const byTime = (a, b) => b.stat.mtime - a.stat.mtime;
+    const rest = this.app.vault.getMarkdownFiles().filter((f) => !own.has(f) && f !== par);
+    const files = [...[...own].sort(byTime), ...rest.sort(byTime)];
+    new NotePicker(this.app, files, own, async (file) => {
+      const link = this.app.metadataCache.fileToLinktext(file, par.path, true);
+      const sec = this.sectionBlocks(await this.app.vault.read(par), this.indexHeading());
+      if (sec.items.some((it) => it.text.includes(`[[${link}]]`) || it.text.includes(`[[${link}|`))) return new Notice(`${file.basename} is already in the index`);
+      await this.appendItem(this.indexHeading(), `- [[${link}]]`);
+    }).open();
+  }
+
+  // Open the PAR note at a section.
+  async openSection(heading) {
+    const par = this.par();
+    if (!par) return;
+    const sec = this.sectionBlocks(await this.app.vault.read(par), heading);
+    await this.openBeside(par, false, sec.start >= 0 ? sec.start : null);
   }
 
   // One view of a base as a base code block, with the PAR as `this` and the
@@ -2023,21 +2578,470 @@ class ProjectDashboard extends ItemView {
 
   // Open a note beside the board: reuse a tab that shows it, else a new tab in
   // the working pane (the left pane of the layout), else in the pane next to it.
-  async openBeside(file, newTab) {
+  async openBeside(file, newTab, line) {
     const ws = this.app.workspace;
     let existing = null;
     ws.iterateRootLeaves((l) => {
       if (!existing && l !== this.leaf && l.view?.file === file) existing = l;
     });
-    if (existing && !newTab) return ws.setActiveLeaf(existing, { focus: true });
+    if (existing && !newTab) {
+      ws.setActiveLeaf(existing, { focus: true });
+      if (line != null) existing.setEphemeralState({ line });
+      return;
+    }
     const groups = this.plugin.tabGroups();
     const left = this.plugin.leftGroup && groups.includes(this.plugin.leftGroup) ? this.plugin.leftGroup : null;
     const target = left || groups.find((g) => g !== this.leaf.parent) || this.leaf.parent;
     const leaf = target === this.leaf.parent && groups.length === 1 && !left
       ? ws.getLeaf("split", "vertical")
       : ws.createLeafInParent(target, target.children.length);
-    await leaf.openFile(file);
+    await leaf.openFile(file, line != null ? { eState: { line } } : {});
     ws.setActiveLeaf(leaf, { focus: true });
+  }
+}
+
+// Spotlight: the maintenance board of scripts/spotlight.sh in a pane. The
+// script owns every count (run with --tsv); the view orders the rows by
+// light, lists the notes behind some of them and copies the workflow command.
+
+const SPOTLIGHT_VIEW = "mise-spotlight";
+const SPOTLIGHT_SCRIPT = "scripts/spotlight.sh";
+const LIGHT_ORDER = { "!!": 0, "!": 1, "-": 2, off: 2, ok: 3 };
+
+class Spotlight extends ItemView {
+  constructor(leaf, plugin) {
+    super(leaf);
+    this.plugin = plugin;
+    this.expanded = new Set(); // rows showing their notes; not "open", View.open mounts the pane
+  }
+
+  getViewType() {
+    return SPOTLIGHT_VIEW;
+  }
+
+  getDisplayText() {
+    return "Spotlight";
+  }
+
+  getIcon() {
+    return "siren";
+  }
+
+  async onOpen() {
+    this.contentEl.addClass("mise-spot");
+    this.contentEl.addEventListener("click", (e) => {
+      const a = e.target.closest?.(".internal-link");
+      if (!a) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const f = this.app.metadataCache.getFirstLinkpathDest(a.dataset.href || a.getAttribute("href"), "");
+      if (f) this.app.workspace.getLeaf("tab").openFile(f);
+    }, { capture: true });
+    await this.refresh();
+  }
+
+  run() {
+    const { execFile } = require("child_process");
+    const cwd = this.app.vault.adapter.basePath;
+    return new Promise((resolve, reject) =>
+      execFile("bash", [SPOTLIGHT_SCRIPT, "--tsv"], { cwd, timeout: 120000, env: { ...process.env, PATH: `${process.env.PATH}:/opt/homebrew/bin:/usr/local/bin` } }, (err, out) =>
+        err && !out ? reject(err) : resolve(out)
+      )
+    );
+  }
+
+  async refresh() {
+    const el = this.contentEl;
+    el.empty();
+    el.createDiv({ cls: "mise-spot-loading", text: "Running the spotlight…" });
+    try {
+      const out = await this.run();
+      this.rows = out.trim().split("\n").filter(Boolean).map((l) => {
+        const [name, detail, light, flows] = l.split("\t");
+        return { name, detail, light: light || "-", flows: (flows || "").split(" · ").filter(Boolean) };
+      });
+      this.ran = window.moment();
+      this.render();
+    } catch (err) {
+      el.empty();
+      el.createDiv({ cls: "mise-proj-empty", text: `${SPOTLIGHT_SCRIPT} failed: ${err.message}. Run it in a terminal to see why.` });
+    }
+  }
+
+  // Notes behind a row, when the vault can tell them cheaply.
+  details(name) {
+    const fmOf = (f) => this.app.metadataCache.getFileCache(f)?.frontmatter || {};
+    const files = this.app.vault.getMarkdownFiles();
+    const age = (f) => window.moment().diff(window.moment(f.stat.mtime), "days");
+    const isIssue = (f) => [].concat(fmOf(f).file_class || []).includes("issue");
+    if (name === "Inbox") {
+      const folder = this.plugin.cfg.dashboard?.inboxFolder || "09 - Inbox";
+      // Age from `created`, like the script; the file time when it is missing.
+      const born = (f) => {
+        const c = window.moment(String(fmOf(f).created || ""), ["YYYY-MM-DD HH:mm", "YYYY-MM-DD"], true);
+        return c.isValid() ? c : window.moment(f.stat.ctime);
+      };
+      return files
+        .filter((f) => f.path.startsWith(folder + "/"))
+        .sort((a, b) => born(a) - born(b))
+        .map((f) => ({ file: f, note: `${window.moment().diff(born(f), "days")} d` }));
+    }
+    if (name === "Todo flags") {
+      return files
+        .filter((f) => (this.app.metadataCache.getFileCache(f)?.tags || []).some((t) => t.tag === "#todo") && !f.path.startsWith("99 - Meta/"))
+        .map((f) => ({ file: f, note: `${this.app.metadataCache.getFileCache(f).tags.filter((t) => t.tag === "#todo").length}` }));
+    }
+    if (name === "Issues") {
+      return files.filter((f) => isIssue(f) && fmOf(f).status === "wip").sort((a, b) => a.stat.mtime - b.stat.mtime).map((f) => ({ file: f, note: `wip, ${age(f)} d untouched` }));
+    }
+    if (name === "Raw captures") {
+      return this.plugin.projectGroups().map((g) => ({ project: g.title }));
+    }
+    return null;
+  }
+
+  render() {
+    const el = this.contentEl;
+    el.empty();
+    const rows = [...this.rows].sort((a, b) => (LIGHT_ORDER[a.light] ?? 2) - (LIGHT_ORDER[b.light] ?? 2));
+    const red = rows.filter((r) => r.light === "!!").length;
+    const amber = rows.filter((r) => r.light === "!").length;
+
+    const head = el.createDiv({ cls: "mise-spot-head" });
+    const title = head.createDiv({ cls: "mise-spot-title" });
+    title.setText(red + amber ? `${red + amber} thing${red + amber > 1 ? "s" : ""} need${red + amber > 1 ? "" : "s"} a look` : "Everything is in its place");
+    const meta = head.createDiv({ cls: "mise-spot-meta" });
+    meta.createSpan({ text: `Checked ${this.ran.format("HH:mm")}` });
+    const again = meta.createEl("button", { cls: "mise-proj-btn" });
+    again.createSpan({ text: "Check again" });
+    again.createSpan({ cls: "mise-proj-kbd", text: "r" });
+    again.addEventListener("click", () => this.refresh());
+
+    // The lights as one strip: a quick read of the whole board.
+    const strip = el.createDiv({ cls: "mise-spot-strip" });
+    for (const r of rows) strip.createDiv({ cls: `mise-spot-pip is-${this.cls(r.light)}`, attr: { title: `${r.name}: ${r.detail}` } });
+
+    const list = el.createDiv({ cls: "mise-spot-list" });
+    const clear = rows.filter((r) => r.light === "ok");
+    for (const r of rows.filter((r) => r.light !== "ok")) this.renderRow(list, r);
+    if (clear.length) {
+      const c = list.createDiv({ cls: "mise-spot-clear" });
+      c.createSpan({ cls: "mise-spot-pip is-ok" });
+      c.createSpan({ text: `In place: ${clear.map((r) => r.name).join(", ")}` });
+    }
+  }
+
+  cls(light) {
+    return light === "!!" ? "red" : light === "!" ? "amber" : light === "ok" ? "ok" : "info";
+  }
+
+  renderRow(list, r) {
+    const details = this.details(r.name);
+    const row = list.createDiv({ cls: `mise-spot-row is-${this.cls(r.light)}` });
+    const main = row.createDiv({ cls: "mise-spot-main" });
+    main.createDiv({ cls: "mise-spot-name", text: r.name });
+    main.createDiv({ cls: "mise-spot-detail", text: r.detail });
+    const flows = row.createDiv({ cls: "mise-spot-flows" });
+    for (const f of r.flows) {
+      const b = flows.createEl("button", { cls: "mise-spot-cmd", text: f, attr: { title: f.startsWith("/") ? "Copy the command for Claude Code" : "Open the note" } });
+      b.addEventListener("click", async () => {
+        if (!f.startsWith("/")) {
+          const file = this.app.metadataCache.getFirstLinkpathDest(f, "");
+          if (file) return this.app.workspace.getLeaf("tab").openFile(file);
+        }
+        await navigator.clipboard.writeText(f);
+        new Notice(`Copied ${f}. Paste it in Claude Code.`);
+      });
+    }
+    if (!details?.length) return;
+    row.addClass("has-details");
+    const isOpen = this.expanded.has(r.name);
+    const more = main.createEl("button", { cls: "mise-proj-link-btn mise-spot-toggle", text: isOpen ? "Hide the notes" : `Show ${details.length} ${details[0].project ? "projects" : "notes"}` });
+    more.addEventListener("click", () => {
+      isOpen ? this.expanded.delete(r.name) : this.expanded.add(r.name);
+      this.render();
+    });
+    if (!isOpen) return;
+    const box = row.createDiv({ cls: "mise-spot-notes" });
+    for (const d of details.slice(0, 40)) {
+      const line = box.createDiv({ cls: "mise-spot-note", attr: { role: "button" } });
+      line.createSpan({ cls: "mise-spot-note-name", text: d.file ? d.file.basename : d.project });
+      line.createSpan({ cls: "mise-spot-note-meta", text: d.note || "open the project" });
+      line.addEventListener("click", () => (d.file ? this.app.workspace.getLeaf("tab").openFile(d.file) : this.plugin.openProject(d.project)));
+    }
+    if (details.length > 40) box.createDiv({ cls: "mise-proj-empty", text: `${details.length - 40} more` });
+  }
+}
+
+// Week board: the End Week checklist with live data. A strip of the seven
+// days (journal entries, concepts learned, plan tasks done), what got done
+// in every journal, and the checks of the weekly review. Reads the notes; the
+// only write is the cleanSystem property of the weekly note.
+
+const WEEK_VIEW = "mise-week";
+
+class WeekBoard extends ItemView {
+  constructor(leaf, plugin) {
+    super(leaf);
+    this.plugin = plugin;
+  }
+
+  getViewType() {
+    return WEEK_VIEW;
+  }
+
+  getDisplayText() {
+    return "Week";
+  }
+
+  getIcon() {
+    return "calendar-range";
+  }
+
+  async onOpen() {
+    this.contentEl.addClass("mise-week");
+    const refresh = debounce(() => this.render(), 600, true);
+    this.registerEvent(this.app.metadataCache.on("changed", refresh));
+    this.contentEl.addEventListener("click", (e) => {
+      const a = e.target.closest?.(".internal-link");
+      if (!a) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const f = this.app.metadataCache.getFirstLinkpathDest((a.dataset.href || a.getAttribute("href")).split("#")[0], "");
+      if (f) this.openNote(f);
+    }, { capture: true });
+    await this.render();
+  }
+
+  fm(f) {
+    return (f && this.app.metadataCache.getFileCache(f)?.frontmatter) || {};
+  }
+
+  openNote(file) {
+    const ws = this.app.workspace;
+    let leaf = null;
+    ws.iterateRootLeaves((l) => {
+      if (!leaf && l.view?.file === file) leaf = l;
+    });
+    if (leaf) return ws.setActiveLeaf(leaf, { focus: true });
+    ws.getLeaf("tab").openFile(file);
+  }
+
+  async collect() {
+    const files = this.app.vault.getMarkdownFiles();
+    const start = window.moment().startOf("isoWeek");
+    const days = [...Array(7)].map((_, i) => start.clone().add(i, "days"));
+    const inWeek = (d) => !d.isBefore(start, "day") && d.isBefore(start.clone().add(7, "days"), "day");
+    const P = ProjectDashboard.prototype;
+
+    // Journals: entries of this week, every project.
+    const entries = [];
+    for (const f of files.filter((f) => [].concat(this.fm(f).file_class || []).includes("journal"))) {
+      const j = P.parseJournal.call(P, await this.app.vault.cachedRead(f));
+      const project = linkName([].concat(this.fm(f).paras || [])[0] || f.basename);
+      for (const e of j.entries) if (inWeek(window.moment(e.date))) entries.push({ ...e, project, file: f });
+    }
+
+    // Daily notes: concepts under ## Learned, plan tasks done and open.
+    const daily = days.map((d) => {
+      const file = this.dailyFor(d);
+      return { d, file, learned: [], done: 0, open: [], entries: entries.filter((e) => e.date === d.format("YYYY-MM-DD")) };
+    });
+    for (const day of daily) {
+      if (!day.file) continue;
+      const text = await this.app.vault.cachedRead(day.file);
+      day.learned = P.sectionBlocks.call(P, text, "## Learned").items.map((it) => it.text).filter((t) => /\[\[/.test(t));
+      for (const it of P.sectionBlocks.call(P, text, "## Plan").items) {
+        const m = it.text.match(/^[-*] (?:\[(.)\] )?(.*\S.*)/);
+        if (!m) continue;
+        if (m[1] && m[1] !== " ") day.done++;
+        else day.open.push(m[2].split("\n")[0].trim());
+      }
+    }
+    // Rolled: an open task that shows up on two days or more.
+    const seen = {};
+    for (const day of daily) for (const t of new Set(day.open)) seen[t] = (seen[t] || 0) + 1;
+    const rolled = Object.entries(seen).filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]);
+
+    // Checks of the weekly review.
+    const ago = (f) => window.moment().diff(window.moment(f.stat.mtime), "days");
+    const isIssue = (f) => [].concat(this.fm(f).file_class || []).includes("issue") && !f.basename.includes("Template");
+    const stale = files.filter((f) => isIssue(f) && this.fm(f).status === "wip" && ago(f) >= 7);
+    const misplaced = files.filter((f) => isIssue(f) && this.fm(f).status === "done" && !f.path.includes("/complete/"));
+    const rfm = files.filter((f) => (this.app.metadataCache.getFileCache(f)?.tags || []).some((t) => t.tag === "#rfm") && ago(f) >= 7);
+    const silent = [];
+    for (const par of files.filter((f) => this.plugin.isPar(f) && this.fm(f).active === true && this.fm(f).paraType === "Project")) {
+      const last = files
+        .filter((f) => [].concat(this.fm(f).paras || []).some((l) => this.app.metadataCache.getFirstLinkpathDest(linkName(l), f.path) === par))
+        .reduce((m, f) => Math.max(m, f.stat.mtime), par.stat.mtime);
+      const d = window.moment().diff(window.moment(last), "days");
+      if (d >= 14) silent.push({ file: par, days: d });
+    }
+    const weekly = this.app.vault.getFileByPath(this.plugin.weeklyPath());
+    let focus = [];
+    if (weekly) {
+      const text = await this.app.vault.cachedRead(weekly);
+      const lines = text.split("\n");
+      const h1 = lines.findIndex((l) => /^#\s/.test(l));
+      for (let i = h1 + 1; h1 >= 0 && i < lines.length && !/^#{1,6}\s/.test(lines[i]); i++) {
+        const t = lines[i].replace(/^\s*[-*]\s*/, "").trim();
+        if (t) focus.push(t);
+      }
+    }
+    return { start, days: daily, entries, rolled, stale, misplaced, rfm, silent, weekly, focus };
+  }
+
+  dailyFor(m) {
+    const opts = this.app.internalPlugins.getPluginById("daily-notes")?.instance?.options || {};
+    return this.app.vault.getFileByPath(`${opts.folder ? opts.folder + "/" : ""}${m.format(opts.format || "YYYY-MM-DD")}.md`);
+  }
+
+  async render() {
+    const w = await this.collect();
+    const el = this.contentEl;
+    el.empty();
+    if (this.comp) this.removeChild(this.comp);
+    this.comp = this.addChild(new Component());
+    const md = (text, into, src) => MarkdownRenderer.render(this.app, text, into, src || "", this.comp);
+    const today = window.moment();
+
+    // Head
+    const head = el.createDiv({ cls: "mise-week-head" });
+    const title = head.createDiv({ cls: "mise-week-title" });
+    title.createSpan({ text: `Week ${w.start.format("W")}` });
+    title.createSpan({ cls: "mise-week-range", text: `${w.start.format("D MMM")} to ${w.start.clone().add(6, "days").format("D MMM")}` });
+    const left = 6 - (today.isoWeekday() - 1);
+    head.createDiv({ cls: "mise-week-left", text: left ? `${left} day${left > 1 ? "s" : ""} left` : "last day" });
+
+    // Focus from the top of the weekly note (Start Week writes it there).
+    const focus = el.createDiv({ cls: "mise-week-focus" });
+    if (w.focus.length) {
+      for (const f of w.focus.slice(0, 4)) await md(f, focus.createDiv({ cls: "mise-week-focus-line" }), w.weekly?.path);
+    } else {
+      const e = focus.createDiv({ cls: "mise-week-focus-line is-empty", text: "No focus for this week yet. /weekly-review start picks one." });
+      e.addEventListener("click", () => this.copy("/weekly-review start"));
+    }
+
+    // The seven days
+    const strip = el.createDiv({ cls: "mise-week-days" });
+    const maxN = Math.max(1, ...w.days.map((d) => d.entries.length + d.done + d.learned.length));
+    for (const day of w.days) {
+      const c = strip.createDiv({ cls: "mise-week-day", attr: { role: "button" } });
+      if (day.d.isSame(today, "day")) c.addClass("is-today");
+      if (day.d.isAfter(today, "day")) c.addClass("is-future");
+      if (!day.file) c.addClass("is-missing");
+      c.createDiv({ cls: "mise-week-dow", text: day.d.format("ddd") });
+      c.createDiv({ cls: "mise-week-dom", text: day.d.format("D") });
+      const bars = c.createDiv({ cls: "mise-week-bars" });
+      for (const [k, n] of [["log", day.entries.length], ["plan", day.done], ["learn", day.learned.length]]) {
+        const b = bars.createDiv({ cls: `mise-week-bar is-${k}` });
+        b.style.height = `${(n / maxN) * 100}%`;
+        if (n) b.setAttr("title", `${n} ${k === "log" ? "journal entries" : k === "plan" ? "plan tasks done" : "concepts learned"}`);
+      }
+      const sum = [day.entries.length && `${day.entries.length} logged`, day.done && `${day.done} done`, day.learned.length && `${day.learned.length} learned`].filter(Boolean);
+      c.createDiv({ cls: "mise-week-day-sum", text: sum.join(", ") || (day.file ? "quiet" : day.d.isAfter(today, "day") ? "" : "no daily note") });
+      c.addEventListener("click", () => day.file && this.openNote(day.file));
+    }
+    const legend = el.createDiv({ cls: "mise-week-legend" });
+    for (const [k, t] of [["log", "journal entries"], ["plan", "plan tasks done"], ["learn", "concepts learned"]]) {
+      const l = legend.createSpan();
+      l.createSpan({ cls: `mise-week-swatch is-${k}` });
+      l.createSpan({ text: t });
+    }
+
+    const grid = el.createDiv({ cls: "mise-week-grid" });
+
+    // Done this week, from every journal
+    const doneBox = grid.createDiv({ cls: "mise-week-box" });
+    const shipped = w.entries.filter((e) => e.kind === "done" || e.kind === "milestone" || e.kind === "product");
+    doneBox.createEl("h4", { cls: "mise-proj-h", text: `Done this week ${shipped.length ? `(${shipped.length})` : ""}` });
+    if (!shipped.length) doneBox.createDiv({ cls: "mise-proj-empty", text: "Nothing logged in a journal yet this week. /complete-issue logs a closed issue." });
+    const byProject = {};
+    for (const e of shipped) (byProject[e.project] = byProject[e.project] || []).push(e);
+    for (const [project, list] of Object.entries(byProject)) {
+      doneBox.createDiv({ cls: "mise-week-project", text: project });
+      for (const e of list) {
+        const row = doneBox.createDiv({ cls: `mise-week-done is-${e.kind}` });
+        const cut = e.text.search(/:\s/);
+        await md(cut > 0 && cut < 110 ? e.text.slice(0, cut) : e.text, row, e.file.path);
+      }
+    }
+
+    // Checks of End Week
+    const checks = grid.createDiv({ cls: "mise-week-box" });
+    checks.createEl("h4", { cls: "mise-proj-h", text: "Before you close the week" });
+    const learned = w.days.reduce((n, d) => n + d.learned.length, 0);
+    const check = (ok, label, detail, items, cmd) => {
+      const c = checks.createDiv({ cls: `mise-week-check ${ok ? "is-ok" : "is-todo"}` });
+      const top = c.createDiv({ cls: "mise-week-check-top" });
+      top.createSpan({ cls: "mise-week-tick", text: ok ? "✓" : "" });
+      top.createSpan({ cls: "mise-week-check-label", text: label });
+      if (cmd) {
+        const b = top.createEl("button", { cls: "mise-spot-cmd", text: cmd });
+        b.addEventListener("click", () => this.copy(cmd));
+      }
+      if (detail) c.createDiv({ cls: "mise-week-check-detail", text: detail });
+      for (const it of (items || []).slice(0, 6)) {
+        const r = c.createDiv({ cls: "mise-week-item", attr: { role: "button" } });
+        r.createSpan({ text: it.file ? it.file.basename : it.text });
+        if (it.note) r.createSpan({ cls: "mise-spot-note-meta", text: it.note });
+        if (it.file) r.addEventListener("click", () => this.openNote(it.file));
+      }
+    };
+    check(!w.rolled.length, w.rolled.length ? `${w.rolled.length} plan tasks rolled over` : "No task rolled from day to day", w.rolled.length ? "Drop, split or send each one back to its issue with a lower priority." : "", w.rolled.map(([t, n]) => ({ text: plainLinks(t), note: `${n} days` })));
+    check(!learned, learned ? `Recall the ${learned} concepts learned this week` : "No concepts to recall", "", [], learned ? "/recall week" : null);
+    check(!w.rfm.length, w.rfm.length ? `${w.rfm.length} notes with #rfm older than a week` : "No old #rfm questions", w.rfm.length ? "Answer it in the note, make it an issue, or delete the line." : "", w.rfm.map((f) => ({ file: f })));
+    check(!w.stale.length, w.stale.length ? `${w.stale.length} wip issues not touched this week` : "Every wip issue moved this week", w.stale.length ? "Mark blocked, send back to inbox, or close." : "", w.stale.map((f) => ({ file: f, note: `${window.moment().diff(window.moment(f.stat.mtime), "days")} d` })), w.stale.length ? "/complete-issue" : null);
+    check(!w.misplaced.length, w.misplaced.length ? `${w.misplaced.length} done issues outside complete/` : "Done issues are in complete/", "", w.misplaced.map((f) => ({ file: f })));
+    check(!w.silent.length, w.silent.length ? `${w.silent.length} active projects silent for two weeks` : "Every active project moved", w.silent.length ? "Pause them with /close-par or write the reason in the PAR note." : "", w.silent.map((s) => ({ file: s.file, note: `${s.days} d` })), w.silent.length ? "/close-par" : null);
+
+    // Close: cleanSystem in the weekly note
+    const close = checks.createDiv({ cls: "mise-week-close" });
+    const clean = this.fm(w.weekly).cleanSystem === true;
+    const btn = close.createEl("button", { cls: clean ? "mise-proj-btn" : "mod-cta", text: clean ? "Week closed (cleanSystem)" : "Close the week" });
+    btn.disabled = !w.weekly;
+    btn.addEventListener("click", async () => {
+      if (w.weekly) await this.app.fileManager.processFrontMatter(w.weekly, (fm) => (fm.cleanSystem = !clean));
+    });
+    const end = close.createEl("button", { cls: "mise-spot-cmd", text: "/weekly-review end" });
+    end.addEventListener("click", () => this.copy("/weekly-review end"));
+  }
+
+  async copy(cmd) {
+    await navigator.clipboard.writeText(cmd);
+    new Notice(`Copied ${cmd}. Paste it in Claude Code.`);
+  }
+}
+
+// Note picker for the index: fuzzy on the name, this project's notes marked.
+class NotePicker extends SuggestModal {
+  constructor(app, files, own, onChoose) {
+    super(app);
+    this.files = files;
+    this.own = own;
+    this.onChoose = onChoose;
+    this.setPlaceholder("Add a note to the index");
+  }
+
+  getSuggestions(query) {
+    if (!query.trim()) return this.files.slice(0, 60);
+    const match = prepareFuzzySearch(query.trim());
+    return this.files
+      .map((f) => ({ f, m: match(f.basename) }))
+      .filter((x) => x.m)
+      .sort((a, b) => this.own.has(b.f) - this.own.has(a.f) || b.m.score - a.m.score)
+      .slice(0, 60)
+      .map((x) => x.f);
+  }
+
+  renderSuggestion(file, el) {
+    el.addClass("mise-pick");
+    el.createDiv({ cls: "mise-pick-name", text: file.basename });
+    el.createDiv({ cls: "mise-pick-path", text: this.own.has(file) ? "in this project" : file.parent?.path || "/" });
+  }
+
+  onChooseSuggestion(file) {
+    this.onChoose(file);
   }
 }
 

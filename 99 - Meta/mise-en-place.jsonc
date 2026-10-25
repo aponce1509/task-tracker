@@ -28,6 +28,8 @@
       ":": { "desc": "command palette", "cmd": "command-palette:open" },
       "e": { "desc": "explorer / back to the editor", "cmd": "mise-en-place:explorer-toggle" },
       "t": { "desc": "today (dashboard)", "cmd": "mise-en-place:dashboard" },
+      "S": { "desc": "spotlight (maintenance board)", "cmd": "mise-en-place:spotlight" },
+      "W": { "desc": "week board (end week checks)", "cmd": "mise-en-place:week" },
       "\\": { "desc": "localleader", "cmd": "mise-en-place:localleader" },
 
       "l": {
@@ -212,6 +214,13 @@
       }
     },
 
+    // spotlight = the maintenance board (<leader> S, a tab of the base layout).
+    "spotlight": {
+      "keys": {
+        "r": { "desc": "check again (reruns scripts/spotlight.sh)", "action": "spotlight:refresh" }
+      }
+    },
+
     // project = the project dashboard (@project in the project layout). Links
     // open beside it, in the working pane; Cmd-click opens a new tab.
     "project": {
@@ -233,6 +242,8 @@
         "/": { "desc": "filter by name (every tab)", "action": "project:filter" },
         "Escape": { "desc": "clear the filter", "action": "project:clear-filter" },
         "o": { "desc": "open the PAR note", "action": "project:par" },
+        "c": { "desc": "write a comment (## Comments of the PAR)", "action": "project:comment" },
+        "i": { "desc": "add a note to the index (## Index of the PAR)", "action": "project:index-add" },
         "b": { "desc": "write the bridge", "action": "project:bridge" },
         "r": { "desc": "refresh", "action": "project:refresh" },
         "?": { "desc": "show these keys", "action": "project:help" }
@@ -242,15 +253,22 @@
 
   // Project dashboard: one tab per base, the same .base files the PAR notes
   // embed, rendered with the PAR as `this`. A tab is { "name", "base" } (a
-  // file in basesFolder, or a path) or { "name", "show": "overview" }. The
-  // overview shows the PAR's indexSection, the working set and one card per
-  // entry of "overview" ({ "title", "base", "view" }).
+  // file in basesFolder, or a path) or { "name", "show": "overview" }. Tabs
+  // whose base filters on note types become segments of the shelf (width =
+  // notes, strip = maturity); the others stay plain tabs. The overview shows
+  // the open issues as a flow, the desk (the PAR's indexSection and
+  // commentsSection, edited from the board: i adds to the index, drag
+  // reorders, c writes a dated comment), the notes touched lately, the
+  // working set and one base per entry of "overview" ({ "title", "base", "view" }).
   "projectDashboard": {
     "basesFolder": "04 - Bases/final-bases",
     "indexSection": "## Index",
+    "commentsSection": "## Comments",
+    "shelfRows": 2,
     "tabs": [
       { "name": "overview", "show": "overview" },
       { "name": "issues", "base": "issues-project.base" },
+      { "name": "journal", "show": "journal" },
       { "name": "all notes", "base": "project-notes.base" },
       { "name": "navigation", "base": "navigation.base" },
       { "name": "knowledge", "base": "knowledge.base" },
@@ -263,8 +281,7 @@
       { "name": "logging", "base": "logging.base" }
     ],
     "overview": [
-      { "title": "Open issues", "base": "issues-project.base", "view": "Issues" },
-      { "title": "Recently edited", "base": "project-notes.base", "view": "Recent" }
+      { "title": "Waiting to be distilled", "base": "project-notes.base", "view": "To distill" }
     ]
   },
 
@@ -347,12 +364,13 @@
   "compactBelow": 1700,
 
   // Pane targets: "@dashboard" (the Today pane), "@project" (the project dashboard),
+  // "@spotlight" (the maintenance board of scripts/spotlight.sh), "@week" (the week board),
   // "@daily", "@weekly", "@par" (the project's PAR note),
   // "@working" (the project's working set, one tab each), a note name or path,
   // or { "base": "<path>.base", "view": "<view name>" }.
   "layouts": {
     "base": {
-      "left": ["@dashboard"],
+      "left": ["@dashboard", "@week", "@spotlight"],
       "rightTop": ["@daily"],
       "rightBottom": ["@weekly"]
     },
@@ -362,7 +380,7 @@
       "rightBottom": ["@daily"]
     },
     "base.compact": {
-      "left": ["@dashboard", "@daily", "@weekly"]
+      "left": ["@dashboard", "@week", "@spotlight", "@daily", "@weekly"]
     },
     "project.compact": {
       "left": ["@working", "@project", "@daily"]

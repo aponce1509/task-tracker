@@ -15,9 +15,10 @@
 # Light: ok = nothing to do · !  = look this week · !! = past the limit ·
 #        -  = information only (captures are fine by design)
 #
-# Usage: spotlight.sh [par] [--links] [--root DIR]
+# Usage: spotlight.sh [par] [--links] [--tsv] [--root DIR]
 #   par      scope Raw captures to one PAR (default: every active PAR)
 #   --links  also count unresolved links (needs the obsidian CLI and app)
+#   --tsv    print the raw rows (name, detail, light, workflows), for the dashboard
 # Exit 0 always: the board reports, the workflows decide.
 
 set -uo pipefail
@@ -28,6 +29,7 @@ LINKS=0
 while [ $# -gt 0 ]; do
 	case "$1" in
 	--root) ROOT="$2"; shift 2 ;;
+	--tsv) TSV=1; shift ;;
 	--links) LINKS=1; shift ;;
 	-h|--help) sed -n '2,23p' "$0"; exit 0 ;;
 	-*) echo "unknown argument: $1" >&2; exit 2 ;;
@@ -214,6 +216,7 @@ fi
 sv="ok"; [ "$(cat "$TMP/sync")" != 0 ] && sv="!!"
 row "AI guidance" "sync-skills status $( [ "$sv" = ok ] && echo ok || echo off), deeper checks by vault-auditor" "$sv" "/sweep · System Maintenance & Review"
 
+[ -n "${TSV:-}" ] && { cat "$ROWS"; exit 0; }
 printf 'Spotlight %s%s\n\n' "$TODAY" "${PAR:+ (par: $PAR)}"
 awk -F'\t' '{ printf "%-3s %-19s %s\n     -> %s\n", $3, $1, $2, $4 }' "$ROWS"
 exit 0

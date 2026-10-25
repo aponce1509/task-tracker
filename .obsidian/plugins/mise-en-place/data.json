@@ -46,7 +46,7 @@
       "panes": {
         "left": {
           "extra": [],
-          "active": "01 - PAR/cs_learnings.md"
+          "active": null
         }
       }
     },
@@ -54,7 +54,7 @@
       "panes": {
         "left": {
           "extra": [],
-          "active": "11 - Projects/second-brain/Journal - second-brain.md"
+          "active": "05 - Diagrams/maintenance/maintenance-elements-testflow.md"
         }
       }
     },
@@ -95,10 +95,11 @@
     "projects": 0
   },
   "projectTabs": {
-    "tab": 11,
+    "tab": 0,
     "views": {
       "project-notes.base": "All notes",
-      "issues-project.base": "Blocked"
+      "issues-project.base": "Issues",
+      "navigation.base": "MoCs"
     }
   }
 }
