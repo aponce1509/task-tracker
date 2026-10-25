@@ -109,6 +109,7 @@ The `note-diagram` skill orchestrates two subagents, so that the diagrams stay u
 | `diagram-reviewer` | Read-only. Reads the tree cold, with only the project name, the way I will read it. It reports what a reader cannot understand and where the tree is not coherent. |
 
 - The root agent talks with me, drafts the tree, creates the notes with `strata new`, briefs the writers, runs `check` and the reviewer, and sends the findings back to the writers.
+- Small changes do not need the subagents: when a change touches one or two notes and does not add a note or change the tree, the root agent edits the notes and runs `check`. It runs the reviewer only when the change touches a callout or the names that other levels use.
 - Coherence means: each child is a node of its parent, the names match across levels, each feature links to an element, the subtype fits the level, a parent is not `done` while a child is not, and the details agree with the diagram.
 
 ## Rendering

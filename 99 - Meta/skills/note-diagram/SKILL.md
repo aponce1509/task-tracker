@@ -27,6 +27,8 @@ node $S render <file> -o out.svg  # the SVG, when you must look at the layout
 
 Agents: `diagram-writer` writes one note from a full brief; `diagram-reviewer` reads the tree cold and returns findings. You are the root agent: you hold the context and talk with the user.
 
+Small changes skip the flow below: when a change touches one or two notes and does not add a note or change the tree, edit the notes yourself and run `check`, with no writer. Run the reviewer only when the change touches a callout or the names that other levels use.
+
 ## Flow
 
 1. Context: `node $S tree <project>`, then read the notes you change. Ask the user what the system is, who uses it and what it must do, until you can say it in a few lines.
@@ -41,8 +43,6 @@ Agents: `diagram-writer` writes one note from a full brief; `diagram-reviewer` r
 6. Review: start the `diagram-reviewer` with only the project name and the changed notes. Never give it the conversation or the brief: it must read as the user will.
 7. Fix: send each finding to a writer of that note, with the finding and the same brief. Then check and review again. Stop after two rounds and show the user what is still open.
 8. Hand over: tell the user which notes changed and what the reviewer still asks; they review the render in Obsidian. Their comments go back to step 4.
-
-Small changes (one or two notes, no new note, no change to the tree): edit them yourself, run `check`, and skip the agents. Run the reviewer when the change touches the callout or the names that other levels use.
 
 ## Planning from the tree
 
