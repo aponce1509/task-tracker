@@ -1,0 +1,318 @@
+# sources.yaml - what feeds_sync.py reads.
+#
+#   groups    the news groups; the LLM places each story in exactly one, from
+#             its description. Change the groups here, never in the code.
+#   news      the outlets: one RSS url per section, the outlet lean and the
+#             groups the section usually feeds (a hint, not a rule).
+#   follows   the blogs, podcasts, channels and newsletters of the stream.
+#
+# Lean scale: left | centre-left | centre | centre-right | right | none.
+# A story shows its coverage as L / C / R counts: left and centre-left count
+# as L, centre-right and right as R, none is left out of the count.
+# Basis: global outlets from the AllSides and Media Bias/Fact Check ratings;
+# Spanish outlets from the audience self-placement of the Reuters Institute
+# Digital News Report (Spain). The leans are a starting point - review them.
+#
+# Every url below answered with a valid, fresh feed on 2026-10-26. enabled:
+# false marks an outlet I want but whose feed did not answer or is stale; find
+# its url first. `feeds_sync.py status` shows a feed with 0 items as dead or slow.
+
+# Titles that match one of these regexes (case-insensitive) are never stored:
+# generic live blogs, lottery results, horoscopes.
+skip_titles:
+  - '^última hora'
+  - '^últimas noticias'
+  - 'en directo: (noticias|última hora|actualidad)'
+  - '^comprobar .*resultados'
+  - '^(horóscopo|sorteo)'
+  - '^(live|watch live)[: ]'
+
+groups:
+  politics-spain:
+    label: Politics · Spain
+    description: Spanish national, regional and municipal politics; government, parties, Congress, courts, elections.
+  politics-global:
+    label: Politics · Global
+    description: International politics, EU institutions, elections abroad, wars, diplomacy, geopolitics.
+  macro-central-banks:
+    label: Finance · Macro & central banks
+    description: Inflation, rates, ECB, Fed, GDP, employment, public debt, fiscal policy, bond markets.
+  markets:
+    label: Finance · Markets
+    description: Stock indexes, the Ibex, sectors, market moves, commodities prices, FX, investor sentiment.
+  companies:
+    label: Finance · Companies
+    description: Company results, deals, mergers, IPOs, strategy, regulation of a single company or sector.
+  housing-personal-finance:
+    label: Finance · Housing & personal finance
+    description: Housing prices and rents, mortgages, pensions, taxes on households, savings, salaries.
+  energy:
+    label: Finance · Energy
+    description: Oil, gas and power prices, the energy transition, utilities, energy policy.
+  crypto:
+    label: Finance · Crypto
+    description: Bitcoin and crypto assets, exchanges, stablecoins, crypto regulation.
+  other:
+    label: Other
+    description: Any story that fits no group above. Stories here are not rendered as notes.
+
+news:
+  # Spain - left
+  - id: eldiario
+    name: elDiario.es
+    lean: left
+    lang: es
+    feeds:
+      - {url: "https://www.eldiario.es/rss/politica/", groups: [politics-spain]}
+      - {url: "https://www.eldiario.es/rss/economia/", groups: [macro-central-banks, housing-personal-finance]}
+  - id: infolibre
+    name: infoLibre
+    lean: left
+    lang: es
+    feeds:
+      - {url: "https://www.infolibre.es/rss/", groups: [politics-spain]}
+  - id: elsalto
+    name: El Salto
+    lean: left
+    lang: es
+    feeds:
+      - {url: "https://www.elsaltodiario.com/general/feed", groups: [politics-spain]}
+  - id: publico
+    name: Público
+    lean: left
+    lang: es
+    enabled: false
+    feeds: []
+  # Spain - centre-left
+  - id: elpais
+    name: El País
+    lean: centre-left
+    lang: es
+    feeds:
+      - {url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/espana/portada", groups: [politics-spain]}
+      - {url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/internacional/portada", groups: [politics-global]}
+      - {url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/economia/portada", groups: [macro-central-banks, companies, housing-personal-finance]}
+  - id: lavanguardia
+    name: La Vanguardia
+    lean: centre-left
+    lang: es
+    feeds:
+      - {url: "https://www.lavanguardia.com/rss/politica.xml", groups: [politics-spain]}
+      - {url: "https://www.lavanguardia.com/rss/internacional.xml", groups: [politics-global]}
+      - {url: "https://www.lavanguardia.com/rss/economia.xml", groups: [macro-central-banks, companies]}
+  # Spain - centre
+  - id: rtve
+    name: RTVE
+    lean: centre
+    lang: es
+    enabled: false  # the api2.rtve.es feeds answer, but their newest item is from June 2022
+    feeds: []
+  - id: europapress
+    name: Europa Press
+    lean: centre
+    lang: es
+    feeds:
+      - {url: "https://www.europapress.es/rss/rss.aspx?ch=00066", groups: [politics-spain]}
+      - {url: "https://www.europapress.es/rss/rss.aspx?ch=00069", groups: [politics-global]}
+      - {url: "https://www.europapress.es/rss/rss.aspx?ch=00136", groups: [macro-central-banks, companies]}
+  - id: 20minutos
+    name: 20minutos
+    lean: centre
+    lang: es
+    feeds:
+      - {url: "https://www.20minutos.es/rss/nacional/", groups: [politics-spain]}
+  - id: newtral
+    name: Newtral
+    lean: centre
+    lang: es
+    feeds:
+      - {url: "https://www.newtral.es/feed/", groups: [politics-spain]}
+  - id: cincodias
+    name: Cinco Días
+    lean: centre
+    lang: es
+    feeds:
+      - {url: "https://feeds.elpais.com/mrss-s/pages/ep/site/cincodias.elpais.com/portada", groups: [markets, companies]}
+  # Spain - centre-right
+  - id: elconfidencial
+    name: El Confidencial
+    lean: centre-right
+    lang: es
+    feeds:
+      - {url: "https://rss.elconfidencial.com/espana/", groups: [politics-spain]}
+      - {url: "https://rss.elconfidencial.com/mundo/", groups: [politics-global]}
+      - {url: "https://rss.elconfidencial.com/economia/", groups: [macro-central-banks, housing-personal-finance]}
+      - {url: "https://rss.elconfidencial.com/mercados/", groups: [markets]}
+  - id: elmundo
+    name: El Mundo
+    lean: centre-right
+    lang: es
+    feeds:
+      - {url: "https://e00-elmundo.uecdn.es/elmundo/rss/espana.xml", groups: [politics-spain]}
+      - {url: "https://e00-elmundo.uecdn.es/elmundo/rss/internacional.xml", groups: [politics-global]}
+      - {url: "https://e00-elmundo.uecdn.es/elmundo/rss/economia.xml", groups: [macro-central-banks, companies]}
+  - id: elespanol
+    name: El Español
+    lean: centre-right
+    lang: es
+    feeds:
+      - {url: "https://www.elespanol.com/rss/espana/", groups: [politics-spain]}
+      - {url: "https://www.elespanol.com/rss/invertia/", groups: [markets, companies]}
+  - id: expansion
+    name: Expansión
+    lean: centre-right
+    lang: es
+    feeds:
+      - {url: "https://e00-expansion.uecdn.es/rss/mercados.xml", groups: [markets]}
+      - {url: "https://e00-expansion.uecdn.es/rss/economia.xml", groups: [macro-central-banks, housing-personal-finance]}
+  - id: eleconomista
+    name: elEconomista
+    lean: centre-right
+    lang: es
+    enabled: false
+    feeds: []
+  # Spain - right
+  - id: abc
+    name: ABC
+    lean: right
+    lang: es
+    feeds:
+      - {url: "https://www.abc.es/rss/2.0/espana/", groups: [politics-spain]}
+      - {url: "https://www.abc.es/rss/2.0/internacional/", groups: [politics-global]}
+      - {url: "https://www.abc.es/rss/2.0/economia/", groups: [macro-central-banks, companies]}
+  - id: theobjective
+    name: The Objective
+    lean: right
+    lang: es
+    feeds:
+      - {url: "https://www.theobjective.com/feed/", groups: [politics-spain]}
+  - id: okdiario
+    name: OKDiario
+    lean: right
+    lang: es
+    feeds:
+      - {url: "https://okdiario.com/espana/feed", groups: [politics-spain]}
+  - id: larazon
+    name: La Razón
+    lean: right
+    lang: es
+    enabled: false
+    feeds: []
+
+  # Global - left / centre-left
+  - id: guardian
+    name: The Guardian
+    lean: left
+    lang: en
+    feeds:
+      - {url: "https://www.theguardian.com/world/rss", groups: [politics-global]}
+      - {url: "https://www.theguardian.com/world/europe-news/rss", groups: [politics-global]}
+      - {url: "https://www.theguardian.com/business/rss", groups: [macro-central-banks, companies]}
+  - id: nyt
+    name: The New York Times
+    lean: centre-left
+    lang: en
+    feeds:
+      - {url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", groups: [politics-global]}
+      - {url: "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml", groups: [companies, macro-central-banks]}
+  - id: aljazeera
+    name: Al Jazeera
+    lean: centre-left
+    lang: en
+    feeds:
+      - {url: "https://www.aljazeera.com/xml/rss/all.xml", groups: [politics-global]}
+  - id: politico-eu
+    name: Politico Europe
+    lean: centre-left
+    lang: en
+    feeds:
+      - {url: "https://www.politico.eu/feed/", groups: [politics-global]}
+  - id: npr
+    name: NPR
+    lean: centre-left
+    lang: en
+    feeds:
+      - {url: "https://feeds.npr.org/1004/rss.xml", groups: [politics-global]}
+  - id: economist
+    name: The Economist
+    lean: centre-left
+    lang: en
+    feeds:
+      - {url: "https://www.economist.com/europe/rss.xml", groups: [politics-global]}
+      - {url: "https://www.economist.com/finance-and-economics/rss.xml", groups: [macro-central-banks, markets]}
+  - id: cnbc
+    name: CNBC
+    lean: centre-left
+    lang: en
+    feeds:
+      - {url: "https://www.cnbc.com/id/15839069/device/rss/rss.html", groups: [markets]}
+      - {url: "https://www.cnbc.com/id/20910258/device/rss/rss.html", groups: [macro-central-banks]}
+  # Global - centre
+  - id: bbc
+    name: BBC News
+    lean: centre
+    lang: en
+    feeds:
+      - {url: "https://feeds.bbci.co.uk/news/world/rss.xml", groups: [politics-global]}
+      - {url: "https://feeds.bbci.co.uk/news/business/rss.xml", groups: [macro-central-banks, companies]}
+  - id: dw
+    name: DW
+    lean: centre
+    lang: en
+    feeds:
+      - {url: "https://rss.dw.com/rdf/rss-en-world", groups: [politics-global]}
+      - {url: "https://rss.dw.com/rdf/rss-en-bus", groups: [macro-central-banks, companies]}
+  - id: france24
+    name: France 24
+    lean: centre
+    lang: en
+    feeds:
+      - {url: "https://www.france24.com/en/rss", groups: [politics-global]}
+  - id: ft
+    name: Financial Times
+    lean: centre
+    lang: en
+    feeds:
+      - {url: "https://www.ft.com/world?format=rss", groups: [politics-global]}
+      - {url: "https://www.ft.com/markets?format=rss", groups: [markets, macro-central-banks]}
+  - id: wsj
+    name: The Wall Street Journal
+    lean: centre
+    lang: en
+    feeds:
+      - {url: "https://feeds.content.dowjones.io/public/rss/RSSWorldNews", groups: [politics-global]}
+      - {url: "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain", groups: [markets]}
+  - id: marketwatch
+    name: MarketWatch
+    lean: centre
+    lang: en
+    feeds:
+      - {url: "https://feeds.content.dowjones.io/public/rss/mw_topstories", groups: [markets, housing-personal-finance]}
+  - id: coindesk
+    name: CoinDesk
+    lean: centre
+    lang: en
+    feeds:
+      - {url: "https://www.coindesk.com/arc/outboundfeeds/rss/", groups: [crypto]}
+  # Global - right
+  - id: foxnews
+    name: Fox News
+    lean: right
+    lang: en
+    feeds:
+      - {url: "https://moxie.foxnews.com/google-publisher/world.xml", groups: [politics-global]}
+  # Primary sources - no lean
+  - id: ecb
+    name: European Central Bank
+    lean: none
+    lang: en
+    feeds:
+      - {url: "https://www.ecb.europa.eu/rss/press.html", groups: [macro-central-banks]}
+
+follows:
+  # Migrated from the rss-dashboard plugin. kind: blog | podcast | youtube | newsletter | papers
+  - {name: 3Blue1Brown, kind: youtube, url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw"}
+  - {name: Lex Fridman Podcast, kind: podcast, url: "https://lexfridman.com/feed/podcast/"}
+  - {name: DeepMind Blog, kind: blog, url: "https://deepmind.com/blog/feed/basic/"}
+  - {name: arXiv cs.AI, kind: papers, url: "https://export.arxiv.org/rss/cs.AI"}
+  - {name: NASA Breaking News, kind: blog, url: "http://www.nasa.gov/rss/dyn/breaking_news.rss"}

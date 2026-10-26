@@ -1,0 +1,103 @@
+# ai.toml - the AI of the vault, in one place.
+#
+# Connectors reach a backend. Models are one model of one connector, with a
+# role: chat (writes text, open tasks), embed (vectors: grouping, nearest
+# notes) or decision (scores a fixed set of choices: the classifier).
+# A task is one job, done by one model, with fallbacks tried in order.
+# A pipeline applies a list of tasks to a group of notes.
+#
+# Read by vault_ai.py. Env AI_CONFIG points to another file.
+
+[connectors.ollama]
+kind = "ollama"
+host = "http://localhost:11434"   # OLLAMA_HOST wins
+one_model = true                  # unload the other models before a model loads: 16 GB fit one at a time
+
+[connectors.claude]
+kind = "claude-code"              # claude -p on the subscription, not the API
+
+[connectors.opencode]
+kind = "opencode"                 # opencode run on OpenCode Go
+
+# Models
+
+[models.qwen]
+role = "chat"
+connector = "ollama"
+name = "qwen3.5:9b"
+think = false                     # Qwen thinks by default: slow and not needed here
+options = { temperature = 0, num_ctx = 8192 }
+
+[models.qwen-small]
+role = "chat"
+connector = "ollama"
+name = "qwen3.5:4b"
+think = false
+options = { temperature = 0, num_ctx = 8192 }
+
+[models.qwen-embed]
+role = "embed"
+connector = "ollama"
+name = "qwen3-embedding:0.6b"
+
+[models.bge]
+role = "embed"
+connector = "ollama"
+name = "bge-m3"
+
+[models.d3]
+role = "decision"
+connector = "ollama"
+name = "d3:4b"                    # 4096 tokens of context: the state is cut to max_chars
+max_chars = 6000
+
+[models.haiku]
+role = "chat"
+connector = "claude"
+name = "haiku"
+
+[models.glm]
+role = "chat"
+connector = "opencode"
+name = "glm-5.3-flash"
+
+# Tasks
+#
+# A decision task takes a decision model or a chat model (the chat model
+# answers with an enum schema). Captures stay on the Mac: their tasks fall
+# back only to local models.
+
+[tasks.form]                      # type and subtype of a capture
+model = "d3"
+fallback = ["qwen"]
+min_confidence = 0.6              # under it the importer default stays; d3 on 6 test captures: 0.74-0.99 right, 0.48 on an ambiguous thought
+
+[tasks.source]                    # author, and the title of pasted material; 4B misses the authors of a paper
+model = "qwen"
+
+[tasks.summary]                   # 4B: an hour of transcript in 95 s, 9B in 560 s, summaries as good
+model = "qwen-small"
+fallback = ["qwen"]
+min_text = 600                    # less material: the page description stays
+chunk = 12000
+max_chunks = 8
+
+[tasks.paras]                     # kNN vote of the typed notes
+model = "qwen-embed"
+k = 7
+clear = 0.8                       # share of the vote that writes the PAR
+sim_min = 0.55                    # only neighbours this close vote (qwen3-embedding: typed notes sit at 0.75 from their nearest, an off-topic capture near 0.25)
+min_voters = 2
+embed_chars = 2000
+
+[tasks.group]                     # topic groups of the queue
+model = "qwen-embed"
+threshold = 0.6
+
+# Pipelines
+
+[pipelines.captures]
+folder = "06 - Inputs/Captures"
+status = "inbox"
+tasks = ["form", "source", "summary", "paras"]
+budget = 400                      # seconds, when the importer runs it

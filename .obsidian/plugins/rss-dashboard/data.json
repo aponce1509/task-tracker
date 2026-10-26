@@ -4,7 +4,7 @@
       "title": "3Blue1Brown (YouTube)",
       "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw",
       "folder": "Videos",
-      "lastUpdated": 1787733171252,
+      "lastUpdated": 1793009765845,
       "autoDeleteDuration": 30,
       "maxItemsLimit": 50,
       "scanInterval": 0,
@@ -18,46 +18,48 @@
       "siteUrl": "https://www.youtube.com/channel/UCYO_jab_esuFRV4b17AJtAw",
       "lastRefreshDiagnostics": {
         "fetchedItemCount": 15,
-        "mergedItemCountBeforeRetention": 1,
-        "retainedItemCount": 1,
+        "mergedItemCountBeforeRetention": 2,
+        "retainedItemCount": 2,
         "retentionRemovedCount": 0,
-        "skippedByRefreshCutoffCount": 14,
+        "skippedByRefreshCutoffCount": 13,
         "autoDeleteDurationDays": 30
       },
       "iconUrl": "",
+      "lastRefreshAttemptCompletedAt": 1793009765845,
       "feedId": "ab1baab2-4396-4cde-a051-537e4a49c984"
     },
     {
       "title": "Lex Fridman Podcast",
       "url": "https://lexfridman.com/feed/podcast/",
       "folder": "Podcasts",
-      "lastUpdated": 1787733198372,
+      "lastUpdated": 1793009767152,
       "autoDeleteDuration": 30,
       "maxItemsLimit": 50,
       "scanInterval": 0,
       "excludeFromRefresh": false,
-      "mediaType": "podcast",
+      "mediaType": "article",
       "keywordRules": {
         "overrideGlobalRules": false,
         "includeLogic": "AND",
         "rules": []
       },
       "lastRefreshDiagnostics": {
-        "fetchedItemCount": 501,
-        "mergedItemCountBeforeRetention": 2,
-        "retainedItemCount": 2,
+        "fetchedItemCount": 502,
+        "mergedItemCountBeforeRetention": 0,
+        "retainedItemCount": 0,
         "retentionRemovedCount": 0,
-        "skippedByRefreshCutoffCount": 499,
+        "skippedByRefreshCutoffCount": 502,
         "autoDeleteDurationDays": 30
       },
-      "iconUrl": "",
+      "iconUrl": "https://lexfridman.com/wordpress/wp-content/uploads/powerpress/artwork_3000-230.png",
+      "lastRefreshAttemptCompletedAt": 1793009767153,
       "feedId": "20704158-d291-4135-a1de-f248e8c7a5ae"
     },
     {
       "title": "DeepMind Blog",
       "url": "https://deepmind.com/blog/feed/basic/",
       "folder": "RSS",
-      "lastUpdated": 1787733204392,
+      "lastUpdated": 1793009766391,
       "autoDeleteDuration": 30,
       "maxItemsLimit": 50,
       "scanInterval": 0,
@@ -71,20 +73,21 @@
       "siteUrl": "https://deepmind.google/blog/",
       "lastRefreshDiagnostics": {
         "fetchedItemCount": 100,
-        "mergedItemCountBeforeRetention": 7,
-        "retainedItemCount": 7,
+        "mergedItemCountBeforeRetention": 9,
+        "retainedItemCount": 9,
         "retentionRemovedCount": 0,
-        "skippedByRefreshCutoffCount": 93,
+        "skippedByRefreshCutoffCount": 91,
         "autoDeleteDurationDays": 30
       },
       "iconUrl": "",
+      "lastRefreshAttemptCompletedAt": 1793009766392,
       "feedId": "dbc92f44-529d-4d69-a3e6-449102bf849f"
     },
     {
       "title": "arXiv AI (cs.AI) New Papers",
       "url": "https://export.arxiv.org/rss/cs.AI",
       "folder": "RSS",
-      "lastUpdated": 1787733209927,
+      "lastUpdated": 1793009766081,
       "autoDeleteDuration": 30,
       "maxItemsLimit": 50,
       "scanInterval": 0,
@@ -97,21 +100,22 @@
       },
       "siteUrl": "http://rss.arxiv.org/rss/cs.AI",
       "lastRefreshDiagnostics": {
-        "fetchedItemCount": 352,
-        "mergedItemCountBeforeRetention": 352,
+        "fetchedItemCount": 321,
+        "mergedItemCountBeforeRetention": 321,
         "retainedItemCount": 50,
-        "retentionRemovedCount": 302,
+        "retentionRemovedCount": 271,
         "skippedByRefreshCutoffCount": 0,
         "autoDeleteDurationDays": 30
       },
       "iconUrl": "",
+      "lastRefreshAttemptCompletedAt": 1793009766082,
       "feedId": "23129f47-4a7e-4b9d-810d-977d7b4e3c8d"
     },
     {
       "title": "NASA Breaking News",
       "url": "http://www.nasa.gov/rss/dyn/breaking_news.rss",
       "folder": "Uncategorized",
-      "lastUpdated": 1787733396388,
+      "lastUpdated": 1793009765828,
       "autoDeleteDuration": 30,
       "maxItemsLimit": 50,
       "scanInterval": 0,
@@ -131,6 +135,7 @@
         "autoDeleteDurationDays": 30
       },
       "iconUrl": "",
+      "lastRefreshAttemptCompletedAt": 1793009765831,
       "feedId": "fe3c193d-b506-4fd0-88d8-1f747bf58bfa"
     }
   ],
@@ -162,7 +167,7 @@
   ],
   "refreshInterval": 0,
   "lastRefreshTimestamp": 0,
-  "lastGlobalRefreshCompletedAt": 0,
+  "lastGlobalRefreshCompletedAt": 1793009767153,
   "startupRefreshDelaySeconds": 5,
   "maxItems": 50,
   "defaultAutoDeleteDuration": 30,
@@ -171,7 +176,12 @@
   "showThumbnails": true,
   "sidebarCollapsed": false,
   "sidebarWidth": 280,
-  "collapsedFolders": [],
+  "collapsedFolders": [
+    "Podcasts",
+    "Videos",
+    "Uncategorized",
+    "RSS"
+  ],
   "collapsedFeedSections": [],
   "tagsCollapsed": true,
   "articleFilter": {
@@ -373,6 +383,6 @@
   "metadataStorageMode": "plugin-default",
   "metadataStorageFolder": ".rss-dashboard-data",
   "metadataStorageSchemaVersion": 1,
-  "_syncNonce": "1787733396420-13",
-  "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
+  "_syncNonce": "1793009801035-22",
+  "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
 }

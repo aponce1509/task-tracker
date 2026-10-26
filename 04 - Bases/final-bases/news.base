@@ -1,0 +1,80 @@
+filters:
+  and:
+    - file_class == "news"
+    - '!file.inFolder("99 - Meta")'
+views:
+  - type: table
+    name: Today
+    filters:
+      and:
+        - status == "inbox"
+        - date(first_seen) > now() - "1 day"
+    groupBy:
+      property: group
+      direction: ASC
+    order:
+      - file.name
+      - outlets
+      - blindspot
+      - first_seen
+    sort:
+      - property: outlets
+        direction: DESC
+  - type: table
+    name: Inbox
+    filters:
+      and:
+        - status == "inbox"
+    groupBy:
+      property: group
+      direction: ASC
+    order:
+      - file.name
+      - outlets
+      - blindspot
+      - first_seen
+    sort:
+      - property: first_seen
+        direction: DESC
+  - type: table
+    name: Blind spots
+    filters:
+      and:
+        - status == "inbox"
+        - blindspot
+    order:
+      - file.name
+      - blindspot
+      - outlets
+      - group
+      - first_seen
+    sort:
+      - property: first_seen
+        direction: DESC
+  - type: table
+    name: Kept
+    filters:
+      and:
+        - status != "inbox"
+    order:
+      - file.name
+      - group
+      - paras
+      - rate
+      - first_seen
+    sort:
+      - property: first_seen
+        direction: DESC
+  - type: table
+    name: Purge
+    filters:
+      and:
+        - status == "inbox"
+        - date(first_seen) < now() - "30 days"
+    order:
+      - file.name
+      - group
+      - first_seen
+    sort:
+      - property: first_seen
+        direction: ASC

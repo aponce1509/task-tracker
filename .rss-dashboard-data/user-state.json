@@ -1,19 +1,23 @@
 {
   "version": 1,
   "states": {
-    "yt:video:rYyJm1tD3d0": {
+    "yt:video:V_uq3v6xK-4": {
       "tags": [
         {
           "name": "Video",
           "color": "#d04747"
-        },
+        }
+      ]
+    },
+    "yt:video:LKrwhjOI8Nc": {
+      "tags": [
         {
-          "name": "Read later",
-          "color": "#3498db"
+          "name": "Video",
+          "color": "#d04747"
         }
       ]
     }
   },
-  "_syncNonce": "1792886415408-1",
-  "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
+  "_syncNonce": "1793009801038-23",
+  "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
 }
