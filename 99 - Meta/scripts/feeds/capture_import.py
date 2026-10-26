@@ -12,7 +12,8 @@ Sources:
           as that link; any other note is a thought (type Ideas, subtype spark).
 
 Each capture becomes one note in 06 - Inputs/Captures/ (file_class capture,
-status inbox, maturity capture). Adapters by platform: youtube (yt-dlp, with
+status inbox, maturity capture). Then capture_ai.py runs the local models on
+the queue (summary, form, author, paras) when Ollama is up; --no-ai skips it. Adapters by platform: youtube (yt-dlp, with
 the transcript), x (api.fxtwitter.com, no login), instagram (yt-dlp, or the
 Open Graph tags, or the bare link), web (Open Graph tags). A url already in
 the vault is skipped. Imported drop files move to <drop>/_done/, imported
@@ -661,6 +662,21 @@ def from_notes() -> tuple[list[Capture], list[str]]:
 # Main
 
 
+def local_ai(budget: float | None) -> list[str]:
+    """The captures pipeline of ai.toml on the queue: form, source, summary, paras. Never fails the import."""
+    import capture_ai
+
+    try:
+        if budget is None:
+            budget = capture_ai.vault_ai.load().pipeline(capture_ai.PIPELINE).get("budget", 400)
+        done = capture_ai.enrich(capture_ai.queue(), budget=budget)
+    except capture_ai.OllamaDown as err:
+        return [f"local AI skipped: {err}"]
+    except Exception as err:  # the import already worked; the AI pass retries on the next run
+        return [f"local AI failed: {type(err).__name__}: {str(err)[:200]}"]
+    return [f"local AI: {len(done)} captures enriched"] if done else []
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     ap.add_argument("--only", choices=["drop", "notes"], help="one source only")
@@ -668,6 +684,8 @@ def main() -> int:
     ap.add_argument("--note", default="", help="my note for --url")
     ap.add_argument("--no-transcript", action="store_true", help="skip YouTube transcripts")
     ap.add_argument("--dry-run", action="store_true", help="show what would be written, change nothing")
+    ap.add_argument("--no-ai", action="store_true", help="skip the local AI pass (capture_ai.py)")
+    ap.add_argument("--ai-budget", type=float, help="seconds for the local AI pass (default: budget in ai.toml)")
     args = ap.parse_args()
 
     caps: list[Capture] = []
@@ -723,6 +741,8 @@ def main() -> int:
                 osascript(JXA_MOVE, NOTES_DONE, *done_notes)
             except CaptureError as err:
                 messages.append(f"imported, but could not move the Apple Notes: {err}")
+    if not args.dry_run and not args.no_ai:
+        messages += local_ai(args.ai_budget)
     for m in messages:
         print(f"· {m}")
     mode = " (dry run)" if args.dry_run else ""

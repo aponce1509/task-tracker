@@ -42,6 +42,7 @@ dependencies:
   - Plugin, script, QuickAdd capture or manual copy
   - Every import lands with `status: inbox`, `maturity: capture` and the source link
   - A device with no clean importer gets a manual sweep step, or I drop it
+  - Done: the phone share sheet and the Apple Notes folder `Vault` → `capture_import.py` ([[HOWTO - Capture from the phone]])
 - [ ] Write the capture devices reference note
   - Link it from [[Capturing - CODE]] and the capture devices row of [[The Maintenance System]]
 - [ ] Update [[WORKFLOWS - Bi-Monthly Inbox Sweep]] with one bullet per device

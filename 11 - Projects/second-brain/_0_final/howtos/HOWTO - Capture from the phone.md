@@ -16,6 +16,7 @@ created: 2026-10-26 12:00
 > - The iPhone Shortcut "→ Vault" saves each share as one JSON file in `iCloud Drive/Captures/`.
 > - Thoughts go to the Apple Notes folder `Vault`.
 > - `capture_import.py` turns both into capture notes in `06 - Inputs/Captures/`, with `status: inbox`.
+> - `capture_ai.py` then runs local models on the queue: the type and subtype, the source, the summary and the paras.
 > - The `captures.base` Queue view is the consumption queue.
 
 > [!info] Why a file per share
@@ -54,9 +55,34 @@ uv run --script "99 - Meta/scripts/feeds/capture_import.py" --url <link> --note 
 - YouTube: title, channel, date, duration, the description and the transcript in collapsed callouts. `--no-transcript` skips it.
 - X: the post text, the quoted post and the images, through `api.fxtwitter.com`, with no login.
 - Instagram: the caption through yt-dlp when `CAPTURES_COOKIES_BROWSER` names the browser with my Instagram login; else the page tags; else only the link.
-- Web: title, author or site, description.
+- Web: title, author or site, description. For the full text, clip the page on the desktop ([[HOWTO - Clip from the browser]]).
 - A url already in the vault is skipped. A capture that fails stays in the drop folder for the next run.
 - When YouTube breaks, run it once with `uv run --upgrade --script ...` to update yt-dlp.
+
+## Local AI
+
+After the import, `capture_ai.py` runs the `captures` pipeline of `99 - Meta/scripts/ai/ai.toml` on the queue. All its models are local, through Ollama, so no capture leaves the Mac. Each task goes to the kind of model that is best at it:
+
+- Form (decision model, d3): the type and subtype. The platform decides them for YouTube (video), X and Instagram (post). The model picks only for a web page (article, paper, documentation, tool or bookmark) and for a capture without a link (my thought, or pasted material such as a paper).
+- Source (chat model, Qwen 9B): the author of a capture that has none, and the title of pasted material. A name that matches a note links to that note. My own thoughts get no source. A capture is renamed only when nothing links to it.
+- Summary (chat model, Qwen 4B): 2 to 4 bullets in the abstract callout from the transcript, the post, the page or the pasted text. My `Why:` stays first. Under 600 characters of material, the page description stays.
+- Paras (embeddings): a kNN vote of the typed notes closest to the capture. It writes the PAR only when at least two close notes vote and 80% of the vote agrees. Otherwise `p` in the queue stays my call.
+- Groups (embeddings, report only): `--groups` prints the queue in topic groups, each with the PAR its nearest notes point to, so I review similar captures together.
+
+It fills only empty fields, changes type and subtype only while they are the importer's default, and never touches `## Annotations`. The original of each changed capture stays in `99 - Meta/scripts/feeds/.cache/backup/`.
+
+```bash
+ollama pull qwen3.5:9b && ollama pull qwen3.5:4b && ollama pull d3:4b && ollama pull qwen3-embedding:0.6b   # once
+python3 "99 - Meta/scripts/feeds/capture_ai.py"                       # the queue, alone
+python3 "99 - Meta/scripts/feeds/capture_ai.py" <capture> --dry-run
+python3 "99 - Meta/scripts/feeds/capture_ai.py" --tasks form,paras    # only some tasks
+python3 "99 - Meta/scripts/feeds/capture_ai.py" --groups              # the queue in topic groups
+python3 "99 - Meta/scripts/feeds/capture_ai.py" --eval                # accuracy of the paras vote
+```
+
+- The import gives it the `budget` of the pipeline, 400 seconds (`--ai-budget`); the captures left wait for the next run. `--no-ai` skips it. When Ollama is not running, the import works and says so.
+- Ollama keeps only one model in memory at a time: the AI layer unloads the others before it loads a model.
+- `ai.toml` holds the connectors (Ollama, Claude Code, OpenCode Go), the models with their role (chat, embed or decision), the tasks with their model and fallbacks, and the pipelines. To change the model of a task, edit it there; for one run, `AI_TASK_SUMMARY=qwen-small`.
 
 ## Consume
 
@@ -69,4 +95,4 @@ uv run --script "99 - Meta/scripts/feeds/capture_import.py" --url <link> --note 
 
 ## References
 
-- [[The Sources System]] · [[Capturing - CODE]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]]
+- [[The Sources System]] · [[HOWTO - Clip from the browser]] · [[Capturing - CODE]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]]

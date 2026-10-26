@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "0.1.0",
+  "name": "Capture",
+  "behavior": "create",
+  "noteNameFormat": "{{title|safe_name}}",
+  "path": "06 - Inputs/Captures",
+  "noteContentFormat": "# [[{{title|safe_name}}]]\n\n> [!abstract] Page\n> - Why: \n> - {{description}}\n\n## Content\n\n{{content}}\n\n## Annotations\n",
+  "properties": [
+    {
+      "name": "file_class",
+      "value": "capture",
+      "type": "text"
+    },
+    {
+      "name": "paras",
+      "value": "",
+      "type": "multitext"
+    },
+    {
+      "name": "type",
+      "value": "[[Resources]]",
+      "type": "text"
+    },
+    {
+      "name": "subtypes",
+      "value": "[[External Knowledge - Resources - article|article]]",
+      "type": "multitext"
+    },
+    {
+      "name": "rate",
+      "value": "",
+      "type": "number"
+    },
+    {
+      "name": "tags",
+      "value": "",
+      "type": "multitext"
+    },
+    {
+      "name": "status",
+      "value": "inbox",
+      "type": "text"
+    },
+    {
+      "name": "maturity",
+      "value": "capture",
+      "type": "text"
+    },
+    {
+      "name": "created",
+      "value": "{{date|date:\"YYYY-MM-DD HH:mm\"}}",
+      "type": "text"
+    },
+    {
+      "name": "url",
+      "value": "{{url}}",
+      "type": "text"
+    },
+    {
+      "name": "author",
+      "value": "{{author|split:\", \"|wikilink|join}}",
+      "type": "multitext"
+    },
+    {
+      "name": "platform",
+      "value": "web",
+      "type": "text"
+    }
+  ],
+  "triggers": []
+}
