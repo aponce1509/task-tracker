@@ -4,3 +4,8 @@
 .vscode
 .DS_Store
 __pycache__/
+99 - Meta/scripts/feeds/.cache/
+
+# News notes of feeds_sync.py: a 30-day inbox; kept stories are tracked
+06 - Inputs/News/*
+!06 - Inputs/News/_kept/
