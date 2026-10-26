@@ -17,107 +17,12 @@
                 "project": "create-a-feed"
               },
               "pinned": true,
-              "icon": "lucide-ghost",
-              "title": "mise-project"
+              "icon": "folder-kanban",
+              "title": "create-a-feed"
             }
           },
           {
-            "id": "a7cd4909107881a0",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "07 - Daily/2026-10-26.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "2026-10-26"
-            }
-          },
-          {
-            "id": "3f383bc1fcff10ca",
-            "type": "leaf",
-            "dimension": 50,
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "08 - Issues/_I00046 News pane in Mise-en-Place.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "_I00046 News pane in Mise-en-Place"
-            }
-          },
-          {
-            "id": "ccf48578d5bb19f5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "05 - Diagrams/sb_inputs/sb_inputs-elements-enricher.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "sb_inputs-elements-enricher"
-            }
-          },
-          {
-            "id": "2a2ee9f8b9d98ff2",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "05 - Diagrams/sb_inputs/sb_inputs-elements-capture.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "sb_inputs-elements-capture"
-            }
-          },
-          {
-            "id": "2b8a87c10a4f302a",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "05 - Diagrams/sb_inputs/sb_inputs-elements.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "sb_inputs-elements"
-            }
-          },
-          {
-            "id": "4a22ffd578258b61",
-            "type": "leaf",
-            "state": {
-              "type": "mise-captures",
-              "state": {},
-              "icon": "inbox",
-              "title": "Captures"
-            }
-          },
-          {
-            "id": "6c942f2b5069b511",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "05 - Diagrams/sb_inputs/sb_inputs-elements-enricher.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "sb_inputs-elements-enricher"
-            }
-          },
-          {
-            "id": "b906f090b95cd3ae",
+            "id": "2288f191e03cf0ef",
             "type": "leaf",
             "state": {
               "type": "mise-news",
@@ -127,31 +32,49 @@
             }
           },
           {
-            "id": "b8bfd22fa55d1c9b",
-            "type": "leaf",
-            "state": {
-              "type": "mise-week",
-              "state": {},
-              "icon": "calendar-range",
-              "title": "Week"
-            }
-          },
-          {
             "id": "de7bafcc83be2550",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "09 - Inbox/AHHHH ideas ideas for the inbox.md",
+                "file": "05 - Diagrams/sb_inputs/sb_inputs-elements-ailayer.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AHHHH ideas ideas for the inbox"
+              "title": "sb_inputs-elements-ailayer"
+            }
+          },
+          {
+            "id": "f0a3071f882c9350",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "05 - Diagrams/sb_inputs/sb_inputs.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "sb_inputs"
+            }
+          },
+          {
+            "id": "764207b96c781690",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "09 - Inbox/mini task.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "mini task"
             }
           }
         ],
-        "currentTab": 10
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -347,7 +270,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "09 - Inbox/AHHHH ideas ideas for the inbox.md",
+                "file": "09 - Inbox/mini task.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -407,10 +330,18 @@
       "strata:Strata diagrams": false
     }
   },
-  "active": "de7bafcc83be2550",
+  "active": "764207b96c781690",
   "lastOpenFiles": [
-    "05 - Diagrams/sb_inputs/sb_inputs-elements-enricher.md",
+    "11 - Projects/create-a-feed/Journal - create-a-feed.md.tmp",
+    "11 - Projects/create-a-feed/Journal - create-a-feed.md",
+    "05 - Diagrams/sb_inputs/sb_inputs-elements-ailayer.md",
+    "09 - Inbox/mini task.md",
+    "08 - Issues/complete/_I00046 News pane in Mise-en-Place.md",
+    "08 - Issues/complete/_I00033 Integration of the feed with Obsidian.md",
+    "05 - Diagrams/sb_inputs/sb_inputs.md",
+    "08 - Issues/_I00048 Story drift in long news events.md",
     "09 - Inbox/AHHHH ideas ideas for the inbox.md",
+    "05 - Diagrams/sb_inputs/sb_inputs-elements-enricher.md",
     "06 - Inputs/Captures/Exceptional points and hysteresis in Kerr-Newman quasi-normal modes.md",
     "06 - Inputs/Captures/sharing.md",
     "06 - Inputs/News/2026-10-26 Vox retira candidatura al Senado en seis provincias y presenta uno solo en.md",
@@ -429,14 +360,6 @@
     "06 - Inputs/News/2026-10-25 María Corina Machado regresa a Venezuela tras casi diez meses en el exilio.md",
     "06 - Inputs/News/_kept",
     "04 - Bases/final-bases/news.base",
-    "06 - Inputs/News/2026-10-26 Muere el exalcalde socialista de Sevilla Alfredo Sánchez Monteseirín a los 69.md",
-    "06 - Inputs/News/2026-10-26 Argelia aprueba enviar tropas a Níger, su primer despliegue militar exterior.md",
-    "06 - Inputs/News/2026-10-26 Transportes fija servicios mínimos para la huelga de maquinistas de Renfe del.md",
-    "06 - Inputs/News/2026-10-26 El gas europeo sube a máximos de cuatro años por temores de suministro en.md",
-    "06 - Inputs/News/2026-10-26 Puente niega ambición de suceder a Sánchez y admite que sus planes pueden.md",
-    "06 - Inputs/News/2026-10-26 Trump reitera su apoyo a Netanyahu antes de las elecciones legislativas.md",
-    "06 - Inputs/News/2026-10-26 Sánchez felicita a Lula por su victoria en Brasil y vaticina lo mismo para.md",
-    "06 - Inputs/News/2026-10-26 Altos cargos de seguridad de Arabia Saudí, Pakistán y Turquía se reúnen con.md",
     "06 - Inputs/News",
     "99 - Meta/scripts/ai/__pycache__/vault_ai.cpython-313.pyc",
     "99 - Meta/scripts/ai/__pycache__",

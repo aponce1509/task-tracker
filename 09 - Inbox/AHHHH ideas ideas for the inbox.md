@@ -13,7 +13,6 @@ created: 2026-10-26 14:15
 - easy to add new groups of inputs
 	- we classify to one of this groups
 	- Actions dependen on class
-		- carvagio google images
-		- 
+		- art things: google images of carvagio
 	- Generic rules for the notes
 	- Model router

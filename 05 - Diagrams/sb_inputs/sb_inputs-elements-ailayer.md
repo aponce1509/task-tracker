@@ -23,7 +23,7 @@ created: 2026-10-26 13:04
 > - Only one Ollama model is in memory at a time (`one_model = true`): before a call to another model, the connector unloads the models that are loaded. d3 and Qwen 9B together fill most of a 16 GB Mac.
 > - A new backend is one connector class with the methods of its roles, added to `CONNECTORS`.
 > - Read it left to right: the callers, the config and the Task, then the connectors and their models.
-> - Arrows: `==>` is the main path, `-->` is normal flow, `-.->` is optional or not used by captures.
+> - Arrows: ==> is the main path, `-->` is normal flow, `-.->` is optional or not used by captures.
 
 ```pele
 flowchart LR

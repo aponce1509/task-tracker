@@ -119,7 +119,8 @@
         "group": "feeds",
         "keys": {
           "s": { "desc": "sync the news now", "cmd": "mise-en-place:feeds-sync" },
-          "n": { "desc": "news (stories by group)", "cmd": "mise-en-place:news" }
+          "n": { "desc": "news (stories by group)", "cmd": "mise-en-place:news" },
+          "c": { "desc": "captures (consumption queue)", "cmd": "mise-en-place:captures" }
         }
       },
 
