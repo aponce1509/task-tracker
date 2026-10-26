@@ -58,6 +58,15 @@ uv run --script "99 - Meta/scripts/feeds/capture_import.py" --url <link> --note 
 - A url already in the vault is skipped. A capture that fails stays in the drop folder for the next run.
 - When YouTube breaks, run it once with `uv run --upgrade --script ...` to update yt-dlp.
 
+## Consume
+
+`<leader> c` opens the Captures pane of Mise-en-Place: the queue on the left (`status: inbox`, newest first), the note rendered on the right. `?` shows the keys.
+
+- `j` / `k` move, `Enter` opens the note, `o` opens the url.
+- `p` links or unlinks a PAR, `t` sets type and subtype in one pick, `#` toggles one of the four tags, `1`-`5` rate.
+- `y` keeps it: `status: done`, it stays in `06 - Inputs/Captures/`. `m` moves it, the folder of a linked PAR first. `d` deletes it to `.trash/`.
+- `f` filters by platform, `i` runs the import.
+
 ## References
 
 - [[The Sources System]] · [[Capturing - CODE]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]]

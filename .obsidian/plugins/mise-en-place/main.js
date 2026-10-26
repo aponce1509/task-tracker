@@ -109,6 +109,8 @@ module.exports = class MiseEnPlace extends Plugin {
     this.registerView(SPOTLIGHT_VIEW, (leaf) => new Spotlight(leaf, this));
     this.registerView(WEEK_VIEW, (leaf) => new WeekBoard(leaf, this));
     this.addCommand({ id: "week", name: "Week: open the week board", callback: () => this.openSingle(WEEK_VIEW) });
+    this.registerView(CAPTURES_VIEW, (leaf) => new Captures(leaf, this));
+    this.addCommand({ id: "captures", name: "Captures: open the consumption queue", callback: () => this.openSingle(CAPTURES_VIEW) });
     this.addCommand({ id: "spotlight", name: "Spotlight: open the maintenance board", callback: () => this.openSpotlight() });
     this.addCommand({ id: "project-dashboard", name: "Project dashboard: focus (opens the current project layout when closed)", callback: () => this.focusProjectDashboard() });
     this.addCommand({ id: "bridge-edit", name: "Bridge: write the bridge of the current project", callback: () => this.editBridge() });
@@ -230,6 +232,7 @@ module.exports = class MiseEnPlace extends Plugin {
     if (this.cfg.contexts?.dashboard && active === DASHBOARD_VIEW) return "dashboard";
     if (this.cfg.contexts?.project && active === PROJECT_VIEW) return "project";
     if (this.cfg.contexts?.spotlight && active === SPOTLIGHT_VIEW) return "spotlight";
+    if (this.cfg.contexts?.captures && active === CAPTURES_VIEW) return "captures";
     if (!this.cfg.contexts?.explorer) return null;
     if (active === "file-explorer" || el.closest(".workspace-leaf-content[data-type='file-explorer']")) return "explorer";
     return null;
@@ -867,6 +870,39 @@ module.exports = class MiseEnPlace extends Plugin {
     };
   }
 
+  capturesView() {
+    const active = this.app.workspace.activeLeaf?.view;
+    if (active instanceof Captures) return active;
+    return this.app.workspace.getLeavesOfType(CAPTURES_VIEW)[0]?.view || null;
+  }
+
+  capturesActions() {
+    const d = (fn) => () => {
+      const view = this.capturesView();
+      if (!view) throw new Error("the captures pane is closed (<leader> c)");
+      return fn(view);
+    };
+    return {
+      "captures:down": d((v) => v.move(1)),
+      "captures:up": d((v) => v.move(-1)),
+      "captures:first": d((v) => v.select(0)),
+      "captures:last": d((v) => v.select(Infinity)),
+      "captures:open": d((v) => v.openNote()),
+      "captures:open-url": d((v) => v.openUrl()),
+      "captures:paras": d((v) => v.pickParas()),
+      "captures:type": d((v) => v.pickType()),
+      "captures:tags": d((v) => v.pickTags()),
+      ...Object.fromEntries([1, 2, 3, 4, 5].map((n) => [`captures:rate-${n}`, d((v) => v.setRate(n))])),
+      "captures:keep": d((v) => v.keep()),
+      "captures:move": d((v) => v.pickFolder()),
+      "captures:delete": d((v) => v.remove()),
+      "captures:filter": d((v) => v.cycleFilter()),
+      "captures:import": d((v) => v.runImport()),
+      "captures:refresh": d((v) => v.render()),
+      "captures:help": () => this.openNode({ group: "captures", keys: this.cfg.contexts.captures.keys }, ["captures"], { keys: this.cfg.contexts.captures.keys }),
+    };
+  }
+
   // Native explorer keys (Space opens/folds, Enter renames, ...) run before the
   // plugin listener. Every key the config maps in the explorer context, and
   // the Space leader, becomes a no-op there, so only the config action runs.
@@ -987,6 +1023,7 @@ module.exports = class MiseEnPlace extends Plugin {
       "explorer:copy-name": () => this.copyText(this.focused().name),
       ...this.dashboardActions(),
       ...this.projectActions(),
+      ...this.capturesActions(),
       "spotlight:refresh": () => this.app.workspace.getLeavesOfType(SPOTLIGHT_VIEW)[0]?.view.refresh(),
       "explorer:help": () => this.openNode({ group: "explorer", keys: this.cfg.contexts.explorer.keys }, ["explorer"], { keys: this.cfg.contexts.explorer.keys }),
     };
@@ -3010,6 +3047,388 @@ class WeekBoard extends ItemView {
   async copy(cmd) {
     await navigator.clipboard.writeText(cmd);
     new Notice(`Copied ${cmd}. Paste it in Claude Code.`);
+  }
+}
+
+// Captures: the consumption queue of the connector captures (file_class
+// capture, status inbox). The list on the left, the note rendered on the
+// right; keys set paras, type, tags and rate, keep, move or delete the
+// capture, and run the importer (99 - Meta/scripts/feeds/capture_import.py).
+
+const CAPTURES_VIEW = "mise-captures";
+const CAPTURE_IMPORTER = "99 - Meta/scripts/feeds/capture_import.py";
+const PLATFORMS = ["youtube", "x", "instagram", "web", "apple-notes"];
+const CANONICAL_TAGS = ["learnable", "sentations_request", "rfm", "todo"];
+const SUBTYPES_FOLDER = "02 - Categories/_subtypes";
+const PAR_FOLDERS = { Project: "11 - Projects", Area: "12 - Areas", Resource: "13 - Resources" };
+
+class Captures extends ItemView {
+  constructor(leaf, plugin) {
+    super(leaf);
+    this.plugin = plugin;
+    this.selected = null; // path of the selected capture
+    this.index = 0; // its position, kept when it leaves the queue
+    this.filter = null; // platform, or null for all
+    this.log = null; // output of the last import
+  }
+
+  getViewType() {
+    return CAPTURES_VIEW;
+  }
+
+  getDisplayText() {
+    return "Captures";
+  }
+
+  getIcon() {
+    return "inbox";
+  }
+
+  async onOpen() {
+    this.contentEl.addClass("mise-cap");
+    const refresh = debounce(() => this.render(), 250, true);
+    this.registerEvent(this.app.metadataCache.on("changed", refresh));
+    this.registerEvent(this.app.vault.on("delete", refresh));
+    this.registerEvent(this.app.vault.on("rename", refresh));
+    this.contentEl.addEventListener("click", (e) => {
+      const a = e.target.closest?.(".internal-link");
+      if (!a) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const f = this.app.metadataCache.getFirstLinkpathDest((a.dataset.href || a.getAttribute("href")).split("#")[0], "");
+      if (f) this.app.workspace.getLeaf("tab").openFile(f);
+    }, { capture: true });
+    await this.render();
+  }
+
+  cfg() {
+    return this.plugin.cfg.captures || {};
+  }
+
+  fm(file) {
+    return (file && this.app.metadataCache.getFileCache(file)?.frontmatter) || {};
+  }
+
+  // Data
+
+  queue() {
+    const born = (f) => {
+      const c = window.moment(String(this.fm(f).created || ""), ["YYYY-MM-DD HH:mm", "YYYY-MM-DD"], true);
+      return c.isValid() ? c : window.moment(f.stat.ctime);
+    };
+    return this.app.vault
+      .getMarkdownFiles()
+      .filter((f) => [].concat(this.fm(f).file_class || []).includes("capture") && this.fm(f).status === "inbox" && !f.path.startsWith("99 - Meta/"))
+      .map((f) => ({ file: f, fm: this.fm(f), born: born(f) }))
+      .sort((a, b) => b.born - a.born);
+  }
+
+  current() {
+    return this.rows?.find((r) => r.file.path === this.selected) || null;
+  }
+
+  // Rendering
+
+  async render() {
+    const all = this.queue();
+    this.rows = this.filter ? all.filter((r) => r.fm.platform === this.filter) : all;
+    let i = this.rows.findIndex((r) => r.file.path === this.selected);
+    if (i < 0) i = Math.min(this.index, this.rows.length - 1);
+    this.index = Math.max(0, i);
+    this.selected = this.rows[this.index]?.file.path || null;
+
+    const el = this.contentEl;
+    el.empty();
+    if (this.comp) this.removeChild(this.comp);
+    this.comp = this.addChild(new Component());
+
+    const head = el.createDiv({ cls: "mise-cap-head" });
+    const title = head.createDiv({ cls: "mise-cap-title" });
+    title.setText(all.length ? `${all.length} capture${all.length > 1 ? "s" : ""} to consume` : "Nothing to consume");
+    const tools = head.createDiv({ cls: "mise-cap-tools" });
+    const btn = (text, key, fn) => {
+      const b = tools.createEl("button", { cls: "mise-proj-btn" });
+      b.createSpan({ text });
+      b.createSpan({ cls: "mise-proj-kbd", text: key });
+      b.addEventListener("click", fn);
+      return b;
+    };
+    const imp = btn(this.importing ? "Importing…" : "Import", "i", () => this.runImport());
+    imp.disabled = !!this.importing;
+    btn("Keys", "?", () => this.plugin.capturesActions()["captures:help"]());
+
+    // Platform chips: the filter, with the count of each platform.
+    const chips = el.createDiv({ cls: "mise-cap-chips" });
+    const chip = (label, value, n) => {
+      const c = chips.createEl("button", { cls: `mise-cap-chip${this.filter === value ? " is-on" : ""}` });
+      if (value) c.createSpan({ cls: `mise-cap-dot is-${value}` });
+      c.createSpan({ text: `${label} ${n}` });
+      c.addEventListener("click", () => this.setFilter(value));
+    };
+    chip("all", null, all.length);
+    for (const p of PLATFORMS) {
+      const n = all.filter((r) => r.fm.platform === p).length;
+      if (n || this.filter === p) chip(p, p, n);
+    }
+    const other = all.filter((r) => !PLATFORMS.includes(r.fm.platform)).length;
+    if (other) chips.createSpan({ cls: "mise-cap-chip-note", text: `${other} without platform` });
+
+    if (this.log) {
+      const log = el.createDiv({ cls: "mise-cap-log" });
+      log.createDiv({ cls: "mise-cap-log-sum", text: this.log.summary });
+      for (const l of this.log.lines.filter((l) => /^[!·]/.test(l)).slice(0, 8)) log.createDiv({ cls: "mise-cap-log-line", text: l });
+    }
+
+    const body = el.createDiv({ cls: "mise-cap-body" });
+    const list = body.createDiv({ cls: "mise-cap-list" });
+    if (!this.rows.length) {
+      list.createDiv({ cls: "mise-proj-empty", text: all.length ? "No capture of this platform. f cycles the filter." : "Share something to → Vault on the phone, then import (i)." });
+    }
+    this.rows.forEach((r, ri) => {
+      const row = list.createDiv({ cls: "mise-cap-row", attr: { role: "button" } });
+      if (ri === this.index) row.addClass("is-selected");
+      row.createSpan({ cls: `mise-cap-dot is-${r.fm.platform || "none"}`, attr: { title: r.fm.platform || "no platform" } });
+      const main = row.createDiv({ cls: "mise-cap-row-main" });
+      main.createDiv({ cls: "mise-cap-name", text: r.file.basename });
+      const meta = [[].concat(r.fm.author || []).map(linkName)[0], this.subtypeName(r.fm), [].concat(r.fm.paras || []).map(linkName).join(", ")].filter(Boolean);
+      main.createDiv({ cls: "mise-cap-meta", text: meta.join(" · ") });
+      row.createSpan({ cls: "mise-cap-age", text: r.born.fromNow(true) });
+      row.addEventListener("click", () => this.select(ri));
+      row.addEventListener("dblclick", () => this.openNote());
+    });
+
+    const preview = body.createDiv({ cls: "mise-cap-preview" });
+    const cur = this.current();
+    if (cur) await this.renderPreview(preview, cur);
+    list.querySelector(".is-selected")?.scrollIntoView({ block: "nearest" });
+  }
+
+  subtypeName(fm) {
+    return [].concat(fm.subtypes || []).map((s) => String(s).split("|").pop().replace(/\]\]$/, "")).join(", ");
+  }
+
+  async renderPreview(box, r) {
+    const fm = r.fm;
+    const props = box.createDiv({ cls: "mise-cap-props" });
+    const prop = (label, value, key) => {
+      const p = props.createDiv({ cls: "mise-cap-prop" });
+      p.createSpan({ cls: "mise-cap-prop-label", text: label });
+      p.createSpan({ cls: `mise-cap-prop-value${value ? "" : " is-empty"}`, text: value || "—" });
+      p.createSpan({ cls: "mise-proj-kbd", text: key });
+    };
+    prop("paras", [].concat(fm.paras || []).map(linkName).join(", "), "p");
+    prop("type", [linkName(fm.type || ""), this.subtypeName(fm)].filter(Boolean).join(" / "), "t");
+    prop("tags", [].concat(fm.tags || []).map((t) => `#${t}`).join(" "), "#");
+    prop("rate", fm.rate ? "★".repeat(Number(fm.rate)) : "", "1-5");
+    if (fm.url) {
+      const link = props.createEl("a", { cls: "mise-cap-url", text: fm.url, href: fm.url });
+      link.setAttr("target", "_blank");
+    }
+    const text = await this.app.vault.cachedRead(r.file);
+    const end = this.app.metadataCache.getFileCache(r.file)?.frontmatterPosition?.end?.offset ?? 0;
+    const md = box.createDiv({ cls: "mise-cap-md markdown-rendered" });
+    await MarkdownRenderer.render(this.app, text.slice(end).replace(/^\s*#\s.*\n/, ""), md, r.file.path, this.comp);
+  }
+
+  // Navigation
+
+  select(i) {
+    if (!this.rows?.length) return;
+    this.index = Math.max(0, Math.min(this.rows.length - 1, i));
+    this.selected = this.rows[this.index].file.path;
+    this.render();
+  }
+
+  move(delta) {
+    this.select(this.index + delta);
+  }
+
+  setFilter(platform) {
+    this.filter = platform;
+    this.index = 0;
+    this.selected = null;
+    this.render();
+  }
+
+  cycleFilter() {
+    const present = PLATFORMS.filter((p) => this.queue().some((r) => r.fm.platform === p));
+    const order = [null, ...present];
+    this.setFilter(order[(order.indexOf(this.filter) + 1) % order.length]);
+  }
+
+  need() {
+    const cur = this.current();
+    if (!cur) throw new Error("no capture selected");
+    return cur;
+  }
+
+  // Actions
+
+  openNote() {
+    const { file } = this.need();
+    this.app.workspace.getLeaf("tab").openFile(file);
+  }
+
+  openUrl() {
+    const { fm } = this.need();
+    if (!fm.url) throw new Error("this capture has no url");
+    window.open(fm.url);
+  }
+
+  edit(fn) {
+    const { file } = this.need();
+    return this.app.fileManager.processFrontMatter(file, fn);
+  }
+
+  setRate(n) {
+    return this.edit((fm) => (fm.rate = Number(fm.rate) === n ? null : n));
+  }
+
+  // A picker; when it closes, the keys go back to this pane (not the last editor).
+  pick(items, placeholder, onChoose) {
+    const picker = new ChoicePicker(this.app, items, placeholder, onChoose);
+    const close = picker.onClose.bind(picker);
+    picker.onClose = () => {
+      close();
+      window.setTimeout(() => this.app.workspace.setActiveLeaf(this.leaf, { focus: true }), 0);
+    };
+    picker.open();
+  }
+
+  // paras: choosing a PAR adds it, choosing a linked one removes it. Active PARs first.
+  pickParas() {
+    const cur = this.need();
+    const linked = new Set([].concat(cur.fm.paras || []).map(linkName));
+    const pars = this.app.vault
+      .getMarkdownFiles()
+      .filter((f) => this.plugin.isPar(f))
+      .sort((a, b) => linked.has(b.basename) - linked.has(a.basename) || (this.fm(b).active === true) - (this.fm(a).active === true) || a.basename.localeCompare(b.basename));
+    const items = pars.map((f) => ({ label: f.basename, detail: `${linked.has(f.basename) ? "linked · remove" : this.fm(f).active === true ? "active" : ""} ${this.fm(f).paraType || ""}`.trim(), value: f.basename }));
+    this.pick(items, "Link a PAR (a linked one is removed)", (it) =>
+      this.edit((fm) => {
+        const list = [].concat(fm.paras || []).filter(Boolean);
+        const kept = list.filter((l) => linkName(l) !== it.value);
+        fm.paras = kept.length === list.length ? [...list, `[[${it.value}]]`] : kept;
+      })
+    );
+  }
+
+  // type and subtype together: one pick of a subtype note sets both.
+  pickType() {
+    const cur = this.need();
+    const type = linkName(cur.fm.type || "");
+    const items = this.app.vault
+      .getMarkdownFiles()
+      .filter((f) => f.parent?.path === SUBTYPES_FOLDER)
+      .map((f) => {
+        const [cluster, t, slug] = f.basename.split(" - ");
+        return { label: `${t} / ${slug}`, detail: cluster, value: { type: t, link: `[[${f.basename}|${slug}]]` } };
+      })
+      .filter((it) => it.value.type)
+      .sort((a, b) => (b.value.type === type) - (a.value.type === type) || a.label.localeCompare(b.label));
+    this.pick(items, "Type / subtype", (it) =>
+      this.edit((fm) => {
+        fm.type = `[[${it.value.type}]]`;
+        fm.subtypes = [it.value.link];
+      })
+    );
+  }
+
+  // Only the four canonical tags; choosing one toggles it.
+  pickTags() {
+    const cur = this.need();
+    const has = new Set([].concat(cur.fm.tags || []).map((t) => String(t).replace(/^#/, "")));
+    const items = CANONICAL_TAGS.map((t) => ({ label: `#${t}`, detail: has.has(t) ? "set · remove" : "", value: t }));
+    this.pick(items, "Toggle a tag", (it) =>
+      this.edit((fm) => {
+        const list = [].concat(fm.tags || []).filter(Boolean).map((t) => String(t).replace(/^#/, ""));
+        fm.tags = list.includes(it.value) ? list.filter((t) => t !== it.value) : [...list, it.value];
+      })
+    );
+  }
+
+  // Keep: the capture stays in its folder and leaves the queue.
+  keep() {
+    const status = this.cfg().keepStatus || "done";
+    return this.edit((fm) => (fm.status = status));
+  }
+
+  // Move: to the folder of a linked PAR (first) or any folder; it leaves the queue.
+  pickFolder() {
+    const cur = this.need();
+    const folders = this.app.vault.getAllLoadedFiles().filter((f) => f.children && f.path !== "/" && !f.path.startsWith(".") && !f.path.startsWith("99 - Meta"));
+    const home = [];
+    for (const name of [].concat(cur.fm.paras || []).map(linkName)) {
+      const par = this.app.metadataCache.getFirstLinkpathDest(name, "");
+      const root = PAR_FOLDERS[this.fm(par).paraType];
+      const f = root && this.app.vault.getAbstractFileByPath(`${root}/${name}`);
+      if (f?.children) home.push(f.path);
+    }
+    const items = [...new Set([...home, ...folders.map((f) => f.path).sort()])].map((p) => ({ label: p, detail: home.includes(p) ? "PAR folder" : "", value: p }));
+    this.pick(items, `Move "${cur.file.basename}" to`, async (it) => {
+      const status = this.cfg().keepStatus || "done";
+      await this.app.fileManager.processFrontMatter(cur.file, (fm) => (fm.status = status));
+      await this.app.fileManager.renameFile(cur.file, `${it.value}/${cur.file.name}`);
+      new Notice(`Moved to ${it.value}`);
+    });
+  }
+
+  // Delete: to the trash of the vault settings (.trash by default).
+  async remove() {
+    const { file } = this.need();
+    await this.app.fileManager.trashFile(file);
+    new Notice(`Deleted ${file.basename}`);
+  }
+
+  runImport() {
+    if (this.importing) return;
+    const { execFile } = require("child_process");
+    const cwd = this.app.vault.adapter.basePath;
+    const home = process.env.HOME || "";
+    const env = { ...process.env, PATH: `${process.env.PATH}:${home}/.local/bin:${home}/.cargo/bin:/opt/homebrew/bin:/usr/local/bin` };
+    this.importing = true;
+    this.render();
+    execFile("uv", ["run", "--quiet", "--script", CAPTURE_IMPORTER], { cwd, env, timeout: 600000, maxBuffer: 4 * 1024 * 1024 }, (err, out, errOut) => {
+      this.importing = false;
+      const lines = String(out || "").trim().split("\n").filter(Boolean);
+      const summary = lines.pop() || (err ? `Import failed: ${String(errOut || err.message).trim().split("\n").pop()}` : "Import done");
+      this.log = { summary, lines };
+      new Notice(`Captures: ${summary}`);
+      this.render();
+    });
+  }
+}
+
+// A plain fuzzy list of choices: {label, detail, value}.
+class ChoicePicker extends SuggestModal {
+  constructor(app, items, placeholder, onChoose) {
+    super(app);
+    this.items = items;
+    this.onChoose = onChoose;
+    this.setPlaceholder(placeholder);
+  }
+
+  // Exact label first, then labels that start with the query, then fuzzy score.
+  getSuggestions(query) {
+    const q = query.trim().toLowerCase();
+    if (!q) return this.items;
+    const match = prepareFuzzySearch(q);
+    const rank = (it) => (it.label.toLowerCase() === q ? 0 : it.label.toLowerCase().startsWith(q) ? 1 : 2);
+    return this.items
+      .map((it) => ({ it, m: match(`${it.label} ${it.detail || ""}`) }))
+      .filter((x) => x.m)
+      .sort((a, b) => rank(a.it) - rank(b.it) || b.m.score - a.m.score)
+      .map((x) => x.it);
+  }
+
+  renderSuggestion(it, el) {
+    el.addClass("mise-pick");
+    el.createDiv({ cls: "mise-pick-name", text: it.label });
+    if (it.detail) el.createDiv({ cls: "mise-pick-path", text: it.detail });
+  }
+
+  onChooseSuggestion(it) {
+    Promise.resolve(this.onChoose(it)).catch((err) => new Notice(`Mise-en-Place: ${err.message}`));
   }
 }
 

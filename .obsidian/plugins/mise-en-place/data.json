@@ -54,7 +54,7 @@
       "panes": {
         "left": {
           "extra": [],
-          "active": "08 - Issues/_I00027 Cut the verbosity of the journal and the project AGENTS.md.md"
+          "active": "11 - Projects/second-brain/_0_final/howtos/HOWTO - Capture from the phone.md"
         }
       }
     },
@@ -98,7 +98,7 @@
     "tab": 0,
     "views": {
       "project-notes.base": "All notes",
-      "issues-project.base": "Issues",
+      "issues-project.base": "Inbox",
       "navigation.base": "MoCs"
     }
   }

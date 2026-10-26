@@ -31,8 +31,8 @@
               "state": {
                 "project": "second-brain"
               },
-              "icon": "folder-kanban",
-              "title": "second-brain"
+              "icon": "lucide-ghost",
+              "title": "mise-project"
             }
           },
           {
@@ -51,22 +51,46 @@
             }
           },
           {
-            "id": "e003a82d016fbb34",
+            "id": "3bbf3613398a675b",
             "type": "leaf",
             "dimension": 33.333333333333336,
             "state": {
               "type": "markdown",
               "state": {
-                "file": "08 - Issues/_I00027 Cut the verbosity of the journal and the project AGENTS.md.md",
+                "file": "08 - Issues/_I00024 Define the audit and check logic of the system.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "_I00027 Cut the verbosity of the journal and the project AGENTS.md"
+              "title": "_I00024 Define the audit and check logic of the system"
+            }
+          },
+          {
+            "id": "eb649dbfd25f11fd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "11 - Projects/second-brain/_0_final/howtos/HOWTO - Capture from the phone.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "HOWTO - Capture from the phone"
+            }
+          },
+          {
+            "id": "78612033f763e313",
+            "type": "leaf",
+            "state": {
+              "type": "mise-captures",
+              "state": {},
+              "icon": "inbox",
+              "title": "Captures"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -250,7 +274,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 5
       },
       {
         "id": "cc65cc4c821af813",
@@ -262,7 +286,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "08 - Issues/_I00027 Cut the verbosity of the journal and the project AGENTS.md.md",
+                "file": "11 - Projects/second-brain/_0_final/howtos/HOWTO - Capture from the phone.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -322,44 +346,44 @@
       "strata:Strata diagrams": false
     }
   },
-  "active": "e003a82d016fbb34",
+  "active": "eb649dbfd25f11fd",
   "lastOpenFiles": [
+    "11 - Projects/second-brain/_0_final/The Sources System.md",
+    "06 - Inputs/Captures/Things we learned about LLMs in 2024.md",
+    "06 - Inputs/Captures/@jack - just setting up my twttr.md",
+    "11 - Projects/second-brain/others/Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).md",
+    "11 - Projects/second-brain/_0_final/Input sources.md",
+    "11 - Projects/second-brain/_0_final/howtos/HOWTO - Capture from the phone.md",
+    "11 - Projects/second-brain/_0_final/The Second Brain System.md",
+    "06 - Inputs/Captures/Test thought from Notes.md",
+    "06 - Inputs/Captures/Captures need a why field idea.md",
+    "08 - Issues/_I00024 Define the audit and check logic of the system.md",
+    "08 - Issues/_I00027 Cut the verbosity of the journal and the project AGENTS.md.md",
+    "06 - Inputs/Captures",
+    "99 - Meta/scripts/feeds/__pycache__/capture_import.cpython-313.pyc",
+    "99 - Meta/scripts/feeds/capture_import.py",
+    "04 - Bases/final-bases/captures.base",
+    "99 - Meta/Templates/Capture - Template.md",
+    "99 - Meta/Class/capture.md",
+    "02 - Categories/_subtypes/External Knowledge - Resources - post.md",
     "11 - Projects/learning-app/The Learning App.md",
     "11 - Projects/learning-app/LEARNING TODO.md",
-    "08 - Issues/_I00027 Cut the verbosity of the journal and the project AGENTS.md.md",
     "11 - Projects/second-brain/Journal - second-brain.md",
     "11 - Projects/second-brain/AGENTS.md",
     "09 - Inbox/Loggin in general.md",
     "copilot/copilot-conversations/agent__update_this_to_the_current_status@20261026_063816.md",
     "11 - Projects/second-brain/_0_real_inbox/The Module - The minimum learning magnitude.md",
     "05 - Diagrams/maintenance/maintenance-elements-testflow.md",
-    "11 - Projects/second-brain/_0_final/The Second Brain System.md",
     "07 - Daily/2026-10-25.md",
     "07 - Daily/Weeks/2026-W43.md",
     "05 - Diagrams/maintenance/maintenance-elements-ai-commands.md",
     "11 - Projects/second-brain/_0_real_inbox/Index.md",
-    "07 - Daily/2026-10-24.md",
-    "09 - Inbox/hola.md",
-    "01 - PAR/second-brain.md",
-    "02 - Categories/_types/Annotations.md",
     "04 - Bases/final-bases/project-notes.base",
-    "11 - Projects/second-brain/_0_real_inbox/How do we organise the note that build the final project.md",
-    "11 - Projects/second-brain/_0_real_inbox/Do Not miss incomplete notes - Note Status.md",
-    "11 - Projects/second-brain/_0_real_inbox/Efecto Cafeteria.md",
-    "11 - Projects/second-brain/_0_real_inbox/Cuando aprendas define fase de divergencia y convergencia.md",
-    "11 - Projects/second-brain/_0_real_inbox/Como usar el arte en tu día a día.md",
-    "11 - Projects/second-brain/_0_real_inbox/Como aprender siendo un mortal.md",
-    "11 - Projects/second-brain/_0_real_inbox/Alejandro's Mise-en-Place.md",
-    "09 - Inbox/wip in maintance system.md",
     "scripts/spotlight.sh",
     "05 - Diagrams/maintenance",
     "99 - Meta/skills/note-syllabus/scripts/audit.sh",
     "99 - Meta/skills/note-syllabus/scripts",
     "99 - Meta/skills/note-syllabus",
-    "99 - Meta/skills/note-diagram/references",
-    "99 - Meta/skills/note-diagram",
-    "05 - Diagrams/strata",
-    "05 - Diagrams",
     "99 - Meta/Attachments/Domenico Ghirlandaio (Domenico Bigordi).jpg",
     "09 - Inbox/Inbox/Notes Hierarchy.svg",
     "09 - Inbox/Inbox/Notes Components by situations.svg",

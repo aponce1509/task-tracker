@@ -1767,3 +1767,239 @@ button.mise-spot-cmd {
   gap: 10px;
   margin-top: 16px;
 }
+
+/* Captures: the consumption queue (<leader> c) */
+
+.mise-cap {
+  --cap-rule: var(--background-modifier-border);
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 18px;
+}
+
+.mise-cap .mise-proj-kbd {
+  border-color: var(--cap-rule);
+}
+
+.mise-cap-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.mise-cap-title {
+  font-size: 1.5em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.mise-cap-tools {
+  display: flex;
+  gap: 6px;
+}
+
+.mise-cap-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+button.mise-cap-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: auto;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: var(--font-ui-smaller);
+  box-shadow: none;
+  background: transparent;
+  border: 1px solid var(--cap-rule);
+  color: var(--text-muted);
+}
+
+button.mise-cap-chip.is-on {
+  border-color: var(--interactive-accent);
+  color: var(--text-normal);
+}
+
+.mise-cap-chip-note {
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+}
+
+.mise-cap-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--text-faint);
+}
+
+.mise-cap-dot.is-youtube { background: var(--color-red); }
+.mise-cap-dot.is-x { background: var(--text-normal); }
+.mise-cap-dot.is-instagram { background: var(--color-pink); }
+.mise-cap-dot.is-web { background: var(--color-cyan); }
+.mise-cap-dot.is-apple-notes { background: var(--color-yellow); }
+
+.mise-cap-log {
+  padding: 6px 10px;
+  border-left: 3px solid var(--interactive-accent);
+  background: var(--background-secondary);
+  border-radius: var(--radius-s);
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+}
+
+.mise-cap-log-sum {
+  color: var(--text-normal);
+}
+
+.mise-cap-log-line {
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.mise-cap-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(240px, 2fr) minmax(0, 3fr);
+  gap: 18px;
+}
+
+.mise-cap-list {
+  min-height: 0;
+  overflow-y: auto;
+  border-right: 1px solid var(--cap-rule);
+  padding-right: 8px;
+}
+
+.mise-cap-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: var(--radius-s);
+  cursor: pointer;
+}
+
+.mise-cap-row:hover {
+  background: var(--background-modifier-hover);
+}
+
+.mise-cap-row.is-selected {
+  background: var(--background-modifier-hover);
+  box-shadow: inset 2px 0 0 var(--interactive-accent);
+}
+
+.mise-cap-row-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mise-cap-name,
+.mise-cap-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mise-cap-name {
+  color: var(--text-normal);
+  font-size: var(--font-ui-small);
+}
+
+.mise-cap-row.is-selected .mise-cap-name {
+  white-space: normal;
+  font-weight: 600;
+}
+
+.mise-cap-meta,
+.mise-cap-age {
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+}
+
+.mise-cap-age {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.mise-cap-preview {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.mise-cap-props {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 4px 16px;
+  padding-bottom: 10px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--cap-rule);
+}
+
+.mise-cap-prop {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  font-size: var(--font-ui-smaller);
+}
+
+.mise-cap-prop-label {
+  flex: none;
+  width: 3.5em;
+  color: var(--text-faint);
+}
+
+.mise-cap-prop-value {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-normal);
+}
+
+.mise-cap-prop-value.is-empty {
+  color: var(--text-faint);
+}
+
+.mise-cap-url {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--font-ui-smaller);
+}
+
+.mise-cap-md iframe {
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+.mise-cap-md img {
+  max-width: 100%;
+}
+
+@container (max-width: 720px) {
+  .mise-cap-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(120px, 35%) minmax(0, 1fr);
+  }
+
+  .mise-cap-list {
+    border-right: none;
+    border-bottom: 1px solid var(--cap-rule);
+    padding-right: 0;
+  }
+}

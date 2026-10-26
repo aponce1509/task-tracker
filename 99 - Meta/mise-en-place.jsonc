@@ -30,6 +30,7 @@
       "t": { "desc": "today (dashboard)", "cmd": "mise-en-place:dashboard" },
       "S": { "desc": "spotlight (maintenance board)", "cmd": "mise-en-place:spotlight" },
       "W": { "desc": "week board (end week checks)", "cmd": "mise-en-place:week" },
+      "c": { "desc": "captures (consumption queue)", "cmd": "mise-en-place:captures" },
       "\\": { "desc": "localleader", "cmd": "mise-en-place:localleader" },
 
       "l": {
@@ -218,6 +219,39 @@
     "spotlight": {
       "keys": {
         "r": { "desc": "check again (reruns scripts/spotlight.sh)", "action": "spotlight:refresh" }
+      }
+    },
+
+    // captures = the consumption queue (<leader> c): captures with status inbox.
+    // Keep and move set status (captures.keepStatus, default done), so the capture leaves the queue.
+    "captures": {
+      "keys": {
+        "j": { "desc": "down", "action": "captures:down" },
+        "k": { "desc": "up", "action": "captures:up" },
+        "G": { "desc": "last", "action": "captures:last" },
+        "g": {
+          "group": "go",
+          "keys": {
+            "g": { "desc": "first", "action": "captures:first" }
+          }
+        },
+        "Enter": { "desc": "open the note", "action": "captures:open" },
+        "o": { "desc": "open the url in the browser", "action": "captures:open-url" },
+        "p": { "desc": "paras: link or unlink a PAR", "action": "captures:paras" },
+        "t": { "desc": "type / subtype", "action": "captures:type" },
+        "#": { "desc": "toggle a tag (the four)", "action": "captures:tags" },
+        "1": { "desc": "rate 1 (again: clear)", "action": "captures:rate-1" },
+        "2": { "desc": "rate 2", "action": "captures:rate-2" },
+        "3": { "desc": "rate 3", "action": "captures:rate-3" },
+        "4": { "desc": "rate 4", "action": "captures:rate-4" },
+        "5": { "desc": "rate 5", "action": "captures:rate-5" },
+        "y": { "desc": "keep (leaves the queue, stays in its folder)", "action": "captures:keep" },
+        "m": { "desc": "move to a folder (PAR folder first)", "action": "captures:move" },
+        "d": { "desc": "delete (to trash)", "action": "captures:delete" },
+        "f": { "desc": "filter: cycle the platforms", "action": "captures:filter" },
+        "i": { "desc": "import (runs capture_import.py)", "action": "captures:import" },
+        "r": { "desc": "refresh", "action": "captures:refresh" },
+        "?": { "desc": "show these keys", "action": "captures:help" }
       }
     },
 
