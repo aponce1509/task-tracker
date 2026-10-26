@@ -115,6 +115,14 @@
         }
       },
 
+      "F": {
+        "group": "feeds",
+        "keys": {
+          "s": { "desc": "sync the news now", "cmd": "mise-en-place:feeds-sync" },
+          "n": { "desc": "news (stories by group)", "cmd": "mise-en-place:news" }
+        }
+      },
+
       "R": { "desc": "reload this config", "cmd": "mise-en-place:reload-config" }
     }
   },
@@ -224,6 +232,33 @@
 
     // captures = the consumption queue (<leader> c): captures with status inbox.
     // Keep and move set status (captures.keepStatus, default done), so the capture leaves the queue.
+    "news": {
+      "keys": {
+        "j": { "desc": "down", "action": "news:down" },
+        "k": { "desc": "up", "action": "news:up" },
+        "G": { "desc": "last", "action": "news:last" },
+        "g": {
+          "group": "go",
+          "keys": {
+            "g": { "desc": "first", "action": "news:first" }
+          }
+        },
+        "]": { "desc": "next group", "action": "news:next-group" },
+        "[": { "desc": "previous group", "action": "news:prev-group" },
+        "l": { "desc": "next group", "action": "news:next-group" },
+        "h": { "desc": "previous group", "action": "news:prev-group" },
+        "Enter": { "desc": "open the note", "action": "news:open" },
+        "o": { "desc": "open a source in the browser", "action": "news:open-source" },
+        "y": { "desc": "keep the story (note to _kept/)", "action": "news:keep" },
+        "c": { "desc": "make a source a capture", "action": "news:capture" },
+        "d": { "desc": "dismiss (hide, note to trash)", "action": "news:dismiss" },
+        "m": { "desc": "show single-outlet stories too", "action": "news:min-outlets" },
+        "s": { "desc": "sync now", "action": "news:sync" },
+        "r": { "desc": "reload news.json", "action": "news:refresh" },
+        "?": { "desc": "show these keys", "action": "news:help" }
+      }
+    },
+
     "captures": {
       "keys": {
         "j": { "desc": "down", "action": "captures:down" },
@@ -378,6 +413,13 @@
   // changes (or <leader> l S): a PAR that stops being active loses its slot.
   // Subgroups whose note is not a PAR (added by hand) stay.
   "bookmarksGroup": "Mise-en-Place",
+
+  // Feeds: run 99 - Meta/scripts/feeds/feeds_sync.py sync (fetch, cluster and
+  // LLM enrich of the news) every "every" minutes while Obsidian is open, and on
+  // demand with <leader> F s. Log: ~/.config/feeds/logs/sync.log; its time is
+  // the last run. "llm" and "fallback" (comma list) pick the enrich provider as
+  // <provider>:<model>: claude:haiku, opencode:glm-5.3-flash, ollama:llama3.1:8b.
+  "feeds": { "sync": true, "every": 120, "llm": "claude:haiku", "fallback": "opencode:glm-5.3-flash" },
   "slotKeys": ["a", "s", "d", "f", ";", "g", "h", "j", "k"],
 
   // When true, leaving a project layout writes the notes open in its left pane

@@ -62,7 +62,7 @@ flowchart LR
 
 - Source: the table "Under the spotlight" of [[The Maintenance System]]. Workflows: [[WORKFLOWS - Out of the Inbox]], [[WORKFLOWS - Bi-Monthly Inbox Sweep]] (Sweep), [[WORKFLOWS - Contextual Capture Review]] (Capture Review), [[WORKFLOWS - Distillation of a Note]] (Distillation).
 - Inbox: notes without a home. Signal `["status":inbox]`, oldest first.
-- Capture devices: phone, voice notes and Apple Notes outside the vault. Only a Manual look shows them, and only the Sweep clears them. Issue `_I00025` maps the devices and defines their importers, so this row stays wip.
+- Capture devices: phone, voice notes and Apple Notes outside the vault. The phone importer brings the iPhone shares and the Apple Notes folder `Vault` in; the other devices have only a Manual look, and only the Sweep clears them. Issue `_I00025` maps the devices and defines their importers, so this row stays wip.
 - Raw captures: placed notes never distilled. Signal `["maturity":capture] ["paras":"[[<par>]]"]`.
 - References: notes in `06 - Inputs` without source, commentary or a PAR that uses them. Signal `path:"06 - Inputs" ["maturity":capture]`.
 - Legacy marks: `#_*` tags, forbidden keys and untyped notes. The Engine audit is `99 - Meta/skills/system-reference-maintance/scripts/audit.py`. I migrate a mark on sight in any workflow, and the Sweep catches the rest.

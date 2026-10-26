@@ -107,15 +107,16 @@ ROWS="$TMP/rows"
 : >"$ROWS"
 row() { printf '%s\t%s\t%s\t%s\n' "$1" "$2" "$3" "$4" >>"$ROWS"; }
 
-# Inbox: status inbox outside the issues (issues have their own inbox state).
-inbox_all=$(awk -F'\t' '$2 == "inbox" && $1 !~ /^\.\/08 - Issues\//' "$TMP/fm" | wc -l | tr -d ' ')
-inbox_old=$(awk -F'\t' -v d="$D14" '$2 == "inbox" && $1 !~ /^\.\/08 - Issues\// && $4 != "" && $4 < d' "$TMP/fm" | wc -l | tr -d ' ')
-oldest=$(awk -F'\t' '$2 == "inbox" && $1 !~ /^\.\/08 - Issues\// && $4 ~ /^[0-9]{4}-/ { print $4 }' "$TMP/fm" | sort | head -1)
+# Inbox: status inbox outside the issues (issues have their own inbox state)
+# and the news notes (a 30-day inbox that purges itself).
+inbox_all=$(awk -F'\t' '$2 == "inbox" && $1 !~ /^\.\/(08 - Issues|06 - Inputs\/News)\//' "$TMP/fm" | wc -l | tr -d ' ')
+inbox_old=$(awk -F'\t' -v d="$D14" '$2 == "inbox" && $1 !~ /^\.\/(08 - Issues|06 - Inputs\/News)\// && $4 != "" && $4 < d' "$TMP/fm" | wc -l | tr -d ' ')
+oldest=$(awk -F'\t' '$2 == "inbox" && $1 !~ /^\.\/(08 - Issues|06 - Inputs\/News)\// && $4 ~ /^[0-9]{4}-/ { print $4 }' "$TMP/fm" | sort | head -1)
 age="-"; [ -n "$oldest" ] && age="$(days_since "$oldest")d"
 light="ok"; [ "$inbox_old" -gt 0 ] && light="!"; [ "$inbox_old" -gt 5 ] && light="!!"
 row "Inbox" "$inbox_all notes, $inbox_old older than 14d, oldest $age" "$light" "/guide-inbox-clean · /sweep"
 
-row "Capture devices" "manual look (no importer, _I00025)" "-" "/sweep"
+row "Capture devices" "phone importer only, manual look for the rest (_I00025)" "-" "/sweep"
 
 # Raw captures: maturity capture per active PAR, or the PAR given.
 if [ -n "$PAR" ]; then
@@ -131,8 +132,19 @@ while IFS= read -r p; do
 done <<<"$pars"
 row "Raw captures" "${caps%, }" "-" "/review-captures"
 
-refs=$(awk -F'\t' '$1 ~ /^\.\/06 - Inputs\// && $3 == "capture"' "$TMP/fm" | wc -l | tr -d ' ')
+refs=$(awk -F'\t' '$1 ~ /^\.\/06 - Inputs\// && $1 !~ /^\.\/06 - Inputs\/News\// && $3 == "capture"' "$TMP/fm" | wc -l | tr -d ' ')
 row "References" "$refs in 06 - Inputs at capture" "-" "/guide-inbox-clean · /guide-distillation"
+
+# News sync: the time of the feeds_sync.py log is the last run (Mise-en-Place runs it every 2 h).
+flog="${FEEDS_HOME:-$HOME/.config/feeds}/logs/sync.log"
+if [ -f "$flog" ]; then
+	hrs=$((($(date +%s) - $(stat -f %m "$flog" 2>/dev/null || stat -c %Y "$flog")) / 3600))
+	last=$(grep '^== ' "$flog" | tail -1 | awk '{print $3}')
+	light="ok"; { [ "$hrs" -ge 6 ] || [ "$last" = failed ]; } && light="!"; [ "$hrs" -ge 24 ] && light="!!"
+	row "News sync" "last run ${hrs}h ago, $last" "$light" "<leader> F s · Feed and News Design"
+else
+	row "News sync" "never run" "!" "<leader> F s · Feed and News Design"
+fi
 
 wait
 

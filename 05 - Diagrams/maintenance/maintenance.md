@@ -32,7 +32,7 @@ flowchart LR
   workflows -- tidy the notes they touch --> vault[(Vault notes)]
   signals -- read --> vault
   ai -- write approved plans,<br/>issues, journals --> vault
-  capture[Capture devices<br/>external, manual today]:::wip -.-> |via the inbox| vault
+  capture[Capture devices<br/>external, phone importer,<br/>the rest manual]:::wip -.-> |via the inbox| vault
   obsidian[Obsidian<br/>external app] -- hosts notes and bases --> vault
   features[Features<br/>what I can do]
   elements[Elements<br/>the parts]
@@ -56,4 +56,4 @@ flowchart LR
 - AI assets: wip, because 8 skill files are still drafts and the workflow commands have not passed [[HOWTO - Test the AI tools]] yet. Detail in [[maintenance-elements-ai|AI assets]].
 - Status: the 17 workflow notes are done, so the Workflow notes node carries `done`. The rhythms note it opens is wip only because it also draws the periodic review of the Runbook (System Maintenance & Review), which is wip.
 - Features and Elements are navigation, not parts of the system: they have no edge.
-- Limit: the Capture devices importers are wip (issue `_I00025`). Today I look at the devices by hand.
+- Limit: only the phone has an importer: `capture_import.py` brings the iPhone shares and the Apple Notes folder `Vault` into `06 - Inputs/Captures/` ([[HOWTO - Capture from the phone]]). The other devices wait for issue `_I00025`, and I look at them by hand.

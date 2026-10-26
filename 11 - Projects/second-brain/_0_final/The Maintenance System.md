@@ -40,10 +40,11 @@ These are the things that rot when nobody looks. Each one has a signal I can que
 
 | Spotlight | What rots | Signal | Cleared by |
 | --- | --- | --- | --- |
-| Inbox | Notes without a home | `["status":inbox]`, oldest first | [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] |
-| Capture devices | Phone, voice notes, Apple Notes outside the vault | Manual look | [[WORKFLOWS - Bi-Monthly Inbox Sweep]] |
+| Inbox | Notes without a home | `["status":inbox]`, oldest first, without issues and `06 - Inputs/News` (it purges itself) | [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] |
+| Capture devices | Phone, voice notes, Apple Notes outside the vault | Phone importer ([[HOWTO - Capture from the phone]]), manual look for the rest | [[WORKFLOWS - Bi-Monthly Inbox Sweep]] |
 | Raw captures | Placed notes never distilled | `["maturity":capture] ["paras":"[[<par>]]"]` | [[WORKFLOWS - Contextual Capture Review]] · [[WORKFLOWS - Distillation of a Note]] |
-| References | Notes in `06 - Inputs` without source, commentary or a PAR that uses them | `path:"06 - Inputs" ["maturity":capture]` | [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Distillation of a Note]] |
+| References | Notes in `06 - Inputs` without source, commentary or a PAR that uses them | `path:"06 - Inputs" ["maturity":capture]`, without `06 - Inputs/News` | [[WORKFLOWS - Out of the Inbox]] · [[WORKFLOWS - Distillation of a Note]] |
+| News sync | The feeds sync stopped: no fresh news, no notes, no purge | Time and result of the last run in `~/.config/feeds/logs/sync.log`; `!` after 6 h or a failed run, `!!` after 24 h | `<leader> F s` · [[Feed and News Design]] |
 | Orphans | Concepts that no index or MoC links, notes without `paras` | Concept audit `orphan` · index audit `unreachable`, `moc-unlinked` | [[WORKFLOWS - Learning Session]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]] |
 | Thin indexes | Topic indexes with no concept or a single entry | Index audit `no-concept`, `single` | [[WORKFLOWS - Learning Session]] |
 | Syllabi | Learning stalled, more than one open module, modules closed without concepts | Syllabus audit `stale`, `multi-active`, `no-active`, `no-concepts` | [[WORKFLOWS - Start Module]] · [[WORKFLOWS - End Module]] |

@@ -5,6 +5,7 @@
 const { Plugin, ItemView, Notice, Modal, Setting, SuggestModal, Component, MarkdownRenderer, prepareFuzzySearch, debounce, parseYaml, stringifyYaml } = require("obsidian");
 
 const CONFIG_PATH = "99 - Meta/mise-en-place.jsonc";
+const FEEDS_SYNC = "99 - Meta/scripts/feeds/feeds_sync.py";
 
 // JSONC: full-line // comments and trailing commas are allowed.
 function parseJsonc(text) {
@@ -111,6 +112,8 @@ module.exports = class MiseEnPlace extends Plugin {
     this.addCommand({ id: "week", name: "Week: open the week board", callback: () => this.openSingle(WEEK_VIEW) });
     this.registerView(CAPTURES_VIEW, (leaf) => new Captures(leaf, this));
     this.addCommand({ id: "captures", name: "Captures: open the consumption queue", callback: () => this.openSingle(CAPTURES_VIEW) });
+    this.registerView(NEWS_VIEW, (leaf) => new News(leaf, this));
+    this.addCommand({ id: "news", name: "News: open the stories by group", callback: () => this.openSingle(NEWS_VIEW) });
     this.addCommand({ id: "spotlight", name: "Spotlight: open the maintenance board", callback: () => this.openSpotlight() });
     this.addCommand({ id: "project-dashboard", name: "Project dashboard: focus (opens the current project layout when closed)", callback: () => this.focusProjectDashboard() });
     this.addCommand({ id: "bridge-edit", name: "Bridge: write the bridge of the current project", callback: () => this.editBridge() });
@@ -119,6 +122,7 @@ module.exports = class MiseEnPlace extends Plugin {
     this.addCommand({ id: "layout-mode", name: "Layout: cycle mode (auto, compact, wide)", callback: () => this.cycleMode() });
     this.addCommand({ id: "sync-slots", name: "Project slots: sync with the active PARs", callback: () => this.syncSlots() });
     this.addCommand({ id: "issue-search", name: "Issues: search", callback: () => new IssueSearch(this.app).open() });
+    this.addCommand({ id: "feeds-sync", name: "Feeds: sync the news now (fetch, cluster, enrich)", callback: () => this.runFeeds(true) });
     for (let i = 1; i <= 9; i++) {
       this.addCommand({ id: `layout-slot-${i}`, name: `Layout: project slot ${i}`, callback: () => this.openSlot(i - 1) });
     }
@@ -137,10 +141,71 @@ module.exports = class MiseEnPlace extends Plugin {
     this.registerDomEvent(document, "keydown", (evt) => this.onKeyDown(evt), { capture: true });
     // 'raw' fires for every file change in the vault folder, also non-indexed ones.
     this.registerEvent(this.app.vault.on("raw", (path) => path === CONFIG_PATH && this.loadConfig()));
+
+    // Feeds: check every 5 minutes whether a sync is due; first check 30 s after start.
+    this.registerInterval(window.setInterval(() => this.feedsTick(), 5 * 60000));
+    this.app.workspace.onLayoutReady(() => window.setTimeout(() => this.feedsTick(), 30000));
   }
 
   onunload() {
     this.close();
+  }
+
+  // Feeds
+
+  // feeds_sync.py runs every feeds.every minutes while Obsidian is open. The
+  // mtime of the log is the last run: a restart does not run it again, and a
+  // run missed while Obsidian was closed starts at the first check.
+  feedsHome() {
+    return process.env.FEEDS_HOME || `${process.env.HOME}/.config/feeds`;
+  }
+
+  feedsLog() {
+    return `${this.feedsHome()}/logs/sync.log`;
+  }
+
+  feedsEnv() {
+    const home = process.env.HOME || "";
+    const env = { ...process.env, PATH: `${process.env.PATH}:${home}/.local/bin:${home}/.cargo/bin:/opt/homebrew/bin:/usr/local/bin` };
+    env.PATH += `:${home}/.opencode/bin`; // opencode, a provider of the enrich step
+    if (this.cfg.feeds?.llm) env.FEEDS_LLM = this.cfg.feeds.llm;
+    if (this.cfg.feeds?.fallback) env.FEEDS_LLM_FALLBACK = this.cfg.feeds.fallback;
+    return env;
+  }
+
+  feedsTick() {
+    const f = this.cfg.feeds;
+    if (!f?.sync) return;
+    let last = 0;
+    try { last = require("fs").statSync(this.feedsLog()).mtimeMs; } catch {}
+    if (Date.now() - last >= (f.every || 120) * 60000) this.runFeeds(false);
+  }
+
+  runFeeds(verbose) {
+    if (this.feedsRunning) return verbose && new Notice("Feeds: a sync is already running");
+    const fs = require("fs");
+    const { execFile } = require("child_process");
+    const cwd = this.app.vault.adapter.basePath;
+    const env = this.feedsEnv();
+    const log = this.feedsLog();
+    this.feedsRunning = true;
+    if (verbose) new Notice("Feeds: sync started");
+    execFile("uv", ["run", "--quiet", "--script", FEEDS_SYNC, "sync"], { cwd, env, timeout: 1800000, maxBuffer: 4 * 1024 * 1024 }, (err, out, errOut) => {
+      this.feedsRunning = false;
+      const lines = String(out || "").trim().split("\n").filter(Boolean);
+      const summary = err
+        ? `sync failed: ${String(errOut || err.message).trim().split("\n").pop()}`
+        : lines.filter((l) => /^(fetch|cluster|enrich|render):/.test(l)).join(" · ") || "sync done";
+      try {
+        fs.mkdirSync(log.replace(/\/[^/]+$/, ""), { recursive: true });
+        if (fs.existsSync(log) && fs.statSync(log).size > 1024 * 1024) fs.renameSync(log, `${log}.1`);
+        fs.appendFileSync(log, `== ${new Date().toISOString()} ${err ? "failed" : "ok"}\n${[out, errOut].filter(Boolean).join("").trim()}\n`);
+      } catch (e) {
+        console.error("Mise-en-Place feeds log", e);
+      }
+      if (verbose || err) new Notice(`Feeds: ${summary}`, err ? 10000 : 5000);
+      for (const leaf of this.app.workspace.getLeavesOfType(NEWS_VIEW)) leaf.view.load();
+    });
   }
 
   // Config
@@ -233,6 +298,7 @@ module.exports = class MiseEnPlace extends Plugin {
     if (this.cfg.contexts?.project && active === PROJECT_VIEW) return "project";
     if (this.cfg.contexts?.spotlight && active === SPOTLIGHT_VIEW) return "spotlight";
     if (this.cfg.contexts?.captures && active === CAPTURES_VIEW) return "captures";
+    if (this.cfg.contexts?.news && active === NEWS_VIEW) return "news";
     if (!this.cfg.contexts?.explorer) return null;
     if (active === "file-explorer" || el.closest(".workspace-leaf-content[data-type='file-explorer']")) return "explorer";
     return null;
@@ -870,6 +936,32 @@ module.exports = class MiseEnPlace extends Plugin {
     };
   }
 
+  newsActions() {
+    const d = (fn) => () => {
+      const active = this.app.workspace.activeLeaf?.view;
+      const view = active instanceof News ? active : this.app.workspace.getLeavesOfType(NEWS_VIEW)[0]?.view;
+      if (!view) throw new Error("the news pane is closed (<leader> F n)");
+      return fn(view);
+    };
+    return {
+      "news:down": d((v) => v.move(1)),
+      "news:up": d((v) => v.move(-1)),
+      "news:first": d((v) => v.select(0)),
+      "news:last": d((v) => v.select(Infinity)),
+      "news:next-group": d((v) => v.cycleGroup(1)),
+      "news:prev-group": d((v) => v.cycleGroup(-1)),
+      "news:open": d((v) => v.openNote()),
+      "news:open-source": d((v) => v.openSource()),
+      "news:keep": d((v) => v.keep()),
+      "news:capture": d((v) => v.capture()),
+      "news:dismiss": d((v) => v.dismiss()),
+      "news:min-outlets": d((v) => v.toggleMin()),
+      "news:sync": d((v) => v.sync()),
+      "news:refresh": d((v) => v.load()),
+      "news:help": () => this.openNode({ group: "news", keys: this.cfg.contexts.news.keys }, ["news"], { keys: this.cfg.contexts.news.keys }),
+    };
+  }
+
   capturesView() {
     const active = this.app.workspace.activeLeaf?.view;
     if (active instanceof Captures) return active;
@@ -1024,6 +1116,7 @@ module.exports = class MiseEnPlace extends Plugin {
       ...this.dashboardActions(),
       ...this.projectActions(),
       ...this.capturesActions(),
+      ...this.newsActions(),
       "spotlight:refresh": () => this.app.workspace.getLeavesOfType(SPOTLIGHT_VIEW)[0]?.view.refresh(),
       "explorer:help": () => this.openNode({ group: "explorer", keys: this.cfg.contexts.explorer.keys }, ["explorer"], { keys: this.cfg.contexts.explorer.keys }),
     };
@@ -3185,7 +3278,7 @@ class Captures extends ItemView {
       list.createDiv({ cls: "mise-proj-empty", text: all.length ? "No capture of this platform. f cycles the filter." : "Share something to → Vault on the phone, then import (i)." });
     }
     this.rows.forEach((r, ri) => {
-      const row = list.createDiv({ cls: "mise-cap-row", attr: { role: "button" } });
+      const row = list.createDiv({ cls: `mise-cap-row is-${r.fm.platform || "none"}`, attr: { role: "button" } });
       if (ri === this.index) row.addClass("is-selected");
       row.createSpan({ cls: `mise-cap-dot is-${r.fm.platform || "none"}`, attr: { title: r.fm.platform || "no platform" } });
       const main = row.createDiv({ cls: "mise-cap-row-main" });
@@ -3396,6 +3489,285 @@ class Captures extends ItemView {
       new Notice(`Captures: ${summary}`);
       this.render();
     });
+  }
+}
+
+// News: the stories of feeds_sync.py, one tab per group of sources.yaml. It
+// reads ~/.config/feeds/news.json (written by each sync), so the plugin never
+// opens SQLite. Keys open a source, keep the story (its note goes to _kept/),
+// make a source a capture, or dismiss the story (dismissed.json, read by the
+// script too, so the note is not written again).
+
+const NEWS_VIEW = "mise-news";
+const NEWS_KEPT = "06 - Inputs/News/_kept";
+const SIDE_ORDER = { L: 0, C: 1, R: 2, "": 3 };
+
+class News extends ItemView {
+  constructor(leaf, plugin) {
+    super(leaf);
+    this.plugin = plugin;
+    this.group = null; // group id of the tab, set on the first load
+    this.selected = null; // story id
+    this.index = 0;
+    this.minOutlets = 2;
+    this.data = { groups: [], stories: [] };
+  }
+
+  getViewType() {
+    return NEWS_VIEW;
+  }
+
+  getDisplayText() {
+    return "News";
+  }
+
+  getIcon() {
+    return "newspaper";
+  }
+
+  async onOpen() {
+    this.contentEl.addClass("mise-cap", "mise-news");
+    this.load();
+  }
+
+  // Data
+
+  home() {
+    return this.plugin.feedsHome();
+  }
+
+  load() {
+    const fs = require("fs");
+    try {
+      this.data = JSON.parse(fs.readFileSync(`${this.home()}/news.json`, "utf8"));
+      this.error = null;
+    } catch (e) {
+      this.data = { groups: [], stories: [] };
+      this.error = "No news.json yet: run a sync (s).";
+    }
+    try {
+      this.dismissed = new Set(JSON.parse(fs.readFileSync(`${this.home()}/dismissed.json`, "utf8")));
+    } catch {
+      this.dismissed = new Set();
+    }
+    if (!this.group || !this.data.groups.some((g) => g.id === this.group)) this.group = this.data.groups[0]?.id || null;
+    this.render();
+  }
+
+  visible() {
+    return this.data.stories.filter((s) => s.outlets >= this.minOutlets && !this.dismissed.has(s.id));
+  }
+
+  current() {
+    return this.rows?.find((s) => s.id === this.selected) || null;
+  }
+
+  need() {
+    const cur = this.current();
+    if (!cur) throw new Error("no story selected");
+    return cur;
+  }
+
+  // Rendering
+
+  render() {
+    const all = this.visible();
+    this.rows = all.filter((s) => s.group === this.group);
+    let i = this.rows.findIndex((s) => s.id === this.selected);
+    if (i < 0) i = Math.min(this.index, this.rows.length - 1);
+    this.index = Math.max(0, i);
+    this.selected = this.rows[this.index]?.id ?? null;
+
+    const el = this.contentEl;
+    el.empty();
+    const head = el.createDiv({ cls: "mise-cap-head" });
+    const age = this.data.generated ? window.moment(this.data.generated).fromNow() : "never";
+    head.createDiv({ cls: "mise-cap-title", text: `${all.length} stories · ${this.minOutlets}+ outlets · synced ${age}` });
+    const tools = head.createDiv({ cls: "mise-cap-tools" });
+    const btn = (text, key, fn) => {
+      const b = tools.createEl("button", { cls: "mise-proj-btn" });
+      b.createSpan({ text });
+      b.createSpan({ cls: "mise-proj-kbd", text: key });
+      b.addEventListener("click", fn);
+      return b;
+    };
+    btn(this.plugin.feedsRunning ? "Syncing…" : "Sync", "s", () => this.sync()).disabled = !!this.plugin.feedsRunning;
+    btn("Keys", "?", () => this.plugin.newsActions()["news:help"]());
+
+    // Group tabs with their counts; [ and ] rotate.
+    const chips = el.createDiv({ cls: "mise-cap-chips" });
+    for (const g of this.data.groups) {
+      const n = all.filter((s) => s.group === g.id).length;
+      const c = chips.createEl("button", { cls: `mise-cap-chip${this.group === g.id ? " is-on" : ""}` });
+      c.createSpan({ text: `${g.label} ${n}` });
+      c.addEventListener("click", () => this.setGroup(g.id));
+    }
+
+    const body = el.createDiv({ cls: "mise-cap-body" });
+    const list = body.createDiv({ cls: "mise-cap-list" });
+    if (this.error) list.createDiv({ cls: "mise-proj-empty", text: this.error });
+    else if (!this.rows.length) list.createDiv({ cls: "mise-proj-empty", text: "No story in this group. ] next group · m shows single-outlet stories." });
+    this.rows.forEach((s, ri) => {
+      const row = list.createDiv({ cls: "mise-cap-row mise-news-row", attr: { role: "button" } });
+      if (ri === this.index) row.addClass("is-selected");
+      row.createSpan({ cls: "mise-news-count", text: String(s.outlets) });
+      const main = row.createDiv({ cls: "mise-cap-row-main" });
+      main.createDiv({ cls: "mise-cap-name", text: s.title });
+      const meta = main.createDiv({ cls: "mise-cap-meta" });
+      this.mix(meta, s);
+      if (s.kept) meta.createSpan({ cls: "mise-news-tag", text: "kept" });
+      else if (!s.note && s.outlets >= 2) meta.createSpan({ cls: "mise-news-tag is-dim", text: s.enriched ? "no note" : "not enriched" });
+      row.createSpan({ cls: "mise-cap-age", text: window.moment(s.last).fromNow(true) });
+      row.addEventListener("click", () => this.select(ri));
+      row.addEventListener("dblclick", () => this.openNote());
+    });
+
+    const preview = body.createDiv({ cls: "mise-cap-preview mise-news-preview" });
+    const cur = this.current();
+    if (cur) this.renderPreview(preview, cur);
+    list.querySelector(".is-selected")?.scrollIntoView({ block: "nearest" });
+  }
+
+  // L · C · R counts, and the blind spot.
+  mix(box, s) {
+    const c = s.coverage || {};
+    const strip = box.createSpan({ cls: "mise-news-mix" });
+    for (const side of ["L", "C", "R"]) strip.createSpan({ cls: `mise-news-side is-${side}`, text: `${c[side] || 0} ${side}` });
+    if (s.blindspot) box.createSpan({ cls: "mise-news-blind", text: `no ${s.blindspot}` });
+  }
+
+  sources(s) {
+    return [...s.items].sort((a, b) => SIDE_ORDER[a.side] - SIDE_ORDER[b.side] || a.name.localeCompare(b.name) || a.published.localeCompare(b.published));
+  }
+
+  renderPreview(box, s) {
+    box.createEl("h3", { cls: "mise-news-title", text: s.title });
+    const meta = box.createDiv({ cls: "mise-cap-meta" });
+    this.mix(meta, s);
+    meta.createSpan({ text: ` · ${window.moment(s.first).format("ddd D MMM HH:mm")} → ${window.moment(s.last).format("HH:mm")}` });
+    if (s.note) {
+      const a = meta.createEl("a", { cls: "mise-news-note", text: s.kept ? " · kept note" : " · note" });
+      a.addEventListener("click", () => this.openNote());
+    }
+    if (s.summary?.length) {
+      const ul = box.createEl("ul", { cls: "mise-news-summary" });
+      for (const b of s.summary) ul.createEl("li", { text: b });
+    }
+    const src = box.createDiv({ cls: "mise-news-sources" });
+    for (const it of this.sources(s)) {
+      const row = src.createDiv({ cls: "mise-news-src" });
+      row.createSpan({ cls: `mise-news-side is-${it.side || "none"}`, text: it.side || "-" });
+      row.createSpan({ cls: "mise-news-outlet", text: it.name });
+      const a = row.createEl("a", { text: it.title, href: it.url });
+      a.setAttr("target", "_blank");
+      if (it.framing && it.framing !== "neutral") row.createSpan({ cls: `mise-news-framing is-${it.framing}`, text: it.framing });
+    }
+  }
+
+  // Navigation
+
+  select(i) {
+    if (!this.rows?.length) return;
+    this.index = Math.max(0, Math.min(this.rows.length - 1, i));
+    this.selected = this.rows[this.index].id;
+    this.render();
+  }
+
+  move(delta) {
+    this.select(this.index + delta);
+  }
+
+  setGroup(id) {
+    this.group = id;
+    this.index = 0;
+    this.selected = null;
+    this.render();
+  }
+
+  cycleGroup(delta) {
+    const ids = this.data.groups.map((g) => g.id);
+    if (!ids.length) return;
+    this.setGroup(ids[(ids.indexOf(this.group) + delta + ids.length) % ids.length]);
+  }
+
+  toggleMin() {
+    this.minOutlets = this.minOutlets === 2 ? 1 : 2;
+    this.render();
+  }
+
+  // Actions
+
+  noteFile(s) {
+    const f = s.note && this.app.vault.getAbstractFileByPath(s.note);
+    if (!f) throw new Error("this story has no note (one outlet, group other, or not enriched yet)");
+    return f;
+  }
+
+  openNote() {
+    this.app.workspace.getLeaf("tab").openFile(this.noteFile(this.need()));
+  }
+
+  pick(items, placeholder, onChoose) {
+    if (items.length === 1) return onChoose(items[0]);
+    const picker = new ChoicePicker(this.app, items, placeholder, onChoose);
+    const close = picker.onClose.bind(picker);
+    picker.onClose = () => {
+      close();
+      window.setTimeout(() => this.app.workspace.setActiveLeaf(this.leaf, { focus: true }), 0);
+    };
+    picker.open();
+  }
+
+  sourceItems(s) {
+    return this.sources(s).map((it) => ({ label: it.title, detail: `${it.side || "-"} · ${it.name}`, value: it }));
+  }
+
+  openSource() {
+    const s = this.need();
+    this.pick(this.sourceItems(s), "Open a source", (it) => window.open(it.value.url));
+  }
+
+  // Keep: the note leaves the 30-day inbox (status done, moved to _kept/).
+  async keep() {
+    const s = this.need();
+    const file = this.noteFile(s);
+    if (s.kept) return new Notice("Already kept");
+    await this.app.fileManager.processFrontMatter(file, (fm) => (fm.status = "done"));
+    if (!this.app.vault.getAbstractFileByPath(NEWS_KEPT)) await this.app.vault.createFolder(NEWS_KEPT);
+    const dest = `${NEWS_KEPT}/${file.name}`;
+    await this.app.fileManager.renameFile(file, dest);
+    s.note = dest;
+    s.kept = true;
+    new Notice(`Kept: ${file.basename}`);
+    this.render();
+  }
+
+  // Capture: one source becomes a normal capture through capture_import.py --url.
+  capture() {
+    const s = this.need();
+    this.pick(this.sourceItems(s), "Make a source a capture", (it) => {
+      const { execFile } = require("child_process");
+      new Notice(`Capturing ${it.value.name}…`);
+      execFile("uv", ["run", "--quiet", "--script", CAPTURE_IMPORTER, "--url", it.value.url], { cwd: this.app.vault.adapter.basePath, env: this.plugin.feedsEnv(), timeout: 600000 }, (err, out, errOut) => {
+        const last = String(out || "").trim().split("\n").pop();
+        new Notice(err ? `Capture failed: ${String(errOut || err.message).trim().split("\n").pop()}` : `Captures: ${last || "done"}`, err ? 10000 : 5000);
+      });
+    });
+  }
+
+  // Dismiss: hidden here, and its inbox note goes to the trash; the script reads dismissed.json and never writes it again.
+  async dismiss() {
+    const s = this.need();
+    this.dismissed.add(s.id);
+    require("fs").writeFileSync(`${this.home()}/dismissed.json`, JSON.stringify([...this.dismissed]));
+    const f = s.note && !s.kept && this.app.vault.getAbstractFileByPath(s.note);
+    if (f) await this.app.fileManager.trashFile(f);
+    this.render();
+  }
+
+  sync() {
+    this.plugin.runFeeds(true);
+    this.render();
   }
 }
 

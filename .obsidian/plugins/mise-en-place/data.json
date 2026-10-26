@@ -1,6 +1,6 @@
 {
-  "current": "second-brain",
-  "context": "second-brain|compact",
+  "current": "create-a-feed",
+  "context": "create-a-feed|compact",
   "memory": {
     "second-brain|wide": {
       "panes": {
@@ -54,7 +54,7 @@
       "panes": {
         "left": {
           "extra": [],
-          "active": "11 - Projects/second-brain/_0_final/howtos/HOWTO - Capture from the phone.md"
+          "active": "11 - Projects/second-brain/_0_final/Tag System & Ontology.md"
         }
       }
     },
@@ -79,6 +79,14 @@
         "left": {
           "extra": [],
           "active": "01 - PAR/design_theory.md"
+        }
+      }
+    },
+    "create-a-feed|compact": {
+      "panes": {
+        "left": {
+          "extra": [],
+          "active": "09 - Inbox/AHHHH ideas ideas for the inbox.md"
         }
       }
     }
