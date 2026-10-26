@@ -15,7 +15,7 @@ The sweep is the safety net for what use missed. The target is no inbox note old
 ## Steps
 
 1. Board. Run `bash scripts/spotlight.sh --links` (fall back to no `--links` when Obsidian is closed) and show it. It is the before picture.
-2. Capture devices. Remind me to empty the phone, the voice notes and Apple Notes into `09 - Inbox/`. Wait until I say they are empty.
+2. Capture devices. Run `uv run --script "99 - Meta/scripts/feeds/capture_import.py"` and show its output (new notes land in `06 - Inputs/Captures/`; failures stay for the next run). Then remind me to empty the voice notes and anything else into `09 - Inbox/`. Wait until I say they are empty.
 3. Purge. Run the `inbox-triager` subagent (Claude Code: Agent tool; OpenCode: task tool) on the `status: inbox` notes of `09 - Inbox/` with `created` older than two weeks, asking only for keep-or-delete. Show the delete proposals as one list; I tick the ones to delete. Move them to `.trash/`; never `rm`.
 4. Inbox. Run the steps of `/guide-inbox-clean 5`, batch after batch, until the timecap. Stop between notes.
 5. Audit. Run the `vault-auditor` subagent: engine audit, kind audits, `sync-skills.sh status`, guidance checks.

@@ -36,6 +36,7 @@ created: 2026-10-12 18:15
 | `issues-project.base` | Issues · Inbox · Backlog · WIP · Blocked | status, priority, dueDate | scoped + status |
 | `issues-all.base` | Complete View · Complete Backlog/Inbox/WIP/Blocked | status, priority, dueDate | vault-wide, grouped by `paras` |
 | `issues-subtypes.base` | By Subtype · Bug · Task · Improvement · Incident · Open Problem · Recurring | status, priority, dueDate | scoped + `subtypes.contains(link(...))` |
+| `captures.base` | Queue (status inbox, by platform) · By author · All captures | platform, author, url, subtypes, paras, status | vault-wide, `file_class == "capture"` — the consumption queue of the connector captures |
 | `types.base` | Notes | subtypes, maturity, status | `type == this.file` |
 | `subtypes.base` | Notes | type, maturity, status | `subtypes.contains(this.file)` |
 
@@ -59,6 +60,7 @@ created: 2026-10-12 18:15
 ["priority":0]                      issue priority tier
 ["dueDate":>=2026-10-12]            date comparison on issue deadlines
 ["type":"[[Issues]]"]               identity via the type engine
+["url":"https://..."]               already captured? dedupe by the source link
 ```
 
 Combine freely with `-path:archive`, folder limits and the rest of the search syntax.

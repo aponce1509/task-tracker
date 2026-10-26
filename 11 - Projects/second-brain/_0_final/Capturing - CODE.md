@@ -21,8 +21,8 @@ created: 2026-02-15 20:41
 - What enters: the external world (meetings, web pages, articles, whatever surrounds you) and the mind (sparks, ideas, reflections).
 - What gets taken depends on the connector: the whole source, just the link, or just the highlight. Each connector decides its own granularity.
 - What you do at capture: metadata only — `paras`, `type`/`subtypes`, `status: inbox`, `maturity: capture`. No summarising, no cleaning, no polishing.
-- Where it goes: every capture lands in `09 - Inbox/`. Capture now, curate later — the note leaves the inbox only through organizing ([[Organise - CODE]]).
-- Template for manual captures: `99 - Meta/Templates/Manual External Capture - Template.md`.
+- Where it goes: manual captures land in `09 - Inbox/`. Connector captures (share sheet, Apple Notes) land in `06 - Inputs/Captures/` with `file_class: capture` and `status: inbox`; the status is their inbox. Capture now, curate later — the note leaves the inbox only through organizing ([[Organise - CODE]]).
+- Template for manual captures: `99 - Meta/Templates/Manual External Capture - Template.md`; for connector captures: `99 - Meta/Templates/Capture - Template.md`.
 
 ## Sources of Capture
 

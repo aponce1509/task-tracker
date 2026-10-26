@@ -1,0 +1,48 @@
+filters:
+  and:
+    - file_class == "capture"
+    - '!file.inFolder("99 - Meta")'
+views:
+  - type: table
+    name: Queue
+    filters:
+      and:
+        - status == "inbox"
+    groupBy:
+      property: platform
+      direction: ASC
+    order:
+      - file.name
+      - author
+      - subtypes
+      - paras
+      - created
+    sort:
+      - property: created
+        direction: DESC
+  - type: table
+    name: By author
+    groupBy:
+      property: author
+      direction: ASC
+    order:
+      - file.name
+      - platform
+      - status
+      - created
+    sort:
+      - property: created
+        direction: DESC
+  - type: table
+    name: All captures
+    order:
+      - file.name
+      - platform
+      - author
+      - url
+      - status
+      - maturity
+      - created
+    sort:
+      - property: created
+        direction: DESC

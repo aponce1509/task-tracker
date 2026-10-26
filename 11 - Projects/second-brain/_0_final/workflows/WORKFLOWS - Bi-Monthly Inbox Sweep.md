@@ -22,7 +22,7 @@ created: 2026-05-16 15:02
 
 ## Steps
 
-- Empty the capture devices into `09 - Inbox/`: phone, voice notes, Apple Notes.
+- Empty the capture devices: run `capture_import.py` for the phone shares and the Apple Notes folder `Vault` ([[HOWTO - Capture from the phone]]); voice notes and anything else go to `09 - Inbox/` by hand.
 - Purge: the `inbox-triager` proposes deletions among the `status: inbox` notes older than two weeks. I decide; deletions go to `.trash/`.
 - Run [[WORKFLOWS - Out of the Inbox]] in batches of five until the timecap.
 - Run the `vault-auditor` agent: engine audit, concept audit, index and MoC audit, guidance checks.

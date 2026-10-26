@@ -43,6 +43,7 @@ created: YYYY-MM-DD HH:mm
 | `issue` | `priority` (0=high, 1, 2), `dueDate`, `role` (core/milestone/pattern/debt), `dependencies` | — | work items in `08 - Issues/` |
 | `learning` | `learning_status` (to_learn/learning/learned/abandoned), `winstreak` (0-5) | — | study notes |
 | `media` | `consumption_status` (to_consume/consuming/completed/abandoned/pending_new_content) | `status`, `maturity` | books, films, podcasts... |
+| `capture` | `url`, `author` (MultiFile), `platform` (youtube/x/instagram/web/apple-notes) | — | connector captures in `06 - Inputs/Captures/` |
 | `normatives` | `summary`, `superceded` | — | standards/decisions |
 | `journal` | `description` (one line: what the journal tracks) | — | project journals, CLI-edited via `.obsidian/personal_scripts/journal.sh` |
 | `type` | — | `paras`, `rate`, `tags` | generated type notes |

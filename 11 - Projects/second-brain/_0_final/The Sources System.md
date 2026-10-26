@@ -20,7 +20,7 @@ created: 2026-10-25 12:00
 
 ## Inputs
 
-Material enters from feeds: YouTube, Twitter, Instagram, Pinterest and the news ([[Input sources]]). The list of feeds is still open. The system itself grew from a few sources: Tiago Forte, Steph Ango and some vault tours ([[Inspiration Sources for Note Management]]).
+Material enters from feeds: YouTube, Twitter, Instagram, Pinterest and the news ([[Input sources]]). The list of feeds is still open. From the phone, one share Shortcut and the Apple Notes folder `Vault` feed the capture importer; it writes capture notes to `06 - Inputs/Captures/` ([[HOWTO - Capture from the phone]]). The system itself grew from a few sources: Tiago Forte, Steph Ango and some vault tours ([[Inspiration Sources for Note Management]]).
 
 ## Classification
 
