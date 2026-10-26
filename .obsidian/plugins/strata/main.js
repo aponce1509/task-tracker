@@ -21343,12 +21343,12 @@ var VIEW_TYPE = "strata-tree";
 var DIAGRAM_VIEW_TYPE = "strata-diagram";
 var HOVER_SOURCE = "strata";
 var StrataPlugin = class extends import_obsidian.Plugin {
-  settings = { root: DEFAULT_ROOT };
+  settings = { root: DEFAULT_ROOT, collapsed: [] };
   tree = { nodes: /* @__PURE__ */ new Map(), projects: [] };
   // Rendered diagrams and their source note, recolored when a note changes.
   canvases = /* @__PURE__ */ new Map();
   async onload() {
-    this.settings = Object.assign({ root: DEFAULT_ROOT }, await this.loadData());
+    this.settings = Object.assign({ root: DEFAULT_ROOT, collapsed: [] }, await this.loadData());
     this.registerHoverLinkSource(HOVER_SOURCE, { display: "Strata diagrams", defaultMod: true });
     this.registerMarkdownCodeBlockProcessor("pele", (source, el2, ctx) => this.renderBlock(source, el2, ctx));
     this.registerView(VIEW_TYPE, (leaf) => new TreeView(leaf, this));
@@ -21365,6 +21365,13 @@ var StrataPlugin = class extends import_obsidian.Plugin {
     this.app.workspace.onLayoutReady(() => this.rebuild());
   }
   onunload() {
+  }
+  async toggleCollapsed(key, collapsed) {
+    const set = new Set(this.settings.collapsed);
+    if (collapsed) set.add(key);
+    else set.delete(key);
+    this.settings.collapsed = [...set];
+    await this.saveData(this.settings);
   }
   async saveSettings() {
     await this.saveData(this.settings);
@@ -21858,6 +21865,10 @@ var TreeView = class extends import_obsidian.ItemView {
     this.plugin = plugin;
   }
   plugin;
+  // Last file the tree focused, so a rebuild of the same note keeps the scroll.
+  focused;
+  // Set while focusActive opens a project, so the toggle event does not save it as unfolded.
+  revealing = false;
   getViewType() {
     return VIEW_TYPE;
   }
@@ -21872,6 +21883,7 @@ var TreeView = class extends import_obsidian.ItemView {
   }
   render() {
     const el2 = this.contentEl;
+    const scroll = el2.scrollTop;
     el2.empty();
     el2.addClass("strata-tree");
     const { tree } = this.plugin;
@@ -21882,16 +21894,50 @@ var TreeView = class extends import_obsidian.ItemView {
     const active = this.app.workspace.getActiveFile()?.path;
     for (const project of tree.projects) {
       const details = el2.createEl("details", { cls: "strata-project" });
-      details.open = true;
+      const key = `project:${project}`;
+      details.open = !this.plugin.settings.collapsed.includes(key);
+      details.addEventListener("toggle", () => {
+        if (this.revealing) {
+          this.revealing = false;
+          return;
+        }
+        if (details.open === !this.plugin.settings.collapsed.includes(key)) return;
+        void this.plugin.toggleCollapsed(key, !details.open);
+      });
       details.createEl("summary", { text: project });
       const ul2 = details.createEl("ul");
       for (const node of roots(tree, project)) this.renderNode(ul2, node.name, active);
     }
+    el2.scrollTop = scroll;
+    this.focusActive(active);
+  }
+  // Show the active note: open its project and ancestors for this render only (the saved folds stay), then scroll to it.
+  focusActive(active) {
+    const row = this.contentEl.querySelector(".strata-row.is-active");
+    if (!row || active === this.focused) return;
+    this.focused = active;
+    for (let p = row.parentElement; p && p !== this.contentEl; p = p.parentElement) {
+      if (p instanceof HTMLDetailsElement) {
+        if (!p.open) {
+          this.revealing = true;
+          p.open = true;
+        }
+      } else if (p.hasClass("is-hidden")) {
+        p.removeClass("is-hidden");
+        const fold = p.previousElementSibling?.querySelector(".strata-fold");
+        if (fold) (0, import_obsidian.setIcon)(fold, "chevron-down");
+      }
+    }
+    row.scrollIntoView({ block: "center" });
   }
   renderNode(parent, name, active) {
     const node = this.plugin.tree.nodes.get(name);
     const li2 = parent.createEl("li");
     const row = li2.createDiv({ cls: "strata-row" + (node.path === active ? " is-active" : "") });
+    const key = `node:${node.path}`;
+    const folded = node.children.length > 0 && this.plugin.settings.collapsed.includes(key);
+    const fold = row.createSpan({ cls: "strata-fold" + (node.children.length ? "" : " is-leaf") });
+    if (node.children.length) (0, import_obsidian.setIcon)(fold, folded ? "chevron-right" : "chevron-down");
     row.createSpan({ cls: `strata-dot is-${node.status ?? "none"}`, attr: { "aria-label": node.status ?? "no status" } });
     row.createSpan({ cls: "strata-name", text: node.parent && this.plugin.tree.nodes.has(node.parent) ? levelsOf(name).pop() : name });
     if (node.subtypes?.length) row.createSpan({ cls: "strata-kind", text: node.subtypes.join(" \xB7 ") });
@@ -21899,7 +21945,15 @@ var TreeView = class extends import_obsidian.ItemView {
     row.addEventListener("click", (evt) => this.app.workspace.openLinkText(node.path, "", import_obsidian.Keymap.isModEvent(evt)));
     if (node.children.length) {
       const ul2 = li2.createEl("ul");
+      ul2.toggleClass("is-hidden", folded);
       for (const child of node.children) this.renderNode(ul2, child, active);
+      fold.addEventListener("click", (evt) => {
+        evt.stopPropagation();
+        const hide = !ul2.hasClass("is-hidden");
+        ul2.toggleClass("is-hidden", hide);
+        (0, import_obsidian.setIcon)(fold, hide ? "chevron-right" : "chevron-down");
+        void this.plugin.toggleCollapsed(key, hide);
+      });
     }
   }
 };

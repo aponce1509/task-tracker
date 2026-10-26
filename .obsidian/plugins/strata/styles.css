@@ -174,3 +174,7 @@
 .strata svg .pele-node.wip :is(rect, path, polygon, circle, ellipse) { fill: rgba(var(--color-yellow-rgb), 0.18); stroke: var(--color-yellow); }
 .strata svg .pele-node.blocked :is(rect, path, polygon, circle, ellipse) { fill: rgba(var(--color-red-rgb), 0.18); stroke: var(--color-red); }
 .strata svg .pele-node.done :is(rect, path, polygon, circle, ellipse) { fill: rgba(var(--color-green-rgb), 0.18); stroke: var(--color-green); }
+
+.strata-tree .strata-fold { display: inline-flex; width: var(--size-4-4); flex: none; color: var(--text-faint); cursor: pointer; }
+.strata-tree .strata-fold svg { width: 12px; height: 12px; }
+.strata-tree ul.is-hidden { display: none; }

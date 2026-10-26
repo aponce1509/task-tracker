@@ -39,16 +39,18 @@ const HOVER_SOURCE = "strata";
 
 interface Settings {
 	root: string;
+	// Folded rows of the tree view: project names and node names.
+	collapsed: string[];
 }
 
 export default class StrataPlugin extends Plugin {
-	settings: Settings = { root: DEFAULT_ROOT };
+	settings: Settings = { root: DEFAULT_ROOT, collapsed: [] };
 	tree: Tree = { nodes: new Map(), projects: [] };
 	// Rendered diagrams and their source note, recolored when a note changes.
 	canvases = new Map<HTMLElement, string>();
 
 	async onload() {
-		this.settings = Object.assign({ root: DEFAULT_ROOT }, await this.loadData());
+		this.settings = Object.assign({ root: DEFAULT_ROOT, collapsed: [] }, await this.loadData());
 		this.registerHoverLinkSource(HOVER_SOURCE, { display: "Strata diagrams", defaultMod: true });
 		this.registerMarkdownCodeBlockProcessor("pele", (source, el, ctx) => this.renderBlock(source, el, ctx));
 		this.registerView(VIEW_TYPE, (leaf) => new TreeView(leaf, this));
@@ -67,6 +69,14 @@ export default class StrataPlugin extends Plugin {
 	}
 
 	onunload() {}
+
+	async toggleCollapsed(key: string, collapsed: boolean) {
+		const set = new Set(this.settings.collapsed);
+		if (collapsed) set.add(key);
+		else set.delete(key);
+		this.settings.collapsed = [...set];
+		await this.saveData(this.settings);
+	}
 
 	async saveSettings() {
 		await this.saveData(this.settings);
@@ -605,6 +615,11 @@ class DiagramView extends ItemView {
 }
 
 class TreeView extends ItemView {
+	// Last file the tree focused, so a rebuild of the same note keeps the scroll.
+	private focused: string | undefined;
+	// Set while focusActive opens a project, so the toggle event does not save it as unfolded.
+	private revealing = false;
+
 	constructor(
 		leaf: WorkspaceLeaf,
 		private plugin: StrataPlugin,
@@ -630,6 +645,7 @@ class TreeView extends ItemView {
 
 	render() {
 		const el = this.contentEl;
+		const scroll = el.scrollTop;
 		el.empty();
 		el.addClass("strata-tree");
 		const { tree } = this.plugin;
@@ -640,17 +656,52 @@ class TreeView extends ItemView {
 		const active = this.app.workspace.getActiveFile()?.path;
 		for (const project of tree.projects) {
 			const details = el.createEl("details", { cls: "strata-project" });
-			details.open = true;
+			const key = `project:${project}`;
+			details.open = !this.plugin.settings.collapsed.includes(key);
+			details.addEventListener("toggle", () => {
+				if (this.revealing) {
+					this.revealing = false;
+					return;
+				}
+				if (details.open === !this.plugin.settings.collapsed.includes(key)) return;
+				void this.plugin.toggleCollapsed(key, !details.open);
+			});
 			details.createEl("summary", { text: project });
 			const ul = details.createEl("ul");
 			for (const node of roots(tree, project)) this.renderNode(ul, node.name, active);
 		}
+		el.scrollTop = scroll;
+		this.focusActive(active);
+	}
+
+	// Show the active note: open its project and ancestors for this render only (the saved folds stay), then scroll to it.
+	private focusActive(active: string | undefined) {
+		const row = this.contentEl.querySelector<HTMLElement>(".strata-row.is-active");
+		if (!row || active === this.focused) return;
+		this.focused = active;
+		for (let p = row.parentElement; p && p !== this.contentEl; p = p.parentElement) {
+			if (p instanceof HTMLDetailsElement) {
+				if (!p.open) {
+					this.revealing = true;
+					p.open = true;
+				}
+			} else if (p.hasClass("is-hidden")) {
+				p.removeClass("is-hidden");
+				const fold = p.previousElementSibling?.querySelector<HTMLElement>(".strata-fold");
+				if (fold) setIcon(fold, "chevron-down");
+			}
+		}
+		row.scrollIntoView({ block: "center" });
 	}
 
 	renderNode(parent: HTMLElement, name: string, active: string | undefined) {
 		const node = this.plugin.tree.nodes.get(name)!;
 		const li = parent.createEl("li");
 		const row = li.createDiv({ cls: "strata-row" + (node.path === active ? " is-active" : "") });
+		const key = `node:${node.path}`;
+		const folded = node.children.length > 0 && this.plugin.settings.collapsed.includes(key);
+		const fold = row.createSpan({ cls: "strata-fold" + (node.children.length ? "" : " is-leaf") });
+		if (node.children.length) setIcon(fold, folded ? "chevron-right" : "chevron-down");
 		row.createSpan({ cls: `strata-dot is-${node.status ?? "none"}`, attr: { "aria-label": node.status ?? "no status" } });
 		row.createSpan({ cls: "strata-name", text: node.parent && this.plugin.tree.nodes.has(node.parent) ? levelsOf(name).pop()! : name });
 		if (node.subtypes?.length) row.createSpan({ cls: "strata-kind", text: node.subtypes.join(" · ") });
@@ -658,7 +709,15 @@ class TreeView extends ItemView {
 		row.addEventListener("click", (evt) => this.app.workspace.openLinkText(node.path, "", Keymap.isModEvent(evt)));
 		if (node.children.length) {
 			const ul = li.createEl("ul");
+			ul.toggleClass("is-hidden", folded);
 			for (const child of node.children) this.renderNode(ul, child, active);
+			fold.addEventListener("click", (evt) => {
+				evt.stopPropagation();
+				const hide = !ul.hasClass("is-hidden");
+				ul.toggleClass("is-hidden", hide);
+				setIcon(fold, hide ? "chevron-right" : "chevron-down");
+				void this.plugin.toggleCollapsed(key, hide);
+			});
 		}
 	}
 }
