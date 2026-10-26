@@ -56,6 +56,7 @@ created: YYYY-MM-DD HH:mm
 | `learning` | `learning_status` (to_learn/learning/learned/abandoned), `winstreak` | — | study notes |
 | `media` | `consumption_status` (to_consume/consuming/completed/abandoned/pending_new_content) | `status`, `maturity` | books, films, podcasts… |
 | `capture` | `url` (Input: the source link), `author` (MultiFile: channel, handle or site), `platform` (youtube/x/instagram/web/apple-notes) | — | connector captures in `06 - Inputs/Captures/` |
+| `news` | `group` (a group of `sources.yaml`), `story_id`, `outlets`, `blindspot` (L/R), `first_seen` | — | news stories in `06 - Inputs/News/`, written by `feeds_sync.py` |
 | `normatives` | `summary`, `superceded` | — | standards/decisions |
 | `journal` | `description` (Input: one line on what the journal tracks) | — | project journals, CLI-edited via `.obsidian/personal_scripts/journal.sh` |
 | `type` | — | `paras`, `rate`, `tags` | generated type notes |
@@ -167,6 +168,29 @@ created: YYYY-MM-DD HH:mm
 url: ""                # the source link; the importer dedupes on it
 author: []             # ["[[@ThePrimeagen]]"]
 platform: youtube      # youtube | x | instagram | web | apple-notes
+---
+```
+
+### 7. News (`file_class: news`)
+
+Written and rewritten only by `feeds_sync.py render` ([[Feed and News Design]]); no template.
+
+```yaml
+---
+file_class: news
+paras: []
+type: "[[Resources]]"
+subtypes: ["[[External Knowledge - Resources - news|news]]"]
+rate:
+tags: []
+status: inbox          # inbox = expires 30 days after first_seen · done = kept, moved to _kept/
+maturity: capture
+created: YYYY-MM-DD HH:mm
+group: politics-spain  # a group of sources.yaml (other is never rendered)
+story_id: 517          # the story in ~/.config/feeds/feeds.db
+outlets: 7             # outlets that cover the story
+blindspot:             # L | R: no outlet of that side, 3+ outlets
+first_seen: YYYY-MM-DD HH:mm
 ---
 ```
 

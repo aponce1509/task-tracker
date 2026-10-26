@@ -23,7 +23,7 @@ I work on one concrete task and an idea comes to my mind, or I see something tha
 
 ## The rules
 
-1. Any random idea has one entry point: the daily note. At the end of the day the entries move to their place: ideas, issues ([[The Issue System]]), prompts. [[WORKFLOWS - End Day]] sweeps them.
+1. Any random idea has one entry point: the daily note at the desk, the phone share sheet away from it ([[HOWTO - Capture from the phone]]). At the end of the day the daily entries move to their place: ideas, issues ([[The Issue System]]), prompts. [[WORKFLOWS - End Day]] sweeps them; the captures queue empties the phone captures.
 2. The week has a preview and a focus: [[WORKFLOWS - Start Week]].
 3. The tasks of the day are mandatory: [[WORKFLOWS - Start Day]] writes the plan in the daily note.
 4. Focus on the task. That's it.
@@ -37,4 +37,4 @@ I work on one concrete task and an idea comes to my mind, or I see something tha
 
 ## The implementation
 
-The workplace keeps the plan, the bridges and the active projects in front of me: [[The Workplace System]] (the `mise-en-place` plugin, the Today dashboard). The old draft of the rules is [[Alejandro's Mise-en-Place]]. The tasks themselves live in [[Task Management]].
+The workplace keeps the plan, the bridges and the active projects in front of me: [[The Workplace System]] (the `mise-en-place` plugin, the Today dashboard). The whole discipline, from the plan to the clean station, is mapped in **[[The Mise-en-Place System]]**. The tasks themselves live in [[Task Management]].

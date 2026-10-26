@@ -56,7 +56,7 @@ dependencies:
 ## Post-Mortem
 
 - Logged: [[Journal - second-brain]]
-- Objective moved: [[Alejandro's Mise-en-Place]] and [[The Hemingway Bridge]] per project
+- Objective moved: [[The Mise-en-Place System]] and [[The Hemingway Bridge]] per project
 - Good things: —
 - Bad Things: —
 - Rate (1-3): —

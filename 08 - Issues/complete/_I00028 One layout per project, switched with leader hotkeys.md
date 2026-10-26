@@ -64,7 +64,7 @@ dependencies:
 ## Post-Mortem
 
 - Logged: [[Journal - second-brain]] and [[Journal - coding-workplace]]
-- Objective moved: [[Alejandro's Mise-en-Place]], the Obsidian layer of [[_I00001 Multiple workspaces & tasks Workflow]]
+- Objective moved: [[The Mise-en-Place System]], the Obsidian layer of [[_I00001 Multiple workspaces & tasks Workflow]]
 - Good things: —
 - Bad Things: —
 - Rate (1-3): —

@@ -31,13 +31,13 @@ created: 2026-10-14 00:20
   active PARs, their open issues, dependencies, priorities and due dates.
 - Write the plan in `## Plan` of the daily note: one main objective and three
   to five tasks, linked to their issues. In the dashboard, `p` on an issue
-  plans it and `a` adds a free task.
+  plans it and `a` adds a free task: small work that needs no issue.
   - Check the calendar first. The plan fits the free time, not the wish list.
 - Look at the inbox count in the dashboard header, nothing more. A free slot later in the day can take
   one batch of [[WORKFLOWS - Out of the Inbox]].
 - Set the workplace: open the project of the first task with `<leader> l` and
   its slot key, and close the tabs that are not the first task
-  ([[Alejandro's Mise-en-Place]]).
+  ([[The Workplace System]]).
 
 ## Tidies
 

@@ -20,7 +20,7 @@ created: 2026-10-14 00:20
 ## Steps
 
 - Daily Log: what I did and what I discovered, with the unplanned tasks too. Links to the issues and notes I worked on.
-- Issues finished today go through [[WORKFLOWS - Complete Issue]]. Unfinished tasks stay in their issue, not in the daily note.
+- Issues finished today go through [[WORKFLOWS - Complete Issue]]. Unfinished tasks stay in their issue, not in the daily note. A free task that grew into real work becomes an issue with `/create-issue`.
 - Todo sweep on the notes I touched today. Each `#todo` line gets one outcome:
 	- Real work → an issue with `/create-issue`, and the tag goes.
 	- Done in two minutes → do it now, and the tag goes.

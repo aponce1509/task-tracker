@@ -28,7 +28,7 @@ created: 2026-10-14 00:25
   template. Create its folder in `11 - Projects/`, `12 - Areas/` or
   `13 - Resources/`.
 - Set `active: true` when I work on it now. The PAR then gets a layout slot
-  under `<leader> l` with its own working notes ([[Alejandro's Mise-en-Place]]).
+  under `<leader> l` with its own working notes ([[The Workplace System]]).
 - Anchor: the objective (project), the boundaries (area) or the main sources
   (resource), in the top callout.
 - Brain dump in two minutes: what I know, my questions, ideas and next steps.

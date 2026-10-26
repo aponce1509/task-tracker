@@ -20,7 +20,7 @@ created: 2026-10-25 12:00
 
 ## Inputs
 
-Material enters from feeds: YouTube, Twitter, Instagram, Pinterest and the news ([[Input sources]]). The list of feeds is still open. From the phone, one share Shortcut and the Apple Notes folder `Vault` feed the capture importer; it writes capture notes to `06 - Inputs/Captures/` ([[HOWTO - Capture from the phone]]). The system itself grew from a few sources: Tiago Forte, Steph Ango and some vault tours ([[Inspiration Sources for Note Management]]).
+Material enters from feeds: YouTube, Twitter, Instagram, Pinterest and the news ([[Input sources]]). The feeds I follow and the news come in through my own feed: a stream and a news inbox, both auto-imported and kept for 30 days ([[Feed and News Design]]); I read the news in the News pane ([[HOWTO - Read the news]]). From the phone, one share Shortcut and the Apple Notes folder `Vault` feed the capture importer; it writes capture notes to `06 - Inputs/Captures/` ([[HOWTO - Capture from the phone]]). On the desktop, Obsidian Web Clipper saves the full article, or only my highlights, as the same capture note ([[HOWTO - Clip from the browser]]). The system itself grew from a few sources: Tiago Forte, Steph Ango and some vault tours ([[Inspiration Sources for Note Management]]).
 
 ## Classification
 

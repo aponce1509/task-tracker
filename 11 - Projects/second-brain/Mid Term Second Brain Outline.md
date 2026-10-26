@@ -34,4 +34,4 @@ Que no tratamos de conseguir:
 
 Para esto es necesario: [[Second Brain MVP]]
 
-Pero sobre todo: Tener [[Alejandro's Mise-en-Place]] bien definida e interiorizada.
+Pero sobre todo: Tener [[The Mise-en-Place System]] bien definida e interiorizada.

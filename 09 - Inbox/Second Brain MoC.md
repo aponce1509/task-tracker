@@ -79,7 +79,7 @@ Task Management
 	- [[The Archipelago of Ideas]]
 	- [[Dial Down the Scope]]
 	- [[The Hemingway Bridge]]
-	- [[Alejandro's Mise-en-Place]]
+	- [[The Mise-en-Place System]]
 	- [[Being productive at home - Task Blocks]]
 	- [[Keeping the Focus]]
 		- Music [[00_pensamientos-1]]

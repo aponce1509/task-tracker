@@ -6,18 +6,16 @@ subtypes:
   - "[[Navigation & Meta - MoCs - project-moc|project-moc]]"
 rate:
 tags:
-status: wip
-maturity: capture
+status: done
+maturity: evergreen
 created: 2026-10-12 17:05
 ---
 # [[Task Management]]
 
-> [!warning] Draft
-> Skeleton with candidate links — sections fill in as the system converges.
-
 > [!abstract] Purpose
 > - How things to be done are captured, executed and closed in this vault: the issue system end to end.
 
+- The working discipline, from the plan to the clean station — **[[The Mise-en-Place System]]**
 - Definition & rules — [[The Issue System]]
 - Create
 	- `bash .obsidian/personal_scripts/create-issue.sh` — issue creation wrapper (answers the Templater prompt, fills properties)
@@ -36,16 +34,15 @@ created: 2026-10-12 17:05
 - Meetings — [[The Meeting System]]: todos become issues, every meeting is logged in the journal
 	- Derived notes: ending note · reusables · tech debt · resources & tools · additional requirements · ideas — [[Postmortem Content]]
 - Open threads
-	- Move completed issues to `08 - Issues/complete/` — [[_I00003 Create a script to move complete issues to complete]]
 	- TODO extraction — the todo sweep of [[WORKFLOWS - End Day]] and [[WORKFLOWS - Complete Issue]] ([[_I00019 add to any workflow clean of todo tags]])
 - Principles
 	- Think in issues and their tasks — [[This is really a Task]]
 	- Spend time on the issue creation — [[RULE - Create notes for the issues]]
 	- One small packet at a time — [[TODO list for your daily work]]
+	- Free tasks in the day plan for small work with no issue; one that grows becomes an issue at [[WORKFLOWS - End Day]]
 - Focus & productivity — **[[Keeping the Focus]]**
 	- [[The Archipelago of Ideas]] · [[Dial Down the Scope]] · [[The Hemingway Bridge]]
 	- [[Being productive at home - Task Blocks]]
-	- [[Alejandro's Mise-en-Place]]
 	- Music [[00_pensamientos-1]]
 - Post-mortem questions and the ending note — [[Postmortem Content]]
 - Decisions history

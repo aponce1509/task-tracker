@@ -10,7 +10,7 @@ rate:
 tags:
 created: 2026-05-17 13:05
 dueDate:
-status:
+status: inbox
 ---
 
 # [[_I00014 Finish Second-Brain final document]]
@@ -21,7 +21,7 @@ The note we are using is:
 - [[The Second Brain System]]
 More context here:
 - [[Second Brain Issues]]
-- [[Alejandro's Mise-en-Place]]
+- [[The Mise-en-Place System]]
 
 ## Tasks
 

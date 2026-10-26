@@ -37,6 +37,7 @@ created: 2026-10-12 18:15
 | `issues-all.base` | Complete View · Complete Backlog/Inbox/WIP/Blocked | status, priority, dueDate | vault-wide, grouped by `paras` |
 | `issues-subtypes.base` | By Subtype · Bug · Task · Improvement · Incident · Open Problem · Recurring | status, priority, dueDate | scoped + `subtypes.contains(link(...))` |
 | `captures.base` | Queue (status inbox, by platform) · By author · All captures | platform, author, url, subtypes, paras, status | vault-wide, `file_class == "capture"` — the consumption queue of the connector captures |
+| `news.base` | Today (inbox, last 24 h, by group, most outlets first) · Inbox · Blind spots · Kept · Purge (inbox, older than 30 days) | group, outlets, blindspot, first_seen, story_id | vault-wide, `file_class == "news"` — the news stories of `feeds_sync.py` ([[Feed and News Design]]) |
 | `types.base` | Notes | subtypes, maturity, status | `type == this.file` |
 | `subtypes.base` | Notes | type, maturity, status | `subtypes.contains(this.file)` |
 

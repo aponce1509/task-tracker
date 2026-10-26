@@ -10,7 +10,7 @@ rate:
 tags:
 created: 2026-05-15 19:06
 dueDate:
-status:
+status: inbox
 ---
 # [[_I00001 Multiple workspaces & tasks Workflow]]
 

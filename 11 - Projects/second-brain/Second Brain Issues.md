@@ -26,7 +26,7 @@ created: 2026-02-28 16:53
 - Outlines
 	- [[Notes a base system]]
 	- [[Second Brain Outline]]
-- [[Alejandro's Mise-en-Place]]
+- [[The Mise-en-Place System]]
 	- [[The Maintenance System]]
 	- [[Rules]]: busca todas las rules que hay por las notas
 - [[Second Brain MVP]]

@@ -20,9 +20,9 @@ created: 2026-10-14 00:20
 ## Steps
 
 - Open last week's note: read the highlights and the tasks that rolled over.
-- Look at the Active Projects view in the weekly note. Pick one focus for the week.
+- Look at the active projects and their bridges in the Projects panel of the Today dashboard. Pick one focus for the week.
 - Ask the `task-planner` for the candidates of the week: P1 issues, due dates, unblocked dependencies.
-- Write the week's focus and backlog at the top of the weekly note, linked to the issues.
+- Write the week's focus and backlog under the title of the weekly note, linked to the issues. The week board shows these lines as the focus.
 	- Rolled tasks enter only when they still matter. The others go back to their issue with a lower priority.
 - Book one [[WORKFLOWS - Contextual Capture Review]] for the PAR of the focus.
 - Every second week, book the [[WORKFLOWS - Bi-Monthly Inbox Sweep]].

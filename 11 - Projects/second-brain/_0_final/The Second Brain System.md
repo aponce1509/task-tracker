@@ -54,6 +54,8 @@ created: 2026-10-12 15:10
 	- [[PARA Methodology]] · [[Types of Projects - Reference]] · [[Postmortem Content]]
 	- Workflows: [[WORKFLOWS - New PAR]] · [[WORKFLOWS - End PAR]] · `/new-par` · `/close-par`
 	- `01 - PAR/` · `99 - Meta/Templates/09 - PARA Note - Template.md`
+- **[[The Mise-en-Place System]]**
+	- Prepare: **[[Task Management]]** · Cook: **[[Keeping the Focus]]** · [[Convergence and Divergence]] · Clean: **[[The Maintenance System]]** · Kitchen: [[The Workplace System]]
 - **[[Keeping the Focus]]**
 	- [[The Archipelago of Ideas]] · [[Dial Down the Scope]] · [[The Hemingway Bridge]]
 	- Implemented by [[The Workplace System]] and the day workflows

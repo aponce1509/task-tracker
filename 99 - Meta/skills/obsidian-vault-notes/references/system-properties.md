@@ -44,6 +44,7 @@ created: YYYY-MM-DD HH:mm
 | `learning` | `learning_status` (to_learn/learning/learned/abandoned), `winstreak` (0-5) | — | study notes |
 | `media` | `consumption_status` (to_consume/consuming/completed/abandoned/pending_new_content) | `status`, `maturity` | books, films, podcasts... |
 | `capture` | `url`, `author` (MultiFile), `platform` (youtube/x/instagram/web/apple-notes) | — | connector captures in `06 - Inputs/Captures/` |
+| `news` | `group`, `story_id`, `outlets`, `blindspot` (L/R), `first_seen` | — | news stories in `06 - Inputs/News/`, written only by `feeds_sync.py` |
 | `normatives` | `summary`, `superceded` | — | standards/decisions |
 | `journal` | `description` (one line: what the journal tracks) | — | project journals, CLI-edited via `.obsidian/personal_scripts/journal.sh` |
 | `type` | — | `paras`, `rate`, `tags` | generated type notes |

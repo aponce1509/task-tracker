@@ -28,7 +28,7 @@ created: 2026-03-02 08:35
 	- [[How I see the CODE Process|The CODE Process]]
 	- [[PARA Methodology]]
 - Methodology for Project Management
-- [[Alejandro's Mise-en-Place]]
+- [[The Mise-en-Place System]]
 
 ## Incremental during the first months
 
