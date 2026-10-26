@@ -7,9 +7,9 @@ subtypes:
   - "[[Operational - Issues - task|task]]"
 role:
 priority: 1
-rate:
+rate: 3
 tags:
-status: wip
+status: done
 maturity: capture
 created: 2026-10-26 11:42
 dueDate:
@@ -38,19 +38,21 @@ View of [[Feed and News Design]], built like the Captures pane of [[The Workplac
   - `d` writes `~/.config/feeds/dismissed.json`, read by `render`; `m` adds the one-outlet stories
 - [x] Leader key and the keys in the mise-en-place config
 - [x] How-to note for the news, linked from [[The Sources System]]
-- [ ] Use it for a week and adjust the keys and the row layout
 
 ## Post-Mortem
 
-- We have added this to the logging? (project journal: `journal.sh log --kind done --link "[[...]]"`)
-- Objective moved:
+- [x] We have added this to the logging? (project journal: `journal.sh log --kind done --link "[[...]]"`)
+- Objective moved: the news inbox (Spanish and global news grouped by interest, with the bias shown) and my own feed tool in place of rss-dashboard ([[create-a-feed]]).
 - Good things:
+	- Notes as a view: SQLite holds the state and the notes are rendered from it, so merges and reclusters only redraw them.
+	- The News pane reused the layout and the key system of the Captures pane.
+	- The `/new-system-element` gate cut the class from 9 to 5 properties.
+	- The whole chain runs with one key (`<leader> F s`) and shows in the spotlight.
 - Bad Things:
-- Rate (1-3):
-- Notes to create?
-	- Ending note: core note/index that builds the final solution
-	- Reusable in other places
-	- Tech debt
-	- Review of the resources & tools used
-	- Additional requirements
-	- Ideas
+	- Too much at once: two issues and a lot of output in one go, hard to follow.
+	- Closed before real use: the problems of the pane come as new issues.
+	- Story drift remains in long events ([[_I00048 Story drift in long news events]]).
+- Rate (1-3): 3
+- Notes created:
+	- [[Feed and News Design]]
+	- [[HOWTO - Read the news]]
