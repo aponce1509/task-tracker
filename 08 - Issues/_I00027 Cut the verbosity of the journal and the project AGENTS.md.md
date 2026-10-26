@@ -17,6 +17,9 @@ dependencies:
 ---
 # [[_I00027 Cut the verbosity of the journal and the project AGENTS.md]]
 
+> [!important] 
+> Not sure of how to change both the agent and the task
+
 > [!abstract] Summary
 > - Agents write the project journal and the project memory as long paragraphs.
 > - Both files get hard to read for me and expensive to load for agents.

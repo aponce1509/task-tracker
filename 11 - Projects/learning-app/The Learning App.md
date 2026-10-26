@@ -13,7 +13,6 @@ created: 2026-09-06 17:58
 
 [[LEARNING TODO]]
 
-
 I want to create a personal system using agent to help studing.
 
 For this the things I have identify are:
