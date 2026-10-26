@@ -9,33 +9,41 @@ role:
 priority: 1
 rate:
 tags:
-status: inbox
+status: wip
 maturity: capture
 created: 2026-10-18 09:38
 dueDate:
 dependencies:
   - "[[_I00032 Design of the feed]]"
+  - "[[_I00045 LLM enrichment of the news with a switchable backend]]"
 ---
 # [[_I00033 Integration of the feed with Obsidian]]
-
 > [!abstract]
-> - Show the feed items inside Obsidian and feed the triage flow.
-> - Without this the feed stays a script output that I never read.
+> - Render the enriched stories as news notes, expire them after 30 days and run the whole sync on its own.
+> - Without this the news stays in a database that I never read.
 
 ## Description
 
-After the design in [[_I00032 Design of the feed]], the loaded items must reach the vault. Done means I can open a note or a base in Obsidian, see my new bookmarks, and send the useful ones to the inbox or to a concept.
+Third step of [[Feed and News Design]]. Stories with two outlets or more become notes in `06 - Inputs/News/`, a folder that git ignores; kept stories go to `06 - Inputs/News/_kept/`. The Mise-en-Place plugin runs `feeds_sync.py sync` every 2 hours; render and purge join that run. Done means fresh story notes appear without a manual step, notes older than 30 days and not kept are gone, and a base lists the news by group.
 
 ## Tasks
 
-- [ ] Decide how items enter the vault
-  - Capture notes in `09 - Inbox` versus a dedicated feed folder
-- [ ] Add the metadata and the type for feed items
-  - Needs approval if a new subtype is required
-- [ ] Add a base to browse the feed
-- [ ] Connect the feed with the daily note or the inbox triage
-- [ ] Add a command or a script to load and file new items
-
+- [x] Approve the metadata through `/new-system-element`
+  - Class `news`: `group`, `story_id`, `outlets`, `blindspot`, `first_seen` (the lean counts stay in the body, the update time is the file time)
+  - Subtype `news` under Resources
+- [x] Render in `feeds_sync.py render`
+  - File name `YYYY-MM-DD <first title>`, fixed; H1, summary and coverage list follow the latest enrichment
+  - Skip one-outlet stories and the group `other`
+  - Only `status: inbox` notes are rewritten; the stories dismissed in the pane are skipped
+- [x] Purge in `feeds_sync.py purge`: notes with `status: inbox` older than 30 days, and their rows
+  - Also the inbox notes of merged stories; `done` notes move to `_kept/`
+- [x] `.gitignore`: `06 - Inputs/News/*` except `_kept/`
+- [x] Base `news.base`: Today and Inbox grouped by group, Blind spots, Kept, Purge
+- [x] Scheduled sync in Mise-en-Place every 2 hours, `<leader> F s` on demand, log in `~/.config/feeds/logs/sync.log`
+- [x] Add `render` and `purge` to `feeds_sync.py sync`
+  - `enrich` is in `sync` since [[_I00045 LLM enrichment of the news with a switchable backend]]
+- [x] Last good run as a row of the [[The Maintenance System]] spotlight
+  - The Inbox and References rows skip `06 - Inputs/News/`
 
 ## Post-Mortem
 

@@ -11,7 +11,9 @@ bridge:
 # [[create-a-feed]]
 
 > [!note] Description
-> Personal feed that pulls X bookmarks through the X API and surfaces them in Obsidian and to agents through an MCP server.
+> - My own feed and news inbox, in place of the rss-dashboard plugin: captures I pick, a stream of the blogs, podcasts, channels and newsletters I follow, and the news grouped by interest with a summary, the sources and a bias view.
+> - Stream and news are auto-imported and expire after 30 days unless kept. X bookmarks come through the X API and reach agents through the `feeds` MCP server.
+> - Design: [[Feed and News Design]]. Sources: `99 - Meta/scripts/feeds/sources.yaml`.
 
 ## Operative Searches
 

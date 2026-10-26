@@ -27,14 +27,14 @@ The first script reads X bookmarks through the API with several load options. Th
 
 ## Tasks
 
-- [ ] Choose the storage of the loaded items
-  - JSON cache outside the vault versus Markdown notes in the vault
+- [x] Choose the storage of the loaded items
+  - SQLite outside the vault, notes as a rendered view: [[Feed and News Design]]
 - [ ] Define the load options
   - Count, since date, pagination token, folder, refresh versus cached
 - [ ] Define the output formats
   - JSON, Markdown, one line per item
 - [ ] Define the MCP tools on top of the script
-- [ ] Write the design note in the project folder
+- [x] Write the design note in the project folder
 
 
 ## Post-Mortem

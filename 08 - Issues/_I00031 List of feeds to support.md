@@ -27,9 +27,10 @@ Bookmarks are the first feed. Other sources can come later (X likes, X lists, RS
 
 ## Tasks
 
-- [ ] List the candidate feeds
+- [x] List the candidate feeds
   - X bookmarks, likes, lists, a user timeline
   - RSS and newsletters
+  - News outlets and follows in `99 - Meta/scripts/feeds/sources.yaml`
 - [ ] For each feed note the access method and its limits
 - [ ] Mark the first release scope
   - X bookmarks only
