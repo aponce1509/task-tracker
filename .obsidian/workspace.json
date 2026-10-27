@@ -17,36 +17,36 @@
                 "project": "create-a-feed"
               },
               "pinned": true,
-              "icon": "folder-kanban",
-              "title": "create-a-feed"
+              "icon": "lucide-ghost",
+              "title": "mise-project"
             }
           },
           {
-            "id": "2288f191e03cf0ef",
-            "type": "leaf",
-            "state": {
-              "type": "mise-news",
-              "state": {},
-              "icon": "newspaper",
-              "title": "News"
-            }
-          },
-          {
-            "id": "de7bafcc83be2550",
+            "id": "8b6306824e6fce16",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05 - Diagrams/sb_inputs/sb_inputs-elements-ailayer.md",
+                "file": "09 - Inbox/AHHHH ideas ideas for the inbox.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sb_inputs-elements-ailayer"
+              "title": "AHHHH ideas ideas for the inbox"
             }
           },
           {
-            "id": "f0a3071f882c9350",
+            "id": "760d334d7bb8a99e",
+            "type": "leaf",
+            "state": {
+              "type": "mise-stream",
+              "state": {},
+              "icon": "rss",
+              "title": "Stream"
+            }
+          },
+          {
+            "id": "9d0f34ab482cb7e5",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -58,23 +58,9 @@
               "icon": "lucide-file",
               "title": "sb_inputs"
             }
-          },
-          {
-            "id": "764207b96c781690",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "09 - Inbox/mini task.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "mini task"
-            }
           }
         ],
-        "currentTab": 4
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -258,7 +244,7 @@
             }
           }
         ],
-        "currentTab": 5
+        "currentTab": 1
       },
       {
         "id": "cc65cc4c821af813",
@@ -270,7 +256,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "09 - Inbox/mini task.md",
+                "file": "09 - Inbox/AHHHH ideas ideas for the inbox.md",
                 "collapseAll": true,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -330,44 +316,44 @@
       "strata:Strata diagrams": false
     }
   },
-  "active": "764207b96c781690",
+  "active": "8b6306824e6fce16",
   "lastOpenFiles": [
+    "06 - Inputs/News/2026-10-26 Healey eliminará aranceles en algunos productos básicos en su paquete previo.md",
+    "06 - Inputs/News/2026-10-26 El Gobierno suaviza el decreto de centros de datos con un régimen transitorio.md",
+    "06 - Inputs/News/2026-10-26 Trump ofrece un millón de dólares por información que lleve a condenar fraude.md",
+    "06 - Inputs/News/2026-10-26 Sindicatos valencianos se encierran en Educación para forzar una reunión.md",
+    "06 - Inputs/News/2026-10-26 Marruecos repatria a 327 menores no acompañados tras la entrada masiva en Ceuta.md",
+    "06 - Inputs/News/2026-10-26 Trump dice, sin pruebas, que la victoria de Lula en Brasil parece amañada.md",
+    "06 - Inputs/News/2026-10-26 Feijóo incluye a Jaime de los Santos y Alberto Nadal en la lista del PP por.md",
+    "06 - Inputs/News/2026-10-26 Sánchez propone reformar la Constitución para blindar las pensiones conforme.md",
+    "06 - Inputs/News/2026-10-26 Un juez federal de EEUU declara ilegal el despido de Maurene Comey, hija de.md",
+    "06 - Inputs/News/2026-10-26 Colau pide por carta a Sánchez, Feijóo y Abascal no usar la IA vejatoria en.md",
+    "06 - Inputs/News/2026-10-26 Una comisión de la ONU califica de crímenes los ataques rusos a la energía de.md",
+    "06 - Inputs/News/2026-10-26 Los estudiantes que vencieron a Vučić en Serbia se preparan para el poder.md",
+    "06 - Inputs/News/2026-10-26 Inmocemento presta 320 millones a su filial Realia para cancelar parte de su.md",
+    "06 - Inputs/News/2026-10-26 Microsoft ofrece salidas voluntarias a unos 60.000 empleados, cerca de una.md",
+    "06 - Inputs/News/2026-10-26 La privación material severa sube en España al 8,1%, quinta más alta de la UE.md",
+    "06 - Inputs/News/2026-10-26 Al menos 60 cristianos mueren en dos ataques de milicias en Etiopía.md",
+    "06 - Inputs/News/2026-10-26 Comisión de la ONU acusa a Israel de actos de genocidio en Gaza pese al alto.md",
+    "06 - Inputs/News/2026-10-26 Un canal de WhatsApp de apoyo a Lula movilizó a millones de simpatizantes en.md",
+    "06 - Inputs/News/2026-10-26 Reino Unido sanciona a mandos sudaneses implicados en violencia sexual en El.md",
+    "06 - Inputs/News/2026-10-26 Bruselas da por buenas las medidas de Temu para frenar la venta de productos.md",
+    "06 - Inputs/News/2026-10-26 El consejero delegado de Audi recibe críticas por aparecer en un mitin de Trump.md",
+    "06 - Inputs/News/2026-10-26 Anthropic presenta ante la SEC el folleto de su salida a Bolsa en el Nasdaq.md",
+    "06 - Inputs/News/2026-10-26 Elecciones legislativas de EEUU del 3 de noviembre y datos sobre la economía.md",
+    "06 - Inputs/News/2026-10-26 El teniente coronel Lobo declara que la decisión de abrir la valla de Ceuta.md",
+    "06 - Inputs/News/2026-10-26 Dos magistrados del TC discrepan de la inadmisión del recurso sobre la 'ley de.md",
+    "06 - Inputs/News/2026-10-26 Abascal presenta en Talavera de la Reina a los candidatos de Vox para el 29-N.md",
+    "99 - Meta/scripts/feeds/phase_test.py",
+    "99 - Meta/scripts/feeds/__pycache__/feeds_sync.cpython-313.pyc",
+    "99 - Meta/scripts/feeds/__pycache__/saved_import.cpython-313.pyc",
+    "99 - Meta/scripts/feeds/saved_import.py",
     "11 - Projects/create-a-feed/Journal - create-a-feed.md.tmp",
-    "11 - Projects/create-a-feed/Journal - create-a-feed.md",
-    "05 - Diagrams/sb_inputs/sb_inputs-elements-ailayer.md",
-    "09 - Inbox/mini task.md",
-    "08 - Issues/complete/_I00046 News pane in Mise-en-Place.md",
-    "08 - Issues/complete/_I00033 Integration of the feed with Obsidian.md",
-    "05 - Diagrams/sb_inputs/sb_inputs.md",
-    "08 - Issues/_I00048 Story drift in long news events.md",
-    "09 - Inbox/AHHHH ideas ideas for the inbox.md",
-    "05 - Diagrams/sb_inputs/sb_inputs-elements-enricher.md",
-    "06 - Inputs/Captures/Exceptional points and hysteresis in Kerr-Newman quasi-normal modes.md",
-    "06 - Inputs/Captures/sharing.md",
-    "06 - Inputs/News/2026-10-26 Vox retira candidatura al Senado en seis provincias y presenta uno solo en.md",
-    "06 - Inputs/News/2026-10-26 Lecornu se reúne con estudiantes de secundaria tras semanas de protestas en.md",
-    "06 - Inputs/News/2026-10-26 Operativo policial en el CETI de Ceuta para devolver a migrantes con asilo.md",
-    "06 - Inputs/News/2026-10-26 Las aerolíneas ofertan récord de asientos para el invierno pese a la.md",
-    "06 - Inputs/News/2026-10-26 El Euríbor cae con fuerza el 26 de octubre; su media de octubre ronda el 3,22%.md",
-    "06 - Inputs/News/2026-10-26 Teruel Existe presenta a Tomás Guitarte como candidato al Congreso por Teruel.md",
-    "06 - Inputs/News/2026-10-26 Revolut lanza con Carne Group una vía para invertir en tecnológicas no.md",
-    "06 - Inputs/News/2026-10-26 Montero celebra la reelección de Lula en Brasil como «victoria de la.md",
-    "06 - Inputs/News/2026-10-25 Francisco Martín dimite como delegado del Gobierno en Madrid.md",
-    "11 - Projects/second-brain/_0_final/howtos/HOWTO - Read the news.md",
-    "06 - Inputs/News/2026-10-26 El 70% de los autónomos sube precios por la inflación y el 17,5% teme por su.md",
-    "06 - Inputs/News/2026-10-25 Albalat deja Servicios Sociales para encabezar la lista del PP por Castellón.md",
-    "06 - Inputs/News/2026-10-25 Lula da Silva gana la segunda vuelta y es reelegido presidente de Brasil.md",
-    "06 - Inputs/News/2026-10-25 María Corina Machado regresa a Venezuela tras casi diez meses en el exilio.md",
     "06 - Inputs/News/_kept",
     "04 - Bases/final-bases/news.base",
     "06 - Inputs/News",
     "99 - Meta/scripts/ai/__pycache__/vault_ai.cpython-313.pyc",
     "99 - Meta/scripts/ai/__pycache__",
-    "99 - Meta/scripts/ai/vault_ai.py",
-    "99 - Meta/scripts/ai/ai.toml",
-    "99 - Meta/scripts/ai",
-    "99 - Meta/scripts/feeds/feeds_sync.py",
-    "99 - Meta/scripts/feeds/__pycache__/capture_ai.cpython-313.pyc",
     "99 - Meta/Attachments/Domenico Ghirlandaio (Domenico Bigordi).jpg",
     "09 - Inbox/Inbox/Notes Hierarchy.svg",
     "09 - Inbox/Inbox/Notes Components by situations.svg",

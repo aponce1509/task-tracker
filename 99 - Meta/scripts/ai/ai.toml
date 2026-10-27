@@ -72,6 +72,11 @@ model = "d3"
 fallback = ["qwen"]
 min_confidence = 0.6              # under it the importer default stays; d3 on 6 test captures: 0.74-0.99 right, 0.48 on an ambiguous thought
 
+[tasks.news-phase]                # phase of a news item (preview, live, result, reaction, none): the phase gate of the story clustering
+model = "d3"
+fallback = ["qwen-small"]
+min_confidence = 0.6              # under it the phase is none, so the item can join any story
+
 [tasks.source]                    # author, and the title of pasted material; 4B misses the authors of a paper
 model = "qwen"
 

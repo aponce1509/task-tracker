@@ -30,7 +30,8 @@ All sources live in `99 - Meta/scripts/feeds/sources.yaml`: the news groups, the
 
 - News: publisher RSS, one url per section, about 60 feeds of 33 outlets (Spain and global).
 - Each outlet has a `lean` (left, centre-left, centre, centre-right, right, none) and a `lang`. Each feed has a hint of its usual groups.
-- Follows: blogs, Substack and podcasts by RSS; YouTube by the channel feed (`/feeds/videos.xml?channel_id=`); newsletters through Kill the Newsletter (mail to RSS); X bookmarks through `x_bookmarks.py`. Instagram and Pinterest have no usable API: they stay on the share sheet.
+- Follows: blogs, Substack and podcasts by RSS; YouTube by the channel feed (`/feeds/videos.xml?channel_id=`); the videos and shorts I save go to my watch-later playlist and become captures, like an X bookmark or a reel ([[HOWTO - Capture from the phone]]); newsletters through Kill the Newsletter (mail to RSS); X bookmarks through `x_bookmarks.py`.
+- Saved lists: `saved_import.py` pulls X bookmarks (API), Instagram saves (the data export, no API) and Pinterest boards (board RSS) into the Captures queue ([[HOWTO - Import X bookmarks]], [[HOWTO - Import Instagram saves]], [[HOWTO - Import Pinterest pins]]). One post at a time stays on the share sheet.
 - Optional breadth: the GDELT DOC 2.0 API (free, no key, titles and urls) to find stories and outlets outside my list.
 - No commercial news API: the free tiers (NewsAPI.org, GNews, NewsData.io) give 100 to 200 calls a day and nothing that RSS does not give.
 - Fetch with a browser-like User-Agent and conditional GET (`ETag`, `Last-Modified`). Use `certifi` for TLS: the system Python fails on Europa Press and the ECB.

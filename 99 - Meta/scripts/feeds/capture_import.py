@@ -10,6 +10,9 @@ Sources:
           Plain .txt files work too: the first URL is the link, the rest the note.
   notes   the Apple Notes folder "Vault". A note that holds a link is imported
           as that link; any other note is a thought (type Ideas, subtype spark).
+  youtube my private YouTube watch-later playlist and my Saved Shorts (list YS),
+          read by yt-dlp with the login of a browser. A video is imported once: its url
+          goes to $FEEDS_HOME/youtube_done.json, so a deleted capture stays deleted.
 
 Each capture becomes one note in 06 - Inputs/Captures/ (file_class capture,
 status inbox, maturity capture). Then capture_ai.py runs the local models on
@@ -17,8 +20,8 @@ the queue (summary, form, author, paras) when Ollama is up; --no-ai skips it. Ad
 the transcript), x (api.fxtwitter.com, no login), instagram (yt-dlp, or the
 Open Graph tags, or the bare link), web (Open Graph tags). A url already in
 the vault is skipped. Imported drop files move to <drop>/_done/, imported
-Apple Notes to the folder "Vault - Imported". A capture that fails stays where
-it is for the next run.
+Apple Notes to the folder "Vault - Imported", imported videos to youtube_done.json.
+A capture that fails stays where it is for the next run.
 
 Run:
     uv run --script "99 - Meta/scripts/feeds/capture_import.py"            # both sources
@@ -29,7 +32,10 @@ Run:
 Env:
     CAPTURES_DROP              drop folder (default iCloud Drive/Captures)
     CAPTURES_NOTES_FOLDER      Apple Notes folder (default Vault)
-    CAPTURES_COOKIES_BROWSER   browser whose login yt-dlp reuses for Instagram (safari, chrome, firefox)
+    CAPTURES_YT_PLAYLISTS      YouTube playlist ids, comma list (default PLaDiM_R1BMLA,YS: watch later
+                               and Saved Shorts)
+    CAPTURES_COOKIES_BROWSER   browser whose login yt-dlp reuses for the playlist and Instagram
+                               (default firefox; safari, chrome, ...)
 
 YouTube changes often: when it breaks, add --upgrade to the uv run line.
 """
@@ -57,6 +63,9 @@ ICLOUD = Path.home() / "Library" / "Mobile Documents" / "com~apple~CloudDocs"
 DROP = Path(os.environ.get("CAPTURES_DROP", ICLOUD / "Captures"))
 NOTES_FOLDER = os.environ.get("CAPTURES_NOTES_FOLDER", "Vault")
 NOTES_DONE = f"{NOTES_FOLDER} - Imported"
+YT_PLAYLISTS = [p for p in os.environ.get("CAPTURES_YT_PLAYLISTS", "PLaDiM_R1BMLA,YS").split(",") if p.strip()]
+YT_DONE = Path(os.environ.get("FEEDS_HOME", Path.home() / ".config" / "feeds")) / "youtube_done.json"
+COOKIES_BROWSER = os.environ.get("CAPTURES_COOKIES_BROWSER", "firefox")
 UA = "capture_import/1.0 (personal vault importer)"
 
 SUBTYPES = {
@@ -83,8 +92,8 @@ class Capture:
     note: str = ""
     created: datetime = field(default_factory=datetime.now)
     title: str = ""  # Apple Notes thoughts only
-    origin: str = "drop"  # drop | notes | cli
-    ref: str = ""  # drop file path or Apple Notes id
+    origin: str = "drop"  # drop | notes | youtube | cli
+    ref: str = ""  # drop file path, Apple Notes id or playlist video url
 
 
 @dataclass
@@ -224,12 +233,14 @@ class _Quiet:
     warning = error = debug
 
 
-def ytdlp_info(url: str, cookies: bool = False) -> tuple[dict, object]:
+def ytdlp_info(url: str, cookies: bool = False, flat: bool = False) -> tuple[dict, object]:
     import yt_dlp
 
     opts: dict[str, object] = {"quiet": True, "no_warnings": True, "skip_download": True, "socket_timeout": 30, "logger": _Quiet()}
-    if cookies and os.environ.get("CAPTURES_COOKIES_BROWSER"):
-        opts["cookiesfrombrowser"] = (os.environ["CAPTURES_COOKIES_BROWSER"],)
+    if cookies and COOKIES_BROWSER:
+        opts["cookiesfrombrowser"] = (COOKIES_BROWSER,)
+    if flat:
+        opts["extract_flat"] = "in_playlist"  # the playlist entries only, not each video
     ydl = yt_dlp.YoutubeDL(opts)
     try:
         return ydl.extract_info(url, download=False), ydl
@@ -659,6 +670,30 @@ def from_notes() -> tuple[list[Capture], list[str]]:
     return caps, []
 
 
+def youtube_done() -> set[str]:
+    try:
+        return set(json.loads(YT_DONE.read_text()))
+    except (OSError, ValueError):
+        return set()
+
+
+def from_youtube() -> tuple[list[Capture], list[str]]:
+    done = youtube_done()
+    caps, notes = [], []
+    for playlist in YT_PLAYLISTS:
+        try:
+            info, _ = ytdlp_info(f"https://www.youtube.com/playlist?list={playlist.strip()}", cookies=True, flat=True)
+        except Exception as err:  # a missing browser login must not stop the other sources
+            notes.append(f"YouTube playlist {playlist}: {type(err).__name__}: {str(err)[:200]} (logged in with {COOKIES_BROWSER}?)")
+            continue
+        for e in info.get("entries") or []:
+            url = normalize(e.get("url") or f"https://www.youtube.com/watch?v={e.get('id')}")
+            if url not in done:
+                done.add(url)
+                caps.append(Capture(url=url, origin="youtube", ref=url))
+    return caps, notes
+
+
 # Main
 
 
@@ -679,7 +714,7 @@ def local_ai(budget: float | None) -> list[str]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
-    ap.add_argument("--only", choices=["drop", "notes"], help="one source only")
+    ap.add_argument("--only", choices=["drop", "notes", "youtube"], help="one source only")
     ap.add_argument("--url", action="append", default=[], help="import this link directly (repeatable)")
     ap.add_argument("--note", default="", help="my note for --url")
     ap.add_argument("--no-transcript", action="store_true", help="skip YouTube transcripts")
@@ -693,7 +728,7 @@ def main() -> int:
     if args.url:
         caps += [Capture(url=u, note=args.note, origin="cli") for u in args.url]
     else:
-        for name, source in (("drop", from_drop), ("notes", from_notes)):
+        for name, source in (("drop", from_drop), ("notes", from_notes), ("youtube", from_youtube)):
             if args.only in (None, name):
                 try:
                     found, notes = source()
@@ -705,6 +740,7 @@ def main() -> int:
     seen = known_urls()
     done_drop: list[Path] = []
     done_notes: list[str] = []
+    done_videos: list[str] = []
     counts = {"new": 0, "dup": 0, "fail": 0}
     for cap in caps:
         if cap.url:
@@ -730,6 +766,8 @@ def main() -> int:
             done_drop.append(Path(cap.ref))
         elif cap.origin == "notes":
             done_notes.append(cap.ref)
+        elif cap.origin == "youtube":
+            done_videos.append(cap.ref)
 
     if not args.dry_run:
         if done_drop:
@@ -741,6 +779,9 @@ def main() -> int:
                 osascript(JXA_MOVE, NOTES_DONE, *done_notes)
             except CaptureError as err:
                 messages.append(f"imported, but could not move the Apple Notes: {err}")
+        if done_videos:
+            YT_DONE.parent.mkdir(parents=True, exist_ok=True)
+            YT_DONE.write_text(json.dumps(sorted(youtube_done() | set(done_videos)), indent=0))
     if not args.dry_run and not args.no_ai:
         messages += local_ai(args.ai_budget)
     for m in messages:

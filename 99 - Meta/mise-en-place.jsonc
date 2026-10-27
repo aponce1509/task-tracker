@@ -120,7 +120,8 @@
         "keys": {
           "s": { "desc": "sync the news now", "cmd": "mise-en-place:feeds-sync" },
           "n": { "desc": "news (stories by group)", "cmd": "mise-en-place:news" },
-          "c": { "desc": "captures (consumption queue)", "cmd": "mise-en-place:captures" }
+          "c": { "desc": "captures (consumption queue)", "cmd": "mise-en-place:captures" },
+          "f": { "desc": "stream (new items of the follows)", "cmd": "mise-en-place:stream" }
         }
       },
 
@@ -257,6 +258,31 @@
         "s": { "desc": "sync now", "action": "news:sync" },
         "r": { "desc": "reload news.json", "action": "news:refresh" },
         "?": { "desc": "show these keys", "action": "news:help" }
+      }
+    },
+
+    // stream = the follows of sources.yaml (<leader> F f). Filter and edit the
+    // feeds with the mouse in the tree; the span select sets stream.days.
+    "stream": {
+      "keys": {
+        "j": { "desc": "down", "action": "stream:down" },
+        "k": { "desc": "up", "action": "stream:up" },
+        "G": { "desc": "last", "action": "stream:last" },
+        "g": {
+          "group": "go",
+          "keys": {
+            "g": { "desc": "first", "action": "stream:first" }
+          }
+        },
+        "Enter": { "desc": "open in the browser", "action": "stream:open" },
+        "o": { "desc": "open in the browser", "action": "stream:open" },
+        "y": { "desc": "keep as a capture (capture_import.py --url)", "action": "stream:keep" },
+        "d": { "desc": "dismiss (hide)", "action": "stream:dismiss" },
+        "a": { "desc": "add a feed", "action": "stream:add" },
+        "e": { "desc": "edit the feed of the item", "action": "stream:edit" },
+        "s": { "desc": "fetch the follows now", "action": "stream:sync" },
+        "r": { "desc": "reload stream.json", "action": "stream:refresh" },
+        "?": { "desc": "show these keys", "action": "stream:help" }
       }
     },
 

@@ -18,4 +18,4 @@ created: 2026-10-26 14:26
 	- concepts/contextual things about the project are in the agents.md
 	- day things are to the day log: by projects and a date entry
 		- we try to include mini task to a issue
-	- Project things
+	- Project evolution should be loged in the journal to keep track of it

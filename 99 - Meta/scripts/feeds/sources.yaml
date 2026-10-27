@@ -4,7 +4,10 @@
 #             its description. Change the groups here, never in the code.
 #   news      the outlets: one RSS url per section, the outlet lean and the
 #             groups the section usually feeds (a hint, not a rule).
-#   follows   the blogs, podcasts, channels and newsletters of the stream.
+#   stream    the time span of the Stream pane (days).
+#   follows   the blogs, podcasts, channels and newsletters of the stream, by
+#             folder. The Stream pane edits both keys (feeds_sync.py follow).
+#   saved     what saved_import.py pulls into the captures: the Pinterest boards.
 #
 # Lean scale: left | centre-left | centre | centre-right | right | none.
 # A story shows its coverage as L / C / R counts: left and centre-left count
@@ -309,10 +312,29 @@ news:
     feeds:
       - {url: "https://www.ecb.europa.eu/rss/press.html", groups: [macro-central-banks]}
 
+stream:
+  days: 90  # how far back the Stream pane looks; edited from the pane
+
 follows:
-  # Migrated from the rss-dashboard plugin. kind: blog | podcast | youtube | newsletter | papers
-  - {name: 3Blue1Brown, kind: youtube, url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw"}
-  - {name: Lex Fridman Podcast, kind: podcast, url: "https://lexfridman.com/feed/podcast/"}
-  - {name: DeepMind Blog, kind: blog, url: "https://deepmind.com/blog/feed/basic/"}
-  - {name: arXiv cs.AI, kind: papers, url: "https://export.arxiv.org/rss/cs.AI"}
-  - {name: NASA Breaking News, kind: blog, url: "http://www.nasa.gov/rss/dyn/breaking_news.rss"}
+  # Edited from the Stream pane (feeds_sync.py follow). folder groups the feeds in
+  # the pane; kind: youtube | podcast | blog | newsletter | papers (detected when
+  # left out); limit: newest items stored per fetch (default 30).
+  # Videos
+  - {name: "3Blue1Brown", folder: "Videos", kind: "youtube", url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCYO_jab_esuFRV4b17AJtAw"}
+  - {name: "ThePrimeagen", folder: "Videos", kind: "youtube", url: "https://www.youtube.com/feeds/videos.xml?channel_id=UC8ENHE5xdFSwx71u3fDH5Xw"}
+  # Podcasts
+  - {name: "Lex Fridman Podcast", folder: "Podcasts", kind: "podcast", url: "https://lexfridman.com/feed/podcast/"}
+  # Blogs
+  - {name: "Google DeepMind Blog", folder: "Blogs", kind: "blog", url: "https://deepmind.google/blog/rss.xml"}
+  - {name: "Simon Willison", folder: "Blogs", kind: "blog", url: "https://simonwillison.net/atom/everything/"}
+  - {name: "Lilian Weng", folder: "Blogs", kind: "blog", url: "https://lilianweng.github.io/index.xml"}
+  - {name: "Julia Evans", folder: "Blogs", kind: "blog", url: "https://jvns.ca/atom.xml"}
+  # Papers
+  - {name: "arXiv cs.AI", folder: "Papers", kind: "papers", url: "https://export.arxiv.org/rss/cs.AI"}
+  # Science
+  - {name: "NASA News", folder: "Science", kind: "blog", url: "https://www.nasa.gov/news-release/feed/"}
+
+saved:
+  # saved_import.py pinterest reads these boards by RSS: public boards only,
+  # the board url as the browser shows it (https://www.pinterest.com/<user>/<board>/).
+  pinterest: []

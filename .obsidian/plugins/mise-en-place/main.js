@@ -2,7 +2,7 @@
 // Plain CommonJS, no build step. Every key and layout lives in the config
 // file (CONFIG_PATH); this file only implements the actions.
 
-const { Plugin, ItemView, Notice, Modal, Setting, SuggestModal, Component, MarkdownRenderer, prepareFuzzySearch, debounce, parseYaml, stringifyYaml } = require("obsidian");
+const { Plugin, ItemView, Notice, Modal, Setting, SuggestModal, Component, MarkdownRenderer, prepareFuzzySearch, debounce, parseYaml, stringifyYaml, setIcon } = require("obsidian");
 
 const CONFIG_PATH = "99 - Meta/mise-en-place.jsonc";
 const FEEDS_SYNC = "99 - Meta/scripts/feeds/feeds_sync.py";
@@ -114,6 +114,8 @@ module.exports = class MiseEnPlace extends Plugin {
     this.addCommand({ id: "captures", name: "Captures: open the consumption queue", callback: () => this.openSingle(CAPTURES_VIEW) });
     this.registerView(NEWS_VIEW, (leaf) => new News(leaf, this));
     this.addCommand({ id: "news", name: "News: open the stories by group", callback: () => this.openSingle(NEWS_VIEW) });
+    this.registerView(STREAM_VIEW, (leaf) => new Stream(leaf, this));
+    this.addCommand({ id: "stream", name: "Stream: open the new items of the follows", callback: () => this.openSingle(STREAM_VIEW) });
     this.addCommand({ id: "spotlight", name: "Spotlight: open the maintenance board", callback: () => this.openSpotlight() });
     this.addCommand({ id: "project-dashboard", name: "Project dashboard: focus (opens the current project layout when closed)", callback: () => this.focusProjectDashboard() });
     this.addCommand({ id: "bridge-edit", name: "Bridge: write the bridge of the current project", callback: () => this.editBridge() });
@@ -195,7 +197,7 @@ module.exports = class MiseEnPlace extends Plugin {
       const lines = String(out || "").trim().split("\n").filter(Boolean);
       const summary = err
         ? `sync failed: ${String(errOut || err.message).trim().split("\n").pop()}`
-        : lines.filter((l) => /^(fetch|cluster|enrich|render):/.test(l)).join(" · ") || "sync done";
+        : lines.filter((l) => /^(fetch|cluster|enrich|render|stream):/.test(l)).join(" · ") || "sync done";
       try {
         fs.mkdirSync(log.replace(/\/[^/]+$/, ""), { recursive: true });
         if (fs.existsSync(log) && fs.statSync(log).size > 1024 * 1024) fs.renameSync(log, `${log}.1`);
@@ -205,6 +207,24 @@ module.exports = class MiseEnPlace extends Plugin {
       }
       if (verbose || err) new Notice(`Feeds: ${summary}`, err ? 10000 : 5000);
       for (const leaf of this.app.workspace.getLeavesOfType(NEWS_VIEW)) leaf.view.load();
+      for (const leaf of this.app.workspace.getLeavesOfType(STREAM_VIEW)) leaf.view.load();
+    });
+  }
+
+  // The Stream pane's jobs: feeds_sync.py stream (fetch the follows only, a few
+  // seconds) or follow <action> (edit sources.yaml, then fetch and export).
+  runStream(args, verbose) {
+    if (this.streamRunning) return verbose && new Notice("Stream: a fetch is already running");
+    const { execFile } = require("child_process");
+    const views = () => this.app.workspace.getLeavesOfType(STREAM_VIEW).map((l) => l.view);
+    this.streamRunning = true;
+    for (const v of views()) v.render();
+    execFile("uv", ["run", "--quiet", "--script", FEEDS_SYNC, ...args], { cwd: this.app.vault.adapter.basePath, env: this.feedsEnv(), timeout: 600000, maxBuffer: 4 * 1024 * 1024 }, (err, out, errOut) => {
+      this.streamRunning = false;
+      const fail = String(errOut || "").trim().split("\n").filter((l) => /^(error|  !)/.test(l));
+      const summary = err ? (fail.pop() || String(errOut || err.message).trim().split("\n").pop()) : String(out || "").trim().split("\n").pop() || "done";
+      if (verbose || err) new Notice(`Stream: ${summary.replace(/^(error|follow|stream): /, "")}`, err ? 10000 : 5000);
+      for (const v of views()) v.load();
     });
   }
 
@@ -299,6 +319,7 @@ module.exports = class MiseEnPlace extends Plugin {
     if (this.cfg.contexts?.spotlight && active === SPOTLIGHT_VIEW) return "spotlight";
     if (this.cfg.contexts?.captures && active === CAPTURES_VIEW) return "captures";
     if (this.cfg.contexts?.news && active === NEWS_VIEW) return "news";
+    if (this.cfg.contexts?.stream && active === STREAM_VIEW) return "stream";
     if (!this.cfg.contexts?.explorer) return null;
     if (active === "file-explorer" || el.closest(".workspace-leaf-content[data-type='file-explorer']")) return "explorer";
     return null;
@@ -962,6 +983,29 @@ module.exports = class MiseEnPlace extends Plugin {
     };
   }
 
+  streamActions() {
+    const d = (fn) => () => {
+      const active = this.app.workspace.activeLeaf?.view;
+      const view = active instanceof Stream ? active : this.app.workspace.getLeavesOfType(STREAM_VIEW)[0]?.view;
+      if (!view) throw new Error("the stream pane is closed (<leader> F f)");
+      return fn(view);
+    };
+    return {
+      "stream:down": d((v) => v.move(1)),
+      "stream:up": d((v) => v.move(-1)),
+      "stream:first": d((v) => v.select(0)),
+      "stream:last": d((v) => v.select(Infinity)),
+      "stream:open": d((v) => v.openUrl()),
+      "stream:keep": d((v) => v.keep()),
+      "stream:dismiss": d((v) => v.dismiss()),
+      "stream:add": d((v) => v.addFeed()),
+      "stream:edit": d((v) => v.editFeed()),
+      "stream:sync": d((v) => v.sync()),
+      "stream:refresh": d((v) => v.load()),
+      "stream:help": () => this.openNode({ group: "stream", keys: this.cfg.contexts.stream.keys }, ["stream"], { keys: this.cfg.contexts.stream.keys }),
+    };
+  }
+
   capturesView() {
     const active = this.app.workspace.activeLeaf?.view;
     if (active instanceof Captures) return active;
@@ -1117,6 +1161,7 @@ module.exports = class MiseEnPlace extends Plugin {
       ...this.projectActions(),
       ...this.capturesActions(),
       ...this.newsActions(),
+      ...this.streamActions(),
       "spotlight:refresh": () => this.app.workspace.getLeavesOfType(SPOTLIGHT_VIEW)[0]?.view.refresh(),
       "explorer:help": () => this.openNode({ group: "explorer", keys: this.cfg.contexts.explorer.keys }, ["explorer"], { keys: this.cfg.contexts.explorer.keys }),
     };
@@ -3768,6 +3813,385 @@ class News extends ItemView {
   sync() {
     this.plugin.runFeeds(true);
     this.render();
+  }
+}
+
+// Stream: the new items of the follows of sources.yaml (blogs, podcasts,
+// channels, newsletters). It reads ~/.config/feeds/stream.json, written by
+// feeds_sync.py stream (and by each sync). The tree on the left filters by
+// folder or feed and edits the list (feeds_sync.py follow ...); the span picks
+// how far back to look. Keep makes an item a capture through
+// capture_import.py --url, dismiss hides it; both go to stream_marks.json,
+// which the script reads too (kept items are never purged).
+
+const STREAM_VIEW = "mise-stream";
+const STREAM_SPANS = [1, 3, 7, 14, 30, 90];
+const STREAM_STALE = 30 * 60000; // opening the pane fetches again when stream.json is older
+const KIND_ICON = { youtube: "youtube", podcast: "mic", blog: "rss", newsletter: "mail", papers: "file-text" };
+
+class Stream extends ItemView {
+  constructor(leaf, plugin) {
+    super(leaf);
+    this.plugin = plugin;
+    this.filter = null; // { folder } or { feed: url }, null for all
+    this.selected = null; // item url
+    this.index = 0;
+    this.collapsed = new Set(); // folder names
+    this.capturing = new Set(); // item urls with an import running
+    this.data = { days: 7, folders: [], items: [] };
+    this.marks = {};
+  }
+
+  getViewType() {
+    return STREAM_VIEW;
+  }
+
+  getDisplayText() {
+    return "Stream";
+  }
+
+  getIcon() {
+    return "rss";
+  }
+
+  async onOpen() {
+    this.contentEl.addClass("mise-cap", "mise-stream");
+    this.load();
+    const age = this.data.generated ? Date.now() - window.moment(this.data.generated).valueOf() : Infinity;
+    if (age > STREAM_STALE) this.plugin.runStream(["stream"], false);
+  }
+
+  // Data
+
+  home() {
+    return this.plugin.feedsHome();
+  }
+
+  load() {
+    const fs = require("fs");
+    try {
+      this.data = JSON.parse(fs.readFileSync(`${this.home()}/stream.json`, "utf8"));
+      this.error = null;
+    } catch (e) {
+      this.data = { days: 7, folders: [], items: [] };
+      this.error = "No stream.json yet: fetching the follows (s).";
+    }
+    try {
+      this.marks = JSON.parse(fs.readFileSync(`${this.home()}/stream_marks.json`, "utf8"));
+    } catch {
+      this.marks = {};
+    }
+    if (this.filter?.feed && !this.feedOf(this.filter.feed)) this.filter = null;
+    if (this.filter?.folder && !this.data.folders.some((f) => f.name === this.filter.folder)) this.filter = null;
+    this.render();
+  }
+
+  saveMarks() {
+    require("fs").writeFileSync(`${this.home()}/stream_marks.json`, JSON.stringify(this.marks));
+  }
+
+  feedOf(url) {
+    for (const folder of this.data.folders) {
+      const f = folder.feeds.find((x) => x.url === url);
+      if (f) return { ...f, folder: folder.name };
+    }
+    return null;
+  }
+
+  visible() {
+    return this.data.items.filter((it) => this.marks[it.url] !== "dismissed");
+  }
+
+  matches(it) {
+    if (!this.filter) return true;
+    if (this.filter.feed) return it.feed === this.filter.feed;
+    return this.feedOf(it.feed)?.folder === this.filter.folder;
+  }
+
+  kept(it) {
+    return it.kept || this.marks[it.url] === "kept";
+  }
+
+  current() {
+    return this.rows?.find((it) => it.url === this.selected) || null;
+  }
+
+  need() {
+    const cur = this.current();
+    if (!cur) throw new Error("no item selected");
+    return cur;
+  }
+
+  // Rendering
+
+  render() {
+    const all = this.visible();
+    this.rows = all.filter((it) => this.matches(it));
+    let i = this.rows.findIndex((it) => it.url === this.selected);
+    if (i < 0) i = Math.min(this.index, this.rows.length - 1);
+    this.index = Math.max(0, i);
+    this.selected = this.rows[this.index]?.url ?? null;
+
+    const el = this.contentEl;
+    el.empty();
+    const head = el.createDiv({ cls: "mise-cap-head" });
+    const age = this.data.generated ? window.moment(this.data.generated).fromNow() : "never";
+    head.createDiv({ cls: "mise-cap-title", text: `${all.length} item${all.length === 1 ? "" : "s"} · synced ${age}` });
+    const tools = head.createDiv({ cls: "mise-cap-tools" });
+    const span = tools.createEl("select", { cls: "dropdown mise-stream-span", attr: { title: "How far back to look" } });
+    const spans = STREAM_SPANS.includes(this.data.days) ? STREAM_SPANS : [...STREAM_SPANS, this.data.days].sort((a, b) => a - b);
+    for (const d of spans) span.createEl("option", { text: d === 1 ? "last day" : `last ${d} days`, value: String(d) }).selected = d === this.data.days;
+    span.disabled = !!this.plugin.streamRunning;
+    span.addEventListener("change", () => this.setSpan(Number(span.value)));
+    const btn = (text, key, fn) => {
+      const b = tools.createEl("button", { cls: "mise-proj-btn" });
+      b.createSpan({ text });
+      b.createSpan({ cls: "mise-proj-kbd", text: key });
+      b.addEventListener("click", fn);
+      return b;
+    };
+    btn("Add feed", "a", () => this.addFeed());
+    btn(this.plugin.streamRunning ? "Fetching…" : "Fetch", "s", () => this.sync()).disabled = !!this.plugin.streamRunning;
+    btn("Keys", "?", () => this.plugin.streamActions()["stream:help"]());
+
+    const body = el.createDiv({ cls: "mise-stream-body" });
+    this.renderTree(body.createDiv({ cls: "mise-stream-tree" }), all);
+
+    const list = body.createDiv({ cls: "mise-cap-list" });
+    if (this.error) list.createDiv({ cls: "mise-proj-empty", text: this.error });
+    else if (!this.rows.length) list.createDiv({ cls: "mise-proj-empty", text: `Nothing new in the last ${this.data.days} days here. A longer span looks further back.` });
+    this.rows.forEach((it, ri) => {
+      const feed = this.feedOf(it.feed);
+      const row = list.createDiv({ cls: `mise-cap-row mise-stream-row is-${feed?.kind || "blog"}`, attr: { role: "button" } });
+      if (ri === this.index) row.addClass("is-selected");
+      setIcon(row.createSpan({ cls: "mise-stream-kind" }), KIND_ICON[feed?.kind] || "rss");
+      const main = row.createDiv({ cls: "mise-cap-row-main" });
+      main.createDiv({ cls: "mise-cap-name", text: it.title });
+      const meta = main.createDiv({ cls: "mise-cap-meta" });
+      if (this.kept(it)) meta.createSpan({ cls: "mise-news-tag", text: "kept" });
+      else if (this.capturing.has(it.url)) meta.createSpan({ cls: "mise-news-tag is-dim", text: "capturing…" });
+      meta.createSpan({ text: feed?.name || "" });
+      row.createSpan({ cls: "mise-cap-age", text: window.moment(it.published).fromNow(true) });
+      row.addEventListener("click", () => this.select(ri));
+      row.addEventListener("dblclick", () => this.openUrl());
+    });
+
+    const preview = body.createDiv({ cls: "mise-cap-preview mise-stream-preview" });
+    const cur = this.current();
+    if (cur) this.renderPreview(preview, cur);
+    list.querySelector(".is-selected")?.scrollIntoView({ block: "nearest" });
+  }
+
+  // All, then each folder with its feeds; a click filters, the pencil edits.
+  renderTree(tree, all) {
+    const count = (fn) => all.filter(fn).length;
+    const node = (cls, label, n, on, onClick, onEdit, icon) => {
+      const r = tree.createDiv({ cls: `mise-stream-node ${cls}${on ? " is-on" : ""}`, attr: { role: "button" } });
+      if (icon) setIcon(r.createSpan({ cls: "mise-stream-node-icon" }), icon);
+      r.createSpan({ cls: "mise-stream-node-name", text: label });
+      if (onEdit) {
+        const e = r.createSpan({ cls: "mise-stream-edit", attr: { "aria-label": "Edit" } });
+        setIcon(e, "pencil");
+        e.addEventListener("click", (evt) => {
+          evt.stopPropagation();
+          onEdit();
+        });
+      }
+      r.createSpan({ cls: "mise-stream-node-count", text: n ? String(n) : "" });
+      r.addEventListener("click", onClick);
+      return r;
+    };
+    node("is-all", "All", all.length, !this.filter, () => this.setFilter(null), null, "layers");
+    for (const folder of this.data.folders) {
+      const closed = this.collapsed.has(folder.name);
+      const n = count((it) => folder.feeds.some((f) => f.url === it.feed));
+      const fr = node("is-folder", folder.name, n, this.filter?.folder === folder.name, () => this.setFilter({ folder: folder.name }), () => this.editFolder(folder.name), closed ? "folder" : "folder-open");
+      fr.querySelector(".mise-stream-node-icon").addEventListener("click", (evt) => {
+        evt.stopPropagation();
+        closed ? this.collapsed.delete(folder.name) : this.collapsed.add(folder.name);
+        this.render();
+      });
+      if (closed) continue;
+      for (const f of folder.feeds) {
+        const r = node("is-feed", f.name, count((it) => it.feed === f.url), this.filter?.feed === f.url, () => this.setFilter({ feed: f.url }), () => this.editFeed(f.url), KIND_ICON[f.kind] || "rss");
+        if (f.error) {
+          r.addClass("is-error");
+          r.setAttr("title", `Last fetch failed: ${f.error}`);
+        }
+      }
+    }
+    if (!this.data.folders.length && !this.error) tree.createDiv({ cls: "mise-proj-empty", text: "No follows yet. Add a feed (a)." });
+  }
+
+  renderPreview(box, it) {
+    const feed = this.feedOf(it.feed);
+    if (it.thumb) box.createEl("img", { cls: "mise-stream-thumb", attr: { src: it.thumb, loading: "lazy", alt: "" } }).addEventListener("click", () => window.open(it.url));
+    const h = box.createEl("h3", { cls: "mise-news-title" });
+    h.createEl("a", { text: it.title, href: it.url }).setAttr("target", "_blank");
+    const meta = box.createDiv({ cls: "mise-cap-meta" });
+    meta.setText([feed?.name, feed?.folder, it.author && it.author !== feed?.name ? it.author : null, window.moment(it.published).format("ddd D MMM HH:mm")].filter(Boolean).join(" · "));
+    if (it.lede) box.createEl("p", { cls: "mise-stream-lede", text: it.lede });
+    const acts = box.createDiv({ cls: "mise-stream-actions" });
+    const act = (text, key, fn, disabled) => {
+      const b = acts.createEl("button", { cls: "mise-proj-btn" });
+      b.createSpan({ text });
+      b.createSpan({ cls: "mise-proj-kbd", text: key });
+      b.disabled = !!disabled;
+      b.addEventListener("click", () => Promise.resolve(fn()).catch((err) => new Notice(`Stream: ${err.message}`)));
+    };
+    act("Open", "o", () => this.openUrl());
+    act(this.kept(it) ? "Kept" : this.capturing.has(it.url) ? "Capturing…" : "Keep as capture", "y", () => this.keep(), this.kept(it) || this.capturing.has(it.url));
+    act("Dismiss", "d", () => this.dismiss());
+  }
+
+  // Navigation
+
+  select(i) {
+    if (!this.rows?.length) return;
+    this.index = Math.max(0, Math.min(this.rows.length - 1, i));
+    this.selected = this.rows[this.index].url;
+    this.render();
+  }
+
+  move(delta) {
+    this.select(this.index + delta);
+  }
+
+  setFilter(filter) {
+    this.filter = filter;
+    this.index = 0;
+    this.selected = null;
+    this.render();
+  }
+
+  // Actions
+
+  openUrl() {
+    window.open(this.need().url);
+  }
+
+  // Keep: the item becomes a capture (YouTube gets its transcript) and stays here marked kept.
+  keep() {
+    const it = this.need();
+    if (this.kept(it) || this.capturing.has(it.url)) return;
+    const { execFile } = require("child_process");
+    this.capturing.add(it.url);
+    this.render();
+    execFile("uv", ["run", "--quiet", "--script", CAPTURE_IMPORTER, "--url", it.url], { cwd: this.app.vault.adapter.basePath, env: this.plugin.feedsEnv(), timeout: 600000 }, (err, out, errOut) => {
+      this.capturing.delete(it.url);
+      if (!err) {
+        this.marks[it.url] = "kept";
+        this.saveMarks();
+      }
+      const last = String(out || "").trim().split("\n").pop();
+      new Notice(err ? `Capture failed: ${String(errOut || err.message).trim().split("\n").pop()}` : `Captures: ${last || "done"}`, err ? 10000 : 5000);
+      this.render();
+    });
+  }
+
+  dismiss() {
+    const it = this.need();
+    this.marks[it.url] = "dismissed";
+    this.saveMarks();
+    this.render();
+  }
+
+  sync() {
+    this.plugin.runStream(["stream"], true);
+  }
+
+  setSpan(days) {
+    if (days !== this.data.days) this.plugin.runStream(["follow", "days", String(days)], true);
+  }
+
+  folders() {
+    return this.data.folders.map((f) => f.name);
+  }
+
+  addFeed() {
+    const folder = this.filter?.folder || (this.filter?.feed && this.feedOf(this.filter.feed)?.folder) || "";
+    new FollowModal(this.app, { title: "Add a feed", folders: this.folders(), folder }, (v) => {
+      const args = ["follow", "add", v.url];
+      if (v.name) args.push("--name", v.name);
+      if (v.folder) args.push("--folder", v.folder);
+      this.plugin.runStream(args, true);
+    }).open();
+  }
+
+  editFeed(url) {
+    const f = this.feedOf(url || this.current()?.feed);
+    if (!f) throw new Error("no feed selected");
+    new FollowModal(this.app, { title: `Edit ${f.name}`, folders: this.folders(), ...f, edit: true }, (v) => {
+      if (v.remove) return this.plugin.runStream(["follow", "remove", f.url], true);
+      const args = ["follow", "edit", f.url];
+      if (v.name && v.name !== f.name) args.push("--name", v.name);
+      if (v.folder && v.folder !== f.folder) args.push("--folder", v.folder);
+      if (args.length > 3) this.plugin.runStream(args, true);
+    }).open();
+  }
+
+  editFolder(name) {
+    new FollowModal(this.app, { title: `Rename the folder ${name}`, folders: [], folder: name, folderOnly: true }, (v) => {
+      if (v.folder && v.folder !== name) this.plugin.runStream(["follow", "folder", name, v.folder], true);
+    }).open();
+  }
+}
+
+// Add or edit one follow: url (add only), name, folder; remove on edit. With
+// folderOnly, only the folder name (a rename).
+class FollowModal extends Modal {
+  constructor(app, opts, onSubmit) {
+    super(app);
+    this.opts = opts;
+    this.onSubmit = onSubmit;
+    this.value = { url: "", name: opts.edit ? opts.name : "", folder: opts.folder || "" };
+  }
+
+  onOpen() {
+    const { contentEl, opts } = this;
+    this.titleEl.setText(opts.title);
+    const submit = () => {
+      if (!opts.edit && !opts.folderOnly && !this.value.url.trim()) return new Notice("A url is needed");
+      this.close();
+      this.onSubmit({ ...this.value, url: this.value.url.trim(), name: this.value.name.trim(), folder: this.value.folder.trim() });
+    };
+    const enter = (input) => input.addEventListener("keydown", (e) => e.key === "Enter" && (e.preventDefault(), submit()));
+    if (!opts.edit && !opts.folderOnly) {
+      new Setting(contentEl).setName("Url").setDesc("A feed, a blog page that links one, or a YouTube channel (youtube.com/@name).").addText((t) => {
+        t.setPlaceholder("https://…").onChange((v) => (this.value.url = v));
+        enter(t.inputEl);
+        window.setTimeout(() => t.inputEl.focus(), 0);
+      });
+    }
+    if (opts.edit) contentEl.createDiv({ cls: "mise-stream-modal-url", text: opts.url });
+    if (!opts.folderOnly) {
+      new Setting(contentEl).setName("Name").setDesc(opts.edit ? "" : "Empty: the title of the feed.").addText((t) => {
+        t.setValue(this.value.name).onChange((v) => (this.value.name = v));
+        enter(t.inputEl);
+        if (opts.edit) window.setTimeout(() => t.inputEl.focus(), 0);
+      });
+    }
+    new Setting(contentEl).setName("Folder").setDesc(opts.folderOnly ? "" : "An existing folder or a new one.").addText((t) => {
+      t.setPlaceholder("Uncategorized").setValue(this.value.folder).onChange((v) => (this.value.folder = v));
+      if (opts.folders.length) {
+        const id = `mise-stream-folders-${Date.now()}`;
+        const list = contentEl.createEl("datalist", { attr: { id } });
+        for (const f of opts.folders) list.createEl("option", { value: f });
+        t.inputEl.setAttr("list", id);
+      }
+      enter(t.inputEl);
+      if (opts.folderOnly) window.setTimeout(() => t.inputEl.select(), 0);
+    });
+    const row = new Setting(contentEl);
+    if (opts.edit) row.addButton((b) => b.setButtonText("Remove").setWarning().onClick(() => {
+      this.close();
+      this.onSubmit({ remove: true });
+    }));
+    row.addButton((b) => b.setButtonText(opts.edit || opts.folderOnly ? "Save" : "Add").setCta().onClick(submit));
+  }
+
+  onClose() {
+    this.contentEl.empty();
   }
 }
 

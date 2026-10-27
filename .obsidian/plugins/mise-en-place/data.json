@@ -86,7 +86,7 @@
       "panes": {
         "left": {
           "extra": [],
-          "active": "09 - Inbox/mini task.md"
+          "active": "05 - Diagrams/sb_inputs/sb_inputs.md"
         }
       }
     }
@@ -103,7 +103,7 @@
     "projects": 0
   },
   "projectTabs": {
-    "tab": 0,
+    "tab": 2,
     "views": {
       "project-notes.base": "All notes",
       "issues-project.base": "Inbox",

@@ -177,10 +177,8 @@
   "sidebarCollapsed": false,
   "sidebarWidth": 280,
   "collapsedFolders": [
-    "Podcasts",
-    "Videos",
     "Uncategorized",
-    "RSS"
+    "Podcasts"
   ],
   "collapsedFeedSections": [],
   "tagsCollapsed": true,
@@ -383,6 +381,6 @@
   "metadataStorageMode": "plugin-default",
   "metadataStorageFolder": ".rss-dashboard-data",
   "metadataStorageSchemaVersion": 1,
-  "_syncNonce": "1793009801035-22",
+  "_syncNonce": "1793022628965-34",
   "_syncPad": "sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor sync-size-anchor "
 }

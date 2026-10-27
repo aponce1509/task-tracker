@@ -15,7 +15,8 @@ created: 2026-10-26 12:00
 > [!abstract] Share on the phone, import on the Mac
 > - The iPhone Shortcut "→ Vault" saves each share as one JSON file in `iCloud Drive/Captures/`.
 > - Thoughts go to the Apple Notes folder `Vault`.
-> - `capture_import.py` turns both into capture notes in `06 - Inputs/Captures/`, with `status: inbox`.
+> - Videos I save on YouTube go to my private watch-later playlist `WatchList`; shorts I save go to Saved Shorts.
+> - `capture_import.py` turns the three into capture notes in `06 - Inputs/Captures/`, with `status: inbox`.
 > - `capture_ai.py` then runs local models on the queue: the type and subtype, the source, the summary and the paras.
 > - The `captures.base` Queue view is the consumption queue.
 
@@ -44,17 +45,23 @@ When the Save File action only offers the Shortcuts folder, the files land in `i
 - Thoughts go to the folder `Vault`. A note becomes a spark (type Ideas); a note that is mainly a link becomes a capture of that link, and its text becomes the Why.
 - Imported notes move to `Vault - Imported`; nothing is deleted.
 
+## The YouTube playlist
+
+- The importer reads two private playlists with yt-dlp and the Firefox login (`CAPTURES_COOKIES_BROWSER`, default `firefox`): `PLaDiM_R1BMLA` (watch later) and `YS` (Saved Shorts, the Save button of the Shorts player). `CAPTURES_YT_PLAYLISTS` changes the comma list.
+- Each video or short becomes a capture once. Its url goes to `~/.config/feeds/youtube_done.json`, so a deleted capture is not imported again. The video stays in the playlist.
+- The channels I follow stay in the stream ([[Feed and News Design]]); only the videos I save become captures.
+
 ## The import
 
 ```bash
-uv run --script "99 - Meta/scripts/feeds/capture_import.py"            # drop folder and Apple Notes
+uv run --script "99 - Meta/scripts/feeds/capture_import.py"            # drop folder, Apple Notes and the YouTube playlist
 uv run --script "99 - Meta/scripts/feeds/capture_import.py" --dry-run
 uv run --script "99 - Meta/scripts/feeds/capture_import.py" --url <link> --note "why"
 ```
 
 - YouTube: title, channel, date, duration, the description and the transcript in collapsed callouts. `--no-transcript` skips it.
 - X: the post text, the quoted post and the images, through `api.fxtwitter.com`, with no login.
-- Instagram: the caption through yt-dlp when `CAPTURES_COOKIES_BROWSER` names the browser with my Instagram login; else the page tags; else only the link.
+- Instagram: the caption through yt-dlp with the login of `CAPTURES_COOKIES_BROWSER`; else the page tags; else only the link.
 - Web: title, author or site, description. For the full text, clip the page on the desktop ([[HOWTO - Clip from the browser]]).
 - A url already in the vault is skipped. A capture that fails stays in the drop folder for the next run.
 - When YouTube breaks, run it once with `uv run --upgrade --script ...` to update yt-dlp.
@@ -95,4 +102,4 @@ python3 "99 - Meta/scripts/feeds/capture_ai.py" --eval                # accuracy
 
 ## References
 
-- [[The Sources System]] · [[HOWTO - Clip from the browser]] · [[Capturing - CODE]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]]
+- [[The Sources System]] · [[HOWTO - Clip from the browser]] · [[HOWTO - Import X bookmarks]] · [[HOWTO - Import Instagram saves]] · [[HOWTO - Import Pinterest pins]] · [[Capturing - CODE]] · [[WORKFLOWS - Bi-Monthly Inbox Sweep]]

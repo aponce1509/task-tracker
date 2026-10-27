@@ -19,8 +19,13 @@ Steps (design: 11 - Projects/create-a-feed/Feed and News Design.md):
   purge     delete the inbox notes and the database rows older than 30 days,
             and the inbox notes of stories that no longer exist (merged).
   export    write ~/.config/feeds/news.json for the News pane of Mise-en-Place.
-  sync      fetch + cluster + enrich + render + purge + export (an enrich
-            failure is only a warning).
+  stream    fetch the follows of sources.yaml (blogs, podcasts, channels,
+            newsletters) of the last stream.days, purge and write
+            ~/.config/feeds/stream.json for the Stream pane. No clustering, no LLM.
+  sync      fetch + cluster + enrich + render + purge + export + stream (an
+            enrich failure is only a warning).
+  follow    edit the follows of sources.yaml: add (a feed, a blog page or a
+            YouTube channel url), edit, remove, folder (rename), days (span).
 
 Tuning (embeddings are cached, so these are cheap):
   stories   print the stories of a time window, the biggest first.
@@ -34,6 +39,8 @@ Run:
     uv run --script "99 - Meta/scripts/feeds/feeds_sync.py" recluster --tau 0.75
     uv run --script "99 - Meta/scripts/feeds/feeds_sync.py" pairs --lo 0.65 --hi 0.72
     uv run --script "99 - Meta/scripts/feeds/feeds_sync.py" enrich --llm ollama:llama3.1:8b --dry-run
+    uv run --script "99 - Meta/scripts/feeds/feeds_sync.py" follow add https://simonwillison.net --folder Blogs
+    uv run --script "99 - Meta/scripts/feeds/feeds_sync.py" follow days 14
 
 Env:
     FEEDS_HOME     folder of the database (default ~/.config/feeds), shared with x_bookmarks.py
@@ -98,6 +105,11 @@ KEPT_DIR = NEWS_DIR / "_kept"
 KEEP_DAYS = 30  # inbox notes and database rows older than this are purged
 EXPORT = HOME / "news.json"
 DISMISSED = HOME / "dismissed.json"  # story ids dismissed in the News pane: never rendered again
+STREAM_EXPORT = HOME / "stream.json"
+STREAM_MARKS = HOME / "stream_marks.json"  # item url -> kept | dismissed, written by the Stream pane
+STREAM_DAYS = 7  # default time span of the stream (stream.days in sources.yaml)
+STREAM_LIMIT = 30  # newest items stored per fetch of one follow (limit: of the follow)
+FOLLOW_KEYS = ["name", "folder", "kind", "url"]  # written first, in this order
 LEAN_SIDE = {"left": "L", "centre-left": "L", "centre": "C", "centre-right": "R", "right": "R", "none": ""}
 
 SCHEMA = """
@@ -118,6 +130,11 @@ CREATE TABLE IF NOT EXISTS items (
 CREATE TABLE IF NOT EXISTS merge_checks (
     a INTEGER, b INTEGER, same INTEGER, llm TEXT, checked TEXT, PRIMARY KEY (a, b)
 );
+CREATE TABLE IF NOT EXISTS stream (
+    id INTEGER PRIMARY KEY, url TEXT UNIQUE, feed_url TEXT, title TEXT, lede TEXT, author TEXT,
+    thumb TEXT, published TEXT, fetched TEXT
+);
+CREATE INDEX IF NOT EXISTS stream_published ON stream(published);
 CREATE INDEX IF NOT EXISTS items_story ON items(story_id);
 CREATE INDEX IF NOT EXISTS items_published ON items(published);
 CREATE INDEX IF NOT EXISTS stories_last ON stories(last_item);
@@ -136,6 +153,15 @@ class Feed:
     lean: str
     lang: str
     groups: list[str]
+
+
+@dataclass
+class Follow:
+    url: str
+    name: str
+    folder: str
+    kind: str  # youtube | podcast | blog | newsletter | papers
+    limit: int = STREAM_LIMIT
 
 
 # Config and database
@@ -165,7 +191,7 @@ def outlet_names(cfg: dict) -> dict[str, str]:
 
 def connect() -> sqlite3.Connection:
     HOME.mkdir(parents=True, exist_ok=True)
-    db = sqlite3.connect(DB)
+    db = sqlite3.connect(DB, timeout=60)  # the Stream pane may write while a sync runs
     db.row_factory = sqlite3.Row
     db.executescript(SCHEMA)
     migrate(db)
@@ -223,13 +249,13 @@ def clean(text: str, limit: int = 500) -> str:
     return text if len(text) <= limit else text[: limit - 1].rsplit(" ", 1)[0] + "…"
 
 
-def http_get(feed: Feed, etag: str | None, modified: str | None) -> tuple[int, bytes, dict]:
+def http_get(url: str, etag: str | None, modified: str | None) -> tuple[int, bytes, dict]:
     headers = {"User-Agent": UA, "Accept": "application/rss+xml, application/atom+xml, application/xml;q=0.9, */*;q=0.8"}
     if etag:
         headers["If-None-Match"] = etag
     if modified:
         headers["If-Modified-Since"] = modified
-    req = urllib.request.Request(feed.url, headers=headers)
+    req = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=20, context=SSL) as resp:
             return resp.status, resp.read(5_000_000), dict(resp.headers)
@@ -277,7 +303,7 @@ def fetch(db: sqlite3.Connection, feeds: list[Feed], skip: list[re.Pattern], ver
     def one(feed: Feed):
         s = state.get(feed.url)
         try:
-            status, body, headers = http_get(feed, s and s["etag"], s and s["modified"])
+            status, body, headers = http_get(feed.url, s and s["etag"], s and s["modified"])
             items = parse_entries(feed, body, fetched, skip) if status != 304 else []
             return feed, status, items, headers, None
         except SyncError as err:
@@ -292,13 +318,7 @@ def fetch(db: sqlite3.Connection, feeds: list[Feed], skip: list[re.Pattern], ver
                     "INSERT OR IGNORE INTO items (url, feed_url, outlet, lean, lang, groups, title, lede, published, fetched)"
                     " VALUES (:url, :feed_url, :outlet, :lean, :lang, :groups, :title, :lede, :published, :fetched)", it)
                 new += cur.rowcount
-            db.execute(
-                "INSERT INTO feeds (url, outlet, etag, modified, last_fetch, last_status, last_error, last_new)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(url) DO UPDATE SET outlet = excluded.outlet,"
-                " etag = COALESCE(excluded.etag, feeds.etag), modified = COALESCE(excluded.modified, feeds.modified),"
-                " last_fetch = excluded.last_fetch, last_status = excluded.last_status,"
-                " last_error = excluded.last_error, last_new = excluded.last_new",
-                (feed.url, feed.outlet, headers.get("ETag"), headers.get("Last-Modified"), iso(fetched), status, error, new))
+            save_state(db, feed.url, feed.outlet, headers, fetched, status, error, new)
             total += new
             if error:
                 print(f"  ! {feed.outlet:16} {error}  {feed.url}", file=sys.stderr)
@@ -306,6 +326,17 @@ def fetch(db: sqlite3.Connection, feeds: list[Feed], skip: list[re.Pattern], ver
                 print(f"  {feed.outlet:16} {status}  +{new}  {feed.url}")
     db.commit()
     return total
+
+
+def save_state(db: sqlite3.Connection, url: str, outlet: str, headers: dict, fetched: datetime,
+               status: int | None, error: str | None, new: int) -> None:
+    db.execute(
+        "INSERT INTO feeds (url, outlet, etag, modified, last_fetch, last_status, last_error, last_new)"
+        " VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(url) DO UPDATE SET outlet = excluded.outlet,"
+        " etag = COALESCE(excluded.etag, feeds.etag), modified = COALESCE(excluded.modified, feeds.modified),"
+        " last_fetch = excluded.last_fetch, last_status = excluded.last_status,"
+        " last_error = excluded.last_error, last_new = excluded.last_new",
+        (url, outlet, headers.get("ETag"), headers.get("Last-Modified"), iso(fetched), status, error, new))
 
 
 # Embeddings and clustering
@@ -882,6 +913,287 @@ def export(db: sqlite3.Connection, cfg: dict, days: int = 3) -> int:
     return len(out)
 
 
+# Stream: the follows of sources.yaml, a 30-day queue with no clustering and no LLM
+
+
+def stream_days(cfg: dict) -> int:
+    return int((cfg.get("stream") or {}).get("days", STREAM_DAYS))
+
+
+def follows(cfg: dict) -> list[Follow]:
+    return [Follow(f["url"], f.get("name") or f["url"], f.get("folder") or "Uncategorized", f.get("kind") or kind_of(f["url"]),
+                   int(f.get("limit", STREAM_LIMIT)))
+            for f in cfg.get("follows") or [] if f.get("enabled", True)]
+
+
+def kind_of(url: str, parsed=None) -> str:
+    host = urllib.parse.urlsplit(url).netloc.lower()
+    if host.endswith("youtube.com"):
+        return "youtube"
+    if host.endswith("arxiv.org"):
+        return "papers"
+    if host.endswith(("kill-the-newsletter.com", "substack.com")):
+        return "newsletter"
+    if parsed is not None and any(str(x.get("type", "")).startswith("audio")
+                                  for e in parsed.entries[:5] for x in e.get("enclosures", [])):
+        return "podcast"
+    return "blog"
+
+
+def entry_thumb(e) -> str:
+    for m in e.get("media_thumbnail") or []:
+        if m.get("url"):
+            return m["url"]
+    for m in e.get("media_content") or []:
+        if m.get("url") and (m.get("medium") == "image" or re.search(r"\.(jpe?g|png|webp|gif)(\?|$)", m["url"], re.I)):
+            return m["url"]
+    if href := (e.get("image") or {}).get("href"):  # podcast episode art
+        return href
+    body = (e.get("content") or [{}])[0].get("value", "") or e.get("summary", "")
+    if m := re.search(r'<img[^>]+src="(https?://[^"]+)"', body):
+        return html.unescape(m.group(1))
+    return ""
+
+
+def parse_stream(f: Follow, body: bytes, fetched: datetime, since: datetime) -> list[dict]:
+    parsed = feedparser.parse(body)
+    if parsed.bozo and not parsed.entries:
+        raise SyncError(f"not a feed: {parsed.bozo_exception}")
+    items = []
+    for e in parsed.entries:
+        link, title = e.get("link"), clean(e.get("title", ""), 300)
+        if not link or not title:
+            continue
+        published = min(entry_time(e) or fetched, fetched)
+        if published < since:
+            continue
+        items.append({"url": canonical(link), "feed_url": f.url, "title": title, "lede": clean(e.get("summary", ""), 800),
+                      "author": clean(e.get("author", ""), 80), "thumb": entry_thumb(e), "published": iso(published), "fetched": iso(fetched)})
+    items.sort(key=lambda it: it["published"], reverse=True)
+    return items[: f.limit]
+
+
+def fetch_stream(db: sqlite3.Connection, fl: list[Follow], since: datetime, full: bool = False, verbose: bool = False) -> int:
+    """New items of the follows; full skips the conditional GET (a longer span needs the old items again)."""
+    state = {r["url"]: r for r in db.execute("SELECT url, etag, modified FROM feeds")}
+    fetched = now()
+
+    def one(f: Follow):
+        s = None if full else state.get(f.url)
+        try:
+            status, body, headers = http_get(f.url, s and s["etag"], s and s["modified"])
+            return f, status, parse_stream(f, body, fetched, since) if status != 304 else [], headers, None
+        except SyncError as err:
+            return f, None, [], {}, str(err)
+
+    total = 0
+    with cf.ThreadPoolExecutor(max_workers=8) as pool:
+        for f, status, items, headers, error in pool.map(one, fl):
+            new = 0
+            for it in items:
+                new += db.execute(
+                    "INSERT OR IGNORE INTO stream (url, feed_url, title, lede, author, thumb, published, fetched)"
+                    " VALUES (:url, :feed_url, :title, :lede, :author, :thumb, :published, :fetched)", it).rowcount
+            save_state(db, f.url, f"follow:{f.name}", headers, fetched, status, error, new)
+            total += new
+            if error:
+                print(f"  ! {f.name[:16]:16} {error}  {f.url}", file=sys.stderr)
+            elif verbose:
+                print(f"  {f.name[:16]:16} {status}  +{new}  {f.url}")
+    db.commit()
+    return total
+
+
+def stream_marks() -> dict[str, str]:
+    try:
+        return json.loads(STREAM_MARKS.read_text())
+    except (OSError, ValueError):
+        return {}
+
+
+def purge_stream(db: sqlite3.Connection, cfg: dict) -> int:
+    """Delete the unkept items older than the span (30 days at least) or of a follow no longer in the list."""
+    marks = stream_marks()
+    limit = iso(now() - timedelta(days=max(KEEP_DAYS, stream_days(cfg))))
+    live = {f.url for f in follows(cfg)}
+    gone = [r["url"] for r in db.execute("SELECT url, feed_url, published FROM stream")
+            if marks.get(r["url"]) != "kept" and (r["published"] < limit or r["feed_url"] not in live)]
+    for k in range(0, len(gone), 500):
+        chunk = gone[k : k + 500]
+        db.execute(f"DELETE FROM stream WHERE url IN ({','.join('?' * len(chunk))})", chunk)
+    db.commit()
+    if gone and marks:
+        left = {r[0] for r in db.execute("SELECT url FROM stream")}
+        if len(kept := {u: m for u, m in marks.items() if u in left}) < len(marks):
+            STREAM_MARKS.write_text(json.dumps(kept))
+    return len(gone)
+
+
+def export_stream(db: sqlite3.Connection, cfg: dict) -> int:
+    """stream.json: the folders and follows with their counts, and the items of the span, the newest first."""
+    days, marks, fl = stream_days(cfg), stream_marks(), follows(cfg)
+    by_url = {f.url: f for f in fl}
+    state = {r["url"]: r for r in db.execute("SELECT url, last_fetch, last_error FROM feeds")}
+    rows = db.execute("SELECT * FROM stream WHERE published >= ? ORDER BY published DESC",
+                      (iso(now() - timedelta(days=days)),)).fetchall()
+    items, counts = [], {}
+    for r in rows:
+        if r["feed_url"] not in by_url or marks.get(r["url"]) == "dismissed":
+            continue
+        counts[r["feed_url"]] = counts.get(r["feed_url"], 0) + 1
+        items.append({k: r[k] for k in ("url", "title", "lede", "author", "thumb", "published")} | {"feed": r["feed_url"], "kept": marks.get(r["url"]) == "kept"})
+    folders: dict[str, list] = {}
+    for f in fl:
+        s = state.get(f.url)
+        folders.setdefault(f.folder, []).append({"url": f.url, "name": f.name, "kind": f.kind, "count": counts.get(f.url, 0),
+                                                 "last_fetch": s and s["last_fetch"], "error": s and s["last_error"]})
+    out = {"generated": iso(now()), "days": days, "folders": [{"name": k, "feeds": v} for k, v in folders.items()], "items": items}
+    tmp = STREAM_EXPORT.with_suffix(".tmp")
+    tmp.write_text(json.dumps(out, ensure_ascii=False))
+    tmp.replace(STREAM_EXPORT)
+    return len(items)
+
+
+def run_stream(db: sqlite3.Connection, cfg: dict, fl: list[Follow] | None = None, full: bool = False, verbose: bool = False) -> str:
+    n = fetch_stream(db, follows(cfg) if fl is None else fl, now() - timedelta(days=stream_days(cfg)), full, verbose)
+    gone = purge_stream(db, cfg)
+    return f"stream: {n} new items, {gone} purged, {export_stream(db, cfg)} in the last {stream_days(cfg)} days"
+
+
+# Follow editing: the stream and follows keys of sources.yaml are rewritten,
+# grouped by folder; everything above them is kept as it is.
+
+
+def get_page(url: str) -> tuple[str, bytes]:
+    headers = {"User-Agent": UA, "Accept-Language": "en,es;q=0.8"}
+    if "youtube.com" in urllib.parse.urlsplit(url).netloc:
+        headers["Cookie"] = "SOCS=CAI"  # skips the EU consent page
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=20, context=SSL) as resp:
+            return resp.geturl(), resp.read(5_000_000)
+    except urllib.error.HTTPError as err:
+        raise SyncError(f"GET {url} -> HTTP {err.code}") from err
+    except (urllib.error.URLError, TimeoutError, ConnectionError) as err:
+        raise SyncError(f"GET {url} -> {getattr(err, 'reason', err)}") from err
+
+
+def resolve_feed(url: str):
+    """The feed of a url: the url itself, the feed a page links (rel alternate), or a YouTube channel feed."""
+    url = url.strip()
+    if not re.match(r"https?://", url):
+        url = "https://" + url
+    final, body = get_page(url)
+    parsed = feedparser.parse(body)
+    if parsed.entries or parsed.feed.get("title") and not parsed.bozo:
+        return final, parsed
+    page = body.decode("utf-8", errors="replace")
+    links = []
+    for tag in re.findall(r"<link\b[^>]*>", page, re.I):
+        if re.search(r"""rel=["']?alternate""", tag, re.I) and re.search(r"application/(rss|atom)\+xml", tag, re.I):
+            if m := re.search(r"""href=["']([^"']+)""", tag, re.I):
+                links.append(urllib.parse.urljoin(final, html.unescape(m.group(1))))
+    if not links and (m := re.search(r'"(?:externalId|channelId)":"(UC[\w-]{22})"', page)):
+        links.append(f"https://www.youtube.com/feeds/videos.xml?channel_id={m.group(1)}")
+    links = [u for u in links if "/comments/" not in u] or links  # WordPress links the comments feed too
+    if not links:
+        raise SyncError(f"no feed found at {url}")
+    final, body = get_page(links[0])
+    parsed = feedparser.parse(body)
+    if not (parsed.entries or parsed.feed.get("title")):
+        raise SyncError(f"not a feed: {links[0]}")
+    return final, parsed
+
+
+def yaml_flow(f: dict) -> str:
+    keys = [k for k in FOLLOW_KEYS if f.get(k) not in (None, "")] + [k for k in f if k not in FOLLOW_KEYS]
+    return "{" + ", ".join(f"{k}: {json.dumps(f[k], ensure_ascii=False)}" for k in keys) + "}"  # JSON is YAML flow
+
+
+def write_follows(raw: list[dict], days: int) -> None:
+    text = SOURCES.read_text()
+    start = re.search(r"^(stream|follows):", text, re.M)
+    head = text[: start.start()] if start else text.rstrip() + "\n\n"
+    rest = text[start.start():] if start else ""
+    tail = re.search(r"^(?!stream:|follows:)[A-Za-z_]+:", rest, re.M)
+    lines = [
+        "stream:",
+        f"  days: {days}  # how far back the Stream pane looks; edited from the pane",
+        "",
+        "follows:",
+        "  # Edited from the Stream pane (feeds_sync.py follow). folder groups the feeds in",
+        "  # the pane; kind: youtube | podcast | blog | newsletter | papers (detected when",
+        "  # left out); limit: newest items stored per fetch (default 30).",
+    ]
+    folder = lambda f: f.get("folder") or "Uncategorized"
+    order = list(dict.fromkeys(map(folder, raw)))
+    raw = sorted(raw, key=lambda f: order.index(folder(f)))  # stable: the order inside a folder is kept
+    for name in order:
+        lines.append(f"  # {name}")
+        lines += [f"  - {yaml_flow(f)}" for f in raw if folder(f) == name]
+    new = head + "\n".join(lines) + "\n" + ("\n" + rest[tail.start():] if tail else "")
+    check = yaml.safe_load(new)
+    if check.get("follows") != raw or stream_days(check) != days:
+        raise SyncError("sources.yaml: the rewrite does not read back the same follows; nothing written")
+    SOURCES.write_text(new)
+
+
+def follow_cmd(db: sqlite3.Connection, cfg: dict, args) -> str:
+    raw = [dict(f) for f in cfg.get("follows") or []]
+    days = stream_days(cfg)
+    find = lambda url: next((f for f in raw if f["url"] == url), None)
+
+    def need(url):
+        if not (f := find(url)):
+            raise SyncError(f"not followed: {url}")
+        return f
+
+    if args.action == "list":
+        for f in follows(cfg):
+            print(f"  {f.folder[:14]:14} {f.kind:10} {f.name[:30]:30} {f.url}")
+        return f"follow: {len(raw)} follows · span {days} days"
+    if args.action == "add":
+        url, parsed = resolve_feed(args.url)
+        if find(url):
+            raise SyncError(f"already followed: {url}")
+        name = args.name or clean(parsed.feed.get("title", ""), 80) or urllib.parse.urlsplit(url).netloc
+        entry = {"name": name, "folder": args.folder or "Uncategorized", "kind": kind_of(url, parsed), "url": url}
+        write_follows(raw + [entry], days)
+        cfg = load_sources()
+        added = [f for f in follows(cfg) if f.url == url]
+        line = run_stream(db, cfg, added, full=True)
+        return f"follow: added {name} ({entry['kind']}) to {entry['folder']} · {line}"
+    if args.action == "edit":
+        f = need(args.url)
+        for key in ("name", "folder", "kind"):
+            if value := getattr(args, key):
+                f[key] = value
+        write_follows(raw, days)
+        export_stream(db, load_sources())
+        return f"follow: {f['name']} in {f.get('folder') or 'Uncategorized'}"
+    if args.action == "remove":
+        f = need(args.url)
+        write_follows([x for x in raw if x is not f], days)
+        cfg = load_sources()
+        purge_stream(db, cfg)
+        export_stream(db, cfg)
+        return f"follow: removed {f.get('name') or f['url']}"
+    if args.action == "folder":
+        moved = [f for f in raw if (f.get("folder") or "Uncategorized") == args.old]
+        if not moved:
+            raise SyncError(f"no folder {args.old}")
+        for f in moved:
+            f["folder"] = args.new
+        write_follows(raw, days)
+        export_stream(db, load_sources())
+        return f"follow: folder {args.old} -> {args.new} ({len(moved)} follows)"
+    if args.action == "days":
+        if args.days < 1:
+            raise SyncError("days must be 1 or more")
+        write_follows(raw, args.days)
+        return run_stream(db, load_sources(), full=args.days > days)
+    raise SyncError(f"unknown action {args.action}")
+
+
 # Reports
 
 
@@ -959,6 +1271,13 @@ def status_report(db: sqlite3.Connection, cfg: dict) -> None:
             continue
         mark = "!" if s["last_error"] else " "
         print(f"  {mark} {f.outlet:16} {s['last_fetch'][5:16]}  {str(s['last_status'] or '-'):4} +{s['last_new']:<3} {counts.get(f.url, 0):5} items  {s['last_error'] or ''}")
+    for f in follows(cfg):
+        s = state.get(f.url)
+        if not s:
+            print(f"  ? {f.name[:16]:16} never fetched  {f.url}")
+            continue
+        mark = "!" if s["last_error"] else " "
+        print(f"  {mark} {f.name[:16]:16} {s['last_fetch'][5:16]}  {str(s['last_status'] or '-'):4} +{s['last_new']:<3} {f.kind:10} {s['last_error'] or ''}")
     n_items, n_stories = db.execute("SELECT (SELECT COUNT(*) FROM items), (SELECT COUNT(*) FROM stories)").fetchone()
     print(f"\n{n_items} items · {n_stories} stories · {DB}")
 
@@ -967,7 +1286,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     p_fetch = sub.add_parser("fetch", help="fetch the feeds and store new items")
-    p_sync = sub.add_parser("sync", help="fetch + cluster + enrich")
+    p_sync = sub.add_parser("sync", help="fetch + cluster + enrich + render + purge + export + stream")
     p_sync.add_argument("--no-enrich", action="store_true", help="skip the LLM step")
     p_sync.add_argument("--llm", default=LLM, help=f"<provider>:<model> for enrich (default {LLM})")
     for p in (p_fetch, p_sync):
@@ -999,6 +1318,25 @@ def main() -> int:
     p_pa.add_argument("--lo", type=float, default=TAU - NEAR)
     p_pa.add_argument("--hi", type=float, default=TAU)
     p_pa.add_argument("--limit", type=int, default=30)
+    p_str = sub.add_parser("stream", help="fetch the follows and write stream.json")
+    p_str.add_argument("--full", action="store_true", help="no conditional GET: fetch every feed again")
+    p_str.add_argument("-v", "--verbose", action="store_true")
+    p_fo = sub.add_parser("follow", help="edit the follows of sources.yaml")
+    fo = p_fo.add_subparsers(dest="action", required=True)
+    fo.add_parser("list")
+    fo_add = fo.add_parser("add", help="a feed, a page that links one, or a YouTube channel url")
+    fo_add.add_argument("url")
+    fo_edit = fo.add_parser("edit", help="rename, move to a folder or change the kind")
+    fo_edit.add_argument("url")
+    for f in (fo_add, fo_edit):
+        f.add_argument("--name")
+        f.add_argument("--folder")
+    fo_edit.add_argument("--kind", choices=["youtube", "podcast", "blog", "newsletter", "papers"])
+    fo.add_parser("remove").add_argument("url")
+    fo_folder = fo.add_parser("folder", help="rename a folder")
+    fo_folder.add_argument("old")
+    fo_folder.add_argument("new")
+    fo.add_parser("days", help="time span of the stream").add_argument("days", type=int)
     sub.add_parser("status", help="feed health")
     args = ap.parse_args()
 
@@ -1025,6 +1363,10 @@ def main() -> int:
             print(f"purge: {st['kept']} kept, {st['deleted']} notes deleted, {st['rows']} rows deleted")
         if args.cmd in {"export", "sync"}:
             print(f"export: {export(db, cfg)} stories")
+        if args.cmd in {"stream", "sync"}:
+            print(run_stream(db, cfg, full=getattr(args, "full", False), verbose=args.verbose))
+        if args.cmd == "follow":
+            print(follow_cmd(db, cfg, args))
         elif args.cmd == "recluster":
             dropped = drop_skipped(db, skip_patterns(cfg))
             embed_missing(db)
